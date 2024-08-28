@@ -1,0 +1,1 @@
+export  const baseUrl = "https://endpediocidebackend.eazisols.com";
