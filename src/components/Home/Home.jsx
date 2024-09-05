@@ -27,7 +27,7 @@ import {
 import about1 from "../../assets/image/about1.png";
 import ExclusiveAccess from "./ExclusiveAccess";
 import LandingTimeLine from "./LandingTimeLine";
-import { ImgBgSactionContainer, SactionContainer } from "../Common/Containers";
+import { ImgBgSactionContainer, ImgBgSectionContainer, SactionContainer } from "../Common/Containers";
 import ExclusiveAccessCard from "./ExclusiveAccessCard";
 import ivctoken from "../../assets/image/ivctoken.png";
 import cardimg2 from "../../assets/image/cardimg2.png";
@@ -36,18 +36,20 @@ import MemberShip from "../About/MemberShip";
 import MemberShipClubSaction from "./MemberShipClubSaction";
 import { TextUnderWrap } from "../Common/MiniComponents";
 import HeroSaction from "./HeroSaction";
-import { Opacity } from "@mui/icons-material";
+import { Height, Margin, Opacity } from "@mui/icons-material";
 import { colors } from "@mui/material";
+import { appData } from "../Context/AppContext";
 
 const Home = () => {
   const navigate = useNavigate();
-
+const {showLandingSaction, setShowLandingSaction} =  appData()
   return (
     <>
      <HeroSaction />
-      <SactionContainer>
-        <div className="text-column col-lg-6 col-md-12 col-sm-12 mt-5 mb-3">
-          <div className="inner pb-5">
+     {showLandingSaction && <>
+      <SactionContainer container={false}>
+        <div className="text-column col-lg-7 col-md-12 py-1 col-sm-12 mt-5 pt-3 mb-3">
+          <div className="inner pb-5 px-0 ml-0">
             <div className="sec-title">
               <h3>
                 {" "}
@@ -56,7 +58,8 @@ const Home = () => {
                 
               </h3>
             </div>
-            <div className="lower-text">
+            <div className="  mr-5 pl-3 pr-4">
+            <div className="lower-text pl-3 pr-3">
               <div>
                 Many of today's most exciting, transformative companies are
                 owned by the founders and small group of individuals, making it
@@ -100,18 +103,19 @@ const Home = () => {
               </p>
             </div>
 
-            <div className="mt-5 d-flex row ">
-              <div className="col-lg-8 col-sm-12 mt-1">
+            <div className="mt-4 pt-2 d-flex row px-0 ">
+              <div className="col-lg-7 col-sm-12 mt-1 px-0 ">
                 <LargeButton text="Learn More about the membership clubs" />
               </div>
-              <div className="col-lg-4 col-sm-12 mt-1">
+              <div className="col-lg-5 col-sm-12 mt-1 ">
                 <OutlinedButtonDark text="Join Here for Free!" />
               </div>
+            </div>
             </div>
           </div>
         </div>
 
-        <div className="image-column col-lg-6 col-md-12 col-sm-12">
+        <div className="image-column col-lg-5 col-md-12 col-sm-12    px-0">
           <figure
             className="image wow slideInRight animated"
             data-wow-delay="0ms"
@@ -121,25 +125,23 @@ const Home = () => {
               animationName: "slideInRight",
             }}
           >
-            <img src={home2} alt="" className="" />
+            <img src={home2} alt="" className="home2Img mt-5 pt-4" />
           </figure>
         </div>
       </SactionContainer>
 
-      <ImgBgSactionContainer bgImage={landingbg2} showPadding={false}>
-        <div className="row  w-100 justify-content-center pt-5">
-          <div className="col-lg-12 col-sm-12 text-center mb-3 d-flex justify-content-center">
+      <ImgBgSactionContainer  bgImage={landingbg2} showPadding={false}>
+        <div className="row  w-100 justify-content-center">
+          <div className="col-lg-12 col-sm-12 text-center mb-4 pb-3 d-flex   justify-content-center">
             <h2 className="w-50">
               Exclusive Acce
               <TextUnderWrap padding={10}>ss to Pre-</TextUnderWrap>IPO for a
               Limited Number of Members
             </h2>
           </div>
-          <div className="row w-90 justify-content-center ">
+          <div className="row w-100 justify-content-center mb-3">
             <ExclusiveAccess
               heading="iVest Club Platform"
-             
-             
               text1= {<span className="Opacity">Our membership club ecosystem puts you in control, giving a select few exclusive access to Pre-IPO companies and rewarding your active involvement</span>}
               text2={<span className="Opacity">Get involved now in Pre-IPO companies like SpaceX, and OpenAI!</span>}
               
@@ -160,11 +162,13 @@ const Home = () => {
               text2={<span className="Opacity">Rewards for your commitment to expanding your knowledge and understanding of your chosen company!</span>}
             />
           </div>
-          <div
-            className="col-12 d-flex justify-content-center text-center"
-            style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+         
+        </div>
+        <div
+            className=" text-center  bgBlackContainer"
+            style={{ backgroundColor: "rgba(0,0,0,0.5)"}}
           >
-            <div className="pop-font my-4 w-90 exFoot">
+            <div className="pop-font py-4  exFoot">
               At iVestclub, we believe in empowering you by providing the
               access, tools, community, and incentives needed to navigate the
               world of Pre-IPO companies with confidence. Our platform is
@@ -173,41 +177,45 @@ const Home = () => {
               shaping our tomorrow.
             </div>
           </div>
-        </div>
       </ImgBgSactionContainer>
+    
 
-      <SactionContainer>
+      <SactionContainer container={false}>
         <>
-          <div className="col-12 mt-3">
+          <div className="col-12 mt-5 pt-4">
             <h3>
-              <div className="bold-sec-title">iVest Club AIR Mission - our promise to you</div>
+              <div className="bold-sec-title">iVest <TextUnderWrap padding={10}> Club AIR </TextUnderWrap> Mission - our promise to you</div>
             </h3>
           </div>
 
-          <div className="col-6 col-md-6 col-sm-12 d-flex">
-            <div className="col-4 mt-3">
+         
+          {/* <div className="col-6"></div> */}
+          <div className="image-column col-lg-6 col-md-12 col-sm-12 pb-4">
+
+
+          <div className="col-lg-12 col-md-12 col-sm-12 d-flex mt-3 mx-0 px-0">
+            <div className="col-4 mt-3 px-0">
               <p className="text-black text-basic-h7">
                 <strong>Access</strong>
               </p>
               <p className="text-black text-basic">To Pre-IPO companies</p>
             </div>
-            <div className="col-4 mt-3">
+            <div className="col-4 mt-3 px-0">
               <p className="text-black text-basic-h7">
                 <strong>Inclusion</strong>
               </p>
               <p className="text-black text-basic">For All</p>
             </div>
-            <div className="col-4 mt-3">
+            <div className="col-4 mt-3 px-0">
               <p className="text-black text-basic-h7">
                 <strong>Reward</strong>
               </p>
               <p className="text-black text-basic">Engagement</p>
             </div>
           </div>
-          <div className="col-6"></div>
-          <div className="image-column col-lg-6 col-md-12 col-sm-12 ">
-            <div className="lower-text  mt-4 mb-5" >
-              <div className="section3-text">Empowering you with Exclusive access to Pre-IPO companies</div>
+
+            <div className="lower-text pr-0 mt-4 mb-5" >
+              <div className="section3-text pl-2">Empowering you with Exclusive access to Pre-IPO companies</div>
             </div>
             <figure
               className="image wow slideInLeft animated"
@@ -228,16 +236,17 @@ const Home = () => {
               </div>
             </h6>
           </div>
-          <div className="text-column col-lg-6 col-md-12 col-sm-12">
+          <div className="text-column col-lg-6 col-md-12 col-sm-12 mt-4 pt-2 pl-4">
             <LandingTimeLine />
           </div>
         </>
       </SactionContainer>
       <ImgBgSactionContainer
+        
         bgImage={landingbg3}
-        sx={{ paddingTop: 0, paddingBottom: 0 }}
-      >
-        <div className="row pt-5 pb-5">
+        showPadding={false}
+        >
+        <div className="row  pb-5">
           <div className="text-column col-lg-6 col-md-12 col-sm-12">
             <div className="inner">
               <div className="sec-title mb-5  ">
@@ -249,7 +258,7 @@ const Home = () => {
               </div>
 
               <div className=" ">
-                <p className="text-basic text-light-c">
+                <p className="text-basic text-light-c mb-4 pb-2">
                   Engaging with your fellow members within each club creates an
                   active and knowledgeable focus group. Key contributions that
                   could be rewarded with token airdrops include:
@@ -258,49 +267,49 @@ const Home = () => {
             </div>
             <div className="d-flex align-items-center mt-4">
               <TaskAltOutlinedIcon sx={{ color: "#F7B138" }} />
-              <div className="pop-font w-75 ml-3 mb-0  ">
+              <div className="pop-font w-75 ml-3 mb-0   tickText">
                 Company events and milestones
               </div>
             </div>
-            <div className="d-flex align-items-center mt-4">
+            <div className="d-flex align-items-center mt-3">
               <TaskAltOutlinedIcon sx={{ color: "#F7B138" }} />
-              <div className="w-75 ml-3 mb-0 pop-font">
+              <div className="w-100 ml-3 mb-0 pop-font tickText">
                 Sharing valuable insights and analysis
               </div>
             </div>
             <div className="d-flex align-items-center mt-4">
               <TaskAltOutlinedIcon sx={{ color: "#F7B138" }} />
-              <div className="w-75 ml-3 mb-0  pop-font">
+              <div className="w-100 ml-3 mb-0  pop-font tickText">
                 Initiating thought-provoking discussions
               </div>
             </div>
             <div className="d-flex align-items-center mt-4">
               <TaskAltOutlinedIcon sx={{ color: "#F7B138" }} />
-              <div className="w-75 ml-3 mb-0  pop-font">
+              <div className="w-100 ml-3 mb-0  pop-font tickText">
                 Providing answers to member questions
               </div>
             </div>
             <div className="d-flex align-items-center mt-4">
               <TaskAltOutlinedIcon sx={{ color: "#F7B138" }} />
-              <div className="w-75 ml-3 mb-0  pop-font">
-                Contributing well-researched content and resources
+              <div className="w-100 ml-3 mb-0  pop-font tickText">
+                Contributing well-researched content and <br /> resources
               </div>
             </div>
             <div className="d-flex align-items-center mt-4">
               <TaskAltOutlinedIcon sx={{ color: "#F7B138" }} />
-              <div className="w-75 ml-3 mb-0  pop-font">
+              <div className="w-100 ml-3 mb-0  pop-font tickText">
                 Helping to maintain and moderate a positive club experience
               </div>
             </div>
             <div className="d-flex align-items-center mt-4">
               <TaskAltOutlinedIcon sx={{ color: "#F7B138" }} />
-              <div className="w-75 ml-3 mb-0  pop-font">
+              <div className="w-100 ml-3 mb-0  pop-font tickText">
                 Referring other active and engaged members to the iVest Club
               </div>
             </div>
           </div>
 
-          <div className="image-column col-lg-6 col-md-12 col-sm-12">
+          <div className="image-column col-lg-6 col-md-12 col-sm-12 pl-5">
             <figure
               className="image wow slideInRight animated"
               data-wow-delay="0ms"
@@ -310,11 +319,11 @@ const Home = () => {
                 animationName: "slideInRight",
               }}
             >
-              <img src={landingimg4} alt="" className="" />
+              <img src={landingimg4} alt="" className="landingimg4" />
             </figure>
           </div>
-          <div className="col-12">
-            <div className="pop-font ml-3 mt-4 ">
+          <div className="col-12 mb-3">
+            <div className="pop-font mt-4 ">
               By engaging in these types of meaningful contributions, will be
               part of a vibrant informed community ahead of the IPO. <br /> Get
               rewarded with more membership tokens to celebrate milestones!
@@ -322,10 +331,10 @@ const Home = () => {
           </div>
         </div>
       </ImgBgSactionContainer>
-      <ImgBgSactionContainer bgImage={wave}>
-        <div className="row  w-100 justify-content-center pt-5 text-dark">
-          <div className="col-12 text-center mb-3 ">
-            <div className="  section5-heading mont-font">iVest Club</div>
+      <ImgBgSactionContainer bgImage={wave} showPadding={false}  >
+        <div className="row  w-100 justify-content-center text-dark mb-5 px-0">
+          <div className="col-12 text-center mb-3">
+            <div className="  section5-heading mont-font"> <TextUnderWrap padding={10}>iVest Club</TextUnderWrap></div>
             
           </div>
           <div className="col-12 text-center mb-3 d-flex justify-content-center ">
@@ -336,9 +345,9 @@ const Home = () => {
           </div>
           <div className="col-12 text-center mb-3 ">
             <div className="bold-6 section5-sub-head"> Together we can overcome these barriers You are facing</div>
-            
+          
           </div>
-          <div className="row ex-card w-90 justify-content-center">
+          <div className="row ex-card w-100 justify-content-center">
             <ExclusiveAccess
               icon={goldicon1}
               text2= { <span className="section5-sub-text"> Few avenues for You to  obtain access and information</span> }
@@ -358,7 +367,7 @@ const Home = () => {
               { <span className="section5-sub-text">IPO access is not available to You</span> }
             />
           </div>
-          <div className="col-12 d-flex justify-content-center">
+          <div className="col-12 d-flex justify-content-center mb-5">
             <div className="col-md-4 col-sm-12 mt-5">
               <LargeButton text="Join Here for Free!" />
             </div>
@@ -371,16 +380,16 @@ const Home = () => {
         sx={{ paddingTop: 0, paddingBottom: 0 }}
       >
         <div className=" d-flex justify-content-center">
-          <div className="row pt-5 pb-5 w-80">
+          <div className="row pt-5 pb-3 w-80">
             <div className="col-12">
-              <h3 className=" bold-6 ml-3 mt-4 mb-5">
+              <h3 className=" bold-6 ml-3 mt-1 mb-5">
                 Offering you access to the Pre-IPO{" "}
                 <TextUnderWrap>private market.</TextUnderWrap>
               </h3>
             </div>
-            <div className="image-column col-lg-6 col-md-12 col-sm-12 mt-3">
+            <div className="image-column col-lg-6 col-md-12 col-sm-12 mt-3 mx-0">
               <figure
-                className="image wow slideInLeft animated"
+                className="image wow slideInLeft animated pl-4"
                 data-wow-delay="0ms"
                 style={{
                   visibility: "visible",
@@ -391,57 +400,57 @@ const Home = () => {
                 <img src={landingimg5} alt="" className="" />
               </figure>
             </div>
-            <div className="text-column col-lg-6 col-md-12 col-sm-12 pl-5">
-              <div className="inner">
-                <div className="sec-title mb-5">
-                  <h6 className="section5-head">
+            <div className="text-column col-lg-6 col-md-12 col-sm-12 pl-4">
+              <div className="inner mt-3 mb-3 pb-0">
+                
+                  <h6 className="section5-head ">
                     Where can you find verified information on emerging Pre-IPO
                     companies shaping the future?
                   </h6>
-                </div>
+                
               </div>
-              <div className="d-flex align-items-center mt-2">
+              <div className="d-flex align-items-center ">
                 <TaskAltOutlinedIcon sx={{ color: "#F7B138" }} />
-                <div className="w-100  ml-3 mb-0">
+                <div className="w-100 ml-3 mb-0 pop-font bold-3">
                   Historically, Investor Relations of a company tend to be the
                   best source
                 </div>
               </div>
-              <div className="d-flex align-items-center mt-4">
+              <div className="d-flex align-items-center mt-2 pt-1">
                 <TaskAltOutlinedIcon sx={{ color: "#F7B138" }} />
-                <div className="w-75 ml-3 mb-0">Press releases</div>
+                <div className="w-90 ml-3 mb-0 pop-font bold-3">Press releases</div>
               </div>
-              <div className="d-flex align-items-center mt-4">
+              <div className="d-flex align-items-center mt-2 pt-1">
                 <TaskAltOutlinedIcon sx={{ color: "#F7B138" }} />
-                <div className="w-75 ml-3 mb-0">
+                <div className="w-90 ml-3 mb-0 pop-font bold-3">
                   Interviews and company visits
                 </div>
               </div>
-              <div className="d-flex align-items-center mt-4">
+              <div className="d-flex align-items-center mt-2 pt-1">
                 <TaskAltOutlinedIcon sx={{ color: "#F7B138" }} />
-                <div className="w-75 ml-3 mb-0">
+                <div className="w-90 ml-3 mb-0 pop-font bold-3">
                   Institutional analysts reports
                 </div>
               </div>
-              <div className="d-flex align-items-center mt-4">
+              <div className="d-flex align-items-center mt-2 pt-1">
                 <TaskAltOutlinedIcon sx={{ color: "#F7B138" }} />
-                <div className="w-100  ml-3 mb-0">
+                <div className="w-90 ml-3 mb-0 pop-font bold-3">
                   BUT THESE ARE NOT normally available to you
                 </div>
               </div>
             </div>
-            <div className="col-12 ">
-              <div className="WhiteText section5-contentText  pop-font mt-4 text-spacing">
+            <div className="col-12 ml-4">
+              <div className=" section5-contentText pop-font mt-4 text-spacing">
                 In light of the exciting information gap, iVest Club has
                 developed a platform to offer you the chance to explore and
                 access the growing Pre-IPO market opportunities in an engaging
                 and dynamic forum.
               </div>
-              <div className="WhiteText section5-contentText pop-font  text-spacing">
+              <div className=" section5-contentText pop-font  text-spacing">
                 Leveraging the power of your iVest Club community, we facilitate
                 direct interaction with companies.
               </div>
-              <div className="WhiteText section5-contentText pop-font  text-spacing mb-5">
+              <div className=" section5-contentText pop-font  text-spacing mb-5">
                 Get rewarded for your time and effort in being a member of your
                 exclusive chosen membership club!{" "}
               </div>
@@ -451,15 +460,15 @@ const Home = () => {
       </ImgBgSactionContainer>
       
       {/* <SactionContainer> */}
-      <ImgBgSactionContainer bgImage={wave}>
-        <div className="row  w-100 justify-content-center ">
-          <div className="col-12 text-center mb-1 ">
-            <h2 className="">
-              <div className=" section6-head">IVest Club Membership Clubs</div>
+      <ImgBgSactionContainer bgImage={wave} showPadding={false}>
+        <div className="row w-100 justify-content-center mb-5 px-0 mx-0 pt-0">
+          <div className="col-12 text-center mb-1 px-0 mx-0 ">
+            <h2>
+              <div className=" section6-head">IVest Club Membe<TextUnderWrap padding={10}>rship C</TextUnderWrap>lubs</div>
             </h2>
           </div>
           
-          <div className=" col-12  text-center mb-3">
+          <div className=" col-12  text-center mb-3 px-0 mx-0">
             <div className="section6-sub-head mont-font  mb-0">
               Gain exclusive access and detailed Knowledge about
             </div>
@@ -468,7 +477,7 @@ const Home = () => {
             </div>
           </div>
           
-          <div className="row   text-dark justify-content-sm-center justify-content-md-start">
+          <div className="row w-100 text-dark exclusiveCardClass justify-content-sm-center justify-content-md-start mx-2 ">
             <ExclusiveAccessCard
               image={ivctoken}
               linkText={"View List of Membership Clubs"}
@@ -478,12 +487,13 @@ const Home = () => {
                 "As a verified  member, you can utilize IVC tokens to join any Membership Club aligned with your interests."
               }
             />
+            
             <ExclusiveAccessCard
               image={cardimg2}
               linkText={"Learn more about rewards"}
               heading={"Reward"}
               text={
-                "Your membership offers the following benefits: engaging with peers, learning about dynamic sectors, and receiving airdrop rewards."
+                "Your membership offers the following benefits: engaging with peers and receiving airdrop rewards."
               }
             />
             <ExclusiveAccessCard
@@ -497,7 +507,7 @@ const Home = () => {
           </div>
           
           <div className="col-12 d-flex justify-content-center">
-            <div className="w-25 mt-5">
+            <div className="w-30 mt-5 pt-3 mb-4 px-0">
               <LargeButton text="Join Here for Free!" />
             </div>
           </div>
@@ -505,24 +515,30 @@ const Home = () => {
         </ImgBgSactionContainer>
         
       {/* </SactionContainer> */}
-      <ImgBgSactionContainer bgImage={landingbg2} showPadding={false}>
-        <div className="row  w-100 justify-content-center pt-5">
-          <div className="col-12 text-center mb-3 d-flex justify-content-center">
-            <h3 className="w-50">
-            Use of Blockchain to Reg<TextUnderWrap padding={7}>ister Memb</TextUnderWrap>ership and Receive your Rewards
+
+
+
+      <ImgBgSectionContainer bgImage={landingbg2} showPadding={false}>
+        <div className="row  w-100 justify-content-center exclusiveAccessCardContainer">
+          <div className="col-7 text-center mb-3 d-flex justify-content-center ">
+            <h3 className="w-100">
+            Use of Blockchain to Reg<TextUnderWrap padding={7}>ister Memb</TextUnderWrap>ership <br /> And Receive your Rewards
             </h3>
           </div>
-          <div className="row   w-100 justify-content-center pl-5 pr-5 pb-5">
+          <div className="row w-100 justify-content-center pb-5">
+            
             <ExclusiveAccess
+            custom={true}
             icon={goldicon5}
               col={4}
-              heading="iVest Club Platform"
-             
+              heading="Membership in the iVest Club Ecosystem"
               text1= {<span className="pop-font" style={{ fontSize: "11px" , color:"#FFFF"}}>Each membership club ecosystem puts you in control, giving a select few exclusive access to Pre-IPO companies and rewarding your active involvement.</span>}
              
               text2= {<span className="pop-font" style={{ fontSize: "11px",color:"#FFFF"}}>Get involved now in Pre-IPO companies like SpaceX, and OpenAI!</span>}
             />
+            
             <ExclusiveAccess
+            custom={true}
              icon={goldicon6}
               col={4}
               heading="Peer-Powered Learning"
@@ -532,6 +548,7 @@ const Home = () => {
               text2= {<span className="pop-font"  style={{ fontSize: "11px" , color:"#FFFF"}}>Ready to share your insights and colloborate on companies?</span>}
             />
             <ExclusiveAccess
+            custom={true}
              icon={goldicon7}
               col={4}
               heading="Pre-IPo access "
@@ -541,6 +558,7 @@ const Home = () => {
               text2= {<span className="pop-font"  style={{ fontSize: "11px" , color:"#FFFF"}}>Get rewarded for your choice of pre-IPO company!</span>}
             />
             <ExclusiveAccess
+            custom={true}
              icon={goldicon8}
               col={4}
               heading="Rewarding Your Curiosity"
@@ -550,6 +568,7 @@ const Home = () => {
 
             />
             <ExclusiveAccess
+            custom={true}
              icon={goldicon6}
               col={4}
               heading="Rewarding Your Curiosity"
@@ -559,9 +578,23 @@ const Home = () => {
            />
           </div>
         </div>
-      </ImgBgSactionContainer>
+      </ImgBgSectionContainer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       <MemberShip />
-      <MemberShipClubSaction/>
+      <MemberShipClubSaction/></>}
     </>
   );
 };

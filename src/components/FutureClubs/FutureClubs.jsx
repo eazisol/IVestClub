@@ -2,16 +2,17 @@ import React, { useEffect } from "react";
 import { SactionContainer } from "../Common/Containers";
 import { DislikeIcon, LikeIcon } from "../Common/Icons";
 import futureclubimg from "../../assets/image/futureclubimage.png";
+import { TextUnderWrap } from "../Common/MiniComponents";
 
 const FutureClubs = () => {
   return (
     <>
-      <SactionContainer>
-        <div className="col-12 p-5">
+      <SactionContainer container={false}>
+        <div className="col-12 p-3 mt-5 pt-5">
           <h3>
-            <strong>Suggested Membership Clubs</strong>
+            <strong>Suggested Membership <TextUnderWrap padding={10} >Clubs</TextUnderWrap></strong>
           </h3>
-          <p className="text-basic">
+          <p className="mt-3 mb-5 bold-4" style={{fontSize:"14px" , opacity:"0.9"}}>
             iVestClub is your membership club platform. As such, we are happy to
             hear suggestions from you about which company you want access to. If
             there is enough interest, we will look to launch that club for you!
@@ -40,25 +41,25 @@ const FutureClubs = () => {
               text: "The exclusivity of private companies limits access.",
             },
           ].map((item, index) => (
-            <div className="card  mt-3" key={index}>
+            <div className="card mt-3" key={index}>
               <div className="d-flex like-dislike-card">
-                <div className="col-1 p-0">
-                  <h3>0{index + 1}</h3>
+                <div className="col-1 ">
+                  <h3 style={{fontSize:"22px" , fontWeight:"600"}}>0{index + 1}</h3>
                 </div>
-                <div className="col-10 pl-3">
-                  <p className="text-basic text-dark mb-0">{item.text}</p>
+                <div className="col-10 px-4 py-4">
+                  <p className=" mb-0 mont-font  bold-5" style={{fontSize:"16px"}} >{item.text}</p>
                 </div>
                 <div className="col-1 d-flex pt-3">
                   <div className="w-50">
                     <LikeIcon />
-                    <p className="text-bacis m-0">
-                      <small>342</small>
+                    <p className="m-0">
+                      <span className="likeText">342</span> 
                     </p>
                   </div>
                   <div className="w-50">
                     <DislikeIcon />
-                    <p className="text-bacis m-0">
-                      <small>342</small>
+                    <p className="m-0">
+                      <span className="likeText">342</span> 
                     </p>
                   </div>
                 </div>
@@ -67,12 +68,12 @@ const FutureClubs = () => {
           ))}
         </div>
       </SactionContainer>
-      <SactionContainer bgColor="#F5F8FF">
-        <div className="col-12">
-          <h3>
+      <SactionContainer bgColor="#F5F8FF" container={false}>
+        <div className="col-12 mt-5 pt-3">
+          <h3 className="mb-5">
             <strong>Ask AI questions about potential companies</strong>
           </h3>
-          <img src={futureclubimg} alt="" className="img-fluid mt-2" />
+          <img src={futureclubimg} alt="" className="img-fluid mt-2 mb-5 pb-5" />
         </div>
       </SactionContainer>
     </>

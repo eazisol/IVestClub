@@ -12,10 +12,10 @@ import { TextUnderWrap } from "../Common/MiniComponents";
 
 const MemberShip = () => {
   return (
-    <section className="about-section-three">
-      <div className="ml-5 pl-5 pt-3 pb-5 bg-white">
+    <section className="about-section-three responsiveSectionContainer">
+      <div className=" pt-3 pb-5 bg-white">
         <div className="row clearfix mt-5 ">
-          <div className="col-md-4">
+          <div className="col-md-4 col-lg-4">
             <div className="sec-title">
               <h3>
                 <div className="about-head-text">
@@ -33,7 +33,7 @@ const MemberShip = () => {
             </div>
           </div>
           <div
-            className="col-md-8 col-sm-12 d-flex"
+            className="col-md-8 col-lg-8 col-sm-12 d-flex  px-0" 
             style={{
               overflowY: "scroll",
               scrollbarWidth: "none",

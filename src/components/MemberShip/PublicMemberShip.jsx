@@ -35,9 +35,8 @@ const PublicMemberShip = () => {
           }}
         ></div>
 
-        <div className="">
-          <h1 className="mb-0">iVest Membership Clubs</h1>
-        </div>
+       
+          <div className="bannerHead mb-0 "> <h2 className="bold-7">iVest Membership Clubs</h2> </div>
 
         <div className="">
           <div className="">
@@ -57,8 +56,8 @@ const PublicMemberShip = () => {
           </div>
         </div>
       </section>
-      <SactionContainer>
-        <div className="card w-100 p-0 p-4">
+      <SactionContainer container={false}>
+        <div className="card w-100 p-0 p-2 ml-3 mt-5">
           <h2 className="mx-4 mt-3">
             <strong>Membership clubs</strong>
           </h2>
@@ -70,7 +69,7 @@ const PublicMemberShip = () => {
             />{" "}
             <p className="text-basic mb-0 ml-1">
               {" "}
-              By <strong className="text-dark">John Doe</strong>{" "}
+              By <strong className=" DarkText bold-4">John Doe</strong>{" "}
               <span>&#8226;</span>
             </p>
             <CalendarTodayOutlinedIcon
@@ -87,40 +86,40 @@ const PublicMemberShip = () => {
           </div>
           <div className="mt-2 mx-4">
             <img src={membershipimgpublic1} alt="" className="img-fluid" />
-            <h3 className="mt-4 "><strong>How does the membership club operate?</strong></h3>
+            <h3 className="mt-4 "><strong className="bold-6">How does the membership club operate?</strong></h3>
             <p className="text-basic text-dark">
               Each exclusive membership club is designed to empower you with
               access to your chosen Pre-IPO company in a fun and innovative way,
               while also rewarding your participation through:
             </p>
             <div className="d-flex">
-              <h5 className="col-1 text-center">
-                <strong className="text-warning text-bold">01</strong>
-              </h5>{" "}
-              <h5 className="text-grey col-11">
+              <h5 className=" text-center">
+                <strong className="text-warning warningDig text-bold">01</strong>
+              </h5>
+              <h5 className="text-dig ml-4">
                 Interactive discussions with the company's top management,
                 giving you direct access to valuable insights and perspectives
               </h5>
             </div>
             <div className="d-flex">
-              <h5 className="col-1 text-center">
-                <strong className="text-warning text-bold">02</strong>
-              </h5>{" "}
-              <h5 className="text-grey col-11">
+              <h5 className=" text-center">
+                <strong className="text-warning text-bold warningDig">02</strong>
+              </h5>
+              <h5 className="text-dig ml-4 mt-1 w-100">
                 Competitions that challenge you to apply your knowledge and
                 offer the chance to win cool company-specific prizes, like NFTs
                 and trips to visit the company headquarters
               </h5>
             </div>
             <div className="d-flex">
-              <h5 className="col-1 text-center">
-                <strong className="text-warning text-bold">03</strong>
-              </h5>{" "}
-              <h5 className="text-grey col-11">
-                <>
+              <h5 className=" text-center">
+                <strong className="text-warning text-bold warningDig">03</strong>
+              </h5>
+              <h5 className="text-dig ml-4 mt-1">
+              
                 Airdrops of bonus membership tokens to recognize and celebrate
                 achievements and milestones, reinforcing your progress and
-                commitment to the membership club</ >
+                commitment to the membership club
               </h5>
             </div>
             <p className="text-basic mt-4">
@@ -136,11 +135,11 @@ const PublicMemberShip = () => {
             </p>
           </div>
           <hr />
-          <div className="mt-2 mx-4">
-            <h3 className="mt-2 mb-5"><strong>Why you should join a membership club?</strong></h3>
+          <div className="mt-4 mx-4">
+            <h3 className="mt-2 mb-5"><strong className="bold-6">Why you should join a membership club?</strong></h3>
             <>
               <div className="row">
-                <div className="image-column col-lg-7 col-md-7 col-sm-12 mb-2">
+                <div className="image-column px-0 col-lg-7 col-md-7 col-sm-12 mb-2 pr-4">
                   <figure
                     className="image wow slideInLeft animated"
                     data-wow-delay="0ms"
@@ -156,58 +155,58 @@ const PublicMemberShip = () => {
                     className="mt-5 "
                     
                   >
-                    <Quotations by={"Toney Robbins"} text={" AIR empowers you with unparalleled access to Pre-IPO companies,fostering inclusion, engagement, and rewarding your dedication in this exclusive space."}/>
+                    <Quotations by={"Toney Robbins"} text={ <span className="pop-font qouteFont bold-6">Membership you with unparalleled access to Pre-IPO companies,fostering inclusion, engagement, and rewarding your dedication in this exclusive space.</span>}/>
                   </div>
                 </div>
-                <div className="text-column col-lg-5 col-md-5 col-sm-12">
-                  <h4>
+                <div className="text-column pl-1  col-lg-5 col-md-5 col-sm-12 px-0">
+                  <h5 className="mb-3 pb-3">
                     {" "}
-                    <strong>Goals of the membership club:</strong>
-                  </h4>
-                  <div className="d-flex  mt-4">
+                    <div className="mont-font"> <i className=" bold-8 DarkText goalHeading"> Goals of the membership club:</i></div>
+                  </h5>
+                  <div  className="d-flex  mt-4">
                     <h5 className="col-1 text-center">
                       <span className="text-warning">{">"}</span>
                     </h5>{" "}
-                    <h5 className="text-dark h5-sm col-11">
+                    <h5 className="goalText  col-11">
                       Provide access to a specific Pre-IPO company
                     </h5>
                   </div>
-                  <div className="d-flex  mt-4">
+                  <div className="d-flex  mt-2 pt-2">
                     <h5 className="col-1 text-center">
                       <span className="text-warning">{">"}</span>
                     </h5>{" "}
-                    <h5 className="text-dark h5-sm col-11">
+                    <h5 className="goalText  col-11">
                       Operate as a collaborative community
                     </h5>
                   </div>
-                  <div className="d-flex  mt-4">
+                  <div className="d-flex  mt-2 pt-2">
                     <h5 className="col-1 text-center">
                       <span className="text-warning">{">"}</span>
                     </h5>{" "}
-                    <h5 className="text-dark h5-sm col-11">
+                    <h5 className="goalText  col-11">
                       Foster an environment to share knowledge, resources, and
                       opportunities
                     </h5>
                   </div>
-                  <div className="d-flex  mt-4">
+                  <div className="d-flex  mt-2 pt-2">
                     <h5 className="col-1 text-center">
                       <span className="text-warning">{">"}</span>
                     </h5>{" "}
-                    <h5 className="text-dark h5-sm col-11">
+                    <h5 className="goalText  col-11">
                       Uphold values of inclusivity, integrity, and mutual
                       support
                     </h5>
                   </div>
-                  <div className="d-flex  mt-4">
+                  <div className="d-flex  mt-2 pt-2">
                     <h5 className="col-1 text-center">
                       <span className="text-warning">{">"}</span>
                     </h5>{" "}
-                    <h5 className="text-dark h5-sm col-11">
+                    <h5 className="goalText  col-11">
                       Offer rewards for your membership
                     </h5>
                   </div>
                 </div>
-                <p className="text-basic text-dark mx-4 mb-5 mt-4">
+                <p className="text-basic bold-4 DarkText mb-4 mt-4">
                   Our exclusive membership clubs are supported by a limited
                   issuance of membership club tokens on the blockchain, serving
                   as the club's currency. These tokens, purchasable with the
@@ -226,72 +225,72 @@ const PublicMemberShip = () => {
           </div>
         </div>
       </SactionContainer>
-      <SactionContainer>
-        <div className="card w-100">
-          <h3 className="mx-4 mt-4">
-            <>Features</>
-          </h3>
+      <SactionContainer container={false}>
+        <div className="card w-100 ml-3">
+          <h5 className=" ml-4 pl-2 mt-4">
+            <strong className="bold-7 ">Features</strong>
+          </h5>
           <div className="row mx-2 mb-4">
             <div className="col-md-6 col-sm-12">
-              <div className="d-flex  mt-4">
+              <div className="d-flex  mt-2 pt-2">
                 <h5 className="col-1 text-center">
                   <span className="text-warning">{">"}</span>
                 </h5>{" "}
-                <h5 className="text-dark h5-sm col-11">Limited number of Members</h5>
+                <h5 className="goalText col-11 ">Limited number of Members</h5>
               </div>
-              <div className="d-flex  mt-4">
+              <div className="d-flex   mt-2 pt-2">
                 <h5 className="col-1 text-center">
                   <span className="text-warning">{">"}</span>
                 </h5>{" "}
-                <h5 className="text-dark h5-sm col-11">
+                <h5 className="goalText col-11">
                   Access to Specific companies
                 </h5>
               </div>
-              <div className="d-flex  mt-4">
+              <div className="d-flex  mt-2 pt-2">
                 <h5 className="col-1 text-center">
                   <span className="text-warning">{">"}</span>
                 </h5>{" "}
-                <h5 className="text-dark h5-sm col-11">Membership rewards</h5>
+                <h5 className="goalText col-11">Membership rewards</h5>
               </div>
-              <div className="d-flex  mt-4">
+              <div className="d-flex  mt-2 pt-2">
                 <h5 className="col-1 text-center">
                   <span className="text-warning">{">"}</span>
                 </h5>{" "}
-                <h5 className="text-dark h5-sm col-11">
+                <h5 className="goalText col-11">
                   Limited number of Tokens for each membership CLub
                 </h5>
               </div>
             </div>
             <div className="col-md-6 col-sm-12">
-              <div className="d-flex  mt-4">
+              <div className="d-flex  mt-2 pt-2">
                 <h5 className="col-1 text-center">
                   <span className="text-warning">{">"}</span>
                 </h5>{" "}
-                <h5 className="text-dark h5-sm col-11">
+                <h5 className="goalText col-11">
                   Unique Competitions and opportunities
                 </h5>
               </div>
-              <div className="d-flex  mt-4">
+              <div className="d-flex  mt-2 pt-2">
                 <h5 className="col-1 text-center">
                   <span className="text-warning">{">"}</span>
                 </h5>{" "}
-                <h5 className="text-dark h5-sm col-11">
+                <h5 className="goalText col-11">
                   Educate yourself about the specific Company
                 </h5>
               </div>
-              <div className="d-flex  mt-4">
+              <div className="d-flex mt-2 pt-2">
                 <h5 className="col-1 text-center">
                   <span className="text-warning">{">"}</span>
                 </h5>{" "}
-                <h5 className="text-dark h5-sm col-11">
+                <h5 className="goalText col-11">
                   Collaborate with other like minded people
                 </h5>
               </div>
-              <div className="d-flex  mt-4">
+              <div className="d-flex  mt-2 pt-2">
                 <h5 className="col-1 text-center">
                   <span className="text-warning">{">"}</span>
                 </h5>{" "}
-                <h5 className="text-dark h5-sm col-11">
+                <h5 className="goalText  col-11">
                   Get informed about best way to participate in the IPO
                 </h5>
               </div>
@@ -299,43 +298,43 @@ const PublicMemberShip = () => {
           </div>
         </div>
       </SactionContainer>
-      <SactionContainer>
+      <SactionContainer container={false}>
         <div className="text-column col-lg-6 col-md-12 col-sm-12">
           <div className="inner">
-            <div className="">
+            <div className="mt-4 pt-2">
               <h3>
                 {" "}
-                <strong>Starting your <TextUnderWrap padding={7}>journey!</TextUnderWrap></strong>
+                <strong className="bold-6">Starting your <TextUnderWrap padding={7}>journey!</TextUnderWrap></strong>
               </h3>
             </div>
 
-            <div className=" mt-2">
-              <h6 className=" mb-0">
+            <div className=" mt-4 ">
+              <h6 className=" mb-0 mont-font">
                 <strong className="text-black text-bold">Register:</strong> Provide your
                 details and get verified
               </h6>
             </div>
-            <div className=" mt-2">
-              <h6 className=" mb-0">
+            <div className=" mt-4 ">
+              <h6 className=" mb-0 mont-font">
                 <strong className="text-black text-bold">Explore:</strong> Decide which
                 exclusive membership clubs you are interested in
               </h6>
             </div>
-            <div className=" mt-2">
-              <h6 className=" mb-0">
+            <div className=" mt-4  ">
+              <h6 className=" mb-0 mont-font">
                 <strong className="text-black text-bold">Connect:</strong> Ensure that you
                 have IVC tokens to enter the club. Need to buy IVC tokens -
                 click here!
               </h6>
             </div>
-            <div className=" mt-2">
-              <h6 className=" mb-0">
+            <div className=" mt-4  ">
+              <h6 className=" mb-0 mont-font">
                 <strong className="text-black text-bold">Allocate:</strong> Determine how
                 many membership club tokens you wish to hold.
               </h6>
             </div>
-            <div className=" mt-2">
-              <h6 className=" mb-0">
+            <div className=" mt-4  ">
+              <h6 className=" mb-0 mont-font">
                 <strong className="text-black text-bold">Particapte:</strong> Start
                 contributing and learning more about your chosen Pre-IPO company
                 as a member.
@@ -346,7 +345,7 @@ const PublicMemberShip = () => {
           </div>
         </div>
 
-        <div className="image-column col-lg-6 col-md-12 col-sm-12">
+        <div className="image-column col-lg-6 col-md-12 col-sm-12 mt-4 pt-2 pl-5" >
           <figure
             className="image wow slideInRight animated"
             data-wow-delay="0ms"
@@ -361,7 +360,7 @@ const PublicMemberShip = () => {
           </figure>
         </div>
       </SactionContainer>
-      <SactionContainer>
+      <SactionContainer container={false}>
         <div className="image-column col-lg-6 col-md-12 col-sm-12 mb-5 mt-5">
           <figure
             className="image wow slideInLeft animated"
@@ -370,111 +369,138 @@ const PublicMemberShip = () => {
               visibility: "visible",
               animationDelay: "0ms",
               animationName: "slideInLeft",
+              
             }}
           >
-            <img src={about2} alt="" className="" />
+            <img src={about2} alt="" className="MemberSliderImage" />
           </figure>
-          <h3 className="mt-4"> <strong>Dont miss out on your tokens</strong></h3>
-          <p className="text-basic">
+          <h3 className="mt-4 pt-3"> <strong className="bold-6">Dont Miss out on Your tokens</strong></h3>
+          <p className="DarkText mt-3" style={{fontSize:"12.3px"}}>
             Tokens are limited, so secure your access to current and future
             membership clubs now.{" "}
           </p>
-          <div className="mt-4 d-flex row ">
+          <div className="mt-4 pt-2 d-flex row ">
             <div className="col-lg-4 col-sm-12 mt-1 p-0">
               <LargeButton text="Buy your IVC tokens" />
             </div>
             <div className="col-lg-8 col-sm-12 mt-1">
-              <OutlinedButtonDark text="Buy your selected memership club token" />
+              <OutlinedButtonDark text={<span className="DarkText bold-5"> Buy your selected memership club token</span>} />
             </div>
           </div>
         </div>
         <div className="text-column col-lg-6 col-md-12 col-sm-12 mb-5 pl-5 mt-5">
           <div className="inner">
             <div className="">
-              <h4 className="text-dark"> <strong>Utilise your tokens for the following:</strong></h4>
+              <h4 className="DarkText"> <strong className="UttilyText">Utilise your tokens for the following:</strong></h4>
             </div>
 
-            <div className="d-flex mt-3">
+
+<div className="d-flex mt-4">
               <h5 className="col-1 text-center">
-                <strong className="text-warning">01</strong>
+                <strong className="text-warning warningDig text-bold">01</strong>
               </h5>{" "}
-              <h6 className="text-grey col-11">
-                Payment of yearly membership fees automatically
-              </h6>
+              <h5 className="text-dig  col-11">
+               Payment of Membership Fee Automatically
+              </h5>
             </div>
-            <div className="d-flex mt-3">
+
+
+            <div className="d-flex mt-2">
               <h5 className="col-1 text-center">
-                <strong className="text-warning">02</strong>
+                <strong className="text-warning warningDig text-bold">02</strong>
               </h5>{" "}
-              <h6 className="text-grey col-11">
-                Purchase of exclusive club related NFTs and merchandise
-              </h6>
+              <h5 className="text-dig  col-11">
+              Purchase of exclusive club related NFTs and merchandise
+              </h5>
             </div>
-            <div className="d-flex mt-3">
+
+
+            <div className="d-flex mt-2">
               <h5 className="col-1 text-center">
-                <strong className="text-warning">03</strong>
+                <strong className="text-warning warningDig text-bold">03</strong>
               </h5>{" "}
-              <h6 className="text-grey col-11">
-                Entry into company specific competitions
-              </h6>
+              <h5 className="text-dig  col-11">
+              Entry into company specific competitions
+              </h5>
             </div>
-            <div className="d-flex mt-3">
+
+
+
+
+            <div className="d-flex mt-2">
               <h5 className="col-1 text-center">
-                <strong className="text-warning">04</strong>
+                <strong className="text-warning warningDig text-bold">04</strong>
               </h5>{" "}
-              <h6 className="text-grey col-11">
-                Voting on membership events
-              </h6>
+              <h5 className="text-dig  col-11" style={{fontSize:"18px"}}>
+              Voting on membership events
+              </h5>
             </div>
-            <div className="d-flex mt-3">
+
+
+            <div className="d-flex mt-2">
               <h5 className="col-1 text-center">
-                <strong className="text-warning">05</strong>
+                <strong className="text-warning warningDig text-bold">05</strong>
               </h5>{" "}
-              <h6 className="text-grey col-11">
-                Hold or purchase more to get more rewards in the future
-              </h6>
+              <h5 className="text-dig  col-11">
+              Hold or purchase more to get more rewards in the future
+              </h5>
             </div>
           </div>
+
+
+
+
+
+
+
+
+
           <div className="inner">
             <div className="">
-              <h2> Getting rewarded as a member</h2>
-              <p className="text-basic text-black">
+              <h4 className="DarkText"> <strong className="UttilyText">Getting rewarded as a member</strong></h4>
+            </div>
+            <p className="text-basic text-black">
                 During the course of your membership, you may get rewarded with
                 more tokens (or NFTs) via airdrops for the following events
               </p>
-            </div>
 
-            <div className="d-flex mt-3">
+
+<div className="d-flex mt-4">
               <h5 className="col-1 text-center">
-                <strong className="text-warning">01</strong>
+                <strong className="text-warning warningDig text-bold">01</strong>
               </h5>{" "}
-              <h5 className="text-grey col-11">
-                Celebrate a milestone / event from the company (i.e. a launch of
+              <h5 className="text-dig  col-11">
+              Celebrate a milestone / event from the company (i.e. a launch of
                 a new product by your chosen company
               </h5>
             </div>
-            <div className="d-flex mt-3">
+
+
+            <div className="d-flex mt-2">
               <h5 className="col-1 text-center">
-                <strong className="text-warning">02</strong>
+                <strong className="text-warning warningDig text-bold">02</strong>
               </h5>{" "}
-              <h5 className="text-grey col-11">
-                Collaborating and sharing insights with your fellow members
+              <h5 className="text-dig  col-11">
+              Collaborating and sharing insights with your fellow members
               </h5>
             </div>
-            <div className="d-flex mt-3">
+
+
+            <div className="d-flex mt-2">
               <h5 className="col-1 text-center">
-                <strong className="text-warning">03</strong>
+                <strong className="text-warning warningDig text-bold">03</strong>
               </h5>{" "}
-              <h5 className="text-grey col-11">
-                Entering competitions and or quizzes related to the company
+              <h5 className="text-dig  col-11">
+              Entering competitions and or quizzes related to the company
               </h5>
             </div>
-            <p className="text-basic text-dark">
+
+            <p className="text-basic DarkText">
               Additionally, if the company does decide to go Public, the
               membership club is positioned to assist you in the IPO process and
               hopefully help you to get shares in your chosen company!
             </p>
-            <h6 className="text-basic text-dark">
+            <p className="text-basic DarkText">
               Please note that you membership token does not constitute any
               shares or economic rights to SpaceX and iVest Club does not
               guarantee that you will be able to get any shares at an IPO should
@@ -482,40 +508,44 @@ const PublicMemberShip = () => {
               from your membership to your chosen company and position yourself
               in the best possible way to participate and obtain shares in the
               IPO.
-            </h6>
-          </div>
+            </p>
+
+    </div>
+
         </div>
       </SactionContainer>
 
       <ImgBgSactionContainer bgImage={landingbg2} showPadding={false}>
-        <div className="row  w-100 justify-content-center pt-5">
+        <div className="row  w-100 justify-content-center mx-2">
           <div className="col-12 text-center mb-3 d-flex justify-content-center">
-            <h2 className="w-50">Example of you as a <TextUnderWrap padding={7}>SpaceX</TextUnderWrap> member</h2>
+            <h3 className="w-50">Example of you as a <TextUnderWrap padding={7}>SpaceX</TextUnderWrap> member</h3>
           </div>
           <div className="col-12 d-flex justify-content-center text-center">
-            <p className="text-basic text-light w-30">
+            <p className="exText WhiteText mt-2  w-30">
               You decide to exchange USD 100 for 100 IVC tokens You decides to
               get exclusive access to SpaceX You exchange yur IVC tokens for 100
               SpaceX tokens
             </p>
           </div>
-          <div className="row  w-100 justify-content-center pl-5 pr-5 mb-4">
+          <div className="row  w-100 justify-content-center pl-5 pr-5 mb-4 pb-3">
             <ExclusiveAccess
             icon={goldicon9}
               col={4}
-              heading="Example Events during yor membership"
+              heading=    { <span className="bold-5">Example Events during yor membership</span>  }  
               text1="SpaceX launches a new rocket - you get an airdrop of 10 tokens You get rewarded for collaborating - reward of 2 tokens You enter SpaceX competition - you pay 10 tokens You win SpaceX competition - you visit the company  You participate in a SpaceX call - you get 2 token SpaceX IPOs - you get 40 tokens Total number of SpaceX tokens you now hold is 144 tokens"
             />
             <ExclusiveAccess
             icon={goldicon9}
               col={4}
-              heading="Other uses of your membership tokens"
+              heading=
+              { <span className="bold-5">Other uses of your membership tokens</span>  }
               text1="Exchange your SpaceX membership token for another membership token Exchange your membership token for IVC tokens"
             />
             <ExclusiveAccess
             icon={goldicon9}
               col={4}
-              heading="How can being a member help in IPO"
+              heading=
+              { <span className="bold-5">How can being a member help in IPO</span>  }
               text1="Receive details on the upcoming IPO Get introduced to iVest Club partners that will allow you to participate in the IPO. Sell you SPaceX tokens and use the proceeds to subscribe to the IPO"
             />
           </div>

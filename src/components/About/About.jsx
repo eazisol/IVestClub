@@ -46,10 +46,10 @@ const About = () => {
           </div>
         </div>
       </section>
-      <section className="about-section-three mt-5">
-        <div className="container pt-3 bg-white">
-          <div className="row clearfix">
-            <div className="text-column col-lg-6 col-md-12 col-sm-12">
+      <section className="about-section-three mt-5"> 
+        <div className="responsiveSectionContainer about-section-one  pt-4 bg-white">
+          <div className="row  clearfix" >
+            <div className="text-column col-lg-6 col-md-12 col-sm-12 pl-3">
               <div className="inner mb-sm-3">
                 <div className="sec-title">
                   <h3>
@@ -89,7 +89,7 @@ const About = () => {
                     navigate this exciting industry.{" "}
                   </p>
                 </div>
-                <div className=" mt-3">
+                <div className=" mt-4">
                   <p className="text-basic LightText text-bold">
                     
                       Get rewarded for your access to yoour chosen Pre-IPO
@@ -105,7 +105,7 @@ const About = () => {
               </div>
             </div>
 
-            <div className="image-column  col-lg-6 col-md-12 col-sm-12">
+            <div className="image-column  col-lg-6 col-md-12 col-sm-12 pl-5">
               <figure
                 className="image wow slideInRight animated"
                 data-wow-delay="0ms"
@@ -145,10 +145,10 @@ const About = () => {
           {/* <KilledChildren /> */}
         </div>
       </section>
-      <section className="about-section-three pt-0">
-        <div className="container pb-5">
-          <div className="row clearfix mt-3 ">
-            <div className="image-column col-lg-6 col-md-12 col-sm-12">
+      <section className="about-section-three mt-5">
+        <div className="responsiveSectionContainer pb-5 ">
+          <div className="row clearfix mt-3">
+            <div className="image-column col-lg-6 col-md-12 col-sm-12 ">
               <figure
                 className="image wow slideInLeft animated"
                 data-wow-delay="0ms"
@@ -170,7 +170,7 @@ const About = () => {
                   </h4>
                 </div>
                 <div className="sec-content"> 
-                <div className=" mt-4">
+                <div className=" mt-3 pt-1">
                   <p className="text-basic  mb-0">
                     <strong className=" text-bold">Access:</strong> Get involved
                     in your targeted company and get rewarded for yor
@@ -197,7 +197,7 @@ const About = () => {
                 </div>
 
                 <div className="">
-                  <p className="text-basic  ">
+                  <p className="text-basic mb-0">
                     <strong className=" text-bold">
                       Personalized Educational Resources:
                     </strong>
@@ -230,7 +230,7 @@ const About = () => {
               </div>
             </div>
           </div>
-          <div className=" mt-3">
+          <div className="ml-3 mt-1">
             <div className="sec-title mb-3">
               <h4>
                 {" "}
@@ -238,7 +238,7 @@ const About = () => {
               </h4>
             </div>
           </div>
-          <div className=" ">
+          <div className="ml-3">
             <p className="sec-offer-des">
               Don't miss out on this chance to explore Pre-IPo companies in a
               new way. Join iVestClub today and start a journey that will expand
@@ -248,7 +248,7 @@ const About = () => {
               Your exclusive journey begins here.
             </p>
           </div>
-          <div className="mt-2 w-20">
+          <div className="mt-2 w-20 ml-3 mb-4 pb-1">
           <LargeButton text={"Start Your Free journey"}/>
            
           </div>
@@ -264,7 +264,7 @@ const About = () => {
             backgroundPosition: "center",
           }}
         ></div>
-        <div className="row  w-100 justify-content-center px-5 my-5">
+        <div className="row  w-100 justify-content-center px-5 my-4 pt-3">
           <div className="col-12 text-center mb-3">
             <h2 className="statsHead">iVestClub  Members<TextUnderWrap padding={7}>hip Sta</TextUnderWrap>ts</h2>
             <p className="statsSubHead Opacity  mt-4 mb-5">

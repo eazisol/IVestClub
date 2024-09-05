@@ -16,14 +16,15 @@ import { OutlinedButtonDark } from "../Common/Buttons";
 
 const SpaceXMembership = () => {
   return (
-    <SactionContainer bgColor="#F5F8FF">
-      <div className="col-md-8  col-sm-12 mt-4 mb-5">
+    <SactionContainer bgColor="#F5F8FF" container={false}>
+      <div className="col-md-8  col-sm-12 mt-5 pt-5  mb-5 pb-5">
         <div className="card p-4">
           <div className="">
-            <h2 className="mb-3">
+            
+            <h3 className="mb-3">
               <strong>SpaceX Membership Club (SPX Token)</strong>
-            </h2>
-            <div className="d-flex align-items-center mb-3">
+            </h3>
+            {/* <div className="d-flex align-items-center mb-3">
               <p className="text-basic mb-0 ml-1">
                 {" "}
                 Admin: <strong className="text-dark">John Doe</strong>{" "}
@@ -40,12 +41,31 @@ const SpaceXMembership = () => {
                 sx={{ color: "#888", ml: 1, fontSize: "25px" }}
               />
               <p className="text-basic mb-0 ml-1"> 222 Members </p>{" "}
+            </div> */}
+            <div className="d-flex align-items-center mb-3 ">
+              <p className="text-basic  mb-0 ml-1 Opacity">
+                {" "}
+                Admin: <strong className="DarkText bold-5">John Doe</strong>{" "}
+                <span>&#8226;</span>
+              </p>
+              <CalendarTodayOutlinedIcon
+                sx={{ color: "#888", ml: 1, fontSize: "15px" }}
+              />
+              <p className="text-basic  mb-0 ml-1 Opacity">
+                {" "}
+                24/7/2024 <span>&#8226;</span>{" "}
+              </p>{" "}
+              <GroupsOutlinedIcon
+                sx={{ color: "#888", ml: 1, fontSize: "25px" }}
+              />
+              <p className="text-basic mb-0 ml-1 Opacity"> 222 Members </p>{" "}
             </div>
+            
             <img src={spaceximg1} alt="" className="img-fluid mt-2" />
-            <h4 className="mt-4 text-dark">
+            <h5 className="mt-4 text-dark mont-font">
               <strong>Who are SpaceX?</strong>
-            </h4>
-            <p className="text-basic text-dark mt-3">
+            </h5>
+            <p  className=" LightText" style={{fontSize:"12px"}}>
               SpaceX, founded by Elon Musk in 2002, is a trailblazing aerospace
               manufacturer and space transportation company that has transformed
               the space industry with its cutting-edge technology and ambitious
@@ -57,7 +77,7 @@ const SpaceXMembership = () => {
               project. SpaceX’s vision extends beyond Earth's orbit, aiming to
               make life multiplanetary by establishing a human presence on Mars.
             </p>
-            <p className="text-basic text-dark mt-3">
+            <p  className=" LightText" style={{fontSize:"12px"}}>
               Starlink, a subsidiary project of SpaceX, aims to provide global
               high-speed internet coverage through a constellation of low Earth
               orbit (LEO) satellites. Launched in 2015, Starlink addresses the
@@ -74,11 +94,11 @@ const SpaceXMembership = () => {
           </div>
           <hr />
           <div className="p-3">
-            <h4 className="mt-4 text-dark">
+           <h5 className="mt-4 text-dark mont-font">
               <strong>Elon Musk presentation on SPaceX</strong>
-            </h4>
+            </h5>
             <img src={spaceximg2} alt="" className="img-fluid mt-2" />
-            <p className="text-basic text-dark mt-3">
+            <p className="text-basic text-dark mt-3 bold-5">
               Space travel is crucial for advancing scientific knowledge,
               fostering technological innovation, and ensuring the long-term
               survival and expansion of humanity beyond Earth.
@@ -86,13 +106,15 @@ const SpaceXMembership = () => {
             <div className="">
               <Quotations
                 text={
-                  "SpaceX is a once-in-a-lifetime company because it’s fundamentally changing humanity’s destiny."
+                  <span className="bold-5" >SpaceX is a once-in-a-lifetime company because it’s fundamentally changing humanity’s destiny.</span>
                 }
+                
                 by={"Chamath Palihapitiya"}
               />
               <Quotations
                 text={
-                  "I think space is our only hope, and we are on the verge of commercializing it."
+                  
+                  <span className="bold-5" >I think space is our only hope, and we are on the verge of commercializing it.</span>
                 }
                 by={"Jeff Bezos"}
               />
@@ -102,9 +124,10 @@ const SpaceXMembership = () => {
         </div>
         <div className="card p-4  mt-4">
           <div className="">
-            <h3 className="mt-4">
+           
+            <h5 className="mt-4 text-dark mont-font">
               <strong>ChatGPT Box Here</strong>
-            </h3>
+            </h5>
             {[
               "Ask ChatGPT a question abut the company?",
               "Suggested questions list here.",
@@ -120,7 +143,7 @@ const SpaceXMembership = () => {
                   <h4 className="text-warning mb-0">{">"}</h4>
                 </div>
                 <div className="col-11 pl-0">
-                  <h6 className="mb-0 text-dark h5-sm " >{text}</h6>
+                  <h6 className="mb-0 h5-sm bold-5 mont-font" >{text}</h6>
                 </div>
               </div>
             ))}
@@ -128,16 +151,16 @@ const SpaceXMembership = () => {
         </div>
         <div className="card mt-3">
           <div className="p-3">
-            <h5 className="text-dark">
-              <strong>Open AI Discussion Channel</strong>
-            </h5>
+          <h6>
+              <strong className="bold-6">Open AI Discussion Channel</strong>
+            </h6>
             <img src={openaiimg3} alt="" className="img-fluid mt-2" />
           </div>
         </div>
         <div className="card mt-3 p-4">
           <div className="">
             <h5>
-              <strong>
+              <strong className="bold-6">
                 Learn About Different Aspects Of iVestClub Technologies
               </strong>
             </h5>
@@ -192,9 +215,8 @@ const SpaceXMembership = () => {
         </div>
         <div className="card mt-3">
           <div className="p-3">
-            <h4 className="">
-              <strong>Ask For Information About iVestClub Technologies</strong>
-            </h4>
+            
+            <div className="feedbackHeading">Ask For Information About iVestClub Technologies</div>
             <p className="text-basic mb-0 mt-3">Rate This Club</p>
             <Rating
               name="text-feedback"
@@ -214,7 +236,7 @@ const SpaceXMembership = () => {
           </div>
         </div>
       </div>
-      <div className="col-md-4 col-sm-12 mt-4 mb-5">
+      <div className="col-md-4 col-sm-12 mt-5 pt-5 mb-5">
         <SideBarMembership />
       </div>
     </SactionContainer>

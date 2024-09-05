@@ -14,13 +14,10 @@ const CreateAccountModal = ({ text }) => {
         open: true,
         content: 
         (<>
-        <div className='ModalContainer z-0 container '>
+        <div className='ModalContainer p-3 z-0 container '>
         <div className="row">
         <div className="col-12">
-                    <h4 className="text-dark">
-                        <strong>
-                      Please Enter Your Email and Username!</strong>
-                    </h4>
+        <div className="text-dark modalHeading">Please Enter Your Email and Username!</div>
         </div>
         
         <div className="modalSection">
@@ -77,14 +74,11 @@ const CreateAccountModal = ({ text }) => {
         open: true,
         content: 
         (<>
-        <div className='ModalContainer z-0'>
+        <div className='ModalContainer p-3 z-0'>
     <div className="row">
     <div className="col-12">
-                    <h4 className="text-dark">
-                        <strong>
-                        You’re all set John! <br />
-                        Let’s verify your email.</strong>
-                    </h4>
+                    <div className="text-dark modalHeading"> You’re all set John! <br />
+                    Let’s verify your email.</div>
         </div>
       
      <div className="modalSection">
@@ -154,16 +148,13 @@ const CreateAccountModal = ({ text }) => {
         open: true,
         content: 
         (<>
-        <div className='ModalContainer container z-0'>
+        <div className='ModalContainer p-3 container z-0'>
     <div className="row">
     
 
 
       <div className="col-12">
-                    <h4 className="text-dark">
-                        <strong>
-                        Now tell us about your current Financial knowedge!</strong>
-                    </h4>
+                    <div className="text-dark modalHeading"> Now tell us about your current Financial knowedge!</div>
         </div>
 
 
@@ -226,10 +217,7 @@ const CreateAccountModal = ({ text }) => {
     <div className="row">
       
 <div className="col-12">
-                    <h4 className="text-dark">
-                        <strong>
-                        Let’s find out about Pre-IPO companies!</strong>
-                    </h4>
+                    <div className="modalHeading text-dark"> Let’s find out about Pre-IPO companies!</div>
         </div>
 
         <div className="modalSection">
@@ -345,13 +333,11 @@ const CreateAccountModal = ({ text }) => {
           open: true,
           content: (
             <>
-              <div className="ModalContainer z-index-0">
+              <div className="ModalContainer p-3 z-index-0">
                 <div className="row">
                   <div className="col-12">
-                    <h4 className="text-dark">
-                        <strong>
-                      Great - Lets get you started on Your Journey!</strong>
-                    </h4>
+                    
+                    <div className="text-dark modalHeading"> Great - Lets get you started on Your Journey!</div>
                   </div>
 
                   <div className="modalSection">

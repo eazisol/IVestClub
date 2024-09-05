@@ -12,9 +12,9 @@ const MemberShipClubCards = ({ text, heading, to, image, col = 4 }) => {
   const navigate = useNavigate();
 
   return (
-    <div className={`col-md-${col} col-sm-12 p-2 ExclusiveAccessCard`}>
+    <div className={`col-lg-${col} col-md-12 mb-4 col-sm-12 px-1  ExclusiveAccessCard`}>
       <div
-        className="card  p-3 "
+        className="card  p-3"
         style={{ position: "relative", height: "30em", width : "22em" }}
       >
         <img src={image} className="card-img-top" alt="..." />

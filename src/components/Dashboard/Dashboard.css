@@ -281,3 +281,9 @@
     color: #777777 !important;
     font-family: "Poppins" ,sans-serif !important;
 }
+.largeButtonContainer
+{
+    
+    margin-left: auto !important;
+    margin-right: auto !important;
+}

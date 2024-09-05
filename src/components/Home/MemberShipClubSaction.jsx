@@ -18,7 +18,7 @@ const MemberShipClubSaction = () => {
   const location = useLocation();
 
   return (
-    <SactionContainer bgColor= {location.pathname === "/" ?"#f4f5f9": "#fff"}>
+    <SactionContainer bgColor= {location.pathname === "/" ?"#f4f5f9": "#fff"} container={false}>
       <div className="row  w-100 justify-content-center pt-5 mb-5">
         {location.pathname === "/" ? (
           <div className="col-12 text-center mb-5 ">
@@ -30,15 +30,14 @@ const MemberShipClubSaction = () => {
             </h2>
           </div>
         ) : (
-          <div className="col-12  mb-5  d-flex ">
-            <h2 className="w-50">
-              <strong>
-                Member<TextUnderWrap padding={7}>ship C</TextUnderWrap>
-                lub
-              </strong>
-            </h2>
+          <div className="col-12  mb-4  d-flex ">
+            <h3 className="w-50">
+              <div className="bold-6">
+                Membership <TextUnderWrap padding={7}>Club</TextUnderWrap>
+              </div>
+            </h3>
             <div className="w-50 d-flex justify-content-end align-items-center">
-              <p className="text-basic mb-0">Sort By:</p>
+              <p className="text-basic mb-0">Sort By: &nbsp;</p>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
@@ -63,7 +62,7 @@ const MemberShipClubSaction = () => {
           </div>
         )}
 
-        <div className="row  w-100 justify-content-sm-center justify-content-md-start">
+        <div className="row  w-100 justify-content-sm-center justify-content-md-start mx-2">
           <MemberShipClubCards
             image={membershipimg1}
             heading={"iVestClub Technologies Platform"}

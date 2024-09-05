@@ -17,7 +17,7 @@ export const MiniGraph = ({size=20}) => {
 }
 export const LargeGraph = ({size=20}) => {
   return (
-    <img src={ChartGraph} style={{height : `${size}px` , width : `${size+160}px`}} />
+    <img src={ChartGraph} style={{height : `${size}px` , width : `${size+210}px`}} />
   )
 }
 

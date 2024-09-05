@@ -33,7 +33,7 @@ export function OutlinedButtonLight({ text, onClick = () => {} }) {
 export function OutlinedButtonWarning({ text, onClick = () => {} }) {
   return (
     <button
-      className="btn btn-outline-warning btn-rounded w-100 d-flex justify-content-center align-items-center "
+      className="btn btn-outline-warning btn-rounded w-100 d-flex justify-content-center align-items-center pop-font py-2 px-1 bold-3" 
       onClick={onClick}
     >
       <small className="text-warning">{text}</small>

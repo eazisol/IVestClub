@@ -16,6 +16,7 @@ export const DataProvider = ({ children }) => {
   const [showSingleWarData, setShowSingleWarData] = useState(true);
   const [childGraphData, setChildGraphData] = useState([])
 const [mainLoader, setmainLoader] = useState(true)
+const [showLandingSaction, setShowLandingSaction] = useState(true)
 
 const [openModal, setOpenModal] = useState({
   open : false,
@@ -37,7 +38,8 @@ const [openModal, setOpenModal] = useState({
         mainLoader, setmainLoader,
         openModal, setOpenModal,
         isAuthenticated,
-        setIsAuthenticated
+        setIsAuthenticated,
+        showLandingSaction, setShowLandingSaction
 
       }}
     >

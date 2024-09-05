@@ -20,7 +20,8 @@ import { SactionContainer } from "../Common/Containers";
 import { Ethereum, Bitcoin, Usdt, IVC } from "../Common/CurrencyIcons";
 import { MiniGraph, LargeGraph } from "../Common/CurrencyIcons";
 import ProfileCard from "./ProfileCard";
-
+import { FilledButtonLight } from "../Common/Buttons";
+import { LargeButton } from "../Common/Buttons";
 
 
 function createData(currObj, avail, amount, action) {
@@ -53,17 +54,21 @@ const rows = [
 const Dashboard = () => {
   return (
     <SactionContainer>
-      <div className="d-flex ">
-        <h3 className="dashHead ml-3">
+    
+    <div className="w-100 mt-5  mb-3 pt-2 pl-3">
+        <h3 className="dashHead">
           Dashboard
         </h3>
       </div>
-      <div className=" row">
-        <div className=" col-md-3 col-sm-12">
-          <ProfileCard />
+
+      <div className="w-100 mb-5 pb-5">
+      <div className="row mb-5">
+      
+       <div className="col-lg-3 col-sm-12 col-md-12 mb-4">
+          <ProfileCard/>
         </div>
-        <div className="col-sm-12 col-md-9">
-          <div className="card card-border-c">
+        <div className="col-lg-9 col-sm-12 col-md-12">
+          <div className="card card-border-c p-3">
             <div className="row justify-content-between mx-0 p-3">
               <div className="currency">
                 <div className="currName mb-3">My IVC Token Balance</div>
@@ -138,11 +143,11 @@ const Dashboard = () => {
                 </Table>
               </TableContainer>
             </div>
-            <div className="row mt-3 p-3 ">
+            <div className="row mt-3 p-1 ">
              
  
-<div className="col-4">
-<div className="card card-border-c mb-3">
+<div className="col-lg-4 col-md-12 col-sm-12">
+<div className="card card-border-c mb-3 col-sm-12 col-md-12">
                  <div className="card-body">
                     <div className="cardHeadText d-flex justify-content-between">
                       <div className="d-flex">
@@ -161,19 +166,19 @@ const Dashboard = () => {
                       </div>
                     </div>
                     <div className="row">
-                      <div className="col-6 p-0">
+                      <div className="col-md-6  p-0">
                         <div className="cardNumber mb-2 ">
                           $932343
                         </div>
                         <p className="card-text bold-5">+0.25 %</p>
                       </div>
-                      <div className="col-6">
+                      <div className="col-md-6 ">
                        <MiniGraph size={50}/>
                       </div>
                     </div>
                   </div>
 </div>
-<div className="card card-border-c">
+<div className="card card-border-c col-md-12 col-sm-12 mb-3">
                  <div className="card-body">
                     <div className="cardHeadText d-flex justify-content-between">
                       <div className="d-flex">
@@ -207,7 +212,7 @@ const Dashboard = () => {
 
 </div>
                 
-<div className="col-8" >
+<div className="col-lg-8 col-md-12 col-sm-12" >
                 <div className=" card card-border-c">
                  <LargeGraph size={300} />
                 </div>
@@ -216,9 +221,9 @@ const Dashboard = () => {
 
             </div>
 
-            <div className="row mt-3 p-3  ">
+            <div className="row mt-3 p-1 col-md-12">
              
-            <div className="col-4 ">
+            <div className="col-lg-4  mb-2 col-sm-12 col-md-12">
             <div className="card card-border-c">
                  <div className="card-body">
                     <div className="cardHeadText d-flex justify-content-between">
@@ -251,7 +256,7 @@ const Dashboard = () => {
                   </div>
 </div>
                 </div>
-                <div className="col-4">
+                <div className="col-lg-4 mb-2  col-sm-12 col-md-12">
                 <div className="card card-border-c">
                  <div className="card-body">
                     <div className="cardHeadText d-flex justify-content-between">
@@ -271,20 +276,20 @@ const Dashboard = () => {
                       </div>
                     </div>
                     <div className="row">
-                      <div className="col-6 p-0">
+                      <div className="col-md-6 p-0">
                         <div className="cardNumber mb-2 ">
                           $932343
                         </div>
                         <p className="card-text bold-5">+0.25 %</p>
                       </div>
-                      <div className="col-6">
+                      <div className="col-md-6">
                        <MiniGraph size={50}/>
                       </div>
                     </div>
                   </div>
 </div>
                 </div>
-                <div className="col-4 ">
+                <div className="col-lg-4 mb-2  col-sm-12 col-md-12">
                 <div className="card card-border-c">
                  <div className="card-body">
                     <div className="cardHeadText d-flex justify-content-between">
@@ -328,14 +333,15 @@ const Dashboard = () => {
 
 
 
-            <div className="section4 rounded-3 m-4 p-4">
+            <div className="section4 rounded-3 m-3 p-3 ">
               <div className="text-center">
                 
                   <div className="section4-head">Buy IVC</div>
                 
               </div>
-              <div className="currConverter ">
-                <div className="converter1 mt-4">
+              <div className="currConverter col-sm-12  col-lg-12 col-md-12">
+               <div className="row">
+                <div className="converter1 mt-4 col-sm-12  col-lg-6 col-md-12">
                 <div className="mb-1 con-head"> You Pay </div>
                   <div className="input-group mb-3">
                     
@@ -374,7 +380,7 @@ const Dashboard = () => {
                   </div>
                 
                 </div>
-                <div className="converter2 mt-4">
+                <div className="converter2 mt-4 col-sm-12 col-lg-6 col-md-12">
                   
                   <div className="con-head mb-1"> You Get </div>
                   
@@ -414,16 +420,23 @@ const Dashboard = () => {
                   </div>
                   
                 </div>
+                </div>
               </div>
               <div className="convDes LightText" align="center">
                 The price will be recalculated in 4.5s
               </div>
-              <div className="conBtn">Buy Now</div>
+              {/* <div className="conBtn">Buy Now</div> */}
+              <div className="largeButtonContainer mt-5 mb-5 col-lg-4 col-md-4 col-sm-2">
+              <LargeButton text={"Buy Now"}/>
+              </div>
             </div>
           </div>
         </div>
+      
+        </div>
       </div>
-    </SactionContainer>
+      
+     </SactionContainer>
   );
 };
 

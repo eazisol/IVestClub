@@ -9,7 +9,13 @@ import MaterialModal from "../components/Common/MaterialModal.jsx";
 
 
 const Layout = () => {
+  const {showLandingSaction, setShowLandingSaction} =  appData()
   const location = useLocation();
+  
+  useEffect(() => {
+    setShowLandingSaction(true)
+  }, [location.pathname])
+  
   return (
     <>
       <EventPopups />
@@ -19,9 +25,10 @@ const Layout = () => {
         <MaterialModal />
           <Outlet />
         </div>
+        {showLandingSaction && 
       <div className="sectionbgimage">
         <Footer />
-      </div>
+      </div>}
       <ScrollToTop />
     </>
   );

@@ -9,14 +9,19 @@ import membershipimg4 from "../../assets/image/membershipimg4.png";
 const MyMemberShipClubs = () => {
   return (
     <SactionContainer>
-      <h3>
-        <strong>Dashboard</strong>
-      </h3>
-      <div className="row">
-        <div className="col-md-3 col-sm-12">
+     <div className="w-100 mt-5  mb-3 pt-2 pl-3">
+        <h3 className="dashHead">
+          Dashboard
+        </h3>
+      </div>
+      <div className="row mb-5">
+        <div className="col-lg-3 col-md-12  col-sm-12 mb-4">
           <ProfileCard />
         </div>
-        <div className="col-md-9 col-sm-12 row">
+        <div className="col-lg-9 col-md-12  col-sm-12">
+        <div className="card card-border-c col-md-12 col-sm-12 mb-4">
+          <div className="bold-5 ml-3 mb-3 mt-4 mont-font membershipHeading">My Membership Clubs</div>
+        <div className="row pb-3">
           <MemberShipClubCards
             col={6}
             image={membershipimg1}
@@ -53,6 +58,13 @@ const MyMemberShipClubs = () => {
             }
             to={`/Membership/PublicMemberShip`}
           />
+         
+        </div>
+        </div>
+
+        <div className="card card-border-c col-md-12 col-sm-12">
+          <div className="bold-5 ml-3 mb-3 mt-4 mont-font membershipHeading">Suggested Membership Clubs</div>
+        <div className="row pb-3">
           <MemberShipClubCards
             col={6}
             image={membershipimg1}
@@ -89,6 +101,9 @@ const MyMemberShipClubs = () => {
             }
             to={`/Membership/PublicMemberShip`}
           />
+         
+        </div>
+        </div>
         </div>
       </div>
     </SactionContainer>

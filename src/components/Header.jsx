@@ -7,6 +7,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { HeaderLink } from "./Common/MiniComponents";
+import { Padding } from "@mui/icons-material";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -16,6 +17,8 @@ const Header = () => {
   const { isAuthenticated,
     setIsAuthenticated } = appData();
   const [isScrolled, setIsScrolled] = useState(false);
+
+  const {showLandingSaction , setShowLandingSaction} =  appData()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -54,6 +57,7 @@ const Header = () => {
                   <a
                     onClick={() => {
                       navigate("/");
+                      setShowLandingSaction(true)
                     }}
                     title="iVest Club"
                   >
@@ -89,6 +93,7 @@ const Header = () => {
                           text="Home"
                           onClick={() => {
                             navigate("/");
+                            setShowLandingSaction(true)
                           }}
                         />
                       </li>
@@ -213,9 +218,10 @@ const Header = () => {
                       style={{ padding: "3px", backgroundColor: "#282A35", borderRadius: "200px", cursor: "pointer" }}
                       onClick={() => navigate("/Dashboard")}
                     >
-                      <AccountCircleOutlinedIcon sx={{ color: "#fff" }} />
+                      <AccountCircleOutlinedIcon sx={{ color: "#fff"}} />
                     </div>
-                    <MobileDrawer />
+                    &nbsp;
+                    <MobileDrawer  />
                                      
                   </>
                 ) : (

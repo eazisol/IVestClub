@@ -204,8 +204,7 @@ a:visited {
 	outline: none;
 }
 
-h4
-{
+h4 {
 	position: relative;
 	font-weight: normal;
 	margin: 0px;
@@ -225,7 +224,7 @@ h5 {
 	background: none;
 	line-height: 1.25em;
 	font-family: 'Montserrat', sans-serif !important;
-	
+
 }
 
 h6 {
@@ -1218,7 +1217,7 @@ img {
 	float: right;
 	z-index: 1;
 	padding-top: 20px;
-	
+
 }
 
 .main-header .nav-outer .donate-link {
@@ -2342,6 +2341,7 @@ img.lazy-image.loaded {
 .sec-title {
 	position: relative;
 	margin-bottom: 60px;
+	
 }
 
 .sec-title .upper-icon {
@@ -4658,7 +4658,7 @@ img.lazy-image.loaded {
 	color: #ffffff;
 	/* background-color:#1e2436; */
 	/* background-color:#17122B; */
-    letter-spacing: 0.5px !important;
+	letter-spacing: 0.5px !important;
 }
 
 .main-footer .image-layer {
@@ -4746,7 +4746,7 @@ img.lazy-image.loaded {
 	position: relative;
 	margin-top: -10px;
 	margin-bottom: 10px;
-	
+
 }
 
 .main-footer .logo-widget .text {
@@ -4758,42 +4758,42 @@ img.lazy-image.loaded {
 .main-footer .links-widget .widget-content {
 	position: relative;
 }
- .widget-content h6
-{
-	font-family: "Montserrat" ,sans-serif !important;
+
+.widget-content h6 {
+	font-family: "Montserrat", sans-serif !important;
 	font-size: 14px !important;
 	margin-bottom: 1em;
 }
-.widget-content ul li .linkList 
-{
-	
+
+.widget-content ul li .linkList {
+
 	color: #FFFFFF !important;
 	opacity: 0.6 !important;
 }
-.copyright span
-{
+
+.copyright span {
 	color: #FFFFFF !important;
 	opacity: 0.6 !important;
 	font-size: 11px !important;
 	font-weight: 200 !important;
 }
-.copyright  a
-{
+
+.copyright a {
 	color: #FFFFFF !important;
 	font-size: 11px !important;
 	opacity: 0.6 !important;
 	font-weight: 200 !important;
 }
-.timeline-number
-{
-	font-family: "Poppins",sans-serif !important;
+
+.timeline-number {
+	font-family: "Poppins", sans-serif !important;
 	font-size: 30px !important;
 	font-weight: 700 !important;
 	opacity: 0.3 !important;
-	color: #F5F8FF ;
-    -webkit-text-stroke: 1px rgb(180, 192, 221) !important;
+	color: #F5F8FF;
+	-webkit-text-stroke: 1px rgb(180, 192, 221) !important;
 	/* background-color: red !important; */
-	
+
 }
 
 
@@ -4801,7 +4801,7 @@ img.lazy-image.loaded {
 .main-footer .links-widget ul li {
 	position: relative;
 	margin-bottom: 8px;
-	font-family: 'Poppins' , sans-serif !important;
+	font-family: 'Poppins', sans-serif !important;
 
 }
 
@@ -4966,7 +4966,7 @@ img.lazy-image.loaded {
 	padding: 0px 0px;
 	line-height: 24px;
 	color: #777777;
-	
+
 	font-size: 15px;
 	text-align: center;
 }
@@ -4983,14 +4983,13 @@ img.lazy-image.loaded {
 
 .main-footer .footer-bottom .copyright {
 	position: relative;
-	
+
 }
 
- .main-footer .footer-bottom .text-basic 
-{
-	font-family: "Poppins",sans-serif !important;
-	
-} 
+.main-footer .footer-bottom .text-basic {
+	font-family: "Poppins", sans-serif !important;
+
+}
 
 
 /*** 
@@ -5375,11 +5374,11 @@ img.lazy-image.loaded {
 	font-weight: 450 !important;
 	line-height: 1.2em !important;
 }
-.lower-text .section3-text
-{
-	
+
+.lower-text .section3-text {
+
 	font-size: 17px !important;
-	
+
 }
 
 
@@ -5956,17 +5955,21 @@ img.lazy-image.loaded {
 	padding: 4rem;
 	margin: 0rem 0rem 6rem;
 }
-.card{
+
+.card {
 	border-radius: .4rem !important;
 }
-.card-border-c{
+
+.card-border-c {
 	border-color: #1c45711c !important;
 	border-width: 2px !important;
 }
+
 .login-mt {
 	margin-top: 5.5rem
 }
-.cursor-pointer{
+
+.cursor-pointer {
 	cursor: pointer;
 }
 
@@ -6979,7 +6982,7 @@ img.lazy-image.loaded {
 	color: #ffffff;
 	/* text-transform: uppercase; */
 	letter-spacing: 0.02em;
-	font-size: 12px;
+	font-size: 11px;
 	font-weight: 450;
 	opacity: 0.8;
 }
@@ -7590,28 +7593,28 @@ label {
 }
 
 .textCompact {
-	
+
 	line-height: 1.4em !important;
-    font-family: Montserrat, sans-serif !important;
-    font-weight: 400 !important;
-    font-size: 18px !important;
-		
+	font-family: Montserrat, sans-serif !important;
+	font-weight: 400 !important;
+	font-size: 18px !important;
+
 }
-.compact-sub-text
-{
-	font-size: 12px !important;
-    font-weight: 400 !important;
-    color: #333 !important;
-    line-height: 1.8em;
+
+.compact-sub-text {
+	font-size: 11px !important;
+	font-weight: 400 !important;
+	color: #333 !important;
+	line-height: 1.8em;
 }
-.text-basic .text-large
-{
+
+.text-basic .text-large {
 	font-size: 16px !important;
-	
+
 }
-.sec-title .sec-text
-{
-	font-family: "Montserrat" , sans-serif !important;
+
+.sec-title .sec-text {
+	font-family: "Montserrat", sans-serif !important;
 	font-size: 22px !important;
 	font-weight: 600 !important;
 	color: #333 !important;
@@ -7619,41 +7622,40 @@ label {
 }
 
 
-.sec-content p
-{
-	color:#000 !important;
+.sec-content p {
+	color: #000 !important;
 
-    font-weight: 500 !important;
-	font-family: "Montserrat" , sans-serif !important;
+	font-weight: 500 !important;
+	font-family: "Montserrat", sans-serif !important;
 	font-size: 12px !important;
 }
-.sec-bold-text
-{
+
+.sec-bold-text {
 	/* color: red !important; */
 	font-weight: 900 !important;
 }
-.sec-offer
-{
-	font-family: "Montserrat" ,sans-serif !important;
+
+.sec-offer {
+	font-family: "Montserrat", sans-serif !important;
 	color: #333 !important;
-		font-size: 22px !important;
+	font-size: 22px !important;
 
 
 }
-.sec-offer-des
-{
-	font-family: "Montserrat" ,sans-serif !important;
+
+.sec-offer-des {
+	font-family: "Montserrat", sans-serif !important;
 	color: #000 !important;
 	font-size: 12px !important;
 	font-weight: 400 !important;
-	
+
 }
-.statsHead
-{
+
+.statsHead {
 	font-size: 28px !important;
 }
-.statsSubHead
-{
+
+.statsSubHead {
 	font-size: 12px !important;
 	font-weight: 300 !important;
 }
@@ -7673,23 +7675,38 @@ label {
 .h6-l {
 	font-size: 19px !important;
 }
-.font-light{
+
+.font-light {
 	font-weight: 300 !important;
 }
-.text-grey{
+
+.text-grey {
 	color: #5c5858;
+
 }
-.h5-sm{
+
+.text-dig {
+	color: #5c5858 !important;
+	font-size: 16.8px !important;
+	font-family: "Poppins", sans-serif !important;
+	font-weight: 400 !important;
+
+
+}
+
+.h5-sm {
 	font-size: 17px !important;
 	font-weight: 600 !important;
 	font-style: italic;
 }
+
 @media (min-width : 576px) {
 
 	.ExclusiveAccessCard {
 		max-width: 60% !important;
 	}
 }
+
 
 .btn-warning {
 	background-color: #F7B138 !important;
@@ -10541,8 +10558,8 @@ label {
 	background-repeat: repeat;
 	background-position: center;
 }
-.sec-image
-{
+
+.sec-image {
 	height: 530px !important;
 }
 
@@ -10757,7 +10774,7 @@ body {
 }
 
 .text-xs {
-	font-size: 11px;
+	font-size: 10px;
 }
 
 .text-sm {
@@ -10839,7 +10856,12 @@ body {
 }
 
 .header-container {
-	padding-left: 8vw !important;
+
+	margin-left: 3.5em !important;
+	/* padding-top: 5em !important; */
+
+	/* padding-left: 8vw !important; */
+	padding-left: 4em !important;
 	padding-right: 8vw !important;
 	padding-top: 1.3vw !important;
 	padding-bottom: 1.3vw !important;
@@ -10868,9 +10890,11 @@ body {
 .w-20 {
 	width: 20% !important;
 }
+
 .w-30 {
 	width: 30% !important;
 }
+
 .w-90 {
 	width: 90% !important;
 }
@@ -10880,7 +10904,7 @@ body {
 }
 
 .text-bold {
-	font-weight: 900 !important ;
+	font-weight: 900 !important;
 }
 
 .btn-py {
@@ -10908,291 +10932,282 @@ body {
 /* Styling for Modals in the Slider */
 /* ----------------------------------------- */
 
-.modal-content
-{
-  /* background-color: #100F1F; */
-  width: 100% ;
-  height: 100%;
-  padding: 50px ;
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: space-around;
-  
-  
-}
-.modal-dialog
-{
-  /* background-color: rgb(129, 31, 31) !important; */
-  width: 50% !important;
-  height: 80% !important;
-  /* padding: 50px !important; */
-  
-}
+.modal-content {
+	/* background-color: #100F1F; */
+	width: 100%;
+	height: 100%;
+	padding: 50px;
+	display: flex !important;
+	flex-direction: column !important;
+	justify-content: space-around;
 
-.btn-submit
-{
-  background-color: #150D30 !important;
-  color: #FFFFFF !important;
-  border-radius: 50px !important;
-  padding-top: 10px !important;
-  padding-bottom: 10px !important;
-  font-size: 13px !important;
-  font-weight: 500 !important;
-  font-family: "Poppins" ,sans-serif !important;
 
 }
-.modalBtns
-{
-  margin-top: 10% !important;
-  font-family: 'DM Sans', sans-serif !important;
-}
-.modalBtns .btn
-{
-  margin-top: 3% !important;
-}
-.modal-title
-{
-  font-family: 'Montserrat', sans-serif !important;
-  font-weight:600 !important;
-  font-size: 28px !important;
-}
-.modal-des
-{
-  font-family: "Poppins",sans-serif;
-  font-size: 12px;
-  /* opacity: 0.7; */
-}
-.modal-input
-{
-  font-family: "Poppins",sans-serif; 
-  /* opacity: 0.9; */
-  font-size: 12px;
-  margin-bottom: 10px ;
+
+.modal-dialog {
+	/* background-color: rgb(129, 31, 31) !important; */
+	width: 50% !important;
+	height: 80% !important;
+	/* padding: 50px !important; */
 
 }
-.modal-input .form-control
-{
-  /* background-color: #F7B138; */
-  padding: 10px;
+
+.btn-submit {
+	background-color: #150D30 !important;
+	color: #FFFFFF !important;
+	border-radius: 50px !important;
+	padding-top: 10px !important;
+	padding-bottom: 10px !important;
+	font-size: 13px !important;
+	font-weight: 500 !important;
+	font-family: "Poppins", sans-serif !important;
+
 }
-.dash-check
-{
-  /* background-color: #F6F6F6; */
-  margin-right: 10px ;
-  padding: 10px;
-  text-align: center;
-  border: 1px solid #E0E0E0;
-  border-radius: 5px;
-  
+
+.modalBtns {
+	margin-top: 10% !important;
+	font-family: 'DM Sans', sans-serif !important;
 }
+
+.modalBtns .btn {
+	margin-top: 3% !important;
+}
+
+.modal-title {
+	font-family: 'Montserrat', sans-serif !important;
+	font-weight: 600 !important;
+	font-size: 28px !important;
+}
+
+.modal-des {
+	font-family: "Poppins", sans-serif;
+	font-size: 12px;
+	/* opacity: 0.7; */
+}
+
+.modal-input {
+	font-family: "Poppins", sans-serif;
+	/* opacity: 0.9; */
+	font-size: 12px;
+	margin-bottom: 10px;
+
+}
+
+.modal-input .form-control {
+	/* background-color: #F7B138; */
+	padding: 10px;
+}
+
+.dash-check {
+	/* background-color: #F6F6F6; */
+	margin-right: 10px;
+	padding: 10px;
+	text-align: center;
+	border: 1px solid #E0E0E0;
+	border-radius: 5px;
+
+}
+
 .dash-check:has(input[type="radio"]:checked) {
-  background-color: #F6F6F6; /* Background color when checkbox is selected */
-  border: 1px solid #1d1d1d !important;
+	background-color: #F6F6F6;
+	/* Background color when checkbox is selected */
+	border: 1px solid #1d1d1d !important;
 }
 
-.dash-radio
-{
- 
- position: relative;
- left: 40%;
-}
-.dash-radio:checked
-{
- background-color: #150D30 ;
- 
- 
- border: none;
+.dash-radio {
+
+	position: relative;
+	left: 40%;
 }
 
-.verify-modal .form-control
-{
- padding-top: 40px !important;
- padding-bottom: 40px !important;
-}
-.verify-btn
-{
-  font-family: "Poppins" ,sans-serif;
-  margin-top: 10px;
+.dash-radio:checked {
+	background-color: #150D30;
+
+
+	border: none;
 }
 
-.membershipModal
-{
-  margin-top: 50px;
+.verify-modal .form-control {
+	padding-top: 40px !important;
+	padding-bottom: 40px !important;
 }
-.form-check-label
-{
+
+.verify-btn {
+	font-family: "Poppins", sans-serif;
+	margin-top: 10px;
+}
+
+.membershipModal {
+	margin-top: 50px;
+}
+
+.form-check-label {
 	font-size: 15px !important;
 }
-.CompanyModalContainer
-{
-		padding: 0px !important;
-		
-		height: 530px !important;
-		
+
+.CompanyModalContainer {
+	padding: 0px !important;
+
+	height: 530px !important;
+
 }
 
 /* Common Styles  */
-.DarkText
-{
+.DarkText {
 	color: #000 !important;
 }
-.WhiteText
-{
+
+.WhiteText {
 	color: #FFFFFF !important;
 }
-.LightText-1
-{
-	color : #555555 !important;
-}
-.LightText-2
-{
-	color : #202327 !important;
+
+.LightText-1 {
+	color: #555555 !important;
 }
 
-.LightText
-{
+.LightText-2 {
+	color: #202327 !important;
+}
+
+.LightText {
 	color: #333 !important;
 }
-.pop-font
-{
-	font-family: "Poppins" ,sans-serif !important;
+
+.pop-font {
+	font-family: "Poppins", sans-serif !important;
 }
-.mont-font
-{
-	font-family: "Montserrat" , sans-serif !important;
+
+.mont-font {
+	font-family: "Montserrat", sans-serif !important;
 }
 
 /* Improved Styling */
-.bold-sec-title
-{
+.bold-sec-title {
+	font-weight: 600 !important;
+	/* font-size: 24px !important; */
+}
+
+.ex-head-text {
 	font-weight: 600 !important;
 }
-.ex-head-text
-{
+
+.Opacity {
+	opacity: 80% !important;
+}
+
+.timeline-head {
+	font-size: 14px !important;
 	font-weight: 600 !important;
 }
 
-.Opacity
-{
- opacity: 80% !important;
-}
-.timeline-head
-{
-  font-size: 14px !important;
-  font-weight: 600 !important;
-}
-.ex-card p
-{
-color: #333 !important;
-/* color: red !important; */
-font-weight: 600 !important;
-opacity: 1 !important;
-font-size: 12px !important;
+.ex-card p {
+	color: #333 !important;
+	/* color: red !important; */
+	font-weight: 600 !important;
+	opacity: 1 !important;
+	font-size: 12px !important;
 
 }
 
-.section5-head
-{
+.section5-head {
 	font-size: 16px !important;
 	font-weight: 400 !important;
-	
+
 }
-.section6-head
-{
+
+.section6-head {
 	color: #202327 !important;
 	font-size: 28px !important;
 	font-weight: 600 !important;
 }
-.section6-sub-head
-{
+
+.section6-sub-head {
 	font-size: 16px !important;
 	font-weight: 500 !important;
-	color:#000 !important;
+	color: #000 !important;
 
 }
-.card-head-text
-{
+
+.card-head-text {
 	font-weight: 600 !important;
 	font-size: 18px !important;
-	
+
 }
-.card-body-text
-{
+
+.card-body-text {
 	font-size: 13px !important;
 	color: #333 !important;
-	
+
 }
-.card-body-link
-{
+
+.card-body-link {
 	color: #150D30 !important;
 	font-size: 14px !important;
 }
-.global-btn
-{
-	font-family: 'DM Sans' ,sans-serif !important;
+
+.global-btn {
+	font-family: 'DM Sans', sans-serif !important;
 	font-size: 14px !important;
 	font-weight: 500 !important;
 }
-.global-btn2
-{
-	font-family: 'DM Sans' ,sans-serif !important;
+
+.global-btn2 {
+	font-family: 'DM Sans', sans-serif !important;
 	font-size: 13px !important;
 	font-weight: 500 !important;
-	
+
 }
 
-.about-head-text
-{
+.about-head-text {
 	font-size: 30px !important;
 	font-weight: 600 !important;
 	color: #202327 !important;
 }
-.bold-6
-{
+
+.bold-6 {
 	font-weight: 600 !important;
 }
-.bold-5
-{
+
+.bold-5 {
 	font-weight: 500 !important;
 }
-.op-3
-{
+
+.op-3 {
 	opacity: 0.3 !important;
 }
-.btn-warning
-{
+
+.btn-warning {
 	height: 50px !important;
 }
-.tokenHead
-{
+
+.tokenHead {
 	font-size: 20px !important;
 	font-weight: 500 !important;
-	
+
 }
-.iconText
-{
+
+.iconText {
 	color: #7F7E97 !important;
-	font-size: 12px ;
+	font-size: 12px;
 }
-.bitCoinText
-{
+
+.bitCoinText {
 	font-size: 16px !important;
 }
-.firstSectionHead
-{
+
+.firstSectionHead {
 	font-size: 28px !important;
 }
 
-.stats-des
-{
+.stats-des {
 	font-size: 13px !important;
 	opacity: 0.8 !important;
-   color: #FFFFFF !important;
+	color: #FFFFFF !important;
 }
-.stats-dig
-{
+
+.stats-dig {
 	font-size: 32px !important;
-	font-family: "Poppins",sans-serif !important;
+	font-family: "Poppins", sans-serif !important;
 	font-weight: 600 !important;
 }
 
@@ -11202,55 +11217,51 @@ font-size: 12px !important;
 
 
 
-.bold-1
-{
+.bold-1 {
 	font-weight: 100 !important;
 }
 
-.bold-2
-{
+.bold-2 {
 	font-weight: 200 !important;
 }
-.bold-3
-{
+
+.bold-3 {
 	font-weight: 300 !important;
 }
-.bold-4
-{
+
+.bold-4 {
 	font-weight: 400 !important;
 }
-.bold-5
-{
+
+.bold-5 {
 	font-weight: 500 !important;
 }
-.bold-7
-{
+
+.bold-7 {
 	font-weight: 700 !important;
 }
-.bold-8
-{
+
+.bold-8 {
 	font-weight: 800 !important;
 }
-.bold-9
-{
+
+.bold-9 {
 	font-weight: 900 !important;
 }
 
-.text-center
-{
+.text-center {
 	font-size: 14px !important;
-	font-family: "Poppins" , sans-serif !important;
+	font-family: "Poppins", sans-serif !important;
 }
 
-.dashCardText
-{
-  font-size: 14px !important;
-  
-  font-family: "Montserrat" ,sans-serif !important;
-  
+.dashCardText {
+	font-size: 14px !important;
+
+	font-family: "Montserrat", sans-serif !important;
+
 }
-.dashCardIcon
-{
+
+.dashCardIcon {
 	font-size: 14px !important;
 }
 
@@ -11258,206 +11269,351 @@ font-size: 12px !important;
 
 
 
-.currDigit
-{
+.currDigit {
 	color: #100F1F !important;
 	font-size: 35px !important;
-	font-family: "Montserrat",sans-serif !important;
+	font-family: "Montserrat", sans-serif !important;
 }
-.tableHeadText
-{
-	font-family: "Poppins",sans-serif !important; 
+
+.tableHeadText {
+	font-family: "Poppins", sans-serif !important;
 	color: #555555 !important;
 	font-weight: 400 !important;
 }
-.tableCellText
-{
+
+.tableCellText {
 	font-size: 18px !important;
 }
-.availNum
-{
+
+.availNum {
 	font-size: 18px !important;
 	font-weight: 500 !important;
-	font-family: "Poppins",sans-serif !important;
+	font-family: "Poppins", sans-serif !important;
 	color: #333 !important;
 }
 
-.actionText
-{
+.actionText {
 	font-size: 13px !important;
-	font-family: "Poppins" ,sans-serif !important;
+	font-family: "Poppins", sans-serif !important;
 	font-weight: 400 !important;
 }
-.cardCol1
-{
+
+.cardCol1 {
 	/* background-color: #1c4571 !important; */
 	height: 150px !important;
-	
+
 }
 
 
 
 
-.dashHead
-{
+.dashHead {
 	/* margin-left: 10% !important; */
 	font-weight: 700 !important;
 	/* width: 40% !important; */
 }
-.cardLineChart
-{
+
+.cardLineChart {
 	position: relative !important;
-     bottom:50px !important;	
-	
- 
+	bottom: 50px !important;
+
+
 }
-.section4-head
-{
+
+.section4-head {
 	font-size: 19px !important;
 	font-weight: 500 !important;
-	font-family: "Montserrat" ,sans-serif !important;
+	font-family: "Montserrat", sans-serif !important;
 }
 
 
-.con-head
-{
-	font-family: "Poppins" , sans-serif !important;
+.con-head {
+	font-family: "Poppins", sans-serif !important;
 	/* color: #5C5B5C !important; */
 	font-size: 12px !important;
 }
 
-.tokenText
-{
+.tokenText {
 	font-size: 13px !important;
 	font-weight: 600 !important;
-	font-family: "Poppins" ,sans-serif !important;
+	font-family: "Poppins", sans-serif !important;
 }
-.tokenText p
-{
-	font-size: 10px  !important;
+
+.tokenText p {
+	font-size: 10px !important;
 }
-.cardNumber
-{
-	font-family: "Poppins",sans-serif !important;
+
+.cardNumber {
+	font-family: "Poppins", sans-serif !important;
 	font-weight: 600 !important;
 }
 
 
-.heroHead
-{
+.heroHead {
 	font-size: 26px !important;
 	font-weight: 300 !important;
-	font-family: "Poppins" ,sans-serif !important;
+	font-family: "Poppins", sans-serif !important;
 }
-.heroSub
-{
-	font-family: "Poppins" ,sans-serif !important;
+
+.heroSub {
+	font-family: "Poppins", sans-serif !important;
 	font-weight: 300 !important;
 }
-.exText
-{
-	font-size: 11px !important;
-	font-weight:200 !important;
-	
+
+.header-height {
+	height: 105vh !important;
 }
-.exFoot
-{
+
+.exText {
+	font-size: 11px !important;
+	font-weight: 200 !important;
+
+}
+
+.exFoot {
 	font-size: 16px !important;
 	font-weight: 300 !important;
+	width: 100vw !important;
+	padding: 0 7.9em !important;
+
+	
 }
-.pointText
-{
+
+.pointText {
 	font-size: 11px !important;
 	font-weight: 500 !important;
 
 }
-.dm-font
-{
-	font-family: "DM Sans" ,sans-serif !important;
+
+.dm-font {
+	font-family: "DM Sans", sans-serif !important;
 }
-.fab
-{
+
+.fab {
 	/* color: red !important; */
 	font-size: 8.5px !important;
 	font-weight: 100 !important;
 	margin: 0px !important;
 }
-.section5-heading
-{
+
+.section5-heading {
 	font-size: 30px !important;
 	color: #202327 !important;
 	font-weight: 550;
 }
-.section5-head-text
-{
+
+.section5-head-text {
 	font-size: 18px !important;
-    color: #000 !important;
+	color: #000 !important;
 	font-weight: 400 !important;
-	font-family: "Montserrat" , sans-serif !important;
+	font-family: "Montserrat", sans-serif !important;
 }
 
-.section5-sub-head
-{
+.section5-sub-head {
 	font-size: 28px !important;
-	font-family: "Montserrat",sans-serif !important;
+	font-family: "Montserrat", sans-serif !important;
 	color: #202327 !important;
 }
-.section5-sub-text
-{
+
+.section5-sub-text {
 	font-size: 13px !important;
 	font-weight: 500 !important;
 }
 
-.section5-contentText
-{
+.section5-contentText {
 	font-weight: 200 !important;
 	font-size: 14px !important;
 	color: #FFFFFF !important;
 }
-.forgetBtns
-{
+
+.forgetBtns {
 	position: relative;
 	top: 30% !important;
 	/* background-color: red !important; */
 }
-.LoginHead
-{
+
+.LoginHead {
 	font-size: 23px !important;
 
 }
-.LoginSubHead
-{
+
+.LoginSubHead {
 	font-size: 11px !important;
 	color: #5C5B5C;
 	font-weight: 500 !important;
 }
-.loginFormBtn
-{
+
+.loginFormBtn {
 	font-size: 12px !important;
 }
-.loginBottomDes
-{
+
+.loginBottomDes {
 	font-size: 12px !important;
 }
-.regHead
-{
+
+.regHead {
 	font-weight: 600 !important;
 	font-size: 22px !important;
 }
-.formCancel
-{
+
+.formCancel {
 	font-size: 12px !important;
 }
 
 
-.bannerHead
-{
+.bannerHead {
 	font-weight: 700 !important;
-	font-size: 34px !important;
+	font-size: 33px !important;
 	letter-spacing: 2px !important;
 }
-.sec-content .text-basic
-{
+
+.sec-content .text-basic {
 	font-size: 11px !important;
 	line-height: 2em !important;
+}
+
+.modalHeading {
+	font-family: "Montserrat", sans-serif !important;
+	font-weight: 600 !important;
+	font-size: 22px !important;
+}
+
+
+.membershipHeading {
+	font-size: 18px !important;
+}
+
+.doc-color {
+	color: blue !important;
+
+}
+
+.verificationHeadings {
+	font-weight: 700 !important;
+	font-size: 13px !important;
+	font-family: "Poppins", sans-serif !important;
+}
+
+.verifyText {
+	font-size: 10.5px !important;
+}
+
+.warningDig {
+	font-size: 20px !important;
+
+}
+
+.goalText {
+	font-weight: 500 !important;
+	font-size: 16.1px !important;
+	color: #000 !important;
+	font-style: italic !important;
+}
+
+.qouteFont {
+	font-size: 12px !important;
+
+}
+
+.UttilyText {
+	font-size: 21px !important;
+	font-style: italic;
+
+}
+
+.MemberSliderImage {
+	height: 570px !important;
+}
+
+
+.sideHeadText {
+	font-family: "Montserrat ", sans-serif !important;
+	font-weight: 400 !important;
+}
+
+.faqLines {
+	font-size: 14px !important;
+	font-family: "Poppins", sans-serif !important;
+	font-weight: 500 !important;
+}
+
+.sideBaricon {
+	background-color: #E6E9EF !important;
+	padding: 15px 16px !important;
+	border-radius: 50% !important;
+	color: #6D6C80 !important;
+	font-size: 16px !important;
+	margin: 0px !important;
+
+
+}
+
+.share {
+	font-size: 16px !important;
+}
+
+.feedbackHeading {
+	font-size: 15px !important;
+	font-weight: 600 !important;
+	font-family: "Montserrat", sans-serif !important;
+}
+
+.likeText {
+	font-size: 12px !important;
+	font-weight: 400 !important;
+
+}
+
+.goalHeading {
+	font-size: 22px !important;
+}
+
+.openAiText {
+	font-size: 11.5px !important;
+	font-family: "Montserrat", sans-serif !important;
+	font-weight: 500 !important;
+}
+.tickText
+{
+	font-size: 17.5px !important;
+	font-weight: 300 !important;
+	
+}
+.responsiveHeroContainer  
+{
+	margin-left: 6.5em !important;
+	margin-right: 6.5em !important;
+	padding-top: 5em !important;
+	
+}
+.responsiveSectionContainer
+{
+	margin-left: 6.5em !important;
+	margin-right: 6.5em !important;}
+
+.bgBlackContainer
+{
+	/* width: 120vw !important; */
+	position: relative !important; 
+	margin: 0px -130px !important;
+	text-align: center !important;
+	
+}
+
+.customExclusive
+{
+	padding-right: 70px !important;
+	padding-left: 70px !important;
+	
+} 
+.customExclusive .text-light
+{
+	padding-top: 2em !important;
+}
+
+.goldenCardContainer
+{
+	padding-top: 5em !important;
+	margin-left: 2.7em !important;
+	margin-right: 2.7em !important;
 }

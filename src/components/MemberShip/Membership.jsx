@@ -15,8 +15,9 @@ const Membership = () => {
           }}
         ></div>
 
-        <div className="">
-          <h1 className='mb-0'>iVest Membership Clubs</h1>
+       <div >
+          <h2 className="bannerHead">iVest Membership Clubs</h2>
+          
         </div>
 
             <ul className="bread-crumb clearfix mt-0">

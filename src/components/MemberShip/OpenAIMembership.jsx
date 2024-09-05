@@ -12,36 +12,37 @@ import { NavLink } from "react-router-dom";
 
 const OpenAIMembership = () => {
   return (
-    <SactionContainer bgColor="#F5F8FF">
-      <div className="col-md-8  col-sm-12 mt-4">
+    <SactionContainer bgColor="#F5F8FF" container={false}>
+      <div className="col-md-8 col-lg-8 col-sm-12 mt-5 pt-5 mb-5 pb-5">
         <div className="card card-border-c p-3">
           <div className="p-3">
-            <h2 className="mb-3">
+            <h3 className="mb-3">
               <strong>OpenAI Membership Club (OAI Token)</strong>
-            </h2>
+            </h3>
             <div className="d-flex align-items-center mb-3 ">
-              <p className="text-basic mb-0 ml-1">
+              <p className="text-basic  mb-0 ml-1 Opacity">
                 {" "}
-                Admin: <strong className="text-dark">John Doe</strong>{" "}
+                Admin: <strong className="DarkText bold-5">John Doe</strong>{" "}
                 <span>&#8226;</span>
               </p>
               <CalendarTodayOutlinedIcon
                 sx={{ color: "#888", ml: 1, fontSize: "15px" }}
               />
-              <p className="text-basic mb-0 ml-1">
+              <p className="text-basic  mb-0 ml-1 Opacity">
                 {" "}
                 24/7/2024 <span>&#8226;</span>{" "}
               </p>{" "}
               <GroupsOutlinedIcon
                 sx={{ color: "#888", ml: 1, fontSize: "25px" }}
               />
-              <p className="text-basic mb-0 ml-1"> 222 Members </p>{" "}
+              <p className="text-basic mb-0 ml-1 Opacity"> 222 Members </p>{" "}
             </div>
+            
             <img src={openaiimg1} alt="" className="img-fluid mt-2" />
-            <h4 className="mt-4 text-dark">
+            <h5 className="mt-4 text-dark mont-font">
               <strong>Who are OpenAI?</strong>
-            </h4>
-            <p className="text-basic ">
+            </h5>
+            <p className=" LightText" style={{fontSize:"11px"}}>
               OpenAI is a research organization focused on advancing artificial
               intelligence (AI) in a manner that benefits humanity as a whole.
               Founded in 2015, OpenAI aims to conduct cutting-edge research in
@@ -63,12 +64,13 @@ const OpenAIMembership = () => {
           </div>
           <hr />
           <div className="p-3">
-            <h4 className=" mb-3 text-dark">
-              <strong>What is AI? - Google’s AI Course for Beginners </strong>
-            </h4>
+            <h5 className="mb-3 text-dark mont-font">
+              <strong className="bold-8">What is AI? - Google’s AI Course for Beginners </strong>
+            </h5>
+            
             <img src={openaiimg2} alt="" className="img-fluid mt-2" />
             <div className="mt-2">
-              <p className="text-basic text-dark mt-4">
+              <p className="text-basic DarkText mt-4">
                 AI, or artificial intelligence, refers to the simulation of
                 human intelligence processes by machines, typically through
                 computer systems, to perform tasks that normally require human
@@ -77,7 +79,7 @@ const OpenAIMembership = () => {
             </div>
             <Quotations
               text={
-                "AI is fundamental to the future of our civilization. - Elon Musk AI is just the most exciting area within computer science today. - Bill Gates It’s hard to overstate how big of an impact AI will have on society over the next 20 years."
+                <span className="bold-5" >AI is fundamental to the future of our civilization. - Elon Musk AI is just the most exciting area within computer science today. - Bill Gates It’s hard to overstate how big of an impact AI will have on society over the next 20 years.</span>
               }
               by={"Jeff Bezos"}
             />
@@ -90,8 +92,8 @@ const OpenAIMembership = () => {
             </div>
             <NavLink
               to={"/"}
-              style={{ textDecoration: "underline" }}
-              className="pt-0  mb-2 mt-2"
+              style={{ textDecoration: "underline" , color:"#318CE7" , fontSize:"18px" , fontStyle:"italic" }}
+              className="pt-0  mb-2 mt-2 mont-font bold-5"
             >
               Click here to learn about how to Use ChatGPT - OpenAI’s programme
             </NavLink>
@@ -99,9 +101,9 @@ const OpenAIMembership = () => {
         </div>
         <div className="card card-border-c  mt-3">
           <div className="p-3">
-            <h4>
-              <strong>Open AI Discussion Channel</strong>
-            </h4>
+            <h6>
+              <strong className="bold-6">Open AI Discussion Channel</strong>
+            </h6>
             <img src={openaiimg3} alt="" className="img-fluid mt-2" />
           </div>
         </div>
@@ -109,7 +111,7 @@ const OpenAIMembership = () => {
           <div className="p-4">
             {" "}
             <h3 >
-              <strong>Learn about different aspects of OpenAI</strong>
+              <strong className="bold-6">Learn about different aspects of OpenAI</strong>
             </h3>
             <div className="mt-5">
               <Ratings
@@ -156,7 +158,7 @@ const OpenAIMembership = () => {
           </div>
         </div>
       </div>
-      <div className="col-md-4 col-sm-12 mt-4">
+      <div className="col-md-4 col-sm-12 mt-5 pt-5">
         <SideBarMembership />
       </div>
     </SactionContainer>

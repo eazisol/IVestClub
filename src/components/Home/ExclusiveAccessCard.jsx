@@ -4,10 +4,10 @@ import logo from "../../assets/image/icons/cardicon.png";
 import { NavLink } from "react-router-dom";
 const ExclusiveAccessCard = ({ text, heading, linkText, image, to }) => {
   return (
-    <div  className="p-2  col-md-4 col-sm-6 ExclusiveAccessCard">
+    <div  className="col-lg-4 col-md-4 col-sm-6 ExclusiveAccessCard px-0 mx-0">
       <div
         className="card m-2 p-3"
-        style={{ position: "relative", height: "30em", width: "22em" }}
+        style={{ position: "relative", height: "100%", width: "100%" }}
       >
         <img src={image} className="card-img-top" alt="..." />
         <img
@@ -26,7 +26,7 @@ const ExclusiveAccessCard = ({ text, heading, linkText, image, to }) => {
             <h5 className="text-black mt-4 py-3">
               <div className="mont-font card-head-text">{heading}</div>
             </h5>
-            <div className="w-100  d-flex justify-content-center">
+            <div className="w-100  d-flex justify-content-center mb-0">
               <p className="text-basic w-100 card-body-text">{text}</p>
             </div>
             <NavLink to={to} style={{ textDecoration: "underline" }}>

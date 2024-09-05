@@ -10,7 +10,7 @@ export const Quotations = ({ text, by }) => {
       <div className="col-2">
         <img src={quotationimg} alt="" className="" />
       </div>
-      <div className="col-10 pl-4">
+      <div className="col-10 px-1">
         <p className=" text-basic text-black mb-0" 
        
         >
@@ -42,11 +42,11 @@ export const Ratings = ({ text, heading }) => {
           emptyIcon={<StarIcon style={{ opacity: 0.55, fontSize: 1 }} />}
         />
         <p className=" text-basic text-dark mb-0">
-          <strong>{heading}</strong>
+          <strong className="bold-5">{heading}</strong>
         </p>
         {text.map((line, index) => (
-          <p className=" text-basic mb-0" key={index}>
-            <>{line}</>
+          <p style={{fontSize:"11px"}}  className="mb-0 LightText Opacity" key={index}>
+            {line}
           </p>
         ))}
       </div>
@@ -63,9 +63,9 @@ export const RatingsTotal = ({ text, heading }) => {
         className="col-4 text-center bg-white py-5"
         style={{ borderRadius: "5px" }}
       >
-        <h4>4.0</h4>
+        <h4 className="mont-font bold-5">4.0</h4>
         <Rating name="text-feedback" value={4} readOnly precision={0.5} />
-        <h6 className="text-secondary mt-2">234 Ratings</h6>
+        <h6 className="text-sm tex-dark Opacity mt-2">234 Ratings</h6>
       </div>
       <div className="col-8 row align-items-center">
         {[
@@ -77,9 +77,9 @@ export const RatingsTotal = ({ text, heading }) => {
         ].map((item, index) => (
           <React.Fragment key={index}>
             {" "}
-            <h5 className="mb-0 d-flex col-2  align-items-center">
+            <h6 className="mb-0 d-flex col-2 text-md align-items-center">
               {item.rating} <StarIcon style={{ color: "#FAAF00" }} />
-            </h5>
+            </h6>
             <div className="progress col-9 p-0">
               <div
                 className={`progress-bar `}
@@ -93,7 +93,7 @@ export const RatingsTotal = ({ text, heading }) => {
               ></div>
             </div>
             <div className="col-1 p-0 pl-1">
-              <h6>{item.amount}</h6>
+              <h6 className="text-md">{item.amount}</h6>
             </div>
           </React.Fragment>
         ))}

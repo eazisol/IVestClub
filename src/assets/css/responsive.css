@@ -246,6 +246,23 @@
 	}
 }
 
+@media only screen and (max-width: 768px){
+	.header-height
+	{
+		height: 200vh !important;
+	}
+}
+
+@media only screen and (max-width:1024px){
+	.header-height
+	{
+		height: 200vh !important;
+	}
+}
+
+
+
+
 @media only screen and (max-width: 1023px){
 	.main-header.header-style-two{
 		position: relative;
@@ -602,7 +619,7 @@
 	}
 
 	.call-to-action,
-	.about-section-three,
+
 	.contact-section.contact-page{
 		padding: 70px 0px 40px;
 	}
