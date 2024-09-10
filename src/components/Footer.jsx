@@ -37,23 +37,23 @@ const Footer = () => {
                     <ul className="social-links clearfix  pl-5">
                       <li>
                         <a href="#" className="mr-2">
-                          <span className="fab  fa-facebook-f"></span>
+                          <span className="fab  fa-facebook-f fa-xs"></span>
                         </a>
                       </li>
                       <li>
                         <a href="#" className="mr-2">
-                          <span className="fab fa-instagram"></span>
+                          <span className="fab fa-instagram fa-xs"></span>
                           
                         </a>
                       </li>
                       <li>
                         <a href="#" className="mr-2">
-                          <span className="fab fa-twitter"></span>
+                          <span className="fab fa-twitter fa-xs"></span>
                         </a>
                       </li>
                       <li>
                         <a href="#" className="mr-2">
-                          <span className="fab fa-snapchat-ghost"></span>
+                          <span className="fab fa-snapchat-ghost fa-xs"></span>
                         </a>
                       </li>
                       {/* <li>
@@ -65,7 +65,7 @@ const Footer = () => {
                   </div>
                 </div>
               </div>
-              <div className="column big-column col-lg-2 col-md-2 col-sm-6">
+              <div className="column big-column col-lg-2 col-md-2 col-sm-6 pl-5">
                 <div className="footer-widget links-widget">
                   <div className="widget-content">
                     <h6>Navigation</h6>

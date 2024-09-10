@@ -36,7 +36,7 @@ const SideBarMembership = () => {
                 <p style={{fontSize:"11px" , textAlign:"center"}}  className="text-light bold-2">4/22/2024</p>
               </div>
             </div>
-            <div className="w-100 mb-4 mt-2">
+            <div className="w-100 mb-2 pb-1 mt-3">
               <OutlinedButtonWarning
                 text={"Buy More OpenAI Membership Tokens"}
               />

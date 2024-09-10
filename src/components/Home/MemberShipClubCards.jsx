@@ -14,15 +14,15 @@ const MemberShipClubCards = ({ text, heading, to, image, col = 4 }) => {
   return (
     <div className={`col-lg-${col} col-md-12 mb-4 col-sm-12 px-1  ExclusiveAccessCard`}>
       <div
-        className="card  p-3"
-        style={{ position: "relative", height: "30em", width : "22em" }}
+        className="card pb-1 p-3 "
+        style={{ height: "30em" }}
       >
         <img src={image} className="card-img-top" alt="..." />
 
         <div className="card-body pb-0 px-0">
           <div className="row pl-0">
             <h6 className="text-black mt-2 ">
-              <div className="bold-6">{heading}</div>
+              <div className="">{heading}</div>
             </h6>
             <div className="w-100 d-flex ">
               <p className="card-text  DarkText ">{text}</p>
@@ -59,17 +59,17 @@ const MemberShipClubCards = ({ text, heading, to, image, col = 4 }) => {
               <div
                 className=" d-flex justify-content-between align-items-center mr-2"
                 style={{
-                  padding: 5,
+                  padding: 3,
                   backgroundColor: "rgba(72,72,72)",
                   borderRadius: "30px",
                  
                 }}
               >
                 <CurrencyBitcoinOutlinedIcon
-                  sx={{ color: "#fff", fontSize: 14 }}
+                  sx={{ color: "#fff", fontSize: 12 }}
                 />
               </div>
-              <h6 className="mb-0 text-basic text-dark"> <div className="bitCoinText bold-6 LightText">Price vs IVC</div> </h6>
+              <h6 className="mb-0 text-basic text-dark"> <div className="bitCoinText  LightText">Price vs IVC</div> </h6>
             </div>
             <NavLink to={to} style={{ textDecoration: "underline", fontSize : "14px" ,color:"#150D30"}}>
            <span className="bold-5 pop-font"> Join Now </span>

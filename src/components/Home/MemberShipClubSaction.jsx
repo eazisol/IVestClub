@@ -19,9 +19,9 @@ const MemberShipClubSaction = () => {
 
   return (
     <SactionContainer bgColor= {location.pathname === "/" ?"#f4f5f9": "#fff"} container={false}>
-      <div className="row  w-100 justify-content-center pt-5 mb-5">
+      <div className="row  w-100 justify-content-center pt-5 mt-4 mb-5">
         {location.pathname === "/" ? (
-          <div className="col-12 text-center mb-5 ">
+          <div className="col-12 text-center mb-4 ">
             <h2 className="bold-sec-title" style={{color:"#202327" , fontSize:"36px"}}>
               <div>
                 Current Member<TextUnderWrap padding={7}>ship C</TextUnderWrap>

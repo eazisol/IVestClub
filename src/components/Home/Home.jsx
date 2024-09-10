@@ -27,7 +27,11 @@ import {
 import about1 from "../../assets/image/about1.png";
 import ExclusiveAccess from "./ExclusiveAccess";
 import LandingTimeLine from "./LandingTimeLine";
-import { ImgBgSactionContainer, ImgBgSectionContainer, SactionContainer } from "../Common/Containers";
+import {
+  ImgBgSactionContainer,
+  ImgBgSectionContainer,
+  SactionContainer,
+} from "../Common/Containers";
 import ExclusiveAccessCard from "./ExclusiveAccessCard";
 import ivctoken from "../../assets/image/ivctoken.png";
 import cardimg2 from "../../assets/image/cardimg2.png";
@@ -36,565 +40,714 @@ import MemberShip from "../About/MemberShip";
 import MemberShipClubSaction from "./MemberShipClubSaction";
 import { TextUnderWrap } from "../Common/MiniComponents";
 import HeroSaction from "./HeroSaction";
-import { Height, Margin, Opacity } from "@mui/icons-material";
+import { Height, Margin, Opacity, Padding } from "@mui/icons-material";
 import { colors } from "@mui/material";
 import { appData } from "../Context/AppContext";
 
 const Home = () => {
   const navigate = useNavigate();
-const {showLandingSaction, setShowLandingSaction} =  appData()
+  const { showLandingSaction, setShowLandingSaction } = appData();
   return (
     <>
-     <HeroSaction />
-     {showLandingSaction && <>
-      <SactionContainer container={false}>
-        <div className="text-column col-lg-7 col-md-12 py-1 col-sm-12 mt-5 pt-3 mb-3">
-          <div className="inner pb-5 px-0 ml-0">
-            <div className="sec-title">
-              <h3>
-                {" "}
-                
-                 <div className="bold-sec-title"> Pre-IPO Companies: Limited Access to Exciting Opportunities </div>
-                
-              </h3>
-            </div>
-            <div className="  mr-5 pl-3 pr-4">
-            <div className="lower-text pl-3 pr-3">
-              <div>
-                Many of today's most exciting, transformative companies are
-                owned by the founders and small group of individuals, making it
-                challenging for you to get access.
-                <br />
-                <br />
-                Join iVest Club now to get Exclusive access to these companies
-                that are already shaping the future.
-              </div>
-            </div>
-            <div className=" mt-4">
-              <p className="text-basic text-dark">
-                iVest Club Platform addresses this by providing you with an
-                unique space to collectively research and share insights about
-                these innovative privately owned companies with other members.
-                Our interactive hub fosters a community of learning and
-                education, where active participation in uncovering essential
-                information is rewarded.
-              </p>
-            </div>
-            <div className=" mt-3">
-              <p className="text-basic text-dark">
-                By joining the iVest Club community, you can collaborate with
-                like-minded dynamic individuals to expand your knowledge of
-                pre-IPO companies and explore the world of privately owned
-                companies, just like the ultra wealthy. The platform empowers
-                everyday people to share their learnings, and engage with these
-                companies driving progress.
-              </p>
-            </div>
-            <div className=" mt-3">
-              <p className="text-basic text-dark">
-                Get rewarded with more membership tokens to celebrate the
-                company milestones!
-              </p>
-            </div>
-            <div className=" mt-3">
-              <p className="text-basic text-dark">
-                Longer-term, your membership club can assist you with gaining
-                access to the IPO of your chosen company!
-              </p>
-            </div>
-
-            <div className="mt-4 pt-2 d-flex row px-0 ">
-              <div className="col-lg-7 col-sm-12 mt-1 px-0 ">
-                <LargeButton text="Learn More about the membership clubs" />
-              </div>
-              <div className="col-lg-5 col-sm-12 mt-1 ">
-                <OutlinedButtonDark text="Join Here for Free!" />
-              </div>
-            </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="image-column col-lg-5 col-md-12 col-sm-12    px-0">
-          <figure
-            className="image wow slideInRight animated"
-            data-wow-delay="0ms"
-            style={{
-              visibility: "visible",
-              animationDelay: "0ms",
-              animationName: "slideInRight",
-            }}
-          >
-            <img src={home2} alt="" className="home2Img mt-5 pt-4" />
-          </figure>
-        </div>
-      </SactionContainer>
-
-      <ImgBgSactionContainer  bgImage={landingbg2} showPadding={false}>
-        <div className="row  w-100 justify-content-center">
-          <div className="col-lg-12 col-sm-12 text-center mb-4 pb-3 d-flex   justify-content-center">
-            <h2 className="w-50">
-              Exclusive Acce
-              <TextUnderWrap padding={10}>ss to Pre-</TextUnderWrap>IPO for a
-              Limited Number of Members
-            </h2>
-          </div>
-          <div className="row w-100 justify-content-center mb-3">
-            <ExclusiveAccess
-              heading="iVest Club Platform"
-              text1= {<span className="Opacity">Our membership club ecosystem puts you in control, giving a select few exclusive access to Pre-IPO companies and rewarding your active involvement</span>}
-              text2={<span className="Opacity">Get involved now in Pre-IPO companies like SpaceX, and OpenAI!</span>}
-              
-            />
-            <ExclusiveAccess
-              heading="Peer-Powered Learning"
-              text1= {<span className="Opacity">Take charge of  Pre-IPO opportunities alongside engaging discussions and knowledge sharing with informed members in our dynamic forum.</span>}
-              text2={<span className="Opacity">Ready to share your insights and colloborate on companies?</span>}
-            />
-            <ExclusiveAccess
-              heading="Pre-IPo access "
-              text1= {<span className="Opacity">Our dedicated space empowers you to get access to Pre-IPO companies. Get insights, and prepare yourself to participate in your chosen company!</span>}
-              text2={<span className="Opacity">Get rewarded for your choice of pre-IPO company!</span>}
-            />
-            <ExclusiveAccess
-              heading="Rewarding Your Curiosity"
-              text1= {<span className="Opacity">We open doors for you to explore and engage with innovative Pre-IPO companies during their critical growth stages,</span>}
-              text2={<span className="Opacity">Rewards for your commitment to expanding your knowledge and understanding of your chosen company!</span>}
-            />
-          </div>
-         
-        </div>
-        <div
-            className=" text-center  bgBlackContainer"
-            style={{ backgroundColor: "rgba(0,0,0,0.5)"}}
-          >
-            <div className="pop-font py-4  exFoot">
-              At iVestclub, we believe in empowering you by providing the
-              access, tools, community, and incentives needed to navigate the
-              world of Pre-IPO companies with confidence. Our platform is
-              designed to put you at the center, giving you access, the power to
-              learn, engage, and benefit from the most promising companies
-              shaping our tomorrow.
-            </div>
-          </div>
-      </ImgBgSactionContainer>
-    
-
-      <SactionContainer container={false}>
+      <HeroSaction />
+      {showLandingSaction && (
         <>
-          <div className="col-12 mt-5 pt-4">
-            <h3>
-              <div className="bold-sec-title">iVest <TextUnderWrap padding={10}> Club AIR </TextUnderWrap> Mission - our promise to you</div>
-            </h3>
-          </div>
-
-         
-          {/* <div className="col-6"></div> */}
-          <div className="image-column col-lg-6 col-md-12 col-sm-12 pb-4">
-
-
-          <div className="col-lg-12 col-md-12 col-sm-12 d-flex mt-3 mx-0 px-0">
-            <div className="col-4 mt-3 px-0">
-              <p className="text-black text-basic-h7">
-                <strong>Access</strong>
-              </p>
-              <p className="text-black text-basic">To Pre-IPO companies</p>
-            </div>
-            <div className="col-4 mt-3 px-0">
-              <p className="text-black text-basic-h7">
-                <strong>Inclusion</strong>
-              </p>
-              <p className="text-black text-basic">For All</p>
-            </div>
-            <div className="col-4 mt-3 px-0">
-              <p className="text-black text-basic-h7">
-                <strong>Reward</strong>
-              </p>
-              <p className="text-black text-basic">Engagement</p>
-            </div>
-          </div>
-
-            <div className="lower-text pr-0 mt-4 mb-5" >
-              <div className="section3-text pl-2">Empowering you with Exclusive access to Pre-IPO companies</div>
-            </div>
-            <figure
-              className="image wow slideInLeft animated"
-              data-wow-delay="0ms"
-              style={{
-                visibility: "visible",
-                animationDelay: "0ms",
-                animationName: "slideInLeft",
-              }}
-            >
-              <img src={landingimg3} alt="" className="" />
-            </figure>
-            <h6 className="mt-5 text-spacing text-black">
-              <div className="bold-sec-title">
-                AIR empowers you with unparalleled access to Pre-IPO companies,
-                fostering inclusion, engagement, and rewarding your dedication
-                in this exclusive space.
-              </div>
-            </h6>
-          </div>
-          <div className="text-column col-lg-6 col-md-12 col-sm-12 mt-4 pt-2 pl-4">
-            <LandingTimeLine />
-          </div>
-        </>
-      </SactionContainer>
-      <ImgBgSactionContainer
-        
-        bgImage={landingbg3}
-        showPadding={false}
-        >
-        <div className="row  pb-5">
-          <div className="text-column col-lg-6 col-md-12 col-sm-12">
-            <div className="inner">
-              <div className="sec-title mb-5  ">
-                <h3>
-                  <div>
-                    <TextUnderWrap>iVest Club</TextUnderWrap> Membership clubs
+          <SactionContainer container={false}>
+            <div className="text-column col-lg-7 col-md-12 py-1 col-sm-12 mt-5 pt-3 mb-3 pl-0">
+              <div className="inner pb-5 px-0 ml-0">
+                <div className="sec-title">
+                  <h3>
+                    {" "}
+                    <div className="bold-sec-title">
+                      {" "}
+                      Pre-IPO Companies: Limited Access to Exciting
+                      Opportunities{" "}
+                    </div>
+                  </h3>
+                </div>
+                <div className="  mr-5 pl-3 pr-4">
+                  <div className="lower-text pl-3 pr-3">
+                    <div>
+                      Many of today's most exciting, transformative companies
+                      are owned by the founders and small group of individuals,
+                      making it challenging for you to get access.
+                      <br />
+                      <br />
+                      Join iVest Club now to get Exclusive access to these
+                      companies that are already shaping the future.
+                    </div>
                   </div>
-                </h3>
-              </div>
+                  <div className=" mt-4">
+                    <p className="text-basic text-dark">
+                      iVest Club Platform addresses this by providing you with
+                      an unique space to collectively research and share
+                      insights about these innovative privately owned companies
+                      with other members. Our interactive hub fosters a
+                      community of learning and education, where active
+                      participation in uncovering essential information is
+                      rewarded.
+                    </p>
+                  </div>
+                  <div className=" mt-3">
+                    <p className="text-basic text-dark">
+                      By joining the iVest Club community, you can collaborate
+                      with like-minded dynamic individuals to expand your
+                      knowledge of pre-IPO companies and explore the world of
+                      privately owned companies, just like the ultra wealthy.
+                      The platform empowers everyday people to share their
+                      learnings, and engage with these companies driving
+                      progress.
+                    </p>
+                  </div>
+                  <div className=" mt-3">
+                    <p className="text-basic text-dark">
+                      Get rewarded with more membership tokens to celebrate the
+                      company milestones!
+                    </p>
+                  </div>
+                  <div className=" mt-3">
+                    <p className="text-basic text-dark">
+                      Longer-term, your membership club can assist you with
+                      gaining access to the IPO of your chosen company!
+                    </p>
+                  </div>
 
-              <div className=" ">
-                <p className="text-basic text-light-c mb-4 pb-2">
-                  Engaging with your fellow members within each club creates an
-                  active and knowledgeable focus group. Key contributions that
-                  could be rewarded with token airdrops include:
-                </p>
+                  <div className="mt-4 pt-2 d-flex row pr-5 ">
+                    <div className="col-lg-7 col-sm-12 mt-1 px-0 ">
+                      <LargeButton text="Learn More about the membership clubs" />
+                    </div>
+                    <div className="col-lg-5 col-sm-12 mt-1 ">
+                      <OutlinedButtonDark
+                        text={<span>Join Here for Free!</span>}
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="d-flex align-items-center mt-4">
-              <TaskAltOutlinedIcon sx={{ color: "#F7B138" }} />
-              <div className="pop-font w-75 ml-3 mb-0   tickText">
-                Company events and milestones
-              </div>
-            </div>
-            <div className="d-flex align-items-center mt-3">
-              <TaskAltOutlinedIcon sx={{ color: "#F7B138" }} />
-              <div className="w-100 ml-3 mb-0 pop-font tickText">
-                Sharing valuable insights and analysis
-              </div>
-            </div>
-            <div className="d-flex align-items-center mt-4">
-              <TaskAltOutlinedIcon sx={{ color: "#F7B138" }} />
-              <div className="w-100 ml-3 mb-0  pop-font tickText">
-                Initiating thought-provoking discussions
-              </div>
-            </div>
-            <div className="d-flex align-items-center mt-4">
-              <TaskAltOutlinedIcon sx={{ color: "#F7B138" }} />
-              <div className="w-100 ml-3 mb-0  pop-font tickText">
-                Providing answers to member questions
-              </div>
-            </div>
-            <div className="d-flex align-items-center mt-4">
-              <TaskAltOutlinedIcon sx={{ color: "#F7B138" }} />
-              <div className="w-100 ml-3 mb-0  pop-font tickText">
-                Contributing well-researched content and <br /> resources
-              </div>
-            </div>
-            <div className="d-flex align-items-center mt-4">
-              <TaskAltOutlinedIcon sx={{ color: "#F7B138" }} />
-              <div className="w-100 ml-3 mb-0  pop-font tickText">
-                Helping to maintain and moderate a positive club experience
-              </div>
-            </div>
-            <div className="d-flex align-items-center mt-4">
-              <TaskAltOutlinedIcon sx={{ color: "#F7B138" }} />
-              <div className="w-100 ml-3 mb-0  pop-font tickText">
-                Referring other active and engaged members to the iVest Club
-              </div>
-            </div>
-          </div>
 
-          <div className="image-column col-lg-6 col-md-12 col-sm-12 pl-5">
-            <figure
-              className="image wow slideInRight animated"
-              data-wow-delay="0ms"
-              style={{
-                visibility: "visible",
-                animationDelay: "0ms",
-                animationName: "slideInRight",
-              }}
-            >
-              <img src={landingimg4} alt="" className="landingimg4" />
-            </figure>
-          </div>
-          <div className="col-12 mb-3">
-            <div className="pop-font mt-4 ">
-              By engaging in these types of meaningful contributions, will be
-              part of a vibrant informed community ahead of the IPO. <br /> Get
-              rewarded with more membership tokens to celebrate milestones!
-            </div>
-          </div>
-        </div>
-      </ImgBgSactionContainer>
-      <ImgBgSactionContainer bgImage={wave} showPadding={false}  >
-        <div className="row  w-100 justify-content-center text-dark mb-5 px-0">
-          <div className="col-12 text-center mb-3">
-            <div className="  section5-heading mont-font"> <TextUnderWrap padding={10}>iVest Club</TextUnderWrap></div>
-            
-          </div>
-          <div className="col-12 text-center mb-3 d-flex justify-content-center ">
-            <div className="w-80  text-center section5-head-text">
-              Aims To democratize access to emerging technologies and companies
-              more accessible and inclusive for everyone
-            </div>
-          </div>
-          <div className="col-12 text-center mb-3 ">
-            <div className="bold-6 section5-sub-head"> Together we can overcome these barriers You are facing</div>
-          
-          </div>
-          <div className="row ex-card w-100 justify-content-center">
-            <ExclusiveAccess
-              icon={goldicon1}
-              text2= { <span className="section5-sub-text"> Few avenues for You to  obtain access and information</span> }
-            />
-            <ExclusiveAccess
-              icon={goldicon2}
-              text2={ <span className="section5-sub-text">Privately owned Companies are Not obligated to disclose information to you</span> }
-            />
-            <ExclusiveAccess
-              icon={goldicon3}
-              text2=
-              { <span className="section5-sub-text">Opportunities are Restricted to a select group of individuals and not you</span> }
-            />
-            <ExclusiveAccess
-              icon={goldicon4}
-              text2=
-              { <span className="section5-sub-text">IPO access is not available to You</span> }
-            />
-          </div>
-          <div className="col-12 d-flex justify-content-center mb-5">
-            <div className="col-md-4 col-sm-12 mt-5">
-              <LargeButton text="Join Here for Free!" />
-            </div>
-          </div>
-        </div>
-      </ImgBgSactionContainer>
-
-      <ImgBgSactionContainer
-        bgImage={landingbg5}
-        sx={{ paddingTop: 0, paddingBottom: 0 }}
-      >
-        <div className=" d-flex justify-content-center">
-          <div className="row pt-5 pb-3 w-80">
-            <div className="col-12">
-              <h3 className=" bold-6 ml-3 mt-1 mb-5">
-                Offering you access to the Pre-IPO{" "}
-                <TextUnderWrap>private market.</TextUnderWrap>
-              </h3>
-            </div>
-            <div className="image-column col-lg-6 col-md-12 col-sm-12 mt-3 mx-0">
+            <div className="image-column col-lg-5 col-md-12 col-sm-12    px-0">
               <figure
-                className="image wow slideInLeft animated pl-4"
+                className="image wow slideInRight animated"
                 data-wow-delay="0ms"
                 style={{
                   visibility: "visible",
                   animationDelay: "0ms",
-                  animationName: "slideInLeft",
+                  animationName: "slideInRight",
                 }}
               >
-                <img src={landingimg5} alt="" className="" />
+                <img src={home2} alt="" className="home2Img mt-5 pt-4" />
               </figure>
             </div>
-            <div className="text-column col-lg-6 col-md-12 col-sm-12 pl-4">
-              <div className="inner mt-3 mb-3 pb-0">
-                
-                  <h6 className="section5-head ">
-                    Where can you find verified information on emerging Pre-IPO
-                    companies shaping the future?
-                  </h6>
-                
+          </SactionContainer>
+
+          <ImgBgSactionContainer bgImage={landingbg2} showPadding={false}>
+            <div className="row  w-100 justify-content-center">
+              <div className="col-lg-12 col-sm-12 text-center mb-4 pb-3 d-flex   justify-content-center">
+                <h2 className="w-50 bold-sec-title">
+                  Exclusive Acce
+                  <TextUnderWrap padding={10}>ss to Pre-</TextUnderWrap>IPO for
+                  A Limited Number of Members
+                </h2>
               </div>
-              <div className="d-flex align-items-center ">
-                <TaskAltOutlinedIcon sx={{ color: "#F7B138" }} />
-                <div className="w-100 ml-3 mb-0 pop-font bold-3">
-                  Historically, Investor Relations of a company tend to be the
-                  best source
+              <div className="row w-100 justify-content-center mb-3">
+                <ExclusiveAccess
+                  heading="iVest Club Platform"
+                  text1={
+                    <span className="">
+                      Our membership club ecosystem puts you in control, giving
+                      a select few exclusive access to Pre-IPO companies and
+                      rewarding your active involvement
+                    </span>
+                  }
+                  text2={
+                    <span className="">
+                      Get involved now in Pre-IPO companies like SpaceX, and
+                      OpenAI!
+                    </span>
+                  }
+                />
+                <ExclusiveAccess
+                  heading="Peer-Powered Learning"
+                  text1={
+                    <span className="">
+                      Take charge of Pre-IPO opportunities alongside engaging
+                      discussions and knowledge sharing with informed members in
+                      our dynamic forum.
+                    </span>
+                  }
+                  text2={
+                    <span className="">
+                      Ready to share your insights and colloborate on companies?
+                    </span>
+                  }
+                />
+                <ExclusiveAccess
+                  heading="Pre-IPo access "
+                  text1={
+                    <span className="">
+                      Our dedicated space empowers you to get access to Pre-IPO
+                      companies. Get insights, and prepare yourself to
+                      participate in your chosen company!
+                    </span>
+                  }
+                  text2={
+                    <span className="">
+                      Get rewarded for your choice of pre-IPO company!
+                    </span>
+                  }
+                />
+                <ExclusiveAccess
+                  heading="Rewarding Your Curiosity"
+                  text1={
+                    <span className="">
+                      We open doors for you to explore and engage with
+                      innovative Pre-IPO companies during their critical growth
+                      stages,
+                    </span>
+                  }
+                  text2={
+                    <span className="">
+                      Rewards for your commitment to expanding your knowledge
+                      and understanding of your chosen company!
+                    </span>
+                  }
+                />
+              </div>
+            </div>
+            <div
+              className=" text-center  bgBlackContainer"
+              style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+            >
+              <div className="pop-font py-4  exFoot">
+                At iVestclub, we believe in empowering you by providing the
+                access, tools, community, and incentives needed to navigate the
+                world of Pre-IPO companies with confidence. Our platform is
+                designed to put you at the center, giving you access, the power
+                to learn, engage, and benefit from the most promising companies
+                shaping our tomorrow.
+              </div>
+            </div>
+          </ImgBgSactionContainer>
+
+          <SactionContainer container={false}>
+            <>
+              <div className="col-12 mt-5 pt-4">
+                <h3>
+                  <div className="bold-sec-title">
+                    iVest <TextUnderWrap padding={10}> Club AIR </TextUnderWrap>{" "}
+                    Mission - our promise to you
+                  </div>
+                </h3>
+              </div>
+
+              {/* <div className="col-6"></div> */}
+              <div className="image-column col-lg-6 col-md-12 col-sm-12 pb-4">
+                <div className="col-lg-12 col-md-12 col-sm-12 d-flex mt-3 mx-0 px-0">
+                  <div className="col-4 mt-1 px-0">
+                    <p className="text-black text-basic-h7">
+                      <>Access</>
+                    </p>
+                    <p className="text-black mt-1 text-basic-sm">
+                      To Pre-IPO companies
+                    </p>
+                  </div>
+                  <div className="col-4 mt-1 px-0">
+                    <p className="text-black text-basic-h7">
+                      <>Inclusion</>
+                    </p>
+                    <p className="text-black mt-1 text-basic-sm">For All</p>
+                  </div>
+                  <div className="col-4 mt-1 px-0">
+                    <p className="text-black text-basic-h7">
+                      <>Reward</>
+                    </p>
+                    <p className="text-black mt-1 text-basic-sm">Engagement</p>
+                  </div>
+                </div>
+
+                <div className="lower-text pr-0 mt-3 mb-5">
+                  <div className="section3-text pl-2">
+                    Empowering you with Exclusive access to Pre-IPO companies
+                  </div>
+                </div>
+                <figure
+                  className="image wow slideInLeft animated"
+                  data-wow-delay="0ms"
+                  style={{
+                    visibility: "visible",
+                    animationDelay: "0ms",
+                    animationName: "slideInLeft",
+                  }}
+                >
+                  <img src={landingimg3} alt="" className="" />
+                </figure>
+                <h6 className="mt-5 text-spacing text-black">
+                  <div className="time-line-bottom-title">
+                    AIR empowers you with unparalleled access to Pre-IPO
+                    companies, fostering inclusion, engagement, and rewarding
+                    your dedication in this exclusive space.
+                  </div>
+                </h6>
+              </div>
+              <div className="text-column col-lg-6 col-md-12 col-sm-12 mt-4 pt-2 pl-4">
+                <LandingTimeLine />
+              </div>
+            </>
+          </SactionContainer>
+          <ImgBgSactionContainer bgImage={landingbg3} showPadding={false}>
+            <div className="row  pb-5 mt-3">
+              <div className="text-column col-lg-6 col-md-12 col-sm-12">
+                <div className="inner">
+                  <div className="sec-title mb-4  ">
+                    <h3 className="bold-sec-title">
+                      <div>
+                        <TextUnderWrap>iVest Club</TextUnderWrap> Membership
+                        clubs
+                      </div>
+                    </h3>
+                  </div>
+
+                  <div className=" ">
+                    <p className="text-basic text-light-c mb-4 pb-2 Opacity">
+                      Engaging with your fellow members within each club creates
+                      an active and knowledgeable focus group. Key contributions
+                      that could be rewarded with token airdrops include:
+                    </p>
+                  </div>
+                </div>
+                <div className="d-flex align-items-center membership-clubs-checks">
+                  <TaskAltOutlinedIcon sx={{ color: "#F7B138" }} />
+                  <div className="pop-font w-75 ml-3 mb-0   tickText">
+                    Company events and milestones
+                  </div>
+                </div>
+                <div className="d-flex align-items-center membership-clubs-checks">
+                  <TaskAltOutlinedIcon sx={{ color: "#F7B138" }} />
+                  <div className="w-100 ml-3 mb-0 pop-font tickText">
+                    Sharing valuable insights and analysis
+                  </div>
+                </div>
+                <div className="d-flex align-items-center membership-clubs-checks">
+                  <TaskAltOutlinedIcon sx={{ color: "#F7B138" }} />
+                  <div className="w-100 ml-3 mb-0  pop-font tickText">
+                    Initiating thought-provoking discussions
+                  </div>
+                </div>
+                <div className="d-flex align-items-center membership-clubs-checks">
+                  <TaskAltOutlinedIcon sx={{ color: "#F7B138" }} />
+                  <div className="w-100 ml-3 mb-0  pop-font tickText">
+                    Providing answers to member questions
+                  </div>
+                </div>
+                <div className="d-flex align-items-center membership-clubs-checks">
+                  <TaskAltOutlinedIcon sx={{ color: "#F7B138" }} />
+                  <div className="w-100 ml-3 mb-0  pop-font tickText">
+                    Contributing well-researched content and <br /> resources
+                  </div>
+                </div>
+                <div className="d-flex align-items-center membership-clubs-checks">
+                  <TaskAltOutlinedIcon sx={{ color: "#F7B138" }} />
+                  <div className="w-100 ml-3 mb-0  pop-font tickText">
+                    Helping to maintain and moderate a positive club experience
+                  </div>
+                </div>
+                <div className="d-flex align-items-center membership-clubs-checks">
+                  <TaskAltOutlinedIcon sx={{ color: "#F7B138" }} />
+                  <div className="w-100 ml-3 mb-0  pop-font tickText">
+                    Referring other active and engaged members to the iVest Club
+                  </div>
                 </div>
               </div>
-              <div className="d-flex align-items-center mt-2 pt-1">
-                <TaskAltOutlinedIcon sx={{ color: "#F7B138" }} />
-                <div className="w-90 ml-3 mb-0 pop-font bold-3">Press releases</div>
+
+              <div className="image-column col-lg-6 col-md-12 col-sm-12 pl-5">
+                <figure
+                  className="image wow slideInRight animated"
+                  data-wow-delay="0ms"
+                  style={{
+                    visibility: "visible",
+                    animationDelay: "0ms",
+                    animationName: "slideInRight",
+                  }}
+                >
+                  <img src={landingimg4} alt="" className="landingimg4" />
+                </figure>
               </div>
-              <div className="d-flex align-items-center mt-2 pt-1">
-                <TaskAltOutlinedIcon sx={{ color: "#F7B138" }} />
-                <div className="w-90 ml-3 mb-0 pop-font bold-3">
-                  Interviews and company visits
+              <div className="col-12 mb-3">
+                <div className="membership-clubs-footer mt-4 ">
+                  By engaging in these types of meaningful contributions, will
+                  be part of a vibrant informed community ahead of the IPO.{" "}
+                  <br /> Get rewarded with more membership tokens to celebrate
+                  milestones!
                 </div>
               </div>
-              <div className="d-flex align-items-center mt-2 pt-1">
-                <TaskAltOutlinedIcon sx={{ color: "#F7B138" }} />
-                <div className="w-90 ml-3 mb-0 pop-font bold-3">
-                  Institutional analysts reports
+            </div>
+          </ImgBgSactionContainer>
+          <ImgBgSactionContainer bgImage={wave} showPadding={false}>
+            <div className="row  w-100 justify-content-center text-dark mb-5 px-0">
+              <div className="col-12 text-center mb-3">
+                <div className="  section5-heading mont-font">
+                  {" "}
+                  <TextUnderWrap padding={10}>iVest Club</TextUnderWrap>
                 </div>
               </div>
-              <div className="d-flex align-items-center mt-2 pt-1">
-                <TaskAltOutlinedIcon sx={{ color: "#F7B138" }} />
-                <div className="w-90 ml-3 mb-0 pop-font bold-3">
-                  BUT THESE ARE NOT normally available to you
+              <div className="col-12 text-center mb-3 d-flex justify-content-center ">
+                <div className="w-80  text-center section5-head-text">
+                  Aims To democratize access to emerging technologies and
+                  companies more accessible and inclusive for everyone
+                </div>
+              </div>
+              <div className="col-12 text-center mb-3 ">
+                <div className="bold-6 section5-sub-head">
+                  {" "}
+                  Together we can overcome these barriers You are facing
+                </div>
+              </div>
+              <div className="row ex-card w-100 justify-content-center">
+                <ExclusiveAccess
+                  icon={goldicon1}
+                  text2={
+                    <span className="section5-sub-text">
+                      {" "}
+                      Few avenues for You to obtain access and information
+                    </span>
+                  }
+                  size={70}
+                  mb={20}
+                />
+                <ExclusiveAccess
+                  icon={goldicon2}
+                  text2={
+                    <span className="section5-sub-text">
+                      Privately owned Companies are Not obligated to disclose
+                      information to you
+                    </span>
+                  }
+                  size={70}
+                  mb={20}
+                />
+                <ExclusiveAccess
+                  icon={goldicon3}
+                  text2={
+                    <span className="section5-sub-text">
+                      Opportunities are Restricted to a select group of
+                      individuals and not you
+                    </span>
+                  }
+                  size={70}
+                  mb={20}
+                />
+                <ExclusiveAccess
+                  icon={goldicon4}
+                  text2={
+                    <span className="section5-sub-text">
+                      IPO access is not available to You
+                    </span>
+                  }
+                  size={70}
+                  mb={20}
+                />
+              </div>
+              <div className="col-12 d-flex justify-content-center mb-5">
+                <div className="col-md-4 col-sm-12 mt-5">
+                  <LargeButton text="Join Here for Free!" />
                 </div>
               </div>
             </div>
-            <div className="col-12 ml-4">
-              <div className=" section5-contentText pop-font mt-4 text-spacing">
-                In light of the exciting information gap, iVest Club has
-                developed a platform to offer you the chance to explore and
-                access the growing Pre-IPO market opportunities in an engaging
-                and dynamic forum.
+          </ImgBgSactionContainer>
+
+          <ImgBgSactionContainer
+            bgImage={landingbg5}
+            sx={{ paddingTop: 0, paddingBottom: 0 }}
+          >
+            <div className=" d-flex justify-content-center">
+              <div className="row pt-5 pb-3 w-80">
+                <div className="col-12">
+                  <h3 className=" bold-sec-title ml-3 mt-1 mb-5">
+                    Offering you access to the Pre-IPO{" "}
+                    <TextUnderWrap>private market.</TextUnderWrap>
+                  </h3>
+                </div>
+                <div className="image-column col-lg-6 col-md-12 col-sm-12 mt-3 mx-0">
+                  <figure
+                    className="image wow slideInLeft animated pl-4"
+                    data-wow-delay="0ms"
+                    style={{
+                      visibility: "visible",
+                      animationDelay: "0ms",
+                      animationName: "slideInLeft",
+                    }}
+                  >
+                    <img src={landingimg5} alt="" className="" />
+                  </figure>
+                </div>
+                <div className="text-column col-lg-6 col-md-12 col-sm-12 pl-4">
+                  <div className="inner mt-3 mb-3 pb-0">
+                    <h6 className="section5-head ">
+                      Where can you find verified information on emerging
+                      Pre-IPO companies shaping the future?
+                    </h6>
+                  </div>
+                  <div className="d-flex align-items-center ">
+                    <TaskAltOutlinedIcon sx={{ color: "#F7B138" }} />
+                    <div className="w-100 ml-3 mb-0 pop-font  sec-private-market-text">
+                      Historically, Investor Relations of a company tend to be
+                      the best source
+                    </div>
+                  </div>
+                  <div className="d-flex align-items-center mt-2 pt-1">
+                    <TaskAltOutlinedIcon sx={{ color: "#F7B138" }} />
+                    <div className="w-90 ml-3 mb-0 pop-font ">
+                      Press releases
+                    </div>
+                  </div>
+                  <div className="d-flex align-items-center mt-2 pt-1">
+                    <TaskAltOutlinedIcon sx={{ color: "#F7B138" }} />
+                    <div className="w-90 ml-3 mb-0 pop-font sec-private-market-text">
+                      Interviews and company visits
+                    </div>
+                  </div>
+                  <div className="d-flex align-items-center mt-2 pt-1">
+                    <TaskAltOutlinedIcon sx={{ color: "#F7B138" }} />
+                    <div className="w-90 ml-3 mb-0 pop-font sec-private-market-text">
+                      Institutional analysts reports
+                    </div>
+                  </div>
+                  <div className="d-flex align-items-center mt-2 pt-1 sec-private-market-text">
+                    <TaskAltOutlinedIcon sx={{ color: "#F7B138" }} />
+                    <div className="w-90 ml-3 mb-0 pop-font ">
+                      BUT THESE ARE NOT normally available to you
+                    </div>
+                  </div>
+                </div>
+                <div className="col-12 ml-4 mt-3">
+                  <div className=" section5-contentText pop-font mt-4 text-spacing">
+                    In light of the exciting information gap, iVest Club has
+                    developed a platform to offer you the chance to explore and
+                    access the growing Pre-IPO market opportunities in an
+                    engaging and dynamic forum.
+                  </div>
+                  <div className=" section5-contentText pop-font  text-spacing">
+                    Leveraging the power of your iVest Club community, we
+                    facilitate direct interaction with companies.
+                  </div>
+                  <div className=" section5-contentText pop-font  text-spacing mb-5">
+                    Get rewarded for your time and effort in being a member of
+                    your exclusive chosen membership club!{" "}
+                  </div>
+                </div>
               </div>
-              <div className=" section5-contentText pop-font  text-spacing">
-                Leveraging the power of your iVest Club community, we facilitate
-                direct interaction with companies.
+            </div>
+          </ImgBgSactionContainer>
+
+          {/* <SactionContainer> */}
+          <ImgBgSactionContainer bgImage={wave} showPadding={false}>
+            <div className="row w-100 justify-content-center mb-5 px-0 mx-0 pt-0">
+              <div className="col-12 text-center mb-1 px-0 mx-0 ">
+                <h2>
+                  <div className=" bold-sec-title text-black mb-2">
+                    IVest Club Membe
+                    <TextUnderWrap padding={10}>rship C</TextUnderWrap>lubs
+                  </div>
+                </h2>
               </div>
-              <div className=" section5-contentText pop-font  text-spacing mb-5">
-                Get rewarded for your time and effort in being a member of your
-                exclusive chosen membership club!{" "}
+
+              <div className=" col-12  text-center mb-3 px-0 mx-0">
+                <div className="  text-center section5-head-text  mb-0">
+                  Gain exclusive access and detailed Knowledge about
+                </div>
+                <div className="  text-center section5-head-text mont-font">
+                  specific pre-IPO companies, accompanied by a host of rewards.
+                </div>
+              </div>
+
+              <div className="row w-100 text-dark exclusiveCardClass justify-content-sm-center justify-content-md-start mx-2 ">
+                <ExclusiveAccessCard
+                  image={ivctoken}
+                  linkText={"View List of Membership Clubs"}
+                  to={`/`}
+                  heading={"IVC Token"}
+                  text={
+                    "As a verified  member, you can utilize IVC tokens to join any Membership Club aligned with your interests."
+                  }
+                />
+
+                <ExclusiveAccessCard
+                  image={cardimg2}
+                  linkText={"Learn more about rewards"}
+                  heading={"Reward"}
+                  text={
+                    "Your membership offers the following benefits: engaging with peers and receiving airdrop rewards."
+                  }
+                />
+                <ExclusiveAccessCard
+                  image={cardimg3}
+                  linkText={"Learn more about Membership Clubs"}
+                  heading={"Membership"}
+                  text={
+                    "Membership clubs focus on providing you  access while keeping you informed about your choice of Pre-IPO company."
+                  }
+                />
+              </div>
+
+              <div className="col-12 d-flex justify-content-center">
+                <div className="w-30 mt-2 pt-1 mb-4 px-0">
+                  <LargeButton text="Join Here for Free!" />
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      </ImgBgSactionContainer>
-      
-      {/* <SactionContainer> */}
-      <ImgBgSactionContainer bgImage={wave} showPadding={false}>
-        <div className="row w-100 justify-content-center mb-5 px-0 mx-0 pt-0">
-          <div className="col-12 text-center mb-1 px-0 mx-0 ">
-            <h2>
-              <div className=" section6-head">IVest Club Membe<TextUnderWrap padding={10}>rship C</TextUnderWrap>lubs</div>
-            </h2>
-          </div>
-          
-          <div className=" col-12  text-center mb-3 px-0 mx-0">
-            <div className="section6-sub-head mont-font  mb-0">
-              Gain exclusive access and detailed Knowledge about
+          </ImgBgSactionContainer>
+
+          {/* </SactionContainer> */}
+
+          <ImgBgSectionContainer bgImage={landingbg2} showPadding={false}>
+            <div className="row  w-100 justify-content-center exclusiveAccessCardContainer">
+              <div className="col-7 text-center mb-3 d-flex justify-content-center ">
+                <h3 className="w-100 bold-sec-title">
+                  Use of Blockchain to Reg
+                  <TextUnderWrap padding={7}>
+                    ister Memb
+                  </TextUnderWrap>ership <br /> And Receive your Rewards
+                </h3>
+              </div>
+              <div className="row w-100 justify-content-center pb-5">
+                <ExclusiveAccess
+                  size={75}
+                  custom={true}
+                  icon={goldicon5}
+                  col={4}
+                  heading="Membership in the iVest Club Ecosystem"
+                  text1={
+                    <span
+                      className="pop-font"
+                      style={{ fontSize: "11px", color: "#FFFF" }}
+                    >
+                      Each membership club ecosystem puts you in control, giving
+                      a select few exclusive access to Pre-IPO companies and
+                      rewarding your active involvement.
+                    </span>
+                  }
+                  text2={
+                    <span
+                      className="pop-font"
+                      style={{ fontSize: "11px", color: "#FFFF" }}
+                    >
+                      Get involved now in Pre-IPO companies like SpaceX, and
+                      OpenAI!
+                    </span>
+                  }
+                />
+
+                <ExclusiveAccess
+                  custom={true}
+                  size={75}
+                  icon={goldicon6}
+                  col={4}
+                  heading="Peer-Powered Learning"
+                  text1={
+                    <span
+                      className="pop-font"
+                      style={{ fontSize: "11px", color: "#FFFF" }}
+                    >
+                      Take charge of Pre-IPO opportunities alongside engaging
+                      discussions and knowledge sharing with informed members in
+                      our dynamic forum.
+                    </span>
+                  }
+                  text2={
+                    <span
+                      className="pop-font"
+                      style={{ fontSize: "11px", color: "#FFFF" }}
+                    >
+                      Ready to share your insights and colloborate on companies?
+                    </span>
+                  }
+                />
+                <ExclusiveAccess
+                  size={75}
+                  custom={true}
+                  icon={goldicon7}
+                  col={4}
+                  heading="Pre-IPo access "
+                  text1={
+                    <span
+                      className="pop-font"
+                      style={{ fontSize: "11px", color: "#FFFF" }}
+                    >
+                      Our dedicated space empowers you to get access to Pre-IPO
+                      companies. Get insights, and prepare yourself to
+                      participate in your chosen company!
+                    </span>
+                  }
+                  text2={
+                    <span
+                      className="pop-font"
+                      style={{ fontSize: "11px", color: "#FFFF" }}
+                    >
+                      Get rewarded for your choice of pre-IPO company!
+                    </span>
+                  }
+                />
+                <ExclusiveAccess
+                  size={75}
+                  custom={true}
+                  icon={goldicon8}
+                  col={4}
+                  heading="Rewarding Your Curiosity"
+                  text1={
+                    <span
+                      className="pop-font"
+                      style={{ fontSize: "11px", color: "#FFFF" }}
+                    >
+                      We open doors for you to explore and engage with
+                      innovative Pre-IPO companies during their critical growth
+                      stages,
+                    </span>
+                  }
+                  text2={
+                    <span
+                      className="pop-font"
+                      style={{ fontSize: "11px", color: "#FFFF" }}
+                    >
+                      Rewards for your commitment to expanding your knowledge
+                      and understanding of your chosen company!
+                    </span>
+                  }
+                />
+                <ExclusiveAccess
+                  size={75}
+                  custom={true}
+                  icon={goldicon6}
+                  col={4}
+                  heading="Rewarding Your Curiosity"
+                  text1={
+                    <span
+                      className="pop-font"
+                      style={{ fontSize: "11px", color: "#FFFF" }}
+                    >
+                      We open doors for you to explore and engage with
+                      innovative Pre-IPO companies during their critical growth
+                      stages,
+                    </span>
+                  }
+                  text2={
+                    <span
+                      className="pop-font"
+                      style={{ fontSize: "11px", color: "#FFFF" }}
+                    >
+                      Rewards for your commitment to expanding your knowledge
+                      and understanding of your chosen company!
+                    </span>
+                  }
+                />
+              </div>
             </div>
-            <div className="section6-sub-head mont-font">
-              specific pre-IPO companies, accompanied by a host of rewards.
-            </div>
-          </div>
-          
-          <div className="row w-100 text-dark exclusiveCardClass justify-content-sm-center justify-content-md-start mx-2 ">
-            <ExclusiveAccessCard
-              image={ivctoken}
-              linkText={"View List of Membership Clubs"}
-              to={`/`}
-              heading={"IVC Token"}
-              text={
-                "As a verified  member, you can utilize IVC tokens to join any Membership Club aligned with your interests."
-              }
-            />
-            
-            <ExclusiveAccessCard
-              image={cardimg2}
-              linkText={"Learn more about rewards"}
-              heading={"Reward"}
-              text={
-                "Your membership offers the following benefits: engaging with peers and receiving airdrop rewards."
-              }
-            />
-            <ExclusiveAccessCard
-              image={cardimg3}
-              linkText={"Learn more about Membership Clubs"}
-              heading={"Membership"}
-              text={
-                "Membership clubs focus on providing you with access while keeping you informed about your choice of Pre-IPO company."
-              }
-            />
-          </div>
-          
-          <div className="col-12 d-flex justify-content-center">
-            <div className="w-30 mt-5 pt-3 mb-4 px-0">
-              <LargeButton text="Join Here for Free!" />
-            </div>
-          </div>
-        </div>
-        </ImgBgSactionContainer>
-        
-      {/* </SactionContainer> */}
+          </ImgBgSectionContainer>
 
-
-
-      <ImgBgSectionContainer bgImage={landingbg2} showPadding={false}>
-        <div className="row  w-100 justify-content-center exclusiveAccessCardContainer">
-          <div className="col-7 text-center mb-3 d-flex justify-content-center ">
-            <h3 className="w-100">
-            Use of Blockchain to Reg<TextUnderWrap padding={7}>ister Memb</TextUnderWrap>ership <br /> And Receive your Rewards
-            </h3>
-          </div>
-          <div className="row w-100 justify-content-center pb-5">
-            
-            <ExclusiveAccess
-            custom={true}
-            icon={goldicon5}
-              col={4}
-              heading="Membership in the iVest Club Ecosystem"
-              text1= {<span className="pop-font" style={{ fontSize: "11px" , color:"#FFFF"}}>Each membership club ecosystem puts you in control, giving a select few exclusive access to Pre-IPO companies and rewarding your active involvement.</span>}
-             
-              text2= {<span className="pop-font" style={{ fontSize: "11px",color:"#FFFF"}}>Get involved now in Pre-IPO companies like SpaceX, and OpenAI!</span>}
-            />
-            
-            <ExclusiveAccess
-            custom={true}
-             icon={goldicon6}
-              col={4}
-              heading="Peer-Powered Learning"
-              
-              text1= {<span className="pop-font"  style={{ fontSize: "11px" , color:"#FFFF"}}>Take charge of  Pre-IPO opportunities alongside engaging discussions and knowledge sharing with informed members in our dynamic forum.</span>}
-             
-              text2= {<span className="pop-font"  style={{ fontSize: "11px" , color:"#FFFF"}}>Ready to share your insights and colloborate on companies?</span>}
-            />
-            <ExclusiveAccess
-            custom={true}
-             icon={goldicon7}
-              col={4}
-              heading="Pre-IPo access "
-               
-              text1= {<span className="pop-font"  style={{ fontSize: "11px" , color:"#FFFF"}}>Our dedicated space empowers you to get access to Pre-IPO companies. Get insights, and prepare yourself to participate in your chosen company!</span>}
-             
-              text2= {<span className="pop-font"  style={{ fontSize: "11px" , color:"#FFFF"}}>Get rewarded for your choice of pre-IPO company!</span>}
-            />
-            <ExclusiveAccess
-            custom={true}
-             icon={goldicon8}
-              col={4}
-              heading="Rewarding Your Curiosity"
-              text1= {<span className="pop-font"  style={{ fontSize: "11px" , color:"#FFFF"}}>We open doors for you to explore and engage with innovative Pre-IPO companies during their critical growth stages,</span>}
-             text2= {<span className="pop-font"  style={{ fontSize: "11px" , color:"#FFFF"}}>Rewards for your commitment to expanding your knowledge and understanding of your chosen company!</span>}
-
-
-            />
-            <ExclusiveAccess
-            custom={true}
-             icon={goldicon6}
-              col={4}
-              heading="Rewarding Your Curiosity"
-              
-              text1= {<span className="pop-font"  style={{ fontSize: "11px" , color:"#FFFF"}}>We open doors for you to explore and engage with innovative Pre-IPO companies during their critical growth stages,</span>}
-              text2= {<span className="pop-font"  style={{ fontSize: "11px" , color:"#FFFF"}}>Rewards for your commitment to expanding your knowledge and understanding of your chosen company!</span>}
-           />
-          </div>
-        </div>
-      </ImgBgSectionContainer>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      <MemberShip />
-      <MemberShipClubSaction/></>}
+          <MemberShip />
+          <MemberShipClubSaction />
+        </>
+      )}
     </>
   );
 };

@@ -41,7 +41,7 @@ const FutureClubs = () => {
               text: "The exclusivity of private companies limits access.",
             },
           ].map((item, index) => (
-            <div className="card mt-3" key={index}>
+            <div className="card  card-border-c  mt-3" key={index}>
               <div className="d-flex like-dislike-card">
                 <div className="col-1 ">
                   <h3 style={{fontSize:"22px" , fontWeight:"600"}}>0{index + 1}</h3>

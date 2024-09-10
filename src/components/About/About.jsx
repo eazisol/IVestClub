@@ -23,9 +23,8 @@ const About = () => {
           }}
         ></div>
 
-        <div >
-          <h2 className="bannerHead">About Us</h2>
-          
+        <div>
+          <h2 className="bannerHead mt-4 pt-1">About Us</h2>
         </div>
 
         <div className="">
@@ -36,7 +35,7 @@ const About = () => {
                   onClick={() => {
                     navigate("/");
                   }}
-                  style={{ textDecoration: "none" , opacity: "0.8"}}
+                  style={{ textDecoration: "none", opacity: "0.8" }}
                 >
                   Home
                 </a>
@@ -46,22 +45,26 @@ const About = () => {
           </div>
         </div>
       </section>
-      <section className="about-section-three mt-5"> 
+      <section className="about-section-three mt-5 pt-2">
         <div className="responsiveSectionContainer about-section-one  pt-4 bg-white">
-          <div className="row  clearfix" >
+          <div className="row  clearfix">
             <div className="text-column col-lg-6 col-md-12 col-sm-12 pl-3">
-              <div className="inner mb-sm-3">
+              <div className="inner mb-sm-3 pt-0">
                 <div className="sec-title">
                   <h3>
                     {" "}
-                    <strong className="firstSectionHead bold-8">We Are <TextUnderWrap padding={7}>iVestClub</TextUnderWrap></strong>
+                    <strong className="bold-sec-title-l bold8">
+                      We Are{" "}
+                      <TextUnderWrap padding={7}>iVestClub</TextUnderWrap>
+                    </strong>
                   </h3>
                 </div>
                 <div className="lower-text mt-4">
                   <p className="textCompact DarkText">
-                  Connecting Members Worldwide And Empowering You <br /> With Access to Pre-IPO Companies.
-                  <br />
-                  Revolutionize Your Pre-IPO Journey with iVestClub
+                    Connecting Members Worldwide And Empowering You <br /> With
+                    Access to Pre-IPO Companies.
+                    <br />
+                    Revolutionize Your Pre-IPO Journey with iVestClub
                   </p>
                 </div>
                 <div className=" mt-1">
@@ -90,17 +93,16 @@ const About = () => {
                   </p>
                 </div>
                 <div className=" mt-4">
-                  <p className="text-basic LightText text-bold">
-                    
-                      Get rewarded for your access to yoour chosen Pre-IPO
-                      company.
-                    
+                  <p
+                    style={{ fontSize: "12px" }}
+                    className="LightText text-bold"
+                  >
+                    Get rewarded for your access to yoour chosen Pre-IPO
+                    company.
                   </p>
                 </div>
-                <div className="mt-5">
-                  <button className="btn btn-primary btn-rounded w-60 ">
-                    Join Here for Free!
-                  </button>
+                <div className="col-lg-7 col-sm-12 mt-5 px-0 ">
+                  <LargeButton text="Learn More about the membership clubs" />
                 </div>
               </div>
             </div>
@@ -161,72 +163,73 @@ const About = () => {
                 <img src={about2} alt="" className="sec-image" />
               </figure>
             </div>
-            <div className="text-column col-lg-6 col-md-12 col-sm-12">
+            <div className="text-column col-lg-6 col-md-12 col-sm-12 px-0">
               <div className="inner pl-5">
                 <div className="sec-title">
                   <h4 className="sec-text">
-                Exclusive Benefits for iVestClub Members
-                   
+                    Exclusive Benefits for iVestClub Members
                   </h4>
                 </div>
-                <div className="sec-content"> 
-                <div className=" mt-3 pt-1">
-                  <p className="text-basic  mb-0">
-                    <strong className=" text-bold">Access:</strong> Get involved
-                    in your targeted company and get rewarded for yor
-                    participation.
-                  </p>
-                  <p className="text-basic  mb-0">
-                    <strong className=" text-bold">
-                      In-Depth Company Profiles:
-                    </strong>
-                    Explore comprehensive profiles of the most exciting Pre-IPO
-                    companies, featuring expert analysis that are typically not
-                    available to the general public.
-                  </p>
-                  <p className="text-basic  mb-0">
-                    <strong className=" text-bold">
-                      Collaborative Learning Community:
-                    </strong>
-                    Connect with a vibrant network of your peers, industry
-                    professionals, and thought leaders. Engage in
-                    thought-provoking discussions, collaborate with peers, and
-                    share valuable insights, all while expanding your knowledge
-                    of the Pre-IPO market.
-                  </p>
-                </div>
+                <div className="sec-content">
+                  <div className=" mt-3 pt-1">
+                    <p className="exclusiveContentText  mb-0">
+                      <span className="boldContent">Access:</span> Get involved
+                      in your targeted company and get rewarded for yor
+                      participation.
+                    </p>
+                    <p className="exclusiveContentText  mb-0">
+                      <span className="boldContent">
+                        In-Depth Company Profiles:
+                      </span>
+                      Explore comprehensive profiles of the most exciting
+                      Pre-IPO companies, featuring expert analysis that are
+                      typically not available to the general public.
+                    </p>
+                    <p className="exclusiveContentText  mb-0">
+                      <span className="boldContent">
+                        Collaborative Learning Community:
+                      </span>
+                      Connect with a vibrant network of your peers, industry
+                      professionals, and thought leaders. Engage in
+                      thought-provoking discussions, collaborate with peers, and
+                      share valuable insights, all while expanding your
+                      knowledge of the Pre-IPO market.
+                    </p>
+                  </div>
 
-                <div className="">
-                  <p className="text-basic mb-0">
-                    <strong className=" text-bold">
-                      Personalized Educational Resources:
-                    </strong>
-                    Whether you're new to the Pre-IPO market or an experienced
-                    investor, iVestClub is your go-to educational hub. Access
-                    content tailored to your needs, learn from industry leaders,
-                    and stay updated on the latest trends and strategies.
-                  </p>
-                  <p className="text-basic  mb-3">
-                    <strong className=" text-bold">
-                      Rewarding Participation:
-                    </strong>
-                    At iVestClub, every interaction is an opportunity for growth
-                    and recognition. Actively participate in community
-                    discussions, share your knowledge, and be rewarded for your
-                    contributions with exclusive perks and opportunities.
-                    Empower Your Investment Journey.
-                  </p>
-                  <p className="text-basic ">
-                    With iVestClub, you're not just joining a platform; you're
-                    becoming part of a community that's exploring the future of
-                    industries and economies worldwide. Our mission is to
-                    provide you with the tools, knowledge, and network to
-                    navigate the complexities of Pre-IPO companies with
-                    confidence, enabling you to make informed decisions at your
-                    own pace, without the pressure of immediate investment.
-                  </p>
+                  <div className="">
+                    <p className="exclusiveContentText mb-0">
+                      <span className="boldContent">
+                        Personalized Educational Resources:
+                      </span>
+                      Whether you're new to the Pre-IPO market or an experienced
+                      investor, iVestClub is your go-to educational hub. Access
+                      content tailored to your needs, learn from industry
+                      leaders, and stay updated on the latest trends and
+                      strategies.
+                    </p>
+                    <p className="exclusiveContentText  mb-3">
+                      <span className="boldContent">
+                        Rewarding Participation:
+                      </span>
+                      At iVestClub, every interaction is an opportunity for
+                      growth and recognition. Actively participate in community
+                      discussions, share your knowledge, and be rewarded for
+                      your contributions with exclusive perks and opportunities.
+                      Empower Your Investment Journey.
+                    </p>
+                    <p className="exclusiveContentText ">
+                      With iVestClub, you're not just joining a platform; you're
+                      becoming part of a community that's exploring the future
+                      of industries and economies worldwide. Our mission is to
+                      provide you with the tools, knowledge, and network to
+                      navigate the complexities of Pre-IPO companies with
+                      confidence, enabling you to make informed decisions at
+                      your own pace, without the pressure of immediate
+                      investment.
+                    </p>
+                  </div>
                 </div>
-               </div>
               </div>
             </div>
           </div>
@@ -248,9 +251,8 @@ const About = () => {
               Your exclusive journey begins here.
             </p>
           </div>
-          <div className="mt-2 w-20 ml-3 mb-4 pb-1">
-          <LargeButton text={"Start Your Free journey"}/>
-           
+          <div className="mt-4 pt-3 w-20 ml-3  mb-3 pb-2 pr-5">
+            <LargeButton text={"Start Your Free journey"} />
           </div>
         </div>
       </section>
@@ -258,21 +260,23 @@ const About = () => {
         <div
           className="image-layer "
           style={{
-            
             backgroundImage: `url(${about3})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
         ></div>
-        <div className="row  w-100 justify-content-center px-5 my-4 pt-3">
+        <div className="row  w-100 justify-content-center px-5 mx-3 my-4 pt-3">
           <div className="col-12 text-center mb-3">
-            <h2 className="statsHead">iVestClub  Members<TextUnderWrap padding={7}>hip Sta</TextUnderWrap>ts</h2>
+            <h2 className="bold-sec-title">
+              iVestClub Members
+              <TextUnderWrap padding={7}>hip Sta</TextUnderWrap>ts
+            </h2>
             <p className="statsSubHead Opacity  mt-4 mb-5">
               Leading cryptocurrency exchange since day one of crypto
               distribution
             </p>
           </div>
-          <div className="row  w-90 justify-content-center">
+          <div className="row mt-3 w-90 justify-content-center">
             <div className="col-md-3 col-sm-6 text-center  border-right-banner">
               <h2 className="stats-dig">2</h2>
               <p className="stats-des text-basic text-light-c mt-2">
@@ -281,15 +285,21 @@ const About = () => {
             </div>
             <div className="col-md-3 col-sm-6 text-center border-right-banner">
               <h2 className="stats-dig">XXX</h2>
-              <p className="stats-des text-basic text-light-c mt-2">Number of Members</p>
+              <p className="stats-des text-basic text-light-c mt-2">
+                Number of Members
+              </p>
             </div>
             <div className="col-md-3 col-sm-6 text-center border-right-banner">
               <h2 className="stats-dig">20,000+</h2>
-              <p className="stats-des text-basic text-light-c mt-2">ACTIVE ACCOUNTS</p>
+              <p className="stats-des text-basic text-light-c mt-2">
+                ACTIVE ACCOUNTS
+              </p>
             </div>
             <div className="col-md-3 col-sm-6 text-center ">
               <h2 className="stats-dig">10+</h2>
-              <p className="stats-des text-basic text-light-c mt-2">YEARS ON THE MARKET</p>
+              <p className="stats-des text-basic text-light-c mt-2">
+                YEARS ON THE MARKET
+              </p>
             </div>
           </div>
         </div>

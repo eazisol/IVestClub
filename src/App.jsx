@@ -26,6 +26,7 @@ import FutureClubs from "./components/FutureClubs/FutureClubs.jsx";
 import Dashboard from "./components/Dashboard/Dashboard.jsx";
 import MyMemberShipClubs from "./components/MyMembershipClubs/MyMemberShipClubs.jsx";
 import MyAccount from "./components/MyAccount/MyAccount.jsx";
+import ScrollOnTop from "./components/Scroll/ScrollOnTop.jsx";
 
 
 
@@ -35,6 +36,7 @@ function App() {
   return (
     <DataProvider>
       <BrowserRouter>
+      <ScrollOnTop/>
         <Routes>
           <Route path="/" element={<Layout />}>
             {/* <Route index element={<Navigate to="home" />} /> */}

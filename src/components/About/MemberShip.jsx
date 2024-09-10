@@ -22,11 +22,11 @@ const MemberShip = () => {
                   IVC Platform Tokens & Membership Club <TextUnderWrap padding={10}>Tokens</TextUnderWrap> available
                 </div>
               </h3>
-              <div className="d-flex mt-5">
-                <button className="btn btn-warning op-3">
+              <div className="d-flex mt-5 pt-5">
+                <button className="card-token-btn op-3">
                   <ArrowBackOutlinedIcon />
                 </button>
-                <button className="btn btn-warning ml-2">
+                <button className="card-token-btn ml-4">
                   <ArrowForwardOutlinedIcon />
                 </button>
               </div>

@@ -14,11 +14,10 @@ const Header = () => {
   const location = useLocation();
 
   const { warId, setWarId, setShowSingleWarData } = appData();
-  const { isAuthenticated,
-    setIsAuthenticated } = appData();
+  const { isAuthenticated, setIsAuthenticated } = appData();
   const [isScrolled, setIsScrolled] = useState(false);
 
-  const {showLandingSaction , setShowLandingSaction} =  appData()
+  const { showLandingSaction, setShowLandingSaction } = appData();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -42,7 +41,6 @@ const Header = () => {
     return "";
   };
 
-
   return (
     <>
       <header className="main-header header-style-one">
@@ -57,7 +55,7 @@ const Header = () => {
                   <a
                     onClick={() => {
                       navigate("/");
-                      setShowLandingSaction(true)
+                      setShowLandingSaction(true);
                     }}
                     title="iVest Club"
                   >
@@ -93,7 +91,7 @@ const Header = () => {
                           text="Home"
                           onClick={() => {
                             navigate("/");
-                            setShowLandingSaction(true)
+                            setShowLandingSaction(true);
                           }}
                         />
                       </li>
@@ -189,68 +187,84 @@ const Header = () => {
                           }}
                         />
                       </li>
-
-                                 
                     </ul>
                   </div>
                 </nav>
-                <SearchIcon sx={{ color: "#fff" }} />
+                <div className="px-2">
+                <SearchIcon sx={{ color: "#fff" }} /></div>
 
+                {/*This is Conditional rendering based on authentication */}
 
-
-
-  
-
- {/*This is Conditional rendering based on authentication */}
- 
-
-{isAuthenticated ? (
+                {isAuthenticated ? (
                   <>
                     <div className="donate-link">
-                      <a onClick={() => navigate("/SignUp")} className="theme-btn btn-style-one" style={{ textDecoration: "none",fontSize:"12px" , fontWeight:"500" , fontFamily:"'Poppins',san-serif" }}>
+                      <a
+                        onClick={() => navigate("/Dashboard")}
+                        className="theme-btn btn-style-one"
+                        style={{
+                          textDecoration: "none",
+                          fontSize: "12px",
+                          fontWeight: "500",
+                          fontFamily: "'Poppins',san-serif",
+                        }}
+                      >
                         <span className="btn-title">Connect Wallet</span>
                       </a>
                     </div>
-                  
-                    <NotificationsOutlinedIcon sx={{ color: "#fff" }} />
+                    <div className="px-2">
+                    <NotificationsOutlinedIcon sx={{ color: "#fff" }} /></div>
                     <div
-                      className="mx-2"
-                      style={{ padding: "3px", backgroundColor: "#282A35", borderRadius: "200px", cursor: "pointer" }}
+                      className="mx-3"
+                      style={{
+                        padding: "3px",
+                        backgroundColor: "#282A35",
+                        borderRadius: "200px",
+                        cursor: "pointer",
+                      }}
                       onClick={() => navigate("/Dashboard")}
                     >
-                      <AccountCircleOutlinedIcon sx={{ color: "#fff"}} />
+                      <AccountCircleOutlinedIcon sx={{ color: "#fff" }} />
                     </div>
                     &nbsp;
-                    <MobileDrawer  />
-                                     
+                    <MobileDrawer />
                   </>
                 ) : (
                   <>
-                  <nav className="main-menu navbar-expand-md navbar-light mr-3">
-                    <div  className="collapse navbar-collapse show clearfix"
-                    id="navbarSupportedContent">
-                      <ul className="navigation clearfix">
-                    <li  
-                        className={
-                          location.pathname == "/Login"
-                            ? "current dropdown "
-                            : "dropdown "
-                        }
+                    <nav className="main-menu navbar-expand-md navbar-light mr-3">
+                      <div
+                        className="collapse navbar-collapse show clearfix"
+                        id="navbarSupportedContent"
                       >
-                        <HeaderLink
-                        
-                          text="Login"
-                          onClick={() => {
-                            navigate("/Login");
-                          }}
-                        />
-                      </li>
-                      </ul>
+                        <ul className="navigation clearfix">
+                          <li
+                            className={
+                              location.pathname == "/Login"
+                                ? "current dropdown "
+                                : "dropdown "
+                            }
+                          >
+                            <HeaderLink
+                              text="Login"
+                              onClick={() => {
+                                navigate("/Login");
+                              }}
+                            />
+                          </li>
+                        </ul>
                       </div>
-                      </nav>
+                    </nav>
 
-                      <div className="donate-link">
-                      <a onClick={() => navigate("/SignUp")} className="theme-btn btn-style-one" style={{ textDecoration: "none",fontSize:"12px" , fontWeight:"500" , fontFamily:"'Poppins',san-serif" }}>
+                    <div className="donate-link">
+                      <a
+                        onClick={() => navigate("/SignUp")}
+                        className="theme-btn btn-style-one"
+                        style={{
+                          textDecoration: "none",
+                          fontSize: "12px",
+                          fontWeight: "500",
+                          fontFamily: "'Poppins',san-serif",
+                        }}
+                      >
                         <span className="btn-title">Register</span>
                       </a>
                     </div>

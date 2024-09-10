@@ -251,12 +251,47 @@
 	{
 		height: 200vh !important;
 	}
+	.img-fluid
+	{
+		width: 40px !important;
+            height: 40px !important;
+            position: absolute !important;
+            top: 15% !important;
+            left: 37% !important;
+	}
 }
+
+
+@media only screen and (max-width: 425px){
+	
+	.img-fluid
+	{
+		width: 30px !important;
+            height: 30px !important;
+            position: absolute !important;
+            top: 15% !important;
+            left: 37% !important;
+	}
+}
+
+
+
+
+
+
 
 @media only screen and (max-width:1024px){
 	.header-height
 	{
 		height: 200vh !important;
+	}
+	.img-fluid
+	{
+		width: 60px !important;
+            height: 60px !important;
+            position: absolute !important;
+            top: 23% !important;
+            left: 37% !important;
 	}
 }
 
@@ -264,6 +299,15 @@
 
 
 @media only screen and (max-width: 1023px){
+
+	.img-fluid
+	{
+		width: 40px !important;
+            height: 40px !important;
+            position: absolute !important;
+            top: 15% !important;
+            left: 37% !important;
+	}
 	.main-header.header-style-two{
 		position: relative;
 		background: #2f3753;
@@ -1064,6 +1108,17 @@
 }
 
 @media only screen and (max-width: 479px) {
+
+	.img-fluid
+	{
+		width: 50px !important;
+            height: 50px !important;
+            position: absolute !important;
+            top: 18% !important;
+            left: 37% !important;
+	}
+
+
 	.main-header .nav-outer .donate-link{
 		display: none;
 	}

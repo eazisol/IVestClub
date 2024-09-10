@@ -1,9 +1,9 @@
 import React from "react";
 
-export function LargeButton({ text, onClick = () => {} }) {
+export function LargeButton({ text, onClick = () => {} , sx={} }) {
   return (
-    <button className="btn btn-primary btn-rounded w-100 d-flex justify-content-center align-items-center btn-py" onClick={onClick}>
-     <div className="global-btn bold-4 loginFormBtn">{text}</div>
+    <button style={sx} className="btn btn-primary btn-rounded w-100 d-flex justify-content-center align-items-center btn-py" onClick={onClick}>
+     <div className="global-btn loginFormBtn">{text}</div>
     </button>
   );
 }
@@ -33,10 +33,10 @@ export function OutlinedButtonLight({ text, onClick = () => {} }) {
 export function OutlinedButtonWarning({ text, onClick = () => {} }) {
   return (
     <button
-      className="btn btn-outline-warning btn-rounded w-100 d-flex justify-content-center align-items-center pop-font py-2 px-1 bold-3" 
+      className="btn btn-outline-warning btn-rounded w-100 d-flex justify-content-center align-items-center pop-font py-2 px-2" 
       onClick={onClick}
     >
-      <small className="text-warning">{text}</small>
+      <div className="text-warning">{text}</div>
     </button>
   );
 }

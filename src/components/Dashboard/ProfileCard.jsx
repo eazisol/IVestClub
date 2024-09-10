@@ -2,7 +2,9 @@ import React from "react";
 import { Avatar } from "../Common/Icons";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { appData } from "../Context/AppContext";
 const ProfileCard = () => {
+  const { setIsAuthenticated } = appData();
   const location = useLocation();
   const navigate = useNavigate();
   return (
@@ -56,7 +58,8 @@ const ProfileCard = () => {
       <button
         className="dashBtn"
         onClick={() => {
-          navigate("/Login");
+          navigate("/");
+          setIsAuthenticated(false)
         }}
       >
         <i className="fa-solid dashCardIcon LightText-1 fa-arrow-right-from-bracket"></i>

@@ -17,11 +17,11 @@ import { OutlinedButtonDark } from "../Common/Buttons";
 const SpaceXMembership = () => {
   return (
     <SactionContainer bgColor="#F5F8FF" container={false}>
-      <div className="col-md-8  col-sm-12 mt-5 pt-5  mb-5 pb-5">
-        <div className="card p-4">
+      <div className="col-md-8  col-sm-12 extraMg  pt-5  mb-5 pb-5">
+        <div className="card card-border-c p-4">
           <div className="">
             
-            <h3 className="mb-3">
+            <h3 className="mb-3 px-1 pt-3">
               <strong>SpaceX Membership Club (SPX Token)</strong>
             </h3>
             {/* <div className="d-flex align-items-center mb-3">
@@ -236,7 +236,7 @@ const SpaceXMembership = () => {
           </div>
         </div>
       </div>
-      <div className="col-md-4 col-sm-12 mt-5 pt-5 mb-5">
+      <div className="col-md-4 col-sm-12 extraMg pt-5 mb-5">
         <SideBarMembership />
       </div>
     </SactionContainer>

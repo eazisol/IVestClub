@@ -89,7 +89,7 @@ const ForgetPassword = () => {
                   </div>
                   <div className="col-12 mt-4 text-center">
                     <LargeButton text="Submit" />
-                    <p className="text-basic mt-2">Cancel</p>
+                    <p className="text-basic mt-2" style={{cursor:"pointer"}}  onClick={()=>{ setOpenModal({open: false, content: null})}}   >Cancel</p>
                   </div>
                 </div>
               ),
@@ -98,7 +98,11 @@ const ForgetPassword = () => {
         />
 
         <div className="w-100 mt-1 align-items-center d-flex justify-content-center">
-          <p className="formCancel">
+          <p className="formCancel cursor-pointer" 
+           onClick={() => {
+            window.history.back();
+          }}
+          >
            Cancel
            
           </p>

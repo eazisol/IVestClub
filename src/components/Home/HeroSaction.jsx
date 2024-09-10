@@ -21,7 +21,7 @@ const HeroSaction = () => {
   };
 
   return (
-    <ImgBgSactionContainer bgImage={landingimg} showPadding={false} >
+    <ImgBgSactionContainer bgImage={landingimg} showPadding={false} hero >
       <div
         id="carouselIvest"
         className="carousel slide carousel-fade"
@@ -29,10 +29,10 @@ const HeroSaction = () => {
         data-interval="false"
       >
         {/* This is the Element of Carousel on the First Index  */}
-        <div className="carousel-inner header-height" >
+        <div className="carousel-inner " >
           <div className={`carousel-item ${activeIndex === 0 ? "active" : ""}`}>
             <div className="row mt-5">
-              <div className="col-11">
+              <div className="col-11 mt-2 pl-3">
                 <h1 className="mb-4 mt-5">
                   <TextUnderWrap>iVest C</TextUnderWrap>lub.
                 </h1>
@@ -40,7 +40,7 @@ const HeroSaction = () => {
                   Your Gateway to Pre-IPO Companies
                 </div>
                 <p
-                  className="text-basic text-light-c w-60 mb-0 mt-3"
+                  className="text-basic text-light-c w-60 mb-0 mt-3 pl-1"
                   style={{ lineHeight: "1.7em" }}
                 >
                   At iVest Club, we believe you should have equal access to
@@ -52,11 +52,11 @@ const HeroSaction = () => {
                   democratize the landscape ahead of an IPO, making it inclusive
                   for all.
                 </p>
-                <p className="text-basic text-light-c w-50">
+                <p className="text-basic text-light-c w-60">
                   Get ready for the exciting journey ahead as these companies
                   transition to the public market!
                 </p>
-                <div className="heroSub">
+                <div className="heroSub ">
                   Are you ready to join SpaceX on its IPO journey?
                 </div>
                 <div className="heroSub mt-3">
@@ -64,9 +64,9 @@ const HeroSaction = () => {
                   like the ultra-rich. Join Now For Free!
                 </div>
 
-                <div className="w-80 d-flex">
+                <div className="w-80 mt-1 d-flex">
                   <div className="col-lg-3 col-sm-6 pt-2 mt-4 p-0 mr-3">
-                    <CreateAccountModal text={"Join for free now"} />
+                    <CreateAccountModal text={<span className="fillBtn ">Join For Free Now</span>} />
                   </div>
                   <div className="col-lg-3 col-sm-6 pt-2 mt-4 p-0">
                     <OutlinedButtonLight
@@ -77,7 +77,7 @@ const HeroSaction = () => {
                       text={
                         <>
                           <span className="fa fa-solid fa-play small-icon mr-2"></span>{" "}
-                          Presentation
+                        <span className="outBtn"> Presentation </span>
                         </>
                       }
                     />
@@ -85,25 +85,25 @@ const HeroSaction = () => {
                 </div>
               </div>
               <div className="col-1 d-flex flex-column justify-content-center main-footer">
-                <ul className="social-links  iconContainer clearfix mb-0">
-                  <li className="mb-3 w-100">
+                <ul className="social-links  iconContainer clearfix mb-0 text-right">
+                  <li className="mb-3 w-100 d-flex justify-content-end">
                     <a href="#">
-                      <span className="fab fa-facebook-f"></span>
+                      <span className="fab fa-xs fa-facebook-f"></span>
                     </a>
                   </li>
-                  <li className="mb-3 w-100">
+                  <li className="mb-3 w-100 d-flex justify-content-end">
                     <a href="#">
-                      <span className="fab fa-instagram"></span>
+                      <span className="fab fa-xs fa-instagram"></span>
                     </a>
                   </li>
-                  <li className="mb-3 w-100">
+                  <li className="mb-3 w-100 d-flex justify-content-end">
                     <a href="#">
-                      <span className="fab fa-twitter"></span>
+                      <span className="fab fa-xs fa-twitter"></span>
                     </a>
                   </li>
-                  <li className="mb-3 w-100">
+                  <li className="mb-3 w-100 d-flex justify-content-end">
                     <a href="#">
-                      <span className="fab fa-snapchat-ghost"></span>
+                      <span className="fab fa-xs fa-solid fa-snapchat"></span>
                     </a>
                   </li>
                 </ul>
@@ -112,7 +112,7 @@ const HeroSaction = () => {
           </div>
 
           {/* This is the second element on the Carousel index  */}
-          <div className={`carousel-item ${activeIndex === 1 ? "active" : ""}`}>
+          <div className={`carousel-item ${activeIndex === 1 ? "active header-height" : " header-height"}`}>
             <div className="row mt-5">
               <div className="col-7">
                 <h1 className="mb-4">
@@ -198,7 +198,7 @@ const HeroSaction = () => {
             </div>
           </div>
 
-          <div className={`carousel-item ${activeIndex === 2 ? "active" : ""}`}>
+          <div className={`carousel-item ${activeIndex === 2 ? "active header-height" : "header-height"}`}>
             <div className="row mt-5">
               <div className="col-7">
                 <h1 className="mb-4">
@@ -275,7 +275,7 @@ const HeroSaction = () => {
             </div>
           </div>
 
-          <div className={`carousel-item ${activeIndex === 3 ? "active" : ""}`}>
+          <div className={`carousel-item ${activeIndex === 3 ? "active header-height" : "header-height"}`}>
             <div className="row mt-5">
               <div className="col-7">
                 <h1 className="mb-4">
@@ -357,7 +357,7 @@ const HeroSaction = () => {
             </div>
           </div>
 
-          <div className={`carousel-item ${activeIndex === 4 ? "active" : ""}`}>
+          <div className={`carousel-item ${activeIndex === 4 ? "active header-height" : "header-height"}`}>
             <div className="row mt-5">
               <div className="col-7">
                 <h1 className="mb-4">

@@ -57,7 +57,7 @@ const PublicMemberShip = () => {
         </div>
       </section>
       <SactionContainer container={false}>
-        <div className="card w-100 p-0 p-2 ml-3 mt-5">
+        <div className="card card-border-c w-100 px-1 pt-3  ml-3 mt-5">
           <h2 className="mx-4 mt-3">
             <strong>Membership clubs</strong>
           </h2>
@@ -69,15 +69,15 @@ const PublicMemberShip = () => {
             />{" "}
             <p className="text-basic mb-0 ml-1">
               {" "}
-              By <strong className=" DarkText bold-4">John Doe</strong>{" "}
-              <span>&#8226;</span>
+              By <strong className=" DarkText bold-4">John Doe</strong>{" "}&nbsp;&nbsp;
+              <span>&#8226;</span> 
             </p>
             <CalendarTodayOutlinedIcon
               sx={{ color: "#888", ml: 1, fontSize: "15px" }}
             />
             <p className="text-basic mb-0 ml-1">
               {" "}
-              24/7/2024 <span>&#8226;</span>{" "}
+              24/7/2024 &nbsp;&nbsp;<span>&#8226;</span>{" "}
             </p>{" "}
             <GroupsOutlinedIcon
               sx={{ color: "#888", ml: 1, fontSize: "25px" }}
@@ -379,7 +379,7 @@ const PublicMemberShip = () => {
             Tokens are limited, so secure your access to current and future
             membership clubs now.{" "}
           </p>
-          <div className="mt-4 pt-2 d-flex row ">
+          <div className="mt-4 pt-2 mb-4 pb-2 d-flex row ">
             <div className="col-lg-4 col-sm-12 mt-1 p-0">
               <LargeButton text="Buy your IVC tokens" />
             </div>

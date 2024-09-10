@@ -25,12 +25,10 @@ function LandingTimeLine() {
         sx={{
           [`& .${timelineItemClasses.root}:before`]: {
             flex: 0,
-            padding: "10px 0px 0px 10px",
-            
+            padding: "10px 5px 0px 10px",
           },
           backgroundColor: "#F5F8FF",
-          borderRadius:"7px"
-          
+          borderRadius: "7px",
         }}
       >
         <TLItem

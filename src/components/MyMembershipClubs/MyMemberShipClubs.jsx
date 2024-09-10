@@ -8,14 +8,16 @@ import membershipimg3 from "../../assets/image/membershipimg3.png";
 import membershipimg4 from "../../assets/image/membershipimg4.png";
 const MyMemberShipClubs = () => {
   return (
-    <SactionContainer>
-     <div className="w-100 mt-5  mb-3 pt-2 pl-3">
-        <h3 className="dashHead">
+    <SactionContainer container={false}>
+     <div className="w-100 mt-5  mb-3 pt-5 pl-3">
+        <h3 className="dashHead mt-2 mb-3 pb-1">
           Dashboard
         </h3>
       </div>
-      <div className="row mb-5">
-        <div className="col-lg-3 col-md-12  col-sm-12 mb-4">
+
+
+ <div className="row mb-5">
+        <div className="col-lg-3 col-md-12 p-0 col-sm-12 mb-4">
           <ProfileCard />
         </div>
         <div className="col-lg-9 col-md-12  col-sm-12">

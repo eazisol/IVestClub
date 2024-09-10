@@ -158,7 +158,7 @@ const OpenAIMembership = () => {
           </div>
         </div>
       </div>
-      <div className="col-md-4 col-sm-12 mt-5 pt-5">
+      <div className="col-lg-4  col-md-4 col-sm-12 mt-5 pt-5 pl-4">
         <SideBarMembership />
       </div>
     </SactionContainer>

@@ -22,6 +22,7 @@ import { MiniGraph, LargeGraph } from "../Common/CurrencyIcons";
 import ProfileCard from "./ProfileCard";
 import { FilledButtonLight } from "../Common/Buttons";
 import { LargeButton } from "../Common/Buttons";
+import { BtcIcon } from "react-line-awesome";
 
 
 function createData(currObj, avail, amount, action) {
@@ -53,10 +54,10 @@ const rows = [
 
 const Dashboard = () => {
   return (
-    <SactionContainer>
+    <SactionContainer container={false}>
     
-    <div className="w-100 mt-5  mb-3 pt-2 pl-3">
-        <h3 className="dashHead">
+    <div className="w-100 mt-5  mb-3 pt-5 pl-3">
+        <h3 className="dashHead mt-2 mb-3 pb-1">
           Dashboard
         </h3>
       </div>
@@ -64,7 +65,7 @@ const Dashboard = () => {
       <div className="w-100 mb-5 pb-5">
       <div className="row mb-5">
       
-       <div className="col-lg-3 col-sm-12 col-md-12 mb-4">
+       <div className="col-lg-3 col-sm-12 col-md-12 mb-4 p-0">
           <ProfileCard/>
         </div>
         <div className="col-lg-9 col-sm-12 col-md-12">
@@ -347,31 +348,36 @@ const Dashboard = () => {
                     
                     <div className="con-dropDown dropdown">
                       <button
-                        className="btn btn-secondary dropdown-toggle"
+                        className="btn btn-secondary mt-1 dropdown-toggle"
                         type="button"
                         data-bs-toggle="dropdown"
                         aria-expanded="false"
                       >
                         <Bitcoin /><span> BTC </span>
                       </button>
-                      <ul className="dropdown-menu dropdown-menu-dark">
-                        <li>
-                          <a className="dropdown-item active" href="#">
-                            BTC
+                      <ul className="dropdown-menu">
+                        <li className="">
+                          <a className="dropdown-item" href="#">
+                          <Bitcoin size={20} />  BTC
                           </a>
                         </li>
                         <li>
                           <a className="dropdown-item" href="#">
-                            USDT
+                          <Usdt size={20} />    USDT
                           </a>
                         </li>
                         <li>
                           <a className="dropdown-item" href="#">
-                            ETH
+                          <Ethereum size={20} />    ETH
                           </a>
                         </li>
                       </ul>
                     </div>
+
+
+
+
+
                     <input
                       type="text"
                       className="form-control con-input"
@@ -387,27 +393,27 @@ const Dashboard = () => {
                   <div className="input-group mb-3">
                     <div>
                       <button
-                        className="btn btn-secondary dropdown-toggle"
+                        className="btn mt-1 btn-secondary dropdown-toggle"
                         type="button"
                         data-bs-toggle="dropdown"
                         aria-expanded="false"
                       >
                         <IVC /> <span> IVC </span>
                       </button>
-                      <ul className="dropdown-menu dropdown-menu-dark">
-                        <li>
-                          <a className="dropdown-item active" href="#">
-                            BTC
+                      <ul className="dropdown-menu">
+                        <li className="">
+                          <a className="dropdown-item" href="#">
+                          <Bitcoin size={20} />  BTC
                           </a>
                         </li>
                         <li>
                           <a className="dropdown-item" href="#">
-                            USDT
+                          <Usdt size={20} />    USDT
                           </a>
                         </li>
                         <li>
                           <a className="dropdown-item" href="#">
-                            ETH
+                          <Ethereum size={20} />    ETH
                           </a>
                         </li>
                       </ul>
@@ -422,11 +428,11 @@ const Dashboard = () => {
                 </div>
                 </div>
               </div>
-              <div className="convDes LightText" align="center">
+              <div className="convDes LightText z-3" align="center" >
                 The price will be recalculated in 4.5s
               </div>
               {/* <div className="conBtn">Buy Now</div> */}
-              <div className="largeButtonContainer mt-5 mb-5 col-lg-4 col-md-4 col-sm-2">
+              <div className="largeButtonContainer mt-3  pt-3 mb-5 col-lg-4 col-md-4 col-sm-2">
               <LargeButton text={"Buy Now"}/>
               </div>
             </div>
