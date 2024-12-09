@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 import headingUnder from "../../assets/image/others/headingUnder.png";
+import { styled } from "@mui/material/styles";
+import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
+import { CircularProgress } from "@mui/material";
+
 export const HeaderLink = ({ text, onClick }) => {
   const [isHovered, setIsHovered] = useState(false);
   return (
@@ -29,3 +33,23 @@ export const TextUnderWrap = ({ children, padding=20 }) => {
     </span>
   );
 };
+
+
+
+
+export function CustomizedTooltips({ children, title, placement = "top" }) {
+ 
+
+  return (
+    <Tooltip title={title}>
+      {children}
+    </Tooltip>
+  );
+}
+export function CustomizedLoader() {
+ 
+
+  return (
+   <div style={{padding : "10rem"}} className="w-100 d-flex justify-content-center"><CircularProgress /></div>
+  );
+}

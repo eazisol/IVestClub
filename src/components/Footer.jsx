@@ -17,7 +17,7 @@ const Footer = () => {
               <div className="column big-column col-lg-3 col-md-3 col-sm-6">
                 <div className="footer-widget logo-widget">
                   <div className="widget-content">
-                    <div className="footer-logo pl-5">
+                    <div className="footer-logo pl-lg-5">
                       <a
                         className=" text-light-c "
                         onClick={() => {
@@ -34,25 +34,25 @@ const Footer = () => {
                       </a>
                     </div>
 
-                    <ul className="social-links clearfix  pl-5">
+                    <ul className="social-links clearfix  pl-lg-5">
                       <li>
-                        <a href="#" className="mr-2">
+                        <a href="https://www.facebook.com" className="mr-2">
                           <span className="fab  fa-facebook-f fa-xs"></span>
                         </a>
                       </li>
                       <li>
-                        <a href="#" className="mr-2">
+                        <a href="https://www.instagram.com" className="mr-2">
                           <span className="fab fa-instagram fa-xs"></span>
                           
                         </a>
                       </li>
                       <li>
-                        <a href="#" className="mr-2">
+                        <a href="https://www.x.com" className="mr-2">
                           <span className="fab fa-twitter fa-xs"></span>
                         </a>
                       </li>
                       <li>
-                        <a href="#" className="mr-2">
+                        <a href="https://www.snapchat.com" className="mr-2">
                           <span className="fab fa-snapchat-ghost fa-xs"></span>
                         </a>
                       </li>
@@ -65,7 +65,7 @@ const Footer = () => {
                   </div>
                 </div>
               </div>
-              <div className="column big-column col-lg-2 col-md-2 col-sm-6 pl-5">
+              <div className="column big-column col-lg-2 col-md-2 col-6 pl-lg-5">
                 <div className="footer-widget links-widget">
                   <div className="widget-content">
                     <h6>Navigation</h6>
@@ -123,7 +123,7 @@ const Footer = () => {
                   </div>
                 </div>
               </div>
-              <div className="column big-column col-lg-2 col-md-2 col-sm-4">
+              <div className="column big-column col-lg-2 col-md-2 col-6">
                 <div className="footer-widget links-widget">
                   <div className="widget-content">
                     <h6>Network</h6>
@@ -175,7 +175,7 @@ const Footer = () => {
                   </div>
                 </div>
               </div>
-              <div className="column big-column col-lg-2 col-md-2 col-sm-4">
+              <div className="column big-column col-lg-2 col-md-2 col-6">
                 <div className="footer-widget links-widget">
                   <div className="widget-content">
                     <h6>Support</h6>
@@ -204,7 +204,7 @@ const Footer = () => {
                   </div>
                 </div>
               </div>
-              <div className="column big-column col-lg-2 col-md-2 col-sm-4">
+              <div className="column big-column col-lg-2 col-md-2 col-6">
                 <div className="footer-widget links-widget">
                   <div className="widget-content">
                     <h6>About Us</h6>
@@ -245,7 +245,7 @@ const Footer = () => {
           <div className="auto-container">
             <div className="inner">
               <div className="copyright  text-light-c">
-              <span>  © 2024 iVest Club All rights reserved. Design by{" "}</span>
+              <span>  © 2024 IVest Club All rights reserved. Design by{" "}</span>
                 <a
                   href="https://eazisols.com/"
                   style={{ textDecoration: "underline" }}

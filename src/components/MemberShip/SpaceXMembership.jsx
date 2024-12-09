@@ -17,31 +17,14 @@ import { OutlinedButtonDark } from "../Common/Buttons";
 const SpaceXMembership = () => {
   return (
     <SactionContainer bgColor="#F5F8FF" container={false}>
-      <div className="col-md-8  col-sm-12 extraMg  pt-5  mb-5 pb-5">
-        <div className="card card-border-c p-4">
-          <div className="">
+      <div className="col-md-8  col-sm-12 extraMg  pt-5  mb-5 pb-5 px-4">
+        <div className="card card-border-c ">
+          <div className="card-body p-0 p-xl-5">
             
             <h3 className="mb-3 px-1 pt-3">
               <strong>SpaceX Membership Club (SPX Token)</strong>
             </h3>
-            {/* <div className="d-flex align-items-center mb-3">
-              <p className="text-basic mb-0 ml-1">
-                {" "}
-                Admin: <strong className="text-dark">John Doe</strong>{" "}
-                <span>&#8226;</span>
-              </p>
-              <CalendarTodayOutlinedIcon
-                sx={{ color: "#888", ml: 1, fontSize: "15px" }}
-              />
-              <p className="text-basic mb-0 ml-1">
-                {" "}
-                24/7/2024 <span>&#8226;</span>{" "}
-              </p>{" "}
-              <GroupsOutlinedIcon
-                sx={{ color: "#888", ml: 1, fontSize: "25px" }}
-              />
-              <p className="text-basic mb-0 ml-1"> 222 Members </p>{" "}
-            </div> */}
+            
             <div className="d-flex align-items-center mb-3 ">
               <p className="text-basic  mb-0 ml-1 Opacity">
                 {" "}
@@ -61,7 +44,7 @@ const SpaceXMembership = () => {
               <p className="text-basic mb-0 ml-1 Opacity"> 222 Members </p>{" "}
             </div>
             
-            <img src={spaceximg1} alt="" className="img-fluid mt-2" />
+            <img src={spaceximg1} alt="" className=" mt-2" />
             <h5 className="mt-4 text-dark mont-font">
               <strong>Who are SpaceX?</strong>
             </h5>
@@ -93,11 +76,11 @@ const SpaceXMembership = () => {
           
           </div>
           <hr />
-          <div className="p-3">
+          <div className="p-0 p-xl-3">
            <h5 className="mt-4 text-dark mont-font">
               <strong>Elon Musk presentation on SPaceX</strong>
             </h5>
-            <img src={spaceximg2} alt="" className="img-fluid mt-2" />
+            <img src={spaceximg2} alt="" className=" mt-2" />
             <p className="text-basic text-dark mt-3 bold-5">
               Space travel is crucial for advancing scientific knowledge,
               fostering technological innovation, and ensuring the long-term
@@ -122,12 +105,13 @@ const SpaceXMembership = () => {
           
           </div>
         </div>
-        <div className="card p-4  mt-4">
-          <div className="">
+        <div className="card card-border-c   mt-4">
+          <div className="card-body p-0 p-xl-5">
            
-            <h5 className="mt-4 text-dark mont-font">
+            <h5 className="text-dark mont-font">
               <strong>ChatGPT Box Here</strong>
             </h5>
+           
             {[
               "Ask ChatGPT a question abut the company?",
               "Suggested questions list here.",
@@ -139,8 +123,8 @@ const SpaceXMembership = () => {
               "Tempus imperdiet nulla malesuada",
             ].map((text, index) => (
               <div className="d-flex mt-3 align-align-items-center" key={index}>
-                <div className="col-1">
-                  <h4 className="text-warning mb-0">{">"}</h4>
+                <div className="col-1 pl-0">
+                  <h4 className="text-warning warning-bullet mb-0">{">"}</h4>
                 </div>
                 <div className="col-11 pl-0">
                   <h6 className="mb-0 h5-sm bold-5 mont-font" >{text}</h6>
@@ -149,24 +133,24 @@ const SpaceXMembership = () => {
             ))}
           </div>
         </div>
-        <div className="card mt-3">
-          <div className="p-3">
-          <h6>
-              <strong className="bold-6">Open AI Discussion Channel</strong>
-            </h6>
-            <img src={openaiimg3} alt="" className="img-fluid mt-2" />
+        <div className="card card-border-c mt-3">
+          <div className="card-body p-0 p-xl-5">
+          
+            <h5 className=" text-dark mont-font">
+              <strong>Open AI Discussion Channel</strong>
+            </h5>
+            <img src={openaiimg3} alt="" className=" mt-2" />
           </div>
         </div>
-        <div className="card mt-3 p-4">
-          <div className="">
-            <h5>
-              <strong className="bold-6">
-                Learn About Different Aspects Of iVestClub Technologies
-              </strong>
+        <div className="card card-border-c mt-3 ">
+          <div className="card-body p-0 p-xl-3">
+           
+            <h5 className=" text-dark mont-font">
+              <strong>Learn About Different Aspects Of iVestClub Technologies</strong>
             </h5>
             <div className="">
               <RatingsTotal />
-              <div className="mt-2">
+              <div className="mt-3">
                 <Ratings
                   heading={"Founders and Board of Directors of OpenAI"}
                   text={[
@@ -213,8 +197,8 @@ const SpaceXMembership = () => {
             </div>
           </div>
         </div>
-        <div className="card mt-3">
-          <div className="p-3">
+        <div className="card card-border-c mt-3">
+          <div className="card-body p-0 p-xl-5">
             
             <div className="feedbackHeading">Ask For Information About iVestClub Technologies</div>
             <p className="text-basic mb-0 mt-3">Rate This Club</p>

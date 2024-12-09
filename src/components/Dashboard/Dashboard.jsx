@@ -65,7 +65,7 @@ const Dashboard = () => {
       <div className="w-100 mb-5 pb-5">
       <div className="row mb-5">
       
-       <div className="col-lg-3 col-sm-12 col-md-12 mb-4 p-0">
+       <div className="col-lg-3 col-sm-12 col-md-12 mb-4 p-3 p-xl-0">
           <ProfileCard/>
         </div>
         <div className="col-lg-9 col-sm-12 col-md-12">

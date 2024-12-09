@@ -1,15 +1,321 @@
-import React, { useState } from "react";
-import { FilledButtonLight, OutlinedButtonLight, LargeButton } from "./Buttons";
-import { SimpleInput, PasswordInput } from "../Common/Inputs";
+import React, { useEffect, useState } from "react";
+import {
+  FilledButtonLight,
+  OutlinedButtonLight,
+  LargeButton,
+  OutlinedButtonDark,
+} from "./Buttons";
+import { SimpleInput, DatePicker } from "../Common/Inputs";
 import { appData } from "../Context/AppContext";
+import MaterialModal from "./MaterialModal";
+import useApi from "../Hooks/useApi";
+import { validateFormData } from "./Validations";
+import { formatDateToDDMMYYYY } from "./Utills";
+import validator from "validator";
+import { useNavigate } from "react-router-dom";
 
-const CreateAccountModal = ({ text }) => {
-  const { openModal, setOpenModal } = appData();
+const CreateAccountModal = ({ text, Component = FilledButtonLight }) => {
+  const { openModal, setUserData, setSnackBarData } = appData();
+  const { mutate: sendOTP, isPending: isRegisterLoading, error } = useApi();
+  const { mutate: verifyOTP, isPending: isVerifyingOTP } = useApi();
+  const { mutate: resendOTP, isPending: isResendingOTP } = useApi();
+  const [isResendDisabled, setIsResendDisabled] = useState(false);
+  // State to track the timer (in seconds)
+  const [timer, setTimer] = useState(60);
 
-  function LoginModal() {
-    setOpenModal({
-      open: true,
-      content: (
+  const [openModal1, setOpenModal1] = useState(false);
+  const [openModal2, setOpenModal2] = useState(false);
+  const [openModal3, setOpenModal3] = useState(false);
+  const [openModal4, setOpenModal4] = useState(false);
+  const [openModal5, setOpenModal5] = useState(false);
+  const [submitclicked, setSubmitclicked] = useState(false);
+  const [submitclicked2, setSubmitclicked2] = useState(false);
+
+  const [formData, setFormData] = useState({});
+  const [OTP, setOTP] = useState(["", "", "", ""]);
+
+  const navigate = useNavigate();
+
+  const handleOTPChange = (e, index) => {
+    const value = e.target.value;
+
+    // Only allow numeric input and ensure a single digit
+    if (!isNaN(value) && value.length <= 1) {
+      const newOTP = [...OTP];
+      newOTP[index] = value;
+      setOTP(newOTP);
+
+      // Automatically focus the next input if a digit is entered
+      if (value !== "" && index < 3) {
+        document.getElementById(`Number${index + 2}`).focus();
+      }
+    }
+  };
+
+  // Handle backspace to move to the previous input
+  const handleKeyDown = (e, index) => {
+    if (e.key === "Backspace" && !OTP[index] && index > 0) {
+      document.getElementById(`Number${index}`).focus();
+    }
+  };
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    setSubmitclicked(false);
+    setSubmitclicked2(false);
+    // console.log("e.target", e.target);
+    const { name, value, type } = e.target;
+    if (type == "date") {
+      const formattedDate = formatDateToDDMMYYYY(value);
+      setFormData((prevData) => ({ ...prevData, [name]: formattedDate }));
+    } else {
+      setFormData((prevData) => ({ ...prevData, [name]: value }));
+    }
+  };
+
+  useEffect(() => {
+    if (isResendDisabled && timer > 0) {
+      const countdown = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+
+      // Clear the interval once the timer reaches 0
+      return () => clearInterval(countdown);
+    } else if (timer === 0) {
+      setIsResendDisabled(false); // Re-enable the button after the countdown
+    }
+  }, [isResendDisabled, timer]);
+
+  const handleSubmitFirstDetails = (e) => {
+    setSubmitclicked(true);
+    const keysToValidate = [
+      { name: "FirstName", errorMessage: "Please enter First Name." },
+      { name: "LastName", errorMessage: "Please enter Surname." },
+      { name: "dob", errorMessage: "Please enter Date of Birth." },
+    ];
+
+    const validationResult = validateFormData({
+      formData,
+      keys: keysToValidate,
+    });
+    if (!validationResult.isValid) {
+      setSnackBarData({
+        visibility: true,
+        error: "error",
+        text: validationResult.errorMessage,
+      });
+      return;
+    }
+    setOpenModal1(false);
+    setOpenModal2(true);
+  };
+
+  const handleSendOTP = (e) => {
+    if (OTP.length < 4) {
+      setSnackBarData({
+        visibility: true,
+        error: "error",
+        text: "Please enter OTP",
+      });
+    }
+
+    const otpString = OTP.join("");
+
+    // Convert the OTP string into a number
+    const otpNumber = parseInt(otpString, 10);
+    verifyOTP(
+      {
+        url: "check-otp",
+        method: "POST",
+        data: { email: formData.email, code: otpNumber },
+      },
+      {
+        onSuccess: (data) => {
+          console.log(data);
+          localStorage.setItem("userData", JSON.stringify({...data,...formData}));
+          setUserData({...data,...formData});
+          setOpenModal3(false);
+          setOpenModal4(true);
+
+          setSnackBarData({
+            visibility: true,
+            // error: "info",
+            text: "OTP Verified Successfully",
+          });
+        },
+        onError: (error) => {
+          console.log(error);
+        },
+      }
+    );
+  };
+  const handleVerifyOTP = (e) => {
+    // setOpenModal2(false);
+    // setOpenModal3(true);
+    // return
+    e.preventDefault();
+    setSubmitclicked2(true);
+    const keysToValidate = [
+      { name: "username", errorMessage: "Please enter username." },
+      // {name : "password", errorMessage: "Please enter Password."}
+    ];
+
+    const validationResult = validateFormData({
+      formData,
+      keys: keysToValidate,
+    });
+    if (!validationResult.isValid) {
+      setSnackBarData({
+        visibility: true,
+        error: "error",
+        text: validationResult.errorMessage,
+      });
+      return;
+    }
+    if (!validator.isEmail(formData.email)) {
+      setSnackBarData({
+        visibility: true,
+        error: "error",
+        text: "Please enter a valid email",
+      });
+      return;
+    }
+
+    sendOTP(
+      {
+        url: "register-with-otp",
+        method: "POST",
+        data: formData,
+      },
+      {
+        onSuccess: (data) => {
+          console.log(data);
+          setOpenModal2(false);
+          setOpenModal3(true);
+
+          setSnackBarData({
+            visibility: true,
+            // error: "info",
+            text: "OTP sent Successfully",
+          });
+        },
+        onError: (error) => {
+          console.log(error);
+        },
+      }
+    );
+  };
+  const handleResendOTP = (e) => {
+    // setOpenModal2(false);
+    // setOpenModal3(true);
+    // return
+    e.preventDefault();
+if (isResendDisabled) {
+  return
+}
+    resendOTP(
+      {
+        url: "resend-otp",
+        method: "POST",
+        data: { email: formData.email },
+      },
+      {
+        onSuccess: (data) => {
+          console.log(data);
+
+          setSnackBarData({
+            visibility: true,
+            // error: "info",
+            text: "OTP sent Successfully",
+          });
+          setIsResendDisabled(true);
+          setTimer(60); // Set timer to 60 seconds
+        },
+        onError: (error) => {
+          console.log(error);
+        },
+      }
+    );
+  };
+
+  return (
+    <>
+      <MaterialModal open={openModal1}>
+        <>
+          <div className="ModalContainer p-3 z-index-0">
+            <div className="row">
+              <div className="col-12">
+                <div className="text-dark modalHeading">
+                  {" "}
+                  Great - Lets get you started on Your Journey!
+                </div>
+              </div>
+
+              <div className="modalSection">
+                <div className="col-12 modal-des" style={{ marginTop: "10px" }}>
+                  <p className="text-basic">
+                    Please let us know a little bit more about yourself, so that
+                    we can start creating your Free Acount:
+                  </p>
+                </div>
+
+                <div className="row">
+                  <div className="col-md-6 modal-input">
+                    <SimpleInput
+                      lable="First Name"
+                      name="FirstName"
+                      onChange={handleChange}
+                      value={formData.FirstName || ""}
+                      required
+                      error={submitclicked && !formData.FirstName}
+                      helperText={"First Name is Required"}
+                    />
+                  </div>
+                  <div className="col-md-6 modal-input">
+                    <SimpleInput
+                      lable="Surname"
+                      name="LastName"
+                      onChange={handleChange}
+                      value={formData.LastName || ""}
+                      required
+                      error={submitclicked && !formData.LastName}
+                      helperText={"Surname is Required"}
+                    />
+                  </div>
+                </div>
+                <div className="row ">
+                  <div className="col-md-12 modal-input">
+                    <DatePicker
+                      lable="Date of Birth"
+                      name="dob"
+                      onChange={handleChange}
+                      value={formData.dob || ""}
+                      required
+                      error={submitclicked && !formData.dob}
+                      helperText={"Date of Birth is Required"}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="modalBtns row text-center mt-3 p-3 justify-content-center">
+              <LargeButton text={"Submit"} onClick={handleSubmitFirstDetails} />
+
+              <p
+                className="text-basic text-dark w-auto mt-3"
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  setOpenModal1(false);
+                }}
+              >
+                Cancel
+              </p>
+            </div>
+          </div>
+        </>
+      </MaterialModal>
+      <MaterialModal open={openModal2}>
         <>
           <div className="ModalContainer p-3 z-0 container ">
             <div className="row">
@@ -29,22 +335,41 @@ const CreateAccountModal = ({ text }) => {
 
                 <div className="row">
                   <div className="col-12 modal-input">
-                    <SimpleInput lable={"Username"} />
+                    <SimpleInput
+                      lable={"Username"}
+                      name="username"
+                      onChange={handleChange}
+                      value={formData.username || ""}
+                      required
+                      error={submitclicked2 && !formData.username}
+                      helperText={"Username is Required"}
+                    />
                   </div>
                   <div className="col-12 modal-input">
-                    <SimpleInput lable={"Email"} />
+                    <SimpleInput
+                      lable={"Email"}
+                      name="email"
+                      onChange={handleChange}
+                      value={formData.email || ""}
+                      required
+                      error={submitclicked2 && !formData.email}
+                      helperText={"Email is Required"}
+                    />
                   </div>
                 </div>
               </div>
             </div>
             <div className="modalBtns row text-center mt-3 p-3 justify-content-center">
-              <LargeButton text={"Submit"} onClick={VerifyModal} />
+              <LargeButton
+                text={isRegisterLoading ? "Submitting..." : "Submit"}
+                onClick={handleVerifyOTP}
+              />
 
               <p
                 className="text-basic text-dark w-auto mt-3"
                 style={{ cursor: "pointer" }}
                 onClick={() => {
-                  setOpenModal({ open: false, content: null });
+                  setOpenModal2(false);
                 }}
               >
                 Cancel
@@ -52,14 +377,8 @@ const CreateAccountModal = ({ text }) => {
             </div>
           </div>
         </>
-      ),
-    });
-  }
-
-  function VerifyModal() {
-    setOpenModal({
-      open: true,
-      content: (
+      </MaterialModal>
+      <MaterialModal open={openModal3}>
         <>
           <div className="ModalContainer p-3 z-0">
             <div className="row">
@@ -80,47 +399,54 @@ const CreateAccountModal = ({ text }) => {
                 </div>
 
                 <div className="row verify-modal mt-5">
-                  <div className="col-md-3">
-                    <input type="text" className="form-control" id="Number1" />
-                  </div>
-                  <div className="col-md-3">
-                    <input type="text" className="form-control" id="Number2" />
-                  </div>
-                  <div className="col-md-3">
-                    <input type="text" className="form-control" id="Number3" />
-                  </div>
-                  <div className="col-md-3">
-                    <input type="text" className="form-control" id="Number4" />
-                  </div>
+                  {OTP.map((digit, index) => (
+                    <div className="col-3" key={index}>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id={`Number${index + 1}`}
+                        value={digit}
+                        onChange={(e) => handleOTPChange(e, index)}
+                        onKeyDown={(e) => handleKeyDown(e, index)}
+                        maxLength={1}
+                      />
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
 
             <div className="modalBtns row text-center mt-3 p-3 justify-content-center">
-              <LargeButton text={"Verify"} onClick={FinanceModal} />
+              <LargeButton
+                text={isVerifyingOTP ? "Verifying..." : "Verify"}
+                onClick={handleSendOTP}
+              />
             </div>
             <div className="container col-12 verify-btn d-flex justify-content-between ">
               <p
                 className="text-basic text-dark w-auto mt-3"
                 style={{ cursor: "pointer" }}
                 onClick={() => {
-                  setOpenModal({ open: false, content: null });
+                  setOpenModal3(false);
                 }}
               >
                 Cancel
               </p>
-              <p className="text-basic text-dark w-auto mt-3">Resend Code</p>
+              <p
+                className="text-basic text-dark w-auto mt-3"
+                onClick={handleResendOTP}
+                style={{
+                  cursor: isResendDisabled ? "not-allowed" : "pointer",
+                  color: isResendDisabled ? "gray" : "black",
+                }}
+              >
+                {isResendDisabled ? `Resend Code (${timer}s)` : "Resend Code"}
+              </p>
             </div>
           </div>
         </>
-      ),
-    });
-  }
-
-  function FinanceModal() {
-    setOpenModal({
-      open: true,
-      content: (
+      </MaterialModal>
+      <MaterialModal open={openModal4}>
         <>
           <div className="ModalContainer p-3 container z-0">
             <div className="row">
@@ -167,13 +493,19 @@ const CreateAccountModal = ({ text }) => {
             </div>
 
             <div className="modalBtns row text-center mt-3 p-3 justify-content-center">
-              <LargeButton text={"Submit"} onClick={CompanyModal} />
+              <LargeButton
+                text={"Submit"}
+                onClick={() => {
+                  setOpenModal4(false);
+                  setOpenModal5(true);
+                }}
+              />
 
               <p
                 className="text-basic text-dark w-auto mt-3"
                 style={{ cursor: "pointer" }}
                 onClick={() => {
-                  setOpenModal({ open: false, content: null });
+                  setOpenModal4(false);
                 }}
               >
                 Cancel
@@ -181,14 +513,8 @@ const CreateAccountModal = ({ text }) => {
             </div>
           </div>
         </>
-      ),
-    });
-  }
-
-  function CompanyModal() {
-    setOpenModal({
-      open: true,
-      content: (
+      </MaterialModal>
+      <MaterialModal open={openModal5}>
         <>
           <div className="CompanyModalContainer container">
             <div className="row">
@@ -302,13 +628,17 @@ const CreateAccountModal = ({ text }) => {
                 text={
                   "Click here to activate your Free account & start your journey"
                 }
+                onClick={() => {
+                  setOpenModal5(false);
+                  navigate("/Dashboard/MyAccount")
+                }}
               />
 
               <p
                 className="text-basic text-dark w-auto mt-3"
                 style={{ cursor: "pointer" }}
                 onClick={() => {
-                  setOpenModal({ open: false, content: null });
+                  setOpenModal5(false);
                 }}
               >
                 Cancel
@@ -316,73 +646,19 @@ const CreateAccountModal = ({ text }) => {
             </div>
           </div>
         </>
-      ),
-    });
-  }
+      </MaterialModal>
+      <Component
+        text={text}
+        onClick={() => {
+          // setOpenModal({
+          //   open: true,
 
-  return (
-    <FilledButtonLight
-      text={text}
-      onClick={() => {
-        setOpenModal({
-          open: true,
-          content: (
-            <>
-              <div className="ModalContainer p-3 z-index-0">
-                <div className="row">
-                  <div className="col-12">
-                    <div className="text-dark modalHeading">
-                      {" "}
-                      Great - Lets get you started on Your Journey!
-                    </div>
-                  </div>
-
-                  <div className="modalSection">
-                    <div
-                      className="col-12 modal-des"
-                      style={{ marginTop: "10px" }}
-                    >
-                      <p className="text-basic">
-                        Please let us know a little bit more about yourself, so
-                        that we can start creating your Free Acount:
-                      </p>
-                    </div>
-
-                    <div className="row">
-                      <div className="col-md-6 modal-input">
-                        <SimpleInput lable={"First Name"} />
-                      </div>
-                      <div className="col-md-6 modal-input">
-                        <SimpleInput lable={"Surname"} />
-                      </div>
-                    </div>
-                    <div className="row ">
-                      <div className="col-md-12 modal-input">
-                        <SimpleInput lable={"Date of Birth"} />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="modalBtns row text-center mt-3 p-3 justify-content-center">
-                  <LargeButton text={"Submit"} onClick={LoginModal} />
-
-                  <p
-                    className="text-basic text-dark w-auto mt-3"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => {
-                      setOpenModal({ open: false, content: null });
-                    }}
-                  >
-                    Cancel
-                  </p>
-                </div>
-              </div>
-            </>
-          ),
-        });
-      }}
-    />
+          // });
+          setOpenModal1(true);
+          window.scrollTo({ top: 0 });
+        }}
+      />
+    </>
   );
 };
 

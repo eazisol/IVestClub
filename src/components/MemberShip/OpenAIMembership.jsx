@@ -14,12 +14,12 @@ const OpenAIMembership = () => {
   return (
     <SactionContainer bgColor="#F5F8FF" container={false}>
       <div className="col-md-8 col-lg-8 col-sm-12 mt-5 pt-5 mb-5 pb-5">
-        <div className="card card-border-c p-3">
-          <div className="p-3">
+        <div className="card card-border-c p-2 p-xl-3">
+          <div className="p-0 p-xl-3">
             <h3 className="mb-3">
               <strong>OpenAI Membership Club (OAI Token)</strong>
             </h3>
-            <div className="d-flex align-items-center mb-3 ">
+            <div className="d-flex align-items-center mx-0 mx-xl-4 mt-3 mb-2 ">
               <p className="text-basic  mb-0 ml-1 Opacity">
                 {" "}
                 Admin: <strong className="DarkText bold-5">John Doe</strong>{" "}
@@ -38,11 +38,12 @@ const OpenAIMembership = () => {
               <p className="text-basic mb-0 ml-1 Opacity"> 222 Members </p>{" "}
             </div>
             
-            <img src={openaiimg1} alt="" className="img-fluid mt-2" />
+            <img src={openaiimg1} alt="" className="mt-2" />
             <h5 className="mt-4 text-dark mont-font">
               <strong>Who are OpenAI?</strong>
             </h5>
-            <p className=" LightText" style={{fontSize:"11px"}}>
+            
+            <p className=" LightText" >
               OpenAI is a research organization focused on advancing artificial
               intelligence (AI) in a manner that benefits humanity as a whole.
               Founded in 2015, OpenAI aims to conduct cutting-edge research in
@@ -63,12 +64,12 @@ const OpenAIMembership = () => {
             </p>
           </div>
           <hr />
-          <div className="p-3">
+          <div className="p-0 p-xl-4">
             <h5 className="mb-3 text-dark mont-font">
               <strong className="bold-8">What is AI? - Google’s AI Course for Beginners </strong>
             </h5>
             
-            <img src={openaiimg2} alt="" className="img-fluid mt-2" />
+            <img src={openaiimg2} alt="" className=" mt-2" />
             <div className="mt-2">
               <p className="text-basic DarkText mt-4">
                 AI, or artificial intelligence, refers to the simulation of
@@ -100,15 +101,15 @@ const OpenAIMembership = () => {
           </div>
         </div>
         <div className="card card-border-c  mt-3">
-          <div className="p-3">
-            <h6>
+          <div className="p-0 p-xl-3">
+            <h6 className="py-2">
               <strong className="bold-6">Open AI Discussion Channel</strong>
             </h6>
-            <img src={openaiimg3} alt="" className="img-fluid mt-2" />
+            <img src={openaiimg3} alt="" className="mt-2" />
           </div>
         </div>
         <div className="card card-border-c mt-3">
-          <div className="p-4">
+          <div className="p-0 p-xl-3">
             {" "}
             <h3 >
               <strong className="bold-6">Learn about different aspects of OpenAI</strong>
@@ -146,11 +147,11 @@ const OpenAIMembership = () => {
                   "Create another section here for Competitors",
                 ]}
               />
-              <div className="text-center">
+              <div className="text-center mb-3 mt-5">
               <NavLink
               to={"/"}
               style={{ textDecoration: "underline" }}
-              className="pt-0  mb-3 mt-3"
+            
             >
              Load More
             </NavLink></div>

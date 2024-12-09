@@ -4,7 +4,6 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import { appData } from "../Context/AppContext";
-import zIndex from "@mui/material/styles/zIndex";
 
 const style = {
   position: "absolute",
@@ -19,19 +18,19 @@ const style = {
   
 };
 
-export default function MaterialModal({ children }) {
-  const { openModal, setOpenModal } = appData();
+export default function MaterialModal({ children, open }) {
+
 
   return (
-    <div>
+    <>
       <Modal 
       
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
-        open={openModal.open}
+        open={open}
 
        
-        style={{ zIndex: 99999 }} // Modal z-index to ensure it stays on top
+        style={{ zindex: 99999 }} // Modal z-index to ensure it stays on top
 
 
        
@@ -45,10 +44,10 @@ export default function MaterialModal({ children }) {
           },
         }}
       >
-        <Fade in={openModal.open}>
-          <Box sx={style}>{openModal.content}</Box>
+        <Fade in={open}>
+          <Box sx={style}>{children}</Box>
         </Fade>
       </Modal>
-    </div>
+    </>
   );
 }

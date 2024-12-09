@@ -8,6 +8,7 @@ import about4 from "../../assets/image/about4.png";
 import MemberShip from "./MemberShip";
 import { TextUnderWrap } from "../Common/MiniComponents";
 import { LargeButton } from "../Common/Buttons";
+import CreateAccountModal from "../Common/CreateAccountModal";
 
 const About = () => {
   const navigate = useNavigate();
@@ -55,7 +56,7 @@ const About = () => {
                     {" "}
                     <strong className="bold-sec-title-l bold8">
                       We Are{" "}
-                      <TextUnderWrap padding={7}>iVestClub</TextUnderWrap>
+                      <TextUnderWrap padding={7}>IVestClub</TextUnderWrap>
                     </strong>
                   </h3>
                 </div>
@@ -64,7 +65,7 @@ const About = () => {
                     Connecting Members Worldwide And Empowering You <br /> With
                     Access to Pre-IPO Companies.
                     <br />
-                    Revolutionize Your Pre-IPO Journey with iVestClub
+                    Revolutionize Your Pre-IPO Journey with IVestClub
                   </p>
                 </div>
                 <div className=" mt-1">
@@ -102,12 +103,13 @@ const About = () => {
                   </p>
                 </div>
                 <div className="col-lg-7 col-sm-12 mt-5 px-0 ">
-                  <LargeButton text="Learn More about the membership clubs" />
+                  {/* <LargeButton text="Learn More about the membership clubs" /> */}
+                  <CreateAccountModal Component={LargeButton} text={"Join Here for Free!"} />
                 </div>
               </div>
             </div>
 
-            <div className="image-column  col-lg-6 col-md-12 col-sm-12 pl-5">
+            <div className="image-column  col-lg-6 col-md-12 col-sm-12 mt-3 mt-xl-0 pl-3 pl-xl-5">
               <figure
                 className="image wow slideInRight animated"
                 data-wow-delay="0ms"
@@ -164,20 +166,20 @@ const About = () => {
               </figure>
             </div>
             <div className="text-column col-lg-6 col-md-12 col-sm-12 px-0">
-              <div className="inner pl-5">
+              <div className="inner pl-3 pl-xl-0">
                 <div className="sec-title">
                   <h4 className="sec-text">
-                    Exclusive Benefits for iVestClub Members
+                    Exclusive Benefits for IVestClub Members
                   </h4>
                 </div>
                 <div className="sec-content">
                   <div className=" mt-3 pt-1">
-                    <p className="exclusiveContentText  mb-0">
+                    <p className="exclusiveContentText ">
                       <span className="boldContent">Access:</span> Get involved
                       in your targeted company and get rewarded for yor
                       participation.
                     </p>
-                    <p className="exclusiveContentText  mb-0">
+                    <p className="exclusiveContentText ">
                       <span className="boldContent">
                         In-Depth Company Profiles:
                       </span>
@@ -185,7 +187,7 @@ const About = () => {
                       Pre-IPO companies, featuring expert analysis that are
                       typically not available to the general public.
                     </p>
-                    <p className="exclusiveContentText  mb-0">
+                    <p className="exclusiveContentText ">
                       <span className="boldContent">
                         Collaborative Learning Community:
                       </span>
@@ -195,10 +197,8 @@ const About = () => {
                       share valuable insights, all while expanding your
                       knowledge of the Pre-IPO market.
                     </p>
-                  </div>
-
-                  <div className="">
-                    <p className="exclusiveContentText mb-0">
+                 
+                    <p className="exclusiveContentText ">
                       <span className="boldContent">
                         Personalized Educational Resources:
                       </span>
@@ -251,8 +251,9 @@ const About = () => {
               Your exclusive journey begins here.
             </p>
           </div>
-          <div className="mt-4 pt-3 w-20 ml-3  mb-3 pb-2 pr-5">
-            <LargeButton text={"Start Your Free journey"} />
+          <div className="mt-4 pt-3 ml-3  mb-3 pb-2 pr-5 col-12 col-xl-3">
+            {/* <LargeButton text={"Start Your Free journey"} /> */}
+            <CreateAccountModal Component={LargeButton} text={"Start Your Free journey!"} />
           </div>
         </div>
       </section>
@@ -265,7 +266,7 @@ const About = () => {
             backgroundPosition: "center",
           }}
         ></div>
-        <div className="row  w-100 justify-content-center px-5 mx-3 my-4 pt-3">
+        <div className="row  justify-content-center px-5 mx-3 my-4 pt-3">
           <div className="col-12 text-center mb-3">
             <h2 className="bold-sec-title">
               iVestClub Members

@@ -46,10 +46,10 @@ const FutureClubs = () => {
                 <div className="col-1 ">
                   <h3 style={{fontSize:"22px" , fontWeight:"600"}}>0{index + 1}</h3>
                 </div>
-                <div className="col-10 px-4 py-4">
+                <div className="col-xl-10 col-8 px-4 py-4">
                   <p className=" mb-0 mont-font  bold-5" style={{fontSize:"16px"}} >{item.text}</p>
                 </div>
-                <div className="col-1 d-flex pt-3">
+                <div className="col-3 col-xl-1 d-flex pt-3">
                   <div className="w-50">
                     <LikeIcon />
                     <p className="m-0">

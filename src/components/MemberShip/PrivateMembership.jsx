@@ -1,0 +1,305 @@
+import React, { useEffect, useState } from "react";
+import { SactionContainer } from "../Common/Containers";
+import SideBarMembership from "./SideBarMembership";
+import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
+import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
+import avatar from "../../assets/image/avatar.png";
+import spaceximg1 from "../../assets/image/spaceximg1.png";
+import spaceximg2 from "../../assets/image/spaceximg2.png";
+import openaiimg3 from "../../assets/image/openaiimg3.png";
+import { Quotations, Ratings, RatingsTotal } from "../Common/Feedbacks";
+import { NavLink } from "react-router-dom";
+import Rating from "@mui/material/Rating";
+import StarIcon from "@mui/icons-material/Star";
+import StarBorder from "@mui/icons-material/StarBorder";
+import { OutlinedButtonDark } from "../Common/Buttons";
+import useApi from "../Hooks/useApi";
+import { formatdateHeading } from "../Common/Utills";
+import { imgUrl } from "../../../apiConfig";
+import { CustomizedLoader } from "../Common/MiniComponents";
+import { appData } from "../Context/AppContext";
+
+const PrivateMembership = () => {
+  const queryParams = new URLSearchParams(window.location.search);
+  const idParam = Number(queryParams.get("id"));
+  const { setSnackBarData } = appData();
+  const { mutate: getData, isPending: isMembershipLoading, error } = useApi();
+  const { mutate: sendReview, isPending: isSendingReview } = useApi();
+  const [data, setData] = useState({});
+  const [ratingData, setRatingData] = useState({});
+  const [commentLimit, setCommentLimit] = useState(3);
+  const getMembershipData = () => {
+    getData(
+      {
+        url: `membershipclub/details/${idParam}`,
+        method: "GET",
+        sendHeaders: true,
+      },
+      {
+        onSuccess: (data) => {
+          console.log("get data", data);
+          setData(data);
+        },
+        onError: (error) => {
+          console.log(error);
+        },
+      }
+    );
+  };
+  useEffect(() => {
+    getMembershipData();
+  }, []);
+
+  // useEffect(() => {
+  //   console.log("ratingData",ratingData);
+
+  // }, [ratingData])
+
+  const hanadleSendReview = () => {
+    if (!ratingData.comment) {
+      setSnackBarData({
+        visibility: true,
+        error: "error",
+        text: "Please enter comment",
+      });
+    }
+    sendReview(
+      {
+        url: `membershipclub/comment/save/${idParam}`,
+        method: "POST",
+        data: ratingData,
+        sendHeaders: true,
+      },
+      {
+        onSuccess: (data) => {
+          console.log(data);
+          setRatingData({});
+
+          setSnackBarData({
+            visibility: true,
+            // error: "info",
+            text: "Successfully Sent Review",
+          });
+          getMembershipData();
+        },
+        onError: (error) => {
+          console.log(error);
+        },
+      }
+    );
+  };
+
+  if (isMembershipLoading) {
+    return <CustomizedLoader />;
+  } else {
+    return (
+      <SactionContainer bgColor="#F5F8FF" container={false}>
+        <div className="col-md-8  col-sm-12 extraMg pt-5 mb-5 pb-5 px-4">
+          <div className="card card-border-c ">
+            <div className="card-body p-0 px-xl-5 pt-xl-4">
+              <h3 className="mb-3 px-1 pt-3">
+                <strong>{data.title}</strong>
+              </h3>
+
+              <div className="d-flex align-items-center mb-3 ">
+                <p className="text-basic  mb-0 ml-1 Opacity">
+                  {" "}
+                  Admin:{" "}
+                  <strong className="DarkText bold-5">
+                    {data.username}
+                  </strong>{" "}
+                  <span>&#8226;</span>
+                </p>
+                <CalendarTodayOutlinedIcon
+                  sx={{ color: "#888", ml: 1, fontSize: "15px" }}
+                />
+                <p className="text-basic  mb-0 ml-1 Opacity">
+                  {" "}
+                  {formatdateHeading(data.updated_at)} <span>&#8226;</span>{" "}
+                </p>{" "}
+                <GroupsOutlinedIcon
+                  sx={{ color: "#888", ml: 1, fontSize: "25px" }}
+                />
+                <p className="text-basic mb-0 ml-1 Opacity">
+                  {" "}
+                  {data.members} Members{" "}
+                </p>{" "}
+              </div>
+
+              <img
+                style={{ objectFit: "cover", width: "100%", height: "auto" }}
+                src={imgUrl + data.img}
+                alt=""
+                className=" mt-2 mb-3"
+              />
+              <div dangerouslySetInnerHTML={{ __html: data.content }} />
+            </div>
+          </div>
+          <div className="card card-border-c mt-4">
+            <div className="card-body p-0 p-xl-5">
+              <h5 className="text-dark mont-font">
+                <strong>{data.VideoTitle}</strong>
+              </h5>
+              <div dangerouslySetInnerHTML={{ __html: data.privateYTembed }} />
+            </div>
+          </div>
+          <div className="card card-border-c mt-4">
+            <div className="card-body p-0 p-xl-5">
+              <h5 className="text-dark mont-font">
+                <strong>ChatGPT Box Here</strong>
+              </h5>
+
+              {[
+                "Ask ChatGPT a question abut the company?",
+                "Suggested questions list here.",
+                "Nam libero justo laoreet sit amet.",
+                "Tempus imperdiet nulla malesuada",
+                "eque sodales ut etiam sit amet nisl",
+                "Tristique nulla aliquet enim tortor at auctor",
+                "Nam libero justo laoreet sit amet.",
+                "Tempus imperdiet nulla malesuada",
+              ].map((text, index) => (
+                <div
+                  className="d-flex mt-3 align-align-items-center"
+                  key={index}
+                >
+                  <div className="col-1 pl-0">
+                    <h4 className="text-warning warning-bullet mb-0">{">"}</h4>
+                  </div>
+                  <div className="col-11 pl-0">
+                    <h6 className="mb-0 h5-sm bold-5 mont-font">{text}</h6>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="card card-border-c mt-3">
+            <div className="card-body p-0 p-xl-5">
+              <h5 className=" text-dark mont-font">
+                <strong>Open AI Discussion Channel</strong>
+              </h5>
+              <div dangerouslySetInnerHTML={{ __html: data.discordwidget }} />
+            </div>
+          </div>
+          <div className="card card-border-c mt-3 ">
+            <div className="card-body p-0 p-xl-4">
+              <h5 className=" text-dark mont-font mt-4">
+                <>Learn About Different Aspects Of IVestClub Technologies</>
+              </h5>
+              <div className="">
+                {/* <RatingsTotal /> */}
+                <div className="mt-3">
+                  {data?.commentlist
+                    ?.slice(0, commentLimit)
+                    ?.map((comment, index) => (
+                      <React.Fragment key={{ index }}>
+                        <Ratings
+                          // heading={"Founders and Board of Directors of OpenAI"}
+                          text={[comment.comment]}
+                          value={comment.rating}
+                        />
+                        <hr />
+                      </React.Fragment>
+                    ))}
+                  {/* <Ratings
+                    heading={"Shareholders / Investors"}
+                    text={[
+                      "OpenAI has total 34 investors",
+                      "9 are institutional investors including Microsoft and 28 others (nb click to expand list etc)",
+                      "5 are Angel investors including Peter Thiel and 4 others.",
+                    ]}
+                  />
+                  <hr />
+                  <Ratings
+                    heading={"Valuations and  Funding rounds"}
+                    text={[
+                      "OpenAI has total 7 funding rounds",
+                      "OpenAI's largest funding round was a Series E round held on Jan 23, 2023 for $10B.",
+                      "OpenAI' valuation is $80B as on Feb 20, 2024.",
+
+                      ".",
+                      "Create another section here for Competitors",
+                    ]}
+                  /> */}
+                  {commentLimit < data.commentlist?.length ? (
+                    <div className="text-center">
+                      <NavLink
+                        to={"/"}
+                        style={{ textDecoration: "underline" }}
+                        className="pt-0  mb-3 mt-3"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setCommentLimit(commentLimit + 3);
+                        }}
+                      >
+                        Load More
+                      </NavLink>
+                      <hr />
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="card card-border-c mt-3">
+            <div className="card-body p-0 p-xl-5">
+              <div className="feedbackHeading">
+                Ask For Information About IVestClub Technologies
+              </div>
+              <p className="text-basic mb-0 mt-3">Rate This Club</p>
+              <Rating
+                name="text-feedback"
+                value={ratingData.rating || 0}
+                precision={0.5}
+                icon={<StarIcon sx={{ fontSize: 20, color: "gold" }} />}
+                emptyIcon={<StarBorder sx={{ fontSize: 20, color: "gold" }} />}
+                onChange={(event, newValue) => {
+                  setRatingData((prevData) => ({
+                    ...prevData,
+                    rating: newValue,
+                  }));
+                }}
+              />
+              <p className="mb-0 text-basic  mt-3 ">Your Feed Back</p>
+              <textarea
+                value={ratingData.comment || ""}
+                className="form-control"
+                style={{ height: "150px" }}
+                onChange={(e) => {
+                  setRatingData((prevData) => ({
+                    ...prevData,
+                    comment: e.target.value,
+                  }));
+                }}
+              ></textarea>
+              <div className="my-5">
+                <OutlinedButtonDark
+                  text={isSendingReview ? "Submitting..." : "Submit"}
+                  onClick={hanadleSendReview}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="col-md-4 col-sm-12 extraMg pt-5 mb-5">
+          <SideBarMembership
+            memberorlist={data.memberorlist}
+            files={data.files}
+            bloglist={data.bloglist}
+            newslist={data.newslist}
+            membershipData={{
+              title: data.title,
+              username: data.username,
+              img: data.img,
+              members: data.members,
+              updated_at: data.updated_at,
+            }}
+          />
+        </div>
+      </SactionContainer>
+    );
+  }
+};
+
+export default PrivateMembership;

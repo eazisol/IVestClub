@@ -7,14 +7,16 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
-export const SimpleInput = ({ lable, onChange = () => {}, value, name }) => {
+import FormHelperText from "@mui/material/FormHelperText";
+
+export const SimpleInput = ({ lable, onChange = () => {}, value, name, error,helperText, required }) => {
   return (
     <>
       <label
         htmlFor={`input-with-icon-adornment-${name}`}
         className="text-basic-lable mt-2 pop-font LoginSubHead"
       >
-        {lable}
+        {lable} {required &&<span className="text-danger">*</span>}
       </label>
       <TextField
        className="inputField"
@@ -26,12 +28,49 @@ export const SimpleInput = ({ lable, onChange = () => {}, value, name }) => {
         name={name}
         onChange={onChange}
         value={value || ""}
+        error={error}
+        helperText={error ? helperText:null}
+        
       />
     </>
   );
 };
 
-export const PasswordInput = ({ lable, onChange = () => {}, name, value }) => {
+export const DatePicker = ({ lable, onChange = () => {}, value, name, error,helperText, required }) => {
+  const formatDateToYYYYMMDD = (dateString) => {
+    if (!dateString) return "";
+    const [day, month, year] = dateString.split("-");
+    return `${year}-${month}-${day}`;
+  };
+  
+  return (
+    <>
+      <label
+        htmlFor={`input-with-icon-adornment-${name}`}
+        className="text-basic-lable mt-2 pop-font LoginSubHead"
+      >
+        {lable} {required &&<span className="text-danger">*</span>}
+      </label>
+      <TextField
+       className="inputField"
+        id={`input-with-icon-adornment-${name}`}
+        // placeholder={lable} 
+        variant="outlined"
+        fullWidth
+        size="small"
+        type="date"
+        name={name}
+        onChange={onChange}
+        value={formatDateToYYYYMMDD(value) || ""}
+        error={error}
+        helperText={error ? helperText:null}
+        
+      />
+    </>
+  );
+};
+
+export const PasswordInput = ({ lable, onChange = () => {}, name, value,error,helperText,required }) => {
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -42,7 +81,7 @@ export const PasswordInput = ({ lable, onChange = () => {}, name, value }) => {
   return (
     <>
       <label htmlFor={`input-Password-${name}`} className="text-basic-lable mt-2 pop-font LoginSubHead">
-        {lable}
+        {lable} {required &&<span className="text-danger">*</span>}
       </label>
       <OutlinedInput
         id={`input-Password-${name}`}
@@ -65,7 +104,10 @@ export const PasswordInput = ({ lable, onChange = () => {}, name, value }) => {
         size="small"
         name={name}
         value={value}
+        error={error}
+       
       />
+      {error && <FormHelperText sx={{ml : 2}} error={error}>{helperText}</FormHelperText>}
     </>
   );
 };

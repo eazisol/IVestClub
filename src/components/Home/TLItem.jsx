@@ -47,11 +47,11 @@ const TLItem = ({ last = false, heading, text, icon,num }) => {
           )}
         </TimelineSeparator>
         <TimelineContent sx={{ marginBottom: 0, marginTop: 2 }}>
-          <p className="text-basic text-black  d-flex justify-content-between mb-2 px-2">
+          <div className="text-basic text-black  d-flex justify-content-between mb-2 ">
             <div className="timeline-head">{heading}</div>
             <div className="timeline-number">{num}</div>
-          </p>
-          <p className="pointText text-dark text-compact px-2">
+          </div>
+          <p className="pointText text-dark text-compact ">
             {text.split("/").map((line, index, arr) => (
               <span key={index}>
                 {line}

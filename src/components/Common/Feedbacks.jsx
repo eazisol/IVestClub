@@ -3,10 +3,11 @@ import quotationimg from "../../assets/image/quotationimg.png";
 import avatar from "../../assets/image/avatar.png";
 import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
+import StarBorder from "@mui/icons-material/StarBorder";
 import { LinearProgress } from "@mui/material";
 export const Quotations = ({ text, by }) => {
   return (
-    <div className="d-flex p-3 " style={{ backgroundColor: "#F5F8FF" }}>
+    <div className="d-flex p-3 mt-3" style={{ backgroundColor: "#F5F8FF" }}>
       <div className="col-2">
         <img src={quotationimg} alt="" className="" />
       </div>
@@ -14,15 +15,15 @@ export const Quotations = ({ text, by }) => {
         <p className=" text-basic text-black mb-0" 
        
         >
-          <strong>{text}</strong>
+          <>{text}</>
         </p>
-        <p className="text-basic text-secondary mb-0">- <i>{by}</i></p>
+        <p className="text-basic text-secondary mb-0 mt-2">- <i>{by}</i></p>
       </div>
     </div>
   );
 };
 
-export const Ratings = ({ text, heading }) => {
+export const Ratings = ({ text, heading,value }) => {
   return (
     <div className="d-flex pl-0">
       <div className="col-2 text-center p-0">
@@ -33,13 +34,14 @@ export const Ratings = ({ text, heading }) => {
           style={{ borderRadius: "500px" }}
         />
       </div>
-      <div className="col-10 pl-0">
+      <div className="col-10 ">
         <Rating
           name="text-feedback"
-          value={5}
+          value={value||0}
           readOnly
           precision={0.5}
-          emptyIcon={<StarIcon style={{ opacity: 0.55, fontSize: 1 }} />}
+          icon={<StarIcon sx={{ fontSize: 20, color: "gold" }} />}
+          emptyIcon={<StarBorder sx={{ fontSize: 20, color: "gold" }} />}
         />
         <p className=" text-basic text-dark mb-0">
           <strong className="bold-5">{heading}</strong>
@@ -56,18 +58,18 @@ export const Ratings = ({ text, heading }) => {
 export const RatingsTotal = ({ text, heading }) => {
   return (
     <div
-      className="d-flex p-3 "
+      className="row p-3 "
       style={{ backgroundColor: "#F1F5FF", borderRadius: "5px" }}
     >
       <div
-        className="col-4 text-center bg-white py-5"
+        className="col-xl-4 col-12 text-center bg-white py-5 mb-3 mb-xl-0"
         style={{ borderRadius: "5px" }}
       >
         <h4 className="mont-font bold-5">4.0</h4>
         <Rating name="text-feedback" value={4} readOnly precision={0.5} />
         <h6 className="text-sm tex-dark Opacity mt-2">234 Ratings</h6>
       </div>
-      <div className="col-8 row align-items-center">
+      <div className="col-xl-8 col-12 row align-items-center ">
         {[
           { progress: 60, amount: 110, rating : 5 },
           { progress: 50, amount: 80 , rating : 4},

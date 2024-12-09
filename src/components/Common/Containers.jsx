@@ -74,6 +74,7 @@ export function SactionContainer({
   bgColor = "#fff",
   BRadius = 0,
   container = true,
+  pt = 0
 }) {
   return (
     <section
@@ -86,7 +87,7 @@ export function SactionContainer({
         }
         style={{ backgroundColor: bgColor, borderRadius: `${BRadius}px` }}
       >
-        <div className="row clearfix  mt-4">{children}</div>
+        <div className={`row clearfix  mt-5 pt-${pt}`}>{children}</div>
       </div>
     </section>
   );

@@ -66,7 +66,7 @@ const IvestMembership = () => {
             ].map((text, index) => (
               <div className="d-flex mt-3" key={index}>
                 <div className="col-1">
-                  <h4 className="text-warning">{">"}</h4>
+                  <h4 className="warning-bullet text-warning">{">"}</h4>
                 </div>
                 <div className="col-11 pl-0">
                   <h6>{text}</h6>
@@ -127,7 +127,7 @@ const IvestMembership = () => {
             ].map((text, index) => (
               <div className="d-flex mt-3 align-align-items-center" key={index}>
                 <div className="col-1">
-                  <h4 className="text-warning mb-0">{">"}</h4>
+                  <h4 className="text-warning warning-bullet mb-0">{">"}</h4>
                 </div>
                 <div className="col-11 pl-0">
                   <h6 className="mb-0">{text}</h6>

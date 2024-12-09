@@ -6,24 +6,16 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import Accordion from "@mui/material/Accordion";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import logo from "../../src/assets/images/HeaderLogo.png";
 import { useLocation, useNavigate } from "react-router-dom";
 import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
 import PeopleOutlineOutlinedIcon from "@mui/icons-material/PeopleOutlineOutlined";
-import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
 import MapIcon from "@mui/icons-material/Map";
 import HomeIcon from "@mui/icons-material/Home";
-import ContactPageIcon from "@mui/icons-material/ContactPage";
-import LocalFireDepartmentOutlinedIcon from "@mui/icons-material/LocalFireDepartmentOutlined";
 import Diversity1OutlinedIcon from "@mui/icons-material/Diversity1Outlined";
-import PermMediaOutlinedIcon from "@mui/icons-material/PermMediaOutlined";
-import VolunteerActivismOutlinedIcon from "@mui/icons-material/VolunteerActivismOutlined";
-import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-const MobileDrawer = () => {
+import { OutlinedButtonLight } from "./Common/Buttons";
+
+const MobileDrawer = ({ isAuthenticated, handleLogout }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -46,7 +38,7 @@ const MobileDrawer = () => {
   };
   return (
     <>
-      <div className="mobile-nav-toggler">
+      <div className="mobile-nav-toggler d-block d-lg-none">
         <span
           className="icon flaticon-menu-2"
           style={{ color: isHovered ? "#343a40" : "#ffff", fontSize: "24px" }}
@@ -62,6 +54,10 @@ const MobileDrawer = () => {
           zIndex: 99999,
           backgroundColor: "#17122B",
           height: "fit-content",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+         
         }}
         open={open}
         // onClick={() => {
@@ -70,76 +66,80 @@ const MobileDrawer = () => {
         onClose={handleClose}
         anchor={"right"}
       >
-        <List style={{ backgroundColor: "#17122B", height: "100%" }}>
-          <ListItem
-            disablePadding
-            onClick={() => {
-              toggleDrawer();
-              navigate("/");
-            }}
-          >
-            <div
-              className="d-flex justify-content-center mb-3"
-              style={{ width: "100%", textAlign: "center" }}
+        <div
+          style={{ backgroundColor: "#17122B" ,}}
+          className="d-flex flex-column justify-content-between h-100"
+        >
+          <List style={{ backgroundColor: "#17122B" }}>
+            <ListItem
+              disablePadding
+              onClick={() => {
+                toggleDrawer();
+                navigate("/");
+              }}
             >
-              <img src={logo} alt="" className="mt-2" />
-            </div>
-          </ListItem>
-          <Divider />
+              <div
+                className="d-flex justify-content-center mb-3"
+                style={{ width: "100%", textAlign: "center" }}
+              >
+                <img src={logo} alt="" className="mt-2" />
+              </div>
+            </ListItem>
+            <Divider />
 
-          <ListItem
-            disablePadding
-            onClick={() => {
-              toggleDrawer();
-              navigate("/");
-            }}
-          >
-            <ListItemButton className="list-item-button">
-              <ListItemIcon>
-                <HomeIcon className="list-item-icon" />
-              </ListItemIcon>
-              <ListItemText primary={"Home"} className="list-item-text" />
-            </ListItemButton>
-          </ListItem>
+            <ListItem
+              disablePadding
+              onClick={() => {
+                toggleDrawer();
+                navigate("/");
+              }}
+            >
+              <ListItemButton className="list-item-button">
+                <ListItemIcon>
+                  <HomeIcon className="list-item-icon" />
+                </ListItemIcon>
+                <ListItemText primary={"Home"} className="list-item-text" />
+              </ListItemButton>
+            </ListItem>
 
-          <Divider />
-          <ListItem
-            disablePadding
-            onClick={() => {
-              toggleDrawer();
-              navigate("/About");
-            }}
-          >
-            <ListItemButton className="list-item-button">
-              <ListItemIcon>
-                <FlagOutlinedIcon className="list-item-icon" />
-              </ListItemIcon>
-              <ListItemText primary={"About Us"} className="list-item-text" />
-            </ListItemButton>
-          </ListItem>
+            <Divider />
+            <ListItem
+              disablePadding
+              onClick={() => {
+                toggleDrawer();
+                navigate("/About");
+              }}
+            >
+              <ListItemButton className="list-item-button">
+                <ListItemIcon>
+                  <FlagOutlinedIcon className="list-item-icon" />
+                </ListItemIcon>
+                <ListItemText primary={"About Us"} className="list-item-text" />
+              </ListItemButton>
+            </ListItem>
 
-          <Divider />
-          <ListItem
-            disablePadding
-            onClick={() => {
-              toggleDrawer();
-              navigate("/");
-            }}
-          >
-            <ListItemButton className="list-item-button">
-              <ListItemIcon>
-                <PeopleOutlineOutlinedIcon className="list-item-icon" />
-              </ListItemIcon>
-              <ListItemText
-                primary={"Membership Club"}
-                className="list-item-text"
-              />
-            </ListItemButton>
-          </ListItem>
+            <Divider />
+            <ListItem
+              disablePadding
+              onClick={() => {
+                toggleDrawer();
+                navigate("/Membership");
+              }}
+            >
+              <ListItemButton className="list-item-button">
+                <ListItemIcon>
+                  <PeopleOutlineOutlinedIcon className="list-item-icon" />
+                </ListItemIcon>
+                <ListItemText
+                  primary={"Membership Club"}
+                  className="list-item-text"
+                />
+              </ListItemButton>
+            </ListItem>
 
-          <Divider />
+            <Divider />
 
-          {/* <Accordion
+            {/* <Accordion
             sx={{
               backgroundColor: "#17122B",
               padding: 0,
@@ -213,42 +213,45 @@ const MobileDrawer = () => {
               <Divider />
             </AccordionDetails>
           </Accordion> */}
-          <Divider />
+            <Divider />
 
-          <ListItem
-            disablePadding
-            onClick={() => {
-              toggleDrawer();
-              navigate("/");
-            }}
-          >
-            <ListItemButton className="list-item-button">
-              <ListItemIcon>
-                <Diversity1OutlinedIcon className="list-item-icon" />
-              </ListItemIcon>
-              <ListItemText primary={"Blogs"} className="list-item-text" />
-            </ListItemButton>
-          </ListItem>
+            <ListItem
+              disablePadding
+              onClick={() => {
+                toggleDrawer();
+                navigate("/");
+              }}
+            >
+              <ListItemButton className="list-item-button">
+                <ListItemIcon>
+                  <Diversity1OutlinedIcon className="list-item-icon" />
+                </ListItemIcon>
+                <ListItemText primary={"Blogs"} className="list-item-text" />
+              </ListItemButton>
+            </ListItem>
 
-          <Divider />
-          <ListItem
-            disablePadding
-            onClick={() => {
-              toggleDrawer();
-              navigate("/");
-            }}
-          >
-            <ListItemButton className="list-item-button">
-              <ListItemIcon>
-                <MapIcon className="list-item-icon" />
-              </ListItemIcon>
-              <ListItemText primary={"Contact Us"} className="list-item-text" />
-            </ListItemButton>
-          </ListItem>
+            <Divider />
+            <ListItem
+              disablePadding
+              onClick={() => {
+                toggleDrawer();
+                navigate("/");
+              }}
+            >
+              <ListItemButton className="list-item-button">
+                <ListItemIcon>
+                  <MapIcon className="list-item-icon" />
+                </ListItemIcon>
+                <ListItemText
+                  primary={"Contact Us"}
+                  className="list-item-text"
+                />
+              </ListItemButton>
+            </ListItem>
 
-          <Divider />
+            <Divider />
 
-          {/* <Accordion
+            {/* <Accordion
             sx={{
               backgroundColor: "#17122B",
               padding: 0,
@@ -316,7 +319,79 @@ const MobileDrawer = () => {
               <Divider />
             </AccordionDetails>
           </Accordion> */}
-        </List>
+          <div className="p-2">
+            {isAuthenticated ? (
+              <>
+                <div className="donate-link">
+                  <a
+                    onClick={() => {
+                      toggleDrawer();
+                      navigate("/Dashboard");
+                    }}
+                    className="theme-btn btn-style-one text-center"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "12px",
+                      fontWeight: "500",
+                      width: "100%",
+
+                      fontFamily: "'Poppins',san-serif",
+                    }}
+                  >
+                    <span className="btn-title">Connect Wallet</span>
+                  </a>
+                </div>
+                <OutlinedButtonLight
+                  onClick={() => {
+                    navigate("/");
+                    toggleDrawer();
+                   
+                    handleLogout()
+                  }}
+                  text={
+                    <>
+                      <span className="outBtn"> Logout </span>
+                    </>
+                  }
+                />
+              </>
+            ) : (
+              <div>
+                <OutlinedButtonLight
+                  onClick={() => {
+                    toggleDrawer();
+                    navigate("/Login");
+                  }}
+                  text={
+                    <>
+                      <span className="outBtn"> Login </span>
+                    </>
+                  }
+                />
+                <div className="donate-link mt-2">
+                  <a
+                    onClick={() => {
+                      toggleDrawer();
+                      navigate("/SignUp");
+                    }}
+                    className="theme-btn btn-style-one text-center"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "12px",
+                      fontWeight: "500",
+                      width: "100%",
+
+                      fontFamily: "'Poppins',san-serif",
+                    }}
+                  >
+                    <span className="btn-title">Register</span>
+                  </a>
+                </div>
+              </div>
+            )}
+          </div>
+          </List>
+        </div>
       </Drawer>
     </>
   );

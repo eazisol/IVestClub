@@ -6,25 +6,34 @@ import { appData } from "./Context/AppContext";
 import SearchIcon from "@mui/icons-material/Search";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import { HeaderLink } from "./Common/MiniComponents";
-import { Padding } from "@mui/icons-material";
+import { CustomizedTooltips, HeaderLink } from "./Common/MiniComponents";
+import { TextField } from "@mui/material";
 
-const Header = () => {
+const Header = ({ setShowSearchInput, showSearchInput }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { warId, setWarId, setShowSingleWarData } = appData();
-  const { isAuthenticated, setIsAuthenticated } = appData();
+  const { userData, setUserData, handleLogout } = appData();
   const [isScrolled, setIsScrolled] = useState(false);
 
-  const { showLandingSaction, setShowLandingSaction } = appData();
+  const { setShowLandingSaction } = appData();
+  const [headerStyles, setHeaderStyles] = useState({});
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 0) {
+      if (window.scrollY > 50) {
         setIsScrolled(true);
+        setHeaderStyles({
+          height: "5em",
+          paddingTop: 0,
+          transition: "all 0.3s ease-in-out",
+        });
       } else {
         setIsScrolled(false);
+        setHeaderStyles({
+          paddingTop: "1.3vw",
+          transition: "all 0.3s ease-in-out",
+        });
       }
     };
 
@@ -35,7 +44,12 @@ const Header = () => {
   }, []);
 
   const getBackgroundColor = () => {
-    if (location.pathname === "/" && !isScrolled) {
+    if (
+      (location.pathname === "/" ||
+        location.pathname === "/About" ||
+        location.pathname === "/Membership") &&
+      !isScrolled
+    ) {
       return "transparent";
     }
     return "";
@@ -48,7 +62,7 @@ const Header = () => {
           className="header-upper"
           style={{ backgroundColor: getBackgroundColor() }}
         >
-          <div className="auto-container header-container">
+          <div className="auto-container header-container" style={headerStyles}>
             <div className="inner-container clearfix">
               <div className="logo-box">
                 <div className="logo">
@@ -57,11 +71,11 @@ const Header = () => {
                       navigate("/");
                       setShowLandingSaction(true);
                     }}
-                    title="iVest Club"
+                    title="IVest Club"
                   >
                     <img
                       src={logo}
-                      alt="iVest Club"
+                      alt="IVest Club"
                       title=""
                       className="header-logo-img"
                     />
@@ -117,7 +131,7 @@ const Header = () => {
                         }
                       >
                         <HeaderLink
-                          text="MemberShip Club"
+                          text="Membership Club"
                           onClick={() => {
                             navigate("/Membership");
                           }}
@@ -169,7 +183,7 @@ const Header = () => {
                         <HeaderLink
                           text="Blogs"
                           onClick={() => {
-                            navigate("/");
+                            navigate("/Blogs");
                           }}
                         />
                       </li>
@@ -183,23 +197,60 @@ const Header = () => {
                         <HeaderLink
                           text="Contact Us"
                           onClick={() => {
-                            navigate("/");
+                            navigate("/ContactUs");
                           }}
                         />
                       </li>
                     </ul>
                   </div>
                 </nav>
-                <div className="px-2">
-                <SearchIcon sx={{ color: "#fff" }} /></div>
+                <>
+                  <div className="px-2 d-none d-xl-flex">
+                    <span
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title="Tooltip on top"
+                    >
+                      <SearchIcon
+                        sx={{
+                          color: "#fff",
+                          cursor: "pointer",
+                          mt: showSearchInput ? 0.5 : 0,
+                        }}
+                        onClick={() => {
+                          setShowSearchInput(!showSearchInput);
+                        }}
+                      />
+                      {showSearchInput && (
+                        <TextField
+                          type="text"
+                          size="small"
+                          value={"Search will available soon"}
+                          sx={{
+                            backgroundColor: "#f5f5dc52",
+                            borderRadius: 10,
+                            width : "10em"
+                            
+                          }}
+                          InputProps={{
+                            sx: {
+                              fontSize: 9,
+                              color: "#ffffff",
+                            },
+                          }}
+                        />
+                      )}
+                    </span>
+                  </div>
+                </>
 
                 {/*This is Conditional rendering based on authentication */}
 
-                {isAuthenticated ? (
+                {userData?.access_token ? (
                   <>
                     <div className="donate-link">
                       <a
-                        onClick={() => navigate("/Dashboard")}
+                        onClick={() => navigate("/ConnectWallet")}
                         className="theme-btn btn-style-one"
                         style={{
                           textDecoration: "none",
@@ -212,7 +263,8 @@ const Header = () => {
                       </a>
                     </div>
                     <div className="px-2">
-                    <NotificationsOutlinedIcon sx={{ color: "#fff" }} /></div>
+                      <NotificationsOutlinedIcon sx={{ color: "#fff" }} />
+                    </div>
                     <div
                       className="mx-3"
                       style={{
@@ -226,7 +278,6 @@ const Header = () => {
                       <AccountCircleOutlinedIcon sx={{ color: "#fff" }} />
                     </div>
                     &nbsp;
-                    <MobileDrawer />
                   </>
                 ) : (
                   <>
@@ -270,6 +321,11 @@ const Header = () => {
                     </div>
                   </>
                 )}
+                <MobileDrawer
+                  isAuthenticated={userData?.access_token}
+                  setIsAuthenticated={setUserData}
+                  handleLogout={handleLogout}
+                />
               </div>
             </div>
           </div>

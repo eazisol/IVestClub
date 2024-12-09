@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import landingimg from "../../assets/image/landingimg.png";
 import HeroGraph1 from "../../assets/image/HeroGraph1.png";
 import HeroGraph3 from "../../assets/image/HeroGraph3.png";
@@ -8,10 +8,11 @@ import { ImgBgSactionContainer } from "../Common/Containers";
 import { TextUnderWrap } from "../Common/MiniComponents";
 import { appData } from "../Context/AppContext";
 import CreateAccountModal from "../Common/CreateAccountModal";
-
+import { useNavigate } from "react-router-dom";
 const HeroSaction = () => {
+ const navigate =  useNavigate();
   const [activeIndex, setActiveIndex] = useState(0);
-  const { setShowLandingSaction } = appData();
+  const { setShowLandingSaction, showLandingSaction } = appData();
   const handlePresentationClick = (index) => {
     setActiveIndex(index);
     const carousel = document.querySelector("#carouselIvest");
@@ -19,6 +20,17 @@ const HeroSaction = () => {
       $(carousel).carousel(index);
     }
   };
+
+  useEffect(() => {
+    
+      if (showLandingSaction) {
+        
+        handlePresentationClick(0)
+      }
+        
+        
+  }, [showLandingSaction])
+  
 
   return (
     <ImgBgSactionContainer bgImage={landingimg} showPadding={false} hero >
@@ -32,15 +44,15 @@ const HeroSaction = () => {
         <div className="carousel-inner " >
           <div className={`carousel-item ${activeIndex === 0 ? "active" : ""}`}>
             <div className="row mt-5">
-              <div className="col-11 mt-2 pl-3">
+              <div className="col-xl-11 mt-2 pl-xl-3">
                 <h1 className="mb-4 mt-5">
-                  <TextUnderWrap>iVest C</TextUnderWrap>lub.
+                  <TextUnderWrap>IVest C</TextUnderWrap>lub.
                 </h1>
                 <div className="mt-4 heroHead pt-1">
                   Your Gateway to Pre-IPO Companies
                 </div>
                 <p
-                  className="text-basic text-light-c w-60 mb-0 mt-3 pl-1"
+                  className="hero-text text-light-c w-60 mb-0 mt-3 pl-1"
                   style={{ lineHeight: "1.7em" }}
                 >
                   At iVest Club, we believe you should have equal access to
@@ -52,7 +64,7 @@ const HeroSaction = () => {
                   democratize the landscape ahead of an IPO, making it inclusive
                   for all.
                 </p>
-                <p className="text-basic text-light-c w-60">
+                <p className="hero-text text-light-c w-60">
                   Get ready for the exciting journey ahead as these companies
                   transition to the public market!
                 </p>
@@ -64,11 +76,11 @@ const HeroSaction = () => {
                   like the ultra-rich. Join Now For Free!
                 </div>
 
-                <div className="w-80 mt-1 d-flex">
-                  <div className="col-lg-3 col-sm-6 pt-2 mt-4 p-0 mr-3">
+                <div className=" mt-1 row">
+                  <div className="col-lg-2 col-sm-6 pt-2 mt-4 ">
                     <CreateAccountModal text={<span className="fillBtn ">Join For Free Now</span>} />
                   </div>
-                  <div className="col-lg-3 col-sm-6 pt-2 mt-4 p-0">
+                  <div className="col-lg-3 col-sm-6 pt-2 mt-4 ">
                     <OutlinedButtonLight
                       onClick={() => {
                         handlePresentationClick(1);
@@ -84,25 +96,25 @@ const HeroSaction = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-1 d-flex flex-column justify-content-center main-footer">
+              <div className="col-xl-1 d-none  d-xl-flex flex-column justify-content-center main-footer">
                 <ul className="social-links  iconContainer clearfix mb-0 text-right">
                   <li className="mb-3 w-100 d-flex justify-content-end">
-                    <a href="#">
+                    <a href="https://www.facebook.com">
                       <span className="fab fa-xs fa-facebook-f"></span>
                     </a>
                   </li>
                   <li className="mb-3 w-100 d-flex justify-content-end">
-                    <a href="#">
+                    <a href="https://www.instagram.com">
                       <span className="fab fa-xs fa-instagram"></span>
                     </a>
                   </li>
                   <li className="mb-3 w-100 d-flex justify-content-end">
-                    <a href="#">
+                    <a href="https://www.twitter.com">
                       <span className="fab fa-xs fa-twitter"></span>
                     </a>
                   </li>
                   <li className="mb-3 w-100 d-flex justify-content-end">
-                    <a href="#">
+                    <a href="https://www.snapchat.com">
                       <span className="fab fa-xs fa-solid fa-snapchat"></span>
                     </a>
                   </li>
@@ -113,10 +125,10 @@ const HeroSaction = () => {
 
           {/* This is the second element on the Carousel index  */}
           <div className={`carousel-item ${activeIndex === 1 ? "active header-height" : " header-height"}`}>
-            <div className="row mt-5">
-              <div className="col-7">
+            <div className="row mt-5 pt-5 pt-xl-0">
+              <div className="col-12 col-xl-7">
                 <h1 className="mb-4">
-                  <TextUnderWrap>iVest C</TextUnderWrap>lub.
+                  <TextUnderWrap>IVest C</TextUnderWrap>lub.
                 </h1>
                 <h4 className="mt-4 pt-3">
                   Your Exclusive Gateway to Pre-IPO Companies
@@ -138,7 +150,7 @@ const HeroSaction = () => {
                   className="text-basic text-light-c w-65 mb-0"
                   style={{ lineHeight: "1.7em" }}
                 >
-                  iVest Club is open to everyone worldwide apart from US
+                  IVest Club is open to everyone worldwide apart from US
                   residents and Nationals
                 </p>
 
@@ -146,7 +158,7 @@ const HeroSaction = () => {
                   <div className="col-lg-11 col-sm-6 mb-4 p-0">
                     <CreateAccountModal
                       text={
-                        "Yes, Im ready to start my Pre-IPo journey by joining iVest Club for Free!"
+                        "Yes, I'm ready to start my Pre-IPo journey by joining IVest Club for Free!"
                       }
                     />
                   </div>
@@ -154,16 +166,16 @@ const HeroSaction = () => {
                     <FilledButtonLight
                       onClick={() => handlePresentationClick(2)}
                       text={
-                        "Not Yet I want to learn more about iVest Club first!"
+                        "Not Yet I want to learn more about IVest Club first!"
                       }
                     />
                   </div>
                 </div>
               </div>
-              <div className="col-4 align-content-center">
+              <div className="col-12 col-xl-4 mt-3 mt-xl-0 align-content-center">
                 <img
                   src={HeroGraph1}
-                  className="img-fluid"
+                  className=""
                   style={{
                     width: "400px",
                     height: "250px",
@@ -171,7 +183,7 @@ const HeroSaction = () => {
                 />
               </div>
 
-              <div className="col-1 d-flex  flex-column justify-content-center main-footer">
+              <div className="col-xl-1 d-none  d-xl-flex flex-column justify-content-center main-footer">
                 <ul className="social-links clearfix">
                   <li className="mb-2 w-100">
                     <a href="#">
@@ -199,10 +211,10 @@ const HeroSaction = () => {
           </div>
 
           <div className={`carousel-item ${activeIndex === 2 ? "active header-height" : "header-height"}`}>
-            <div className="row mt-5">
-              <div className="col-7">
+            <div className="row mt-5 pt-5 pt-xl-0">
+              <div className="col-12 col-xl-7">
                 <h1 className="mb-4">
-                  <TextUnderWrap>iVest C</TextUnderWrap>lub.
+                  <TextUnderWrap>IVest C</TextUnderWrap>lub.
                 </h1>
                 <h4 className="mt-4 pt-3">
                   Your Exclusive Gateway to Pre-IPO Companies
@@ -224,31 +236,31 @@ const HeroSaction = () => {
                   like them?
                 </p>
 
-                <div className="w-100 d-flex">
-                  <div className="col-lg-4 col-sm-6 mt-5 p-0">
+                <div className="row mt-0 mt-xl-5">
+                  <div className="col-lg-4 col-sm-6  ">
                     <FilledButtonLight
                       onClick={() => handlePresentationClick(3)}
                       text={"Tell me more!"}
                     />
                   </div>
-                  <div className="col-lg-8 col-sm-6 mt-5">
+                  <div className="col-lg-8 col-sm-6 mt-2 mt-xl-0">
                     <CreateAccountModal
-                      text={" Great Im ready to create my free account!"}
+                      text={" Great I'm ready to create my free account!"}
                     />
                   </div>
                 </div>
               </div>
-              <div className="col-4 align-content-center">
+              <div className="col-12 col-xl-4 mt-3 mt-xl-0  align-content-center">
                 <img
                   src={HeroGraph1}
-                  className="img-fluid"
+                  className=""
                   style={{
                     width: "400px",
                     height: "250px",
                   }}
                 />
               </div>
-              <div className="col-1 d-flex flex-column justify-content-center main-footer">
+              <div className="col-xl-1 d-none  d-xl-flex flex-column justify-content-center main-footer">
                 <ul className="social-links clearfix">
                   <li className="mb-2 w-100">
                     <a href="#">
@@ -276,10 +288,10 @@ const HeroSaction = () => {
           </div>
 
           <div className={`carousel-item ${activeIndex === 3 ? "active header-height" : "header-height"}`}>
-            <div className="row mt-5">
-              <div className="col-7">
+            <div className="row mt-5 pt-5 pt-xl-0">
+              <div className="col-12 col-xl-7">
                 <h1 className="mb-4">
-                  <TextUnderWrap>iVest C</TextUnderWrap>lub.
+                  <TextUnderWrap>IVest C</TextUnderWrap>lub.
                 </h1>
                 <h4 className="mt-4 pt-3">
                   Your Exclusive Gateway to Pre-IPO Companies
@@ -301,24 +313,24 @@ const HeroSaction = () => {
                   access to these companies?
                 </p>
 
-                <div className="w-100 d-flex">
-                  <div className="col-lg-4 col-sm-6 mt-5 p-0">
+                <div className="row mt-0 mt-xl-5">
+                  <div className="col-lg-4 col-sm-6 mt-5 mt-xl-0">
                     <FilledButtonLight
                       onClick={() => handlePresentationClick(4)}
                       text={"Tell me more!"}
                     />
                   </div>
-                  <div className="col-lg-7 col-sm-6 mt-5">
+                  <div className="col-lg-7 col-sm-6 mt-2 mt-xl-0">
                     <CreateAccountModal
-                      text={"  Ok, Im ready to create my free account!"}
+                      text={"  Ok, I'm ready to create my free account!"}
                     />
                   </div>
                 </div>
               </div>
-              <div className="col-4  align-content-center">
+              <div className="col-12 col-xl-4 mt-3 mt-xl-0  align-content-center">
                 <img
                   src={HeroGraph2}
-                  className="img-fluid"
+                  className=""
                   style={{
                     width: "370px",
                     height: "370px",
@@ -330,7 +342,7 @@ const HeroSaction = () => {
                 />
               </div>
 
-              <div className="col-1 d-flex flex-column justify-content-center main-footer">
+              <div className="col-xl-1 d-none  d-xl-flex flex-column justify-content-center main-footer">
                 <ul className="social-links clearfix">
                   <li className="mb-2 w-100">
                     <a href="#">
@@ -358,52 +370,52 @@ const HeroSaction = () => {
           </div>
 
           <div className={`carousel-item ${activeIndex === 4 ? "active header-height" : "header-height"}`}>
-            <div className="row mt-5">
-              <div className="col-7">
+            <div className="row mt-5 pt-5 pt-xl-0">
+              <div className="col-12 col-xl-7">
                 <h1 className="mb-4">
-                  <TextUnderWrap>iVest C</TextUnderWrap>lub.
+                  <TextUnderWrap>IVest C</TextUnderWrap>lub.
                 </h1>
                 <h4 className="mt-4 pt-3">
                   Your Exclusive Gateway to Pre-IPO Companies
                 </h4>
                 <p
-                  className="text-basic text-light-c w-60 mb-0"
+                  className="text-basic text-light-c  mb-0"
                   style={{ lineHeight: "1.7em" }}
                 >
                   Ae you ready to get access to Pre-IPO companies like SpaceX,
                   OpenAI and many more?
                 </p>
-                <p className="text-basic text-light-c w-50">
+                <p className="text-basic text-light-c ">
                   Join other like-minded peers to get your exclusive access to
                   companies just like high net worth individuals and start
                   earning rewards!
                 </p>
 
-                <div className="w-100">
-                  <div className="col-lg-9 col-sm-6 mt-5 p-0">
+               
+                  <div className="col-lg-9 col-sm-6 mt-5 ">
                     <CreateAccountModal
                       text={
                         " I’m in, this is my email - start my free registration!"
                       }
                     />
                   </div>
-                </div>
-                <div className="w-100 d-flex">
-                  <div className="col-lg-5 col-sm-6 mt-5 p-0">
+               
+                <div className="row">
+                  <div className="col-lg-5 col-sm-6 mt-xl-5 mt-2">
                     <FilledButtonLight
-                      onClick={() => handlePresentationClick(3)}
-                      text={"Enter: Email Address here"}
+                      onClick={() => navigate("/Login")}
+                      text={"I already have an account"}
                     />
                   </div>
-                  <div className="col-lg-4 col-sm-6 mt-5">
-                    <FilledButtonLight text={<>Tell me more!</>} />
+                  <div className="col-lg-4 col-sm-6 mt-xl-5 mt-2 ">
+                    <FilledButtonLight text={<>Tell me more!</>}  onClick={() => handlePresentationClick(0)}/>
                   </div>
                 </div>
               </div>
-              <div className="col-4  align-content-center">
+              <div className="col-12 col-xl-4 mt-3 mt-xl-0  align-content-center">
                 <img
                   src={HeroGraph3}
-                  className="img-fluid"
+                  className=""
                   style={{
                     width: "380px",
                     height: "230px",
@@ -414,7 +426,7 @@ const HeroSaction = () => {
                   }}
                 />
               </div>
-              <div className="col-1 d-flex flex-column justify-content-center main-footer">
+              <div className="col-xl-1 d-none  d-xl-flex flex-column justify-content-center main-footer">
                 <ul className="social-links clearfix">
                   <li className="mb-2 w-100">
                     <a href="#">

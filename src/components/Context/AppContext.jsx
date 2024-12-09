@@ -3,18 +3,20 @@ import React, { createContext, useContext, useState } from "react";
 const AppContext = createContext();
 
 export const DataProvider = ({ children }) => {
-  const [allWarsData, setAllWarsData] = useState({});
+ 
   const [snackBarData, setSnackBarData] = useState({
     text: "test",
     error: false,
     visibility: false,
   });
-  const [warId, setWarId] = useState(1);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  
+ 
+  const localuserdata = localStorage.getItem('userData') 
+  ? JSON.parse(localStorage.getItem('userData')) 
+  : {access_token : ""};
+  const [userData, setUserData] = useState(localuserdata)
+  const [newsData, setNewsData] = useState({})
+  const [articalData, setArticalData] = useState({})
 
-  const [showSingleWarData, setShowSingleWarData] = useState(true);
-  const [childGraphData, setChildGraphData] = useState([])
 const [mainLoader, setmainLoader] = useState(true)
 const [showLandingSaction, setShowLandingSaction] = useState(true)
 
@@ -23,24 +25,25 @@ const [openModal, setOpenModal] = useState({
   content : <></>
 })
 
+const handleLogout = () => {
+  localStorage.setItem('userData', JSON.stringify({})); 
+  setUserData({access_token : ""})
+};
+
 
   return (
     <AppContext.Provider
       value={{
         snackBarData,
         setSnackBarData,
-        allWarsData,
-        setAllWarsData,
-        warId,
-        setWarId,
-        showSingleWarData, setShowSingleWarData,
-        childGraphData, setChildGraphData,
+      
         mainLoader, setmainLoader,
         openModal, setOpenModal,
-        isAuthenticated,
-        setIsAuthenticated,
-        showLandingSaction, setShowLandingSaction
-
+        showLandingSaction, setShowLandingSaction,
+        userData, setUserData,
+        handleLogout,
+        newsData, setNewsData,
+        articalData, setArticalData
       }}
     >
       {children}
