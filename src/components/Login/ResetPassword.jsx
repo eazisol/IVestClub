@@ -25,7 +25,7 @@ const ResetPassword = () => {
       login({
         url: 'reset-password',
         method: 'POST',
-        data: {...formData, email : email, token, token},
+        data: {...formData, email : email, token: token},
       }, {
         onSuccess: (data) => {
          

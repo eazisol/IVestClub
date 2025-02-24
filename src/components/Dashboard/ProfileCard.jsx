@@ -119,6 +119,24 @@ const ProfileCard = ({ enableEdit, profilePic, setProfilePic, prevPic }) => {
       </button>
       <button
         className={
+          location.pathname == "/Dashboard/TransactionHistory"
+            ? "dashBtn btn-active"
+            : "dashBtn  "
+        }
+        onClick={() => {
+          navigate("/Dashboard/TransactionHistory");
+        }}
+      >
+        <i className="fa-regular LightText-1 dashCardIcon fas fa-history"></i>
+        {/* <i className="fa-regular LightText-1 dashCardIcon fa-address-card"></i> */}
+        &nbsp;{" "}
+        <span className="dashCardText bold-5 LightText-1">
+          {" "}
+          Transaction History
+        </span>
+      </button>
+      <button
+        className={
           location.pathname == "/Dashboard/MyAccount"
             ? "dashBtn btn-active"
             : "dashBtn  "

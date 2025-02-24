@@ -8,14 +8,23 @@ import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { CustomizedTooltips, HeaderLink } from "./Common/MiniComponents";
 import { TextField } from "@mui/material";
-
+import { ethers } from "ethers";
 const Header = ({ setShowSearchInput, showSearchInput }) => {
+  
   const navigate = useNavigate();
   const location = useLocation();
-
-  const { userData, setUserData, handleLogout } = appData();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [balance, setBalance] = useState(null);
+  const {
+    userData,
+    setUserData,
+    handleLogout,
+    setSnackBarData,
+    setWalletData,
+    walletData,
+  } = appData();
   const [isScrolled, setIsScrolled] = useState(false);
-
   const { setShowLandingSaction } = appData();
   const [headerStyles, setHeaderStyles] = useState({});
 
@@ -54,7 +63,54 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
     }
     return "";
   };
+  // This function is responsible for connecting the user's wallet and ensuring the correct network is selected.
+  const handleConnectWallet = async () => {
+    if (!window.ethereum) {
+      setSnackBarData({
+        visibility: true,
+        error: "error",
+        text: "Please install MetaMask!",
+      });
+      return;
+    }
 
+    setLoading(true);
+    setError("");
+
+    try {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const network = await provider.getNetwork();
+      if (network.chainId !== 97) {
+        await window.ethereum.request({
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: "97" }],
+        });
+      }
+
+      await provider.send("eth_requestAccounts", []);
+      const signer = provider.getSigner();
+      const address = await signer.getAddress();
+      const balance = await provider.getBalance(address);
+      setBalance(ethers.utils.formatEther(balance));
+      setWalletData({ provider, signer, address });
+      navigate("/Dashboard");
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+  // useEffect to handle wallet connection updates when the account or chain changes
+  useEffect(() => {
+    if (window.ethereum) {
+      window.ethereum.on("accountsChanged", () => {
+        handleConnectWallet();
+      });
+      window.ethereum.on("chainChanged", () => {
+        window.location.reload();
+      });
+    }
+  }, []);
   return (
     <>
       <header className="main-header header-style-one">
@@ -229,8 +285,7 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
                           sx={{
                             backgroundColor: "#f5f5dc52",
                             borderRadius: 10,
-                            width : "10em"
-                            
+                            width: "10em",
                           }}
                           InputProps={{
                             sx: {
@@ -250,7 +305,8 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
                   <>
                     <div className="donate-link">
                       <a
-                        onClick={() => navigate("/ConnectWallet")}
+                        // onClick={() => navigate("/ConnectWallet")}
+                        onClick={handleConnectWallet}
                         className="theme-btn btn-style-one"
                         style={{
                           textDecoration: "none",

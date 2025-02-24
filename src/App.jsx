@@ -41,6 +41,7 @@ import PublicMemberShip from "./components/MemberShip/PublicMemberShip.jsx";
 import StaticPublicMembership from "./components/MemberShip/StaticPublicMembership.jsx";
 import Articals from "./components/Blogs/Articals.jsx";
 import News from "./components/Blogs/News.jsx";
+import { TransactionHistory } from "./components/TransactionHistory/TransactionHistory.jsx";
 
 
 function App() {
@@ -53,8 +54,8 @@ function App() {
           <ScrollOnTop />
           <Routes>
             <Route path="/" element={<Layout />}>
-              {/* <Route index element={<Navigate to="home" />} /> */}
-              <Route index element={<Home />} />
+              {/* <Route index element={<Navigate to="/" />} /> */}
+              <Route index  element={<Home />} />
               <Route path="Login" element={<LoginPage />} />
               <Route path="ResetPassword" element={<ResetPassword />} />
               <Route path="SignUp" element={<SignUpPage />} />
@@ -100,6 +101,10 @@ function App() {
                 <Route
                   path="Dashboard/MyMemberShipClubs"
                   element={<MyMemberShipClubs />}
+                />
+                <Route
+                  path="Dashboard/TransactionHistory"
+                  element={<TransactionHistory />}
                 />
                 <Route path="Dashboard/MyAccount" element={<MyAccount />} />
               </Route>
