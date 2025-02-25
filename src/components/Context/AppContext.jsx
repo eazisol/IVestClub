@@ -16,6 +16,7 @@ export const DataProvider = ({ children }) => {
   const [userData, setUserData] = useState(localuserdata)
   const [newsData, setNewsData] = useState({})
   const [articalData, setArticalData] = useState({})
+  const [walletData, setWalletData] = useState({})
 
 const [mainLoader, setmainLoader] = useState(true)
 const [showLandingSaction, setShowLandingSaction] = useState(true)
@@ -43,7 +44,8 @@ const handleLogout = () => {
         userData, setUserData,
         handleLogout,
         newsData, setNewsData,
-        articalData, setArticalData
+        articalData, setArticalData,
+        walletData, setWalletData
       }}
     >
       {children}

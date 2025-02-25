@@ -63,43 +63,58 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
     }
     return "";
   };
-  // This function is responsible for connecting the user's wallet and ensuring the correct network is selected.
-  const handleConnectWallet = async () => {
-    if (!window.ethereum) {
-      setSnackBarData({
-        visibility: true,
-        error: "error",
-        text: "Please install MetaMask!",
+ // This function is responsible for connecting the user's wallet and ensuring the correct network is selected.
+ const handleConnectWallet = async () => {
+  if (!window.ethereum) {
+    setSnackBarData({
+      visibility: true,
+      error: "error",
+      text: "Please install MetaMask!",
+    });
+    return;
+  }
+  else if(!walletData?.address){
+    setSnackBarData({
+      visibility: true,
+      error: "success",
+      text: "Your wallet is successfully connected",
+    });
+  }
+  else if(walletData?.address){
+    setSnackBarData({
+      visibility: true,
+      error: "success",
+      text: "Your wallet is already connected",
+    });
+  }
+
+  setLoading(true);
+  setError("");
+
+  try {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const network = await provider.getNetwork();
+    if (network.chainId !== 97) {
+      await window.ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: "0x97" }],
       });
-      return;
     }
 
-    setLoading(true);
-    setError("");
+    await provider.send("eth_requestAccounts", []);
+    const signer = provider.getSigner();
+    const address = await signer.getAddress();
+    const balance = await provider.getBalance(address);
+    setBalance(ethers.utils.formatEther(balance));
+    setWalletData({ provider, signer, address });
+  } catch (err) {
+    setError(err.message);
+  } finally {
+    setLoading(false);
+  }
+};
 
-    try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const network = await provider.getNetwork();
-      if (network.chainId !== 97) {
-        await window.ethereum.request({
-          method: "wallet_switchEthereumChain",
-          params: [{ chainId: "97" }],
-        });
-      }
-
-      await provider.send("eth_requestAccounts", []);
-      const signer = provider.getSigner();
-      const address = await signer.getAddress();
-      const balance = await provider.getBalance(address);
-      setBalance(ethers.utils.formatEther(balance));
-      setWalletData({ provider, signer, address });
-      navigate("/Dashboard");
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+  
   // useEffect to handle wallet connection updates when the account or chain changes
   useEffect(() => {
     if (window.ethereum) {

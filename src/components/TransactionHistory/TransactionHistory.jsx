@@ -12,31 +12,9 @@ import axios from "axios";
 import { appData } from "../Context/AppContext";
 import ProfileCard from "../Dashboard/ProfileCard";
 import { CircularProgress } from "@mui/material";
-function createData(currObj, avail, amount, action) {
-  let Icon;
-  switch (currObj.name) {
-    case "BTC":
-      Icon = Bitcoin;
-      break;
-    case "ETH":
-      Icon = Ethereum;
-      break;
-    case "USDT":
-      Icon = Usdt;
-      break;
-    default:
-      Icon = null;
-  }
-  return { currObj, avail, amount, action, Icon };
-}
-const rows = [
-  createData({ name: "BTC", des: "Bitcoin" }, 3, " $4536", "Convert"),
-  createData({ name: "ETH", des: "Ethereum" }, 6, " $4536", "Convert"),
-  createData({ name: "USDT", des: "TetherUS" }, 1, " $4536", "Convert"),
-  createData({ name: "BTC", des: "Bitcoin" }, 12, " $4536", "Convert"),
-  createData({ name: "ETH", des: "Ethereum" }, 4, " $4536", "Convert"),
-  createData({ name: "USDT", des: "TetherUS" }, 2, " $4536", "Convert"),
-];
+import { baseUrl } from "../../../apiConfig";
+
+
 export const TransactionHistory = () => {
   const { userData } = appData();
   const [transactionData, setTransactionData] = useState([]);
@@ -45,7 +23,7 @@ export const TransactionHistory = () => {
     setLoading(true);
     const gettranscationHistory = async () => {
       const { data } = await axios.get(
-        `http://192.168.18.14:8000/api/coinpayments/getAllTransactions?user_id=${userData?.user_id}`
+        `${baseUrl}coinpayments/getAllTransactions?user_id=${userData?.user_id}`
       );
       setTransactionData(data?.data);
       setLoading(false);

@@ -65,7 +65,6 @@ const ERC20_ABI = [
 ];
 const Dashboard = () => {
   const { userData, walletData, setWalletData, setSnackBarData } = appData();
-  console.log("🚀 ~ Dashboard ~ walletData:", walletData)
   const [status, setStatus] = useState(null);
   const [balance, setBalance] = useState("");
   const [transactionId, setTransactionId] = useState("");
@@ -98,23 +97,21 @@ const Dashboard = () => {
 
     if (conversionRate === 0) return "0.0000"; // Prevent division by zero
 
-    return (
-      (parseFloat(usdtAmount) * price - transactionFee) /
-      conversionRate
+    return Math.abs(
+      (parseFloat(usdtAmount) * price - transactionFee) / conversionRate
     ).toFixed(4);
   };
 
   // Function to handle the payment process (creating a transaction via CoinPayments API)
   const handlePay = async (e) => {
     e.preventDefault();
-   
+
     // Check if MetaMask is installed in the browser
-    if (!window.ethereum) {
-      // setError("Please install MetaMask!");
+    if (!walletData.address) {
       setSnackBarData({
         visibility: true,
         error: "error",
-        text: "Please install MetaMask!",
+        text: "Please Connect Wallet!",
       });
       return;
     }
@@ -141,7 +138,7 @@ const Dashboard = () => {
       if (data?.payment_urls?.checkout_url) {
         window.open(data.payment_urls.checkout_url, "_blank");
       }
-      setustdAmount('')
+      setustdAmount("");
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -153,12 +150,22 @@ const Dashboard = () => {
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const network = await provider.getNetwork();
-      if (network.chainId !== 1) {
-        await window.ethereum.request({
-          method: "wallet_switchEthereumChain",
-          params: [{ chainId: "0x1" }],
-        });
+      if (baseUrl === "https://ivestclub.eazisols.com/api/") {
+        if (network.chainId !== 1) {
+          await window.ethereum.request({
+            method: "wallet_switchEthereumChain",
+            params: [{ chainId: "0x1" }],
+          });
+        } else {
+          if (network.chainId !== 97) {
+            await window.ethereum.request({
+              method: "wallet_switchEthereumChain",
+              params: [{ chainId: "0x61" }],
+            });
+          }
+        }
       }
+
       await provider.send("eth_requestAccounts", []);
       const signer = provider.getSigner();
       const address = await signer.getAddress();
@@ -218,7 +225,7 @@ const Dashboard = () => {
         window.location.reload();
       });
     }
-    handleConnectWallet();
+    // handleConnectWallet();
     handleTokenApi();
     getUSDTprice();
   }, []);
@@ -553,9 +560,9 @@ const Dashboard = () => {
                 <div className="text-center">
                   <div className="section4-head">Buy IVT</div>
                   <div class="text-danger">
-  "Payment Module is under development. It will receive only LTCT currency for now (TestNet only)"
-</div>
-
+                    "Payment Module is under development. It will receive only
+                    LTCT currency for now (TestNet only)"
+                  </div>
                 </div>
                 <div className="currConverter col-sm-12  col-lg-12 col-md-12">
                   <div className="row">
@@ -717,12 +724,7 @@ const Dashboard = () => {
                 {/* <div className="conBtn">Buy Now</div> */}
                 <div className="largeButtonContainer mt-3  pt-3 mb-5 col-lg-4 col-md-4 col-sm-2">
                   <LargeButton
-                    text={
-                      loading
-                        ? "Processing..."
-                        : "Buy Now"
-                       
-                    }
+                    text={loading ? "Processing..." : "Buy Now"}
                     onClick={handlePay}
                   />
                 </div>
