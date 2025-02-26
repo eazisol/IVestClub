@@ -49,17 +49,18 @@ export const TransactionHistory = () => {
                 </div>
               </div>
               <div className="section2">
-                <TableContainer className="tableContainer">
+                <TableContainer className="tableContainer"  sx={{ maxHeight: 400, overflow: 'auto' }}>
                   <Table className="tableText" sx={{ minWidth: 650 }}>
                     <TableHead className="tHead">
                       <TableRow>
-                        <TableCell className="pb-0  availNum">
+                        <TableCell className="pb-0  availNum" sx={{ position: 'sticky', top: 0, backgroundColor: '#fff' }}>
                           S.N
                           {/* <i className="fa-solid fa-up-down sortIcon"></i> */}
                         </TableCell>
                         <TableCell
                           align="center"
                           className="pb-0 availNum"
+                          sx={{ position: 'sticky', top: 0, backgroundColor: '#fff' }}
                         >
                           USDT Amount
                           {/* <i className="fa-solid fa-up-down sortIcon"></i> */}
@@ -67,6 +68,7 @@ export const TransactionHistory = () => {
                         <TableCell
                           align="center"
                           className="pb-0 availNum"
+                          sx={{ position: 'sticky', top: 0, backgroundColor: '#fff' }}
                         >
                           IVT Amount
                           {/* <i className="fa-solid fa-up-down sortIcon"></i> */}
@@ -74,6 +76,7 @@ export const TransactionHistory = () => {
                         <TableCell
                           align="center"
                           className="pb-0 availNum"
+                          sx={{ position: 'sticky', top: 0, backgroundColor: '#fff' }}
                         >
                           Status
                           {/* <i className="fa-solid fa-up-down sortIcon"></i> */}
@@ -81,6 +84,7 @@ export const TransactionHistory = () => {
                         <TableCell
                           align="center"
                           className="pb-0 availNum"
+                          sx={{ position: 'sticky', top: 0, backgroundColor: '#fff' }}
                         >
                           Transcation ID
                           {/* <i className="fa-solid fa-up-down sortIcon"></i> */}
@@ -88,6 +92,7 @@ export const TransactionHistory = () => {
                         <TableCell
                           align="center"
                           className="pb-0 availNum"
+                          sx={{ position: 'sticky', top: 0, backgroundColor: '#fff' }}
                         >
                           TX.Hash
                           {/* <i className="fa-solid fa-up-down sortIcon"></i> */}
@@ -95,6 +100,7 @@ export const TransactionHistory = () => {
                         <TableCell
                           align="center"
                           className="pb-0 availNum"
+                          sx={{ position: 'sticky', top: 0, backgroundColor: '#fff' }}
                         >
                           Created
                           {/* <i className="fa-solid fa-up-down sortIcon"></i> */}

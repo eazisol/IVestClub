@@ -77,14 +77,14 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
     setSnackBarData({
       visibility: true,
       error: "success",
-      text: "Your wallet is successfully connected",
+      text: "Your wallet is successfully connected!",
     });
   }
   else if(walletData?.address){
     setSnackBarData({
       visibility: true,
       error: "success",
-      text: "Your wallet is already connected",
+      text: "Your wallet is already connected!",
     });
   }
 

@@ -567,6 +567,10 @@ const Dashboard = () => {
                 <div className="currConverter col-sm-12  col-lg-12 col-md-12">
                   <div className="row">
                     <div className="converter1 mt-4 col-sm-12  col-lg-6 col-md-12">
+                      <div className="usdtPrice LightText z-3">
+                        {`USDT Current Price : ${usdtData?.Price?.toFixed(3)}`}
+                      </div>
+
                       <div className="mb-1 con-head"> You Pay </div>
                       <div className="input-group mb-3">
                         <div className="con-dropDown dropdown">
@@ -609,7 +613,7 @@ const Dashboard = () => {
                       </div>
                     </div>
                     <div className="converter2 mt-4 col-sm-12 col-lg-6 col-md-12">
-                      <div className="con-head mb-1"> You Get </div>
+                      <div className="con-head mb-1 mt-3"> You Get </div>
                       {/* <div className="input-group mb-3">
                         <div>
                           <button
