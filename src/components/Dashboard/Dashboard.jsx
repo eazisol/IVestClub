@@ -78,7 +78,7 @@ const Dashboard = () => {
   const [currencyId, setCurrencyId] = useState(null);
   const [usdtBalance, setUsdtBalance] = useState(null);
   const [statusData, setAllStatusData] = useState(null);
-  let usdtAmountCalculate = usdtAmount * usdtData?.Price; //caluculate USDT which is write in input with today USDT price
+  // let usdtAmountCalculate = usdtAmount * usdtData?.Price;
   let myWalletAmount = usdtData?.Price * usdtBalance; //caluculate USDT which is write in input with today USDT price
   //SHOW USERS TOKEN ON IN THE TABLE
   const rows = [
@@ -336,7 +336,6 @@ useEffect(() => {
 
   const handlePin = async () => {
     try {
-      data.payment?.expectedAmount?.breakdown?.[0]?.displayValue
       await axios.post(`${baseUrl}coinpayments/Tokenator`, {
         status: status,
         txn_id: invoicesId,
