@@ -9,6 +9,7 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import { CustomizedTooltips, HeaderLink } from "./Common/MiniComponents";
 import { TextField } from "@mui/material";
 import { ethers } from "ethers";
+import { baseUrl } from "../../apiConfig";
 const Header = ({ setShowSearchInput, showSearchInput }) => {
   
   const navigate = useNavigate();
@@ -94,12 +95,21 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
   try {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const network = await provider.getNetwork();
-    if (network.chainId !== 97) {
-      await window.ethereum.request({
-        method: "wallet_switchEthereumChain",
-        params: [{ chainId: "0x97" }],
-      });
-    }
+      // if (baseUrl === "https://ivestclub.eazisols.com/api/") {
+      //       if (network.chainId !== 1) {
+      //         await window.ethereum.request({
+      //           method: "wallet_switchEthereumChain",
+      //           params: [{ chainId: "0x1" }],
+      //         });
+      //       } else {
+              if (network.chainId !== 11155111) {
+                await window.ethereum.request({
+                  method: "wallet_switchEthereumChain",
+                  params: [{ chainId: "0x11a111" }],
+                });
+              }
+          //   }
+          // }
 
     await provider.send("eth_requestAccounts", []);
     const signer = provider.getSigner();

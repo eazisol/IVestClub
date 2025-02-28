@@ -33,6 +33,7 @@ const SignUpPage = () => {
     const keysToValidate = [
       {name: "FirstName", errorMessage: "Please enter First Name." },
       {name : "LastName", errorMessage: "Please enter Last Name."},
+      {name : "username", errorMessage: "Please enter User Name."},
       {name : "email", errorMessage: "Please enter Email Address."},
       {name : "password", errorMessage: "Please enter Password."},
       {name : "password_confirmation", errorMessage: "Please enter Confirm Password."},
@@ -80,6 +81,15 @@ const SignUpPage = () => {
         visibility: true,
         error: "error",
         text: "Please enter a valid Password",
+      });
+      return;
+    }
+    const usernameRegex = /^[a-zA-Z0-9 ]+$/;
+    if (!usernameRegex.test(formData.username)) {
+      setSnackBarData({
+        visibility: true,
+        error: "error",
+        text: "Username should not contain special characters (only letters, numbers).",
       });
       return;
     }
@@ -166,14 +176,17 @@ const SignUpPage = () => {
             helperText={"Last Name is Required"}
               />
             </div>
-            {/* <div className="col-12 pl-0 pr-0">
+            <div className="col-12 pl-0 pr-0">
               <SimpleInput
                 lable="User Name"
                 name="username"
                 onChange={handleChange}
+                required
                 value={formData.username || ""}
+                helperText={"User Name is Required"}
+                error={submitclicked && !formData.username}
               />
-            </div> */}
+            </div>
             <div className="col-12 pl-0 pr-0">
               <SimpleInput
                 lable="Email address"
@@ -191,6 +204,7 @@ const SignUpPage = () => {
                 name="country"
                 onChange={handleChange}
                 value={formData.country || ""}
+                required
               />
             </div>
             <div className="col-6 pr-0">
@@ -199,6 +213,7 @@ const SignUpPage = () => {
                 name="city"
                 onChange={handleChange}
                 value={formData.city || ""}
+                required
               />
             </div>
             <div className="col-6 pl-0">

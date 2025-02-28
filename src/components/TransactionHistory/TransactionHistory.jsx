@@ -138,7 +138,7 @@ export const TransactionHistory = () => {
                               </TableCell>
                               <TableCell align="start">
                                 <span className="tableHeadText">
-                                  {parseFloat(row?.amount_ivt).toFixed(2)}
+                                  {parseFloat(row?.amount_token).toFixed(2)}
                                 </span>
                               </TableCell>
                               <TableCell align="start">

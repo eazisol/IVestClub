@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Dashboard.css";
 // import "./App.css";
 
@@ -66,15 +66,18 @@ const ERC20_ABI = [
 const Dashboard = () => {
   const { userData, walletData, setWalletData, setSnackBarData } = appData();
   const [status, setStatus] = useState(null);
+  const intervalRef = useRef(null);
   const [balance, setBalance] = useState("");
-  const [transactionId, setTransactionId] = useState("");
+  const [invoicesId, setinvoicesId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [usdtAmount, setustdAmount] = useState("");
   const [tokenDataList, setTokenDataList] = useState([]); // List of tokens from API
-  const [selectedToken, setSelectedToken] = useState(null); // The currently selected token
+  const [selectedToken, setSelectedToken] = useState(null); 
   const [usdtData, setUSDTData] = useState("");
+  const [currencyId, setCurrencyId] = useState(null);
   const [usdtBalance, setUsdtBalance] = useState(null);
+  const [statusData, setAllStatusData] = useState(null);
   let usdtAmountCalculate = usdtAmount * usdtData?.Price; //caluculate USDT which is write in input with today USDT price
   let myWalletAmount = usdtData?.Price * usdtBalance; //caluculate USDT which is write in input with today USDT price
   //SHOW USERS TOKEN ON IN THE TABLE
@@ -96,9 +99,9 @@ const Dashboard = () => {
       parseFloat(selectedToken?.token_conversion_rate) || 1; // Avoid division by zero
 
     if (conversionRate === 0) return "0.0000"; // Prevent division by zero
-
+const persentageTransactionFee=transactionFee/100
     return Math.abs(
-      (parseFloat(usdtAmount) * price - transactionFee) / conversionRate
+      ((parseFloat(usdtAmount) * price * persentageTransactionFee)-price*parseFloat(usdtAmount)) / conversionRate
     ).toFixed(4);
   };
 
@@ -115,30 +118,100 @@ const Dashboard = () => {
       });
       return;
     }
-
+    const usernameRegex = /^[a-zA-Z0-9 ]+$/;
+    if (!usernameRegex.test(!userData?.username)) {
+      setSnackBarData({
+        visibility: true,
+        error: "error",
+        text: "Username should not contain special characters (only letters, numbers).",
+      });
+      return;
+    }
+    if (!userData?.username) {
+      setSnackBarData({
+        visibility: true,
+        error: "error",
+        text: "Username must be required.",
+      });
+      return;
+    }
     setLoading(true);
-
-    let obj = {
-      amountusdt: usdtAmountCalculate,
-      amountivt: getBnbAmount(usdtAmount),
-      currency1: "LTCT",
-      currency2: "LTCT",
-      buyer_email: userData?.email,
-      username: userData?.username ? userData?.username : "N/A",
-      user_wallet_address: walletData?.address,
-      user_id: userData?.user_id,
-    };
+    const requestData = {
+      "currency": "1002",
+      "items": [
+          {
+              "name": "test item",
+              "description": "1738751764",
+              "quantity": {
+                  "value": "1",
+                  "type": "2"
+              },
+              "amount": `${usdtAmount}`
+          }
+      ],
+      "amount": {
+          "breakdown": {
+              "subtotal": `${usdtAmount}`
+          },
+          "total": `${usdtAmount}`
+      },
+      "buyer": {
+          "name": {
+              "firstName": "Test",
+              "lastName": "Test"
+          },
+          "emailAddress": "test@test.com",
+          "phoneNumber": "1111111111",
+          "address": {
+              "address1": "Test str",
+              "city": "Warsaw",
+              "countryCode": "PL",
+              "postalCode": "01-001"
+          }
+      },
+      "payment": {
+          "paymentCurrency": "1002",
+          "refundEmail": "test@test.com"
+      },
+      // Format numeric values with fixed precision
+      "amountusdt":usdtAmount,
+      "amounttoken": +getBnbAmount(usdtAmount),
+      "token":   selectedToken?.name,
+      "currency1": "LTCT",
+      "currency2": "LTCT",
+      "buyer_email": userData?.email,
+      "username": userData?.username,
+      "user_wallet_address": walletData?.address,
+      "user_id": `${userData?.user_id}`
+  };
+ 
+    
+    
 
     try {
-      const { data } = await axios.post(
-        `${baseUrl}coinpayments/createUSDTTransaction`,
-        obj
-      );
-      setTransactionId(data?.transaction?.transaction_id);
-      if (data?.payment_urls?.checkout_url) {
-        window.open(data.payment_urls.checkout_url, "_blank");
+    
+      const response = await fetch(`${baseUrl}coinpayments/invoices`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(requestData)
+    });
+    
+    const data = await response.json();
+    const newCurrencyId = data?.response?.invoices[0]?.payment?.paymentCurrencies[0]?.currency?.id;
+    const newInvoicesId = data?.response?.invoices[0]?.id;
+    
+    setCurrencyId(newCurrencyId);
+    setinvoicesId(newInvoicesId);
+    
+    //  Save the new values immediately
+  
+    
+      if (data?.response?.invoices[0]?.checkoutLink) {
+        window.open(data?.response?.invoices[0]?.checkoutLink, "_blank");
       }
-      setustdAmount("");
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -150,21 +223,21 @@ const Dashboard = () => {
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const network = await provider.getNetwork();
-      if (baseUrl === "https://ivestclub.eazisols.com/api/") {
-        if (network.chainId !== 1) {
-          await window.ethereum.request({
-            method: "wallet_switchEthereumChain",
-            params: [{ chainId: "0x1" }],
-          });
-        } else {
-          if (network.chainId !== 97) {
+      // if (baseUrl === "https://ivestclub.eazisols.com/api/") {
+      //   if (network.chainId !== 1) {
+      //     await window.ethereum.request({
+      //       method: "wallet_switchEthereumChain",
+      //       params: [{ chainId: "0x1" }],
+      //     });
+      //   } else {
+          if (network.chainId !== 11155111) {
             await window.ethereum.request({
               method: "wallet_switchEthereumChain",
-              params: [{ chainId: "0x61" }],
+              params: [{ chainId: "0x11a111" }],
             });
           }
-        }
-      }
+      //   }
+      // }
 
       await provider.send("eth_requestAccounts", []);
       const signer = provider.getSigner();
@@ -200,7 +273,6 @@ const Dashboard = () => {
   // Fetch token data and set the first token as the selected token
   const handleTokenApi = async () => {
     const { data } = await axios.get(`${baseUrl}token/getAllTokenData`);
-    // Assuming data.data is an array of token objects
     setTokenDataList(data?.data);
 
     // Set the first token as the selected token initially
@@ -228,22 +300,23 @@ const Dashboard = () => {
     // handleConnectWallet();
     handleTokenApi();
     getUSDTprice();
+  
+    
+    
+    
   }, []);
-  // useEffect hook to check the status of the transaction using the transaction ID
+ 
+ 
   useEffect(() => {
-    if (!transactionId) return;
+    if (!invoicesId) return;
     // Function to periodically check the transaction status from CoinPayments API
     const checkTransactionStatus = async () => {
       try {
-        const response = await axios.post(
-          `${baseUrl}coinpayments/getTransactionStatus`,
-          {
-            txid: transactionId,
-          }
-        );
-
-        if (response?.data?.result?.status == "100") {
-          setStatus(response?.data.result.status);
+        const response = await axios.get(`${baseUrl}coinpayments/invoice/${invoicesId}/currency/${currencyId}/status`  );
+       
+        if (response?.data?.status === "completed") {
+          setStatus("completed");
+          setAllStatusData(response?.data)
           clearInterval(intervalId);
         }
       } catch (error) {
@@ -254,32 +327,39 @@ const Dashboard = () => {
     const intervalId = setInterval(checkTransactionStatus, 5000);
 
     return () => clearInterval(intervalId);
-  }, [transactionId]);
-  // useEffect hook to handle post-payment action when the transaction is successful (status == 100)
-  useEffect(() => {
-    if (status !== 100) return;
+  }, [invoicesId]);
+// ✅ Trigger handlePin only when status is "completed"
+useEffect(() => {
+  if (status !== "completed") return;
 
-    const handlePin = async () => {
-      try {
-        await axios.post(`${baseUrl}coinpayments/handleIPN`, {
-          status: status,
-          txn_id: transactionId,
-          amountusdt: usdtAmountCalculate,
-          amountivt: getBnbAmount(usdtAmount),
-          currency: "IVT",
-          user_email: userData?.email,
-          user_wallet_address: walletData?.address,
-          custom: 1,
-        });
+  console.log("coinpayments/Tokenator");
 
-        setStatus(null);
-      } catch (error) {
-        console.error("Error handling pin:", error);
-      }
-    };
+  const handlePin = async () => {
+    try {
+      data.payment?.expectedAmount?.breakdown?.[0]?.displayValue
+      await axios.post(`${baseUrl}coinpayments/Tokenator`, {
+        status: status,
+        txn_id: invoicesId,
+        amountusdt: statusData?.payment?.expectedAmount?.breakdown?.[0]?.displayValue,
+        amounttoken: getBnbAmount(statusData?.payment?.expectedAmount?.breakdown?.[0]?.displayValue),
+        currency: selectedToken?.name,
+        user_email: userData?.email,
+        user_wallet_address: walletData?.address,
+        custom: 1,
+        token_contract_address: selectedToken?.token_contract_address
+      });
 
-    handlePin();
-  }, [status]);
+      setStatus(null); // ✅ Reset status
+      setinvoicesId(null)
+    } catch (error) {
+      console.error("Error handling pin:", error);
+    }
+  };
+
+  handlePin();
+}, [status]);
+
+
   return (
     <SactionContainer container={false}>
       <div className="w-100 mt-5  mb-3 pt-5 pl-3">
@@ -670,7 +750,7 @@ const Dashboard = () => {
                           >
                             {/* Display the logo and symbol of the selected token */}
                             <img
-                              src={`${imgUrl}${selectedToken?.logo}`}
+                              src={`${imgUrl}/${selectedToken?.logo}`}
                               alt="Logo"
                               style={{
                                 width: "21px",
@@ -693,7 +773,7 @@ const Dashboard = () => {
                                   style={{ cursor: "pointer" }}
                                 >
                                   <img
-                                    src={`${imgUrl}${token.logo}`}
+                                    src={`${imgUrl}/${token.logo}`}
                                     alt="Logo"
                                     style={{
                                       width: "21px",
@@ -730,6 +810,7 @@ const Dashboard = () => {
                   <LargeButton
                     text={loading ? "Processing..." : "Buy Now"}
                     onClick={handlePay}
+                    // onClick={handlePin}
                   />
                 </div>
               </div>

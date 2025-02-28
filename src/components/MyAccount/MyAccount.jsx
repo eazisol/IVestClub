@@ -135,6 +135,15 @@ const MyAccount = () => {
       });
       return;
     }
+    const usernameRegex = /^[a-zA-Z0-9 ]+$/;
+    if (!usernameRegex.test(formData.username)) {
+      setSnackBarData({
+        visibility: true,
+        error: "error",
+        text: "Username should not contain special characters (only letters, numbers).",
+      });
+      return;
+    }
     // if (!validatePassword(formData.password)) {
     //   setSnackBarData({
     //     visibility: true,
@@ -165,9 +174,9 @@ const MyAccount = () => {
       postData.append("passport", passport);
     }
 
-    // postData.append("formData", formData);
+    postData.append("formData", formData);
 
-    // console.log("formDataformData",formData);
+    console.log("formDataformData",formData);
     postUserData(
       {
         url: "profile/save",
@@ -177,7 +186,6 @@ const MyAccount = () => {
       },
       {
         onSuccess: (data) => {
-          console.log(data);
           //  localStorage.setItem('userData', JSON.stringify(data));
           //  setUserData(data)
           setSnackBarData({
