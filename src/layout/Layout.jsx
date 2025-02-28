@@ -6,8 +6,6 @@ import { appData } from "../components/Context/AppContext.jsx";
 import ScrollToTop from "../components/Scroll/ScrollToTop.jsx";
 import EventPopups from "../components/Common/EventPopups.jsx";
 import MaterialModal from "../components/Common/MaterialModal.jsx";
-
-
 const Layout = () => {
   const { showLandingSaction, setShowLandingSaction, userData, setUserData } =
     appData();
