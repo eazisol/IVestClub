@@ -62,6 +62,14 @@ export const TransactionHistory = () => {
                           className="pb-0 availNum"
                           sx={{ position: 'sticky', top: 0, backgroundColor: '#fff' }}
                         >
+                          Status
+                          {/* <i className="fa-solid fa-up-down sortIcon"></i> */}
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          className="pb-0 availNum"
+                          sx={{ position: 'sticky', top: 0, backgroundColor: '#fff' }}
+                        >
                           USDT Amount
                           {/* <i className="fa-solid fa-up-down sortIcon"></i> */}
                         </TableCell>
@@ -70,15 +78,7 @@ export const TransactionHistory = () => {
                           className="pb-0 availNum"
                           sx={{ position: 'sticky', top: 0, backgroundColor: '#fff' }}
                         >
-                          IVT Amount
-                          {/* <i className="fa-solid fa-up-down sortIcon"></i> */}
-                        </TableCell>
-                        <TableCell
-                          align="center"
-                          className="pb-0 availNum"
-                          sx={{ position: 'sticky', top: 0, backgroundColor: '#fff' }}
-                        >
-                          Status
+                          Token Amount
                           {/* <i className="fa-solid fa-up-down sortIcon"></i> */}
                         </TableCell>
                         <TableCell

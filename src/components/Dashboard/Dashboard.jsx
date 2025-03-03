@@ -10,9 +10,9 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
+import { FormControlLabel, Switch } from "@mui/material"; // Add this import"
 import { SparkLineChart } from "@mui/x-charts/SparkLineChart";
 import { LineChart } from "@mui/x-charts/LineChart";
 import { Avatar, VectorIcon } from "../Common/Icons";
@@ -78,6 +78,7 @@ const Dashboard = () => {
   const [currencyId, setCurrencyId] = useState(null);
   const [usdtBalance, setUsdtBalance] = useState(null);
   const [statusData, setAllStatusData] = useState(null);
+  const [network, setNetwork] = useState('testnet');
   // let usdtAmountCalculate = usdtAmount * usdtData?.Price;
   let myWalletAmount = usdtData?.Price * usdtBalance; //caluculate USDT which is write in input with today USDT price
   //SHOW USERS TOKEN ON IN THE TABLE
@@ -103,6 +104,11 @@ const persentageTransactionFee=transactionFee/100
     return Math.abs(
       ((parseFloat(usdtAmount) * price * persentageTransactionFee)-price*parseFloat(usdtAmount)) / conversionRate
     ).toFixed(4);
+  };
+
+  // handling network change
+  const handleToggle = () => {
+    setNetwork((prev) => (prev === "testnet" ? "mainnet" : "testnet"));
   };
 
   // Function to handle the payment process (creating a transaction via CoinPayments API)
@@ -182,7 +188,8 @@ const persentageTransactionFee=transactionFee/100
       "buyer_email": userData?.email,
       "username": userData?.username,
       "user_wallet_address": walletData?.address,
-      "user_id": `${userData?.user_id}`
+      "user_id": `${userData?.user_id}`,
+      "network": network,
   };
  
     
@@ -209,9 +216,20 @@ const persentageTransactionFee=transactionFee/100
     //  Save the new values immediately
   
     
-      if (data?.response?.invoices[0]?.checkoutLink) {
-        window.open(data?.response?.invoices[0]?.checkoutLink, "_blank");
-      }
+    if (data?.response?.invoices[0]?.checkoutLink) {
+      const cleanUrl = data.response.invoices[0].checkoutLink.replace(/\\/g, '');
+      
+      // Create a new anchor element
+      const link = document.createElement('a');
+      link.href = cleanUrl;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      
+      // Append to the document, click it, and remove it
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -637,7 +655,7 @@ useEffect(() => {
 
               <div className="section4 rounded-3 m-3 p-3 ">
                 <div className="text-center">
-                  <div className="section4-head">Buy IVT</div>
+                  <div className="section4-head">Buy Tokens</div>
                   <div class="text-danger">
                     "Payment Module is under development. It will receive only
                     LTCT currency for now (TestNet only)"
@@ -804,6 +822,17 @@ useEffect(() => {
                 <div className="convDes LightText z-3" align="center">
                   The price will be recalculated in 4.5s
                 </div>
+                <div className="text-center mb-3">
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={network === "mainnet"}
+                        onChange={() => setNetwork(network === "testnet" ? "mainnet" : "testnet")}
+                      />
+                    }
+                    label={network === "testnet" ? "Testnet" : "Mainnet"}
+                  />
+                </div>            
                 {/* <div className="conBtn">Buy Now</div> */}
                 <div className="largeButtonContainer mt-3  pt-3 mb-5 col-lg-4 col-md-4 col-sm-2">
                   <LargeButton
