@@ -43,7 +43,6 @@ import Articals from "./components/Blogs/Articals.jsx";
 import News from "./components/Blogs/News.jsx";
 import { TransactionHistory } from "./components/TransactionHistory/TransactionHistory.jsx";
 
-
 function App() {
   const queryClient = new QueryClient();
 
