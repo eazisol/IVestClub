@@ -439,7 +439,7 @@ const PublicMemberShip = () => {
               membership clubs now.{" "}
             </p>
             <div className="mt-4 pt-2 mb-4 pb-2 d-flex row ">
-              <div className="col-lg-4 col-sm-12 mt-1 ">
+              <div className="col-lg-4 col-sm-12 mt-1 " onClick={()=>navigate('/Dashboard')}>
                 <LargeButton text="Buy your IVC tokens" />
               </div>
               <div className="col-lg-8 col-sm-12 mt-1">
@@ -450,7 +450,8 @@ const PublicMemberShip = () => {
                       {isJoinClubLoading?"Joining Club":"Buy your selected memership club token"}
                     </span>
                   }
-                  onClick={joinClub}
+                  // onClick={joinClub}
+                  onClick={()=>navigate('/Dashboard')}
                 />
               </div>
             </div>

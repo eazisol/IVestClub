@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 const AppContext = createContext();
 
@@ -25,6 +25,17 @@ const [openModal, setOpenModal] = useState({
   open : false,
   content : <></>
 })
+
+
+useEffect(() => {
+  const savedWallet = JSON.parse(localStorage.getItem('walletData'));
+  if (savedWallet?.address) {
+    setWalletData((prev) => ({
+      ...prev,
+      address: savedWallet.address,
+    }));
+  }
+}, []);
 
 const handleLogout = () => {
   localStorage.setItem('userData', JSON.stringify({})); 

@@ -79,6 +79,7 @@ const Dashboard = () => {
   const [usdtBalance, setUsdtBalance] = useState(null);
   const [statusData, setAllStatusData] = useState(null);
   const [network, setNetwork] = useState('testnet');
+  const [userWallet,setUserWallet]=useState('')
   // let usdtAmountCalculate = usdtAmount * usdtData?.Price;
   let myWalletAmount = usdtData?.Price * usdtBalance; //caluculate USDT which is write in input with today USDT price
   //SHOW USERS TOKEN ON IN THE TABLE
@@ -115,15 +116,7 @@ const persentageTransactionFee=transactionFee/100
   const handlePay = async (e) => {
     e.preventDefault();
 
-    // Check if MetaMask is installed in the browser
-    if (!walletData.address) {
-      setSnackBarData({
-        visibility: true,
-        error: "error",
-        text: "Please Connect Wallet!",
-      });
-      return;
-    }
+   
     const usernameRegex = /^[a-zA-Z0-9 ]+$/;
     if (!usernameRegex.test(!userData?.username)) {
       setSnackBarData({
@@ -187,7 +180,7 @@ const persentageTransactionFee=transactionFee/100
       "currency2": "LTCT",
       "buyer_email": userData?.email,
       "username": userData?.username,
-      "user_wallet_address": walletData?.address,
+      "user_wallet_address": userWallet,
       "user_id": `${userData?.user_id}`,
       "network": network,
   };
@@ -230,6 +223,8 @@ const persentageTransactionFee=transactionFee/100
       link.click();
       document.body.removeChild(link);
     }
+    setustdAmount('')
+    setUserWallet('')
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -473,7 +468,7 @@ useEffect(() => {
                   </Table>
                 </TableContainer>
               </div>
-              <div className="row mt-3 p-1 ">
+              {/* <div className="row mt-3 p-1 ">
                 <div className="col-lg-4 col-md-12 col-sm-12">
                   <div className="card card-border-c mb-3 col-sm-12 col-md-12">
                     <div className="card-body">
@@ -651,22 +646,22 @@ useEffect(() => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               <div className="section4 rounded-3 m-3 p-3 ">
                 <div className="text-center">
                   <div className="section4-head">Buy Tokens</div>
-                  <div class="text-danger">
+                  <div class="text-warning">
                     "Payment Module is under development. It will receive only
                     LTCT currency for now (TestNet only)"
                   </div>
                 </div>
                 <div className="currConverter col-sm-12  col-lg-12 col-md-12">
                   <div className="row">
-                    <div className="converter1 mt-4 col-sm-12  col-lg-6 col-md-12">
-                      <div className="usdtPrice LightText z-3">
+                    <div className="converter1 mt-4 ">
+                      {/* <div className="usdtPrice LightText z-3">
                         {`USDT Current Price : ${usdtData?.Price?.toFixed(3)}`}
-                      </div>
+                      </div> */}
 
                       <div className="mb-1 con-head"> You Pay </div>
                       <div className="input-group mb-3">
@@ -703,14 +698,12 @@ useEffect(() => {
                           value={usdtAmount}
                           onChange={(e) => setustdAmount(e.target.value)}
                           placeholder="Enter USDT amount"
-                          type="text"
+                          type="number"
                           className="form-control con-input"
                           aria-label="Text input with checkbox"
                         />
                       </div>
-                    </div>
-                    <div className="converter2 mt-4 col-sm-12 col-lg-6 col-md-12">
-                      <div className="con-head mb-1 mt-3"> You Get </div>
+                      <div className="con-head mb-1"> You Get </div>
                       {/* <div className="input-group mb-3">
                         <div>
                           <button
@@ -810,6 +803,20 @@ useEffect(() => {
                         <input
                           value={getBnbAmount(usdtAmount)} // Display BNB equivalent for the selected token
                           onChange={() => {}}
+                          type="number"
+                          className="form-control"
+                          aria-label="Text input with checkbox"
+                          placeholder="You will receive"
+                        />
+                      </div>
+                      <div className="mb-1 con-head"> Enter your wallet address </div>
+                      <div className="input-group mb-3">
+                      
+
+                        {/* BNB calculation input field */}
+                        <input
+                          // value={} 
+                          onChange={(e) => {setUserWallet(e.target.value)}}
                           type="text"
                           className="form-control"
                           aria-label="Text input with checkbox"
@@ -817,12 +824,130 @@ useEffect(() => {
                         />
                       </div>
                     </div>
+                    <div className="converter2 mt-4 col-sm-12 col-lg-6 col-md-12">
+                      {/* <div className="con-head mb-1"> You Get </div> */}
+                      {/* <div className="input-group mb-3">
+                        <div>
+                          <button
+                            className="btn mt-1 btn-secondary dropdown-toggle"
+                            // type="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                          >
+                            <img
+                              src={`${imgUrl}${tokenData?.logo}`}
+                              alt="Logo"
+                              style={{
+                                width: "21px",
+                                height: "21px",
+                                borderRadius: "50px",
+                              }}
+                            />{" "}
+                            <span> {tokenData?.symbol} </span>
+                          </button>
+                          <ul className="dropdown-menu">
+                            <li className="">
+                              <a className="dropdown-item">
+                                <Bitcoin size={20} /> BTC
+                              </a>
+                            </li>
+                            <li>
+                              <a className="dropdown-item">
+                                <Usdt size={20} /> USDT
+                              </a>
+                            </li>
+                            <li>
+                              <a className="dropdown-item">
+                                <Ethereum size={20} /> ETH
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                        <input
+                          value={getBnbAmount(usdtAmount)}
+                          onChange={() => {}}
+                          type="text"
+                          className="form-control"
+                          aria-label="Text input with checkbox"
+                          placeholder="You will receive"
+                        />
+                      </div> */}
+
+                      {/* <div className="input-group mb-3">
+                        <div>
+                          <button
+                            className="btn mt-1 btn-secondary dropdown-toggle"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                          >
+                            <img
+                              src={`${imgUrl}/${selectedToken?.logo}`}
+                              alt="Logo"
+                              style={{
+                                width: "21px",
+                                height: "21px",
+                                borderRadius: "50px",
+                              }}
+                            />{" "}
+                            <span>{selectedToken?.symbol}</span>
+                          </button>
+                          <ul
+                            className="dropdown-menu overflow-auto"
+                            style={{ maxHeight: "200px" }}
+                          >
+                            {tokenDataList.map((token, index) => (
+                              <li key={index}>
+                                <a
+                                  className="dropdown-item d-flex align-items-center"
+                                  onClick={() => setSelectedToken(token)} 
+                                  style={{ cursor: "pointer" }}
+                                >
+                                  <img
+                                    src={`${imgUrl}/${token.logo}`}
+                                    alt="Logo"
+                                    style={{
+                                      width: "21px",
+                                      height: "21px",
+                                      borderRadius: "50px",
+                                      marginRight: "8px",
+                                    }}
+                                  />
+                                  <span>{token.symbol}</span>
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        <input
+                          value={getBnbAmount(usdtAmount)} 
+                          onChange={() => {}}
+                          type="number"
+                          className="form-control"
+                          aria-label="Text input with checkbox"
+                          placeholder="You will receive"
+                        />
+                      </div> */}
+                      {/* <div className="input-group mb-3">
+                      
+
+                        <input
+                          
+                          onChange={(e) => {setUserWallet(e.target.value)}}
+                          type="text"
+                          className="form-control"
+                          aria-label="Text input with checkbox"
+                          placeholder="You will receive"
+                        />
+                      </div> */}
+                    
+                    </div>
                   </div>
                 </div>
                 <div className="convDes LightText z-3" align="center">
                   The price will be recalculated in 4.5s
                 </div>
-                <div className="text-center mb-3">
+                {/* <div className="text-center mb-3">
                   <FormControlLabel
                     control={
                       <Switch
@@ -832,7 +957,7 @@ useEffect(() => {
                     }
                     label={network === "testnet" ? "Testnet" : "Mainnet"}
                   />
-                </div>            
+                </div>             */}
                 {/* <div className="conBtn">Buy Now</div> */}
                 <div className="largeButtonContainer mt-3  pt-3 mb-5 col-lg-4 col-md-4 col-sm-2">
                   <LargeButton

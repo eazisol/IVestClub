@@ -73,11 +73,11 @@ const LoginPage = () => {
           localStorage.setItem("userData", JSON.stringify(data));
           setUserData(data);
           navigate("/");
-          setSnackBarData({
-            visibility: true,
-            // error: "info",
-            text: "Successfully logged in",
-          });
+          // setSnackBarData({
+          //   visibility: true,
+          //   // error: "info",
+          //   text: "Successfully logged in",
+          // });
         },
         onError: (error) => {
           console.log(error);

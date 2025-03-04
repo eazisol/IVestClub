@@ -10,8 +10,10 @@ import { CustomizedTooltips, HeaderLink } from "./Common/MiniComponents";
 import { TextField } from "@mui/material";
 import { ethers } from "ethers";
 import { baseUrl } from "../../apiConfig";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import LogoutIcon from "@mui/icons-material/Logout";
 const Header = ({ setShowSearchInput, showSearchInput }) => {
-  
   const navigate = useNavigate();
   const location = useLocation();
   const [loading, setLoading] = useState(false);
@@ -28,7 +30,22 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const { setShowLandingSaction } = appData();
   const [headerStyles, setHeaderStyles] = useState({});
+  const [walletMenuOpen, setWalletMenuOpen] = useState(false);
 
+  const formatAddress = (address) => {
+    if (!address) return "";
+    return `${address.slice(0, 2)}...${address.slice(-4)}`;
+  };
+  // const handleCopyAddress = () => {
+  //   if (walletData?.address) {
+  //     navigator.clipboard.writeText(walletData.address);
+
+  //   }
+  // };
+  const handleDisconnect = () => {
+    localStorage.removeItem("walletData");
+    setWalletData({})
+  };
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -64,67 +81,64 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
     }
     return "";
   };
- // This function is responsible for connecting the user's wallet and ensuring the correct network is selected.
- const handleConnectWallet = async () => {
-  if (!window.ethereum) {
-    setSnackBarData({
-      visibility: true,
-      error: "error",
-      text: "Please install MetaMask!",
-    });
-    return;
-  }
-  else if(!walletData?.address){
-    setSnackBarData({
-      visibility: true,
-      error: "success",
-      text: "Your wallet is successfully connected!",
-    });
-  }
-  else if(walletData?.address){
-    setSnackBarData({
-      visibility: true,
-      error: "success",
-      text: "Your wallet is already connected!",
-    });
-  }
+  // This function is responsible for connecting the user's wallet and ensuring the correct network is selected.
+  const handleConnectWallet = async () => {
+    if (!window.ethereum) {
+      setSnackBarData({
+        visibility: true,
+        error: "error",
+        text: "Please install MetaMask!",
+      });
+      return;
+    }
+    setLoading(true);
+    setError("");
+    try {
+      let provider = new ethers.providers.Web3Provider(window.ethereum);
+      let network = await provider.getNetwork();
+      // Check if wallet is already connected
 
-  setLoading(true);
-  setError("");
+      // Check if user is on Sepolia
+      if (network.chainId !== 11155111) {
+        await window.ethereum.request({
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: "0xaa36a7" }], // Sepolia Testnet Chain ID in hex
+        });
+        // Wait for the network change event
+        await new Promise((resolve) =>
+          window.ethereum.on("chainChanged", resolve)
+        );
+        // Reinitialize provider after switching
+        provider = new ethers.providers.Web3Provider(window.ethereum);
+        network = await provider.getNetwork();
+      }
+      // Ensure we are now on Sepolia
+      if (network.chainId !== 11155111) {
+        throw new Error(
+          "Failed to switch to Sepolia Testnet. Please switch manually in MetaMask."
+        );
+      }
+      // Request user accounts
+      await provider.send("eth_requestAccounts", []);
+      const signer = provider.getSigner();
+      const address = await signer.getAddress();
+      const balance = await provider.getBalance(address);
+      setBalance(ethers.utils.formatEther(balance));
+      const walletInfo = { address };
+      setWalletData({ provider, signer, address });
+      localStorage.setItem("walletData", JSON.stringify(walletInfo));
+    } catch (err) {
+      setError(err.message);
+      setSnackBarData({
+        visibility: true,
+        error: "error",
+        text: err.message,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  try {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const network = await provider.getNetwork();
-      // if (baseUrl === "https://ivestclub.eazisols.com/api/") {
-      //       if (network.chainId !== 1) {
-      //         await window.ethereum.request({
-      //           method: "wallet_switchEthereumChain",
-      //           params: [{ chainId: "0x1" }],
-      //         });
-      //       } else {
-              if (network.chainId !== 11155111) {
-                await window.ethereum.request({
-                  method: "wallet_switchEthereumChain",
-                  params: [{ chainId: "0x11a111" }],
-                });
-              }
-          //   }
-          // }
-
-    await provider.send("eth_requestAccounts", []);
-    const signer = provider.getSigner();
-    const address = await signer.getAddress();
-    const balance = await provider.getBalance(address);
-    setBalance(ethers.utils.formatEther(balance));
-    setWalletData({ provider, signer, address });
-  } catch (err) {
-    setError(err.message);
-  } finally {
-    setLoading(false);
-  }
-};
-
-  
   // useEffect to handle wallet connection updates when the account or chain changes
   useEffect(() => {
     if (window.ethereum) {
@@ -132,7 +146,7 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
         handleConnectWallet();
       });
       window.ethereum.on("chainChanged", () => {
-        window.location.reload();
+        handleConnectWallet();
       });
     }
   }, []);
@@ -215,6 +229,20 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
                           text="Membership Club"
                           onClick={() => {
                             navigate("/Membership");
+                          }}
+                        />
+                      </li>
+                      <li
+                        className={
+                          location.pathname == "/Login"
+                            ? "current dropdown "
+                            : "dropdown "
+                        }
+                      >
+                        <HeaderLink
+                          text="Shop"
+                          onClick={() => {
+                            navigate(userData?"/Dashboard":"/Login");
                           }}
                         />
                       </li>
@@ -328,20 +356,85 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
 
                 {userData?.access_token ? (
                   <>
-                    <div className="donate-link">
+                    <div
+                      className="donate-link"
+                      style={{ position: "relative", display: "inline-block" }}
+                      onMouseEnter={() => {
+                        if (walletData.address) setWalletMenuOpen(true);
+                      }}
+                      onMouseLeave={() => {
+                        if (walletData.address) setWalletMenuOpen(false);
+                      }}
+                    >
                       <a
-                        // onClick={() => navigate("/ConnectWallet")}
-                        onClick={handleConnectWallet}
                         className="theme-btn btn-style-one"
+                        onClick={() => {
+                          if (!walletData.address) handleConnectWallet(); // Call connect only if NOT connected
+                        }}
                         style={{
                           textDecoration: "none",
                           fontSize: "12px",
                           fontWeight: "500",
-                          fontFamily: "'Poppins',san-serif",
+                          fontFamily: "'Poppins',sans-serif",
+                          cursor: "pointer",
                         }}
                       >
-                        <span className="btn-title">Connect Wallet</span>
+                        <span className="btn-title">
+                          {walletData.address
+                            ? formatAddress(walletData.address)
+                            : "Connect Wallet"}
+                          {walletData.address && (
+                            <ArrowDropDownIcon sx={{ ml: 1 }} />
+                          )}
+                        </span>
                       </a>
+
+                      {walletMenuOpen && walletData.address && (
+                        <div
+                          style={{
+                            position: "absolute",
+                            top: "100%",
+                            right: 0,
+                            backgroundColor: "#fff",
+                            boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+                            borderRadius: "8px",
+                            marginTop: "2px",
+                            zIndex: 999,
+                            minWidth: "180px",
+                            padding: "10px",
+                          }}
+                        >
+                          <div
+                            style={{
+                              padding: "10px",
+                              borderBottom: "1px solid #eee",
+                              fontSize: "14px",
+                              cursor: "pointer",
+                            }}
+                            onClick={() => {
+                              navigator.clipboard.writeText(walletData.address);
+                             
+                            }}
+                          >
+                            <ContentCopyIcon sx={{ fontSize: 18, mr: 1 }} />
+                            Copy Address
+                          </div>
+                          <div
+                            style={{
+                              padding: "10px",
+                              fontSize: "14px",
+                              cursor: "pointer",
+                              color: "red",
+                            }}
+                            onClick={() => {
+                              handleDisconnect();
+                            }}
+                          >
+                            <LogoutIcon sx={{ fontSize: 18, mr: 1 }} />
+                            Disconnect
+                          </div>
+                        </div>
+                      )}
                     </div>
                     <div className="px-2">
                       <NotificationsOutlinedIcon sx={{ color: "#fff" }} />
