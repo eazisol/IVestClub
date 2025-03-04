@@ -25,7 +25,6 @@ import OpenAIMembership from "./components/MemberShip/OpenAIMembership.jsx";
 import IvestMembership from "./components/MemberShip/IvestMembership.jsx";
 import SpaceXMembership from "./components/MemberShip/SpaceXMembership.jsx";
 import FutureClubs from "./components/FutureClubs/FutureClubs.jsx";
-
 import Dashboard from "./components/Dashboard/Dashboard.jsx";
 import MyMemberShipClubs from "./components/MyMembershipClubs/MyMemberShipClubs.jsx";
 import MyAccount from "./components/MyAccount/MyAccount.jsx";
