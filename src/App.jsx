@@ -42,6 +42,7 @@ import StaticPublicMembership from "./components/MemberShip/StaticPublicMembersh
 import Articals from "./components/Blogs/Articals.jsx";
 import News from "./components/Blogs/News.jsx";
 import { TransactionHistory } from "./components/TransactionHistory/TransactionHistory.jsx";
+import Shop from "./components/Shop/Shop.jsx";
 
 function App() {
   const queryClient = new QueryClient();
@@ -63,6 +64,7 @@ function App() {
               <Route path="ConnectWallet" element={<UnderConstruction />} />
               <Route path="Forget" element={<ForgetPassword />} />
               <Route path="About" element={<About />} />
+              <Route path="shop" element={<Shop />} />
                 <Route
                   path="Membership/Public"
                   element={<PublicMemberShip />}

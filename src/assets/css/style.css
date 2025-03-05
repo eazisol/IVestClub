@@ -11401,7 +11401,15 @@ body {
 	font-family: "Montserrat", sans-serif !important;
 }
 
-
+.cursor-not-allowed {
+	cursor: not-allowed;
+	opacity: 0.6; /* Optional: visually show it's disabled */
+  }
+  
+  .cursor-pointer {
+	cursor: pointer;
+  }
+  
 .con-head {
 	font-family: "Poppins", sans-serif !important;
 	/* color: #5C5B5C !important; */

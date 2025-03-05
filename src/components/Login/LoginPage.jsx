@@ -20,7 +20,13 @@ const LoginPage = () => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
-
+  const onkeyEnter = (e) => {
+    if (e.key === "Enter" && (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA")) {
+      e.preventDefault();
+      handleLogin(e);
+    }
+  };
+  
   const handleLogin = (e) => {
     e.preventDefault();
     setSubmitclicked(true)
@@ -91,6 +97,7 @@ const LoginPage = () => {
     <div
       className="container-fluid row justify-content-center"
       style={{ backgroundColor: "#fff" }}
+      onKeyDown={onkeyEnter}
     >
       {/* <div
         className="w-100 pl-xl-5 pl-0  d-flex login-mt"

@@ -31,6 +31,8 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
   const { setShowLandingSaction } = appData();
   const [headerStyles, setHeaderStyles] = useState({});
   const [walletMenuOpen, setWalletMenuOpen] = useState(false);
+  const [accountMenuOpen, setAccountMenuOpen] = useState(false);
+  const [tokenHoldings, setTokenHoldings] = useState(null);
 
   const formatAddress = (address) => {
     if (!address) return "";
@@ -44,8 +46,37 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
   // };
   const handleDisconnect = () => {
     localStorage.removeItem("walletData");
-    setWalletData({})
+    setWalletData({});
   };
+  // Function to fetch token balances
+const fetchTokenHoldings = async (provider, address) => {
+  const tokenHoldings = [];
+
+  // ERC-20 Token Contract Addresses on Sepolia Testnet
+  const tokens = [
+    { name: "iVT", address: "0xYour_iVT_Token_Address_Here" },
+    { name: "iSPX", address: "0xYour_iSPX_Token_Address_Here" }
+  ];
+
+  const erc20Abi = [
+    "function balanceOf(address owner) view returns (uint256)",
+    "function decimals() view returns (uint8)"
+  ];
+
+  for (const token of tokens) {
+    const contract = new ethers.Contract(token.address, erc20Abi, provider);
+    const balance = await contract.balanceOf(address);
+    const decimals = await contract.decimals();
+    
+    tokenHoldings.push({
+      name: token.name,
+      balance: ethers.utils.formatUnits(balance, decimals)
+    });
+  }
+
+  // Store token holdings in state
+  // setTokenHoldings(tokenHoldings);
+};
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -234,17 +265,24 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
                       </li>
                       <li
                         className={
-                          location.pathname == "/Login"
+                          location.pathname == "/shop"
                             ? "current dropdown "
                             : "dropdown "
                         }
                       >
-                        <HeaderLink
+                         <HeaderLink
                           text="Shop"
                           onClick={() => {
                             navigate(userData?"/Dashboard":"/Login");
                           }}
                         />
+                        {/* <HeaderLink
+                          text="Shop"
+                          onClick={() => {
+                            // navigate("/shop");
+                            
+                          }}
+                        /> */}
                       </li>
                       {/* <li
                         className={
@@ -413,7 +451,6 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
                             }}
                             onClick={() => {
                               navigator.clipboard.writeText(walletData.address);
-                             
                             }}
                           >
                             <ContentCopyIcon sx={{ fontSize: 18, mr: 1 }} />
@@ -447,9 +484,59 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
                         borderRadius: "200px",
                         cursor: "pointer",
                       }}
-                      onClick={() => navigate("/Dashboard")}
+                      onMouseEnter={() => {
+                        setAccountMenuOpen(true);
+                      }}
+                      onMouseLeave={() => {
+                        setAccountMenuOpen(false);
+                      }}
+                     
                     >
                       <AccountCircleOutlinedIcon sx={{ color: "#fff" }} />
+                      {accountMenuOpen && (
+                        <div
+                          style={{
+                            position: "absolute",
+                            top: "87%",
+                            right: 0,
+                            backgroundColor: "#fff",
+                            boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+                            borderRadius: "8px",
+                            // marginTop: "2px",
+                            zIndex: 999,
+                            minWidth: "130px",
+                            padding: "10px",
+                          }}
+                        >
+                          <div
+                            style={{
+                              padding: "10px",
+                              borderBottom: "1px solid #eee",
+                              fontSize: "14px",
+                              cursor: "pointer",
+                            }}
+                            onClick={() => navigate("/Dashboard")}
+                          >
+                            <AccountCircleOutlinedIcon sx={{ color: "#000",fontSize: 18, mr: 1 }} />
+                            Profile
+                          </div>
+                          <div
+                            style={{
+                              padding: "10px",
+                              fontSize: "14px",
+                              cursor: "pointer",
+                              color: "red",
+                            }}
+                            onClick={() => {
+                              handleLogout();
+                              setAccountMenuOpen(false)
+                            }}
+                          >
+                            <LogoutIcon sx={{ fontSize: 18, mr: 1 }} />
+                           Logout
+                          </div>
+                        </div>
+                      )}
                     </div>
                     &nbsp;
                   </>

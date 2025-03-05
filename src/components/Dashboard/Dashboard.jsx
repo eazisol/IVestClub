@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./Dashboard.css";
 // import "./App.css";
-
+import { BsInfoCircle } from "react-icons/bs";
 import CardActions from "@mui/joy/CardActions";
 import { ethers } from "ethers";
 import Table from "@mui/material/Table";
@@ -12,7 +12,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
-import { FormControlLabel, Switch } from "@mui/material"; // Add this import"
+import { FormControlLabel, Switch, Tooltip } from "@mui/material"; // Add this import"
 import { SparkLineChart } from "@mui/x-charts/SparkLineChart";
 import { LineChart } from "@mui/x-charts/LineChart";
 import { Avatar, VectorIcon } from "../Common/Icons";
@@ -66,20 +66,19 @@ const ERC20_ABI = [
 const Dashboard = () => {
   const { userData, walletData, setWalletData, setSnackBarData } = appData();
   const [status, setStatus] = useState(null);
-  const intervalRef = useRef(null);
   const [balance, setBalance] = useState("");
   const [invoicesId, setinvoicesId] = useState(null);
+  const [currencyId, setCurrencyId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [usdtAmount, setustdAmount] = useState("");
   const [tokenDataList, setTokenDataList] = useState([]); // List of tokens from API
-  const [selectedToken, setSelectedToken] = useState(null); 
+  const [selectedToken, setSelectedToken] = useState(null);
   const [usdtData, setUSDTData] = useState("");
-  const [currencyId, setCurrencyId] = useState(null);
   const [usdtBalance, setUsdtBalance] = useState(null);
   const [statusData, setAllStatusData] = useState(null);
-  const [network, setNetwork] = useState('testnet');
-  const [userWallet,setUserWallet]=useState('')
+  const [network, setNetwork] = useState("testnet");
+  const [userWallet, setUserWallet] = useState("");
   // let usdtAmountCalculate = usdtAmount * usdtData?.Price;
   let myWalletAmount = usdtData?.Price * usdtBalance; //caluculate USDT which is write in input with today USDT price
   //SHOW USERS TOKEN ON IN THE TABLE
@@ -101,9 +100,11 @@ const Dashboard = () => {
       parseFloat(selectedToken?.token_conversion_rate) || 1; // Avoid division by zero
 
     if (conversionRate === 0) return "0.0000"; // Prevent division by zero
-const persentageTransactionFee=transactionFee/100
+    const persentageTransactionFee = transactionFee / 100;
     return Math.abs(
-      ((parseFloat(usdtAmount) * price * persentageTransactionFee)-price*parseFloat(usdtAmount)) / conversionRate
+      (parseFloat(usdtAmount) * price * persentageTransactionFee -
+        price * parseFloat(usdtAmount)) /
+        conversionRate
     ).toFixed(4);
   };
 
@@ -116,7 +117,6 @@ const persentageTransactionFee=transactionFee/100
   const handlePay = async (e) => {
     e.preventDefault();
 
-   
     const usernameRegex = /^[a-zA-Z0-9 ]+$/;
     if (!usernameRegex.test(!userData?.username)) {
       setSnackBarData({
@@ -136,95 +136,95 @@ const persentageTransactionFee=transactionFee/100
     }
     setLoading(true);
     const requestData = {
-      "currency": "1002",
-      "items": [
-          {
-              "name": "test item",
-              "description": "1738751764",
-              "quantity": {
-                  "value": "1",
-                  "type": "2"
-              },
-              "amount": `${usdtAmount}`
-          }
+      currency: "1002",
+      items: [
+        {
+          name: "test item",
+          description: "1738751764",
+          quantity: {
+            value: "1",
+            type: "2",
+          },
+          amount: `${usdtAmount}`,
+        },
       ],
-      "amount": {
-          "breakdown": {
-              "subtotal": `${usdtAmount}`
-          },
-          "total": `${usdtAmount}`
+      amount: {
+        breakdown: {
+          subtotal: `${usdtAmount}`,
+        },
+        total: `${usdtAmount}`,
       },
-      "buyer": {
-          "name": {
-              "firstName": "Test",
-              "lastName": "Test"
-          },
-          "emailAddress": "test@test.com",
-          "phoneNumber": "1111111111",
-          "address": {
-              "address1": "Test str",
-              "city": "Warsaw",
-              "countryCode": "PL",
-              "postalCode": "01-001"
-          }
+      buyer: {
+        name: {
+          firstName: "Test",
+          lastName: "Test",
+        },
+        emailAddress: "test@test.com",
+        phoneNumber: "1111111111",
+        address: {
+          address1: "Test str",
+          city: "Warsaw",
+          countryCode: "PL",
+          postalCode: "01-001",
+        },
       },
-      "payment": {
-          "paymentCurrency": "1002",
-          "refundEmail": "test@test.com"
+      payment: {
+        paymentCurrency: "1002",
+        refundEmail: "test@test.com",
       },
       // Format numeric values with fixed precision
-      "amountusdt":usdtAmount,
-      "amounttoken": +getBnbAmount(usdtAmount),
-      "token":   selectedToken?.name,
-      "currency1": "LTCT",
-      "currency2": "LTCT",
-      "buyer_email": userData?.email,
-      "username": userData?.username,
-      "user_wallet_address": userWallet,
-      "user_id": `${userData?.user_id}`,
-      "network": network,
-  };
- 
-    
-    
+      amountusdt: usdtAmount,
+      amounttoken: +getBnbAmount(usdtAmount),
+      token: selectedToken?.name,
+      currency1: "LTCT",
+      currency2: "LTCT",
+      buyer_email: userData?.email,
+      username: userData?.username,
+      user_wallet_address: userWallet,
+      user_id: `${userData?.user_id}`,
+      // "network": network,
+    };
 
     try {
-    
       const response = await fetch(`${baseUrl}coinpayments/invoices`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
+          "Content-Type": "application/json",
+          Accept: "application/json",
         },
-        body: JSON.stringify(requestData)
-    });
-    
-    const data = await response.json();
-    const newCurrencyId = data?.response?.invoices[0]?.payment?.paymentCurrencies[0]?.currency?.id;
-    const newInvoicesId = data?.response?.invoices[0]?.id;
-    
-    setCurrencyId(newCurrencyId);
-    setinvoicesId(newInvoicesId);
-    
-    //  Save the new values immediately
-  
-    
-    if (data?.response?.invoices[0]?.checkoutLink) {
-      const cleanUrl = data.response.invoices[0].checkoutLink.replace(/\\/g, '');
-      
-      // Create a new anchor element
-      const link = document.createElement('a');
-      link.href = cleanUrl;
-      link.target = '_blank';
-      link.rel = 'noopener noreferrer';
-      
-      // Append to the document, click it, and remove it
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-    setustdAmount('')
-    setUserWallet('')
+        body: JSON.stringify(requestData),
+      });
+
+      const data = await response.json();
+      const newCurrencyId =
+        data?.response?.invoices[0]?.payment?.paymentCurrencies[0]?.currency
+          ?.id;
+      const newInvoicesId = data?.response?.invoices[0]?.id;
+
+      setCurrencyId(newCurrencyId);
+      setinvoicesId(newInvoicesId);
+
+      //  Save the new values immediately
+
+      if (data?.response?.invoices[0]?.checkoutLink) {
+        const cleanUrl = data.response.invoices[0].checkoutLink.replace(
+          /\\/g,
+          ""
+        );
+
+        // Create a new anchor element
+        const link = document.createElement("a");
+        link.href = cleanUrl;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+
+        // Append to the document, click it, and remove it
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+      setustdAmount("");
+      setUserWallet("");
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -243,12 +243,12 @@ const persentageTransactionFee=transactionFee/100
       //       params: [{ chainId: "0x1" }],
       //     });
       //   } else {
-          if (network.chainId !== 11155111) {
-            await window.ethereum.request({
-              method: "wallet_switchEthereumChain",
-              params: [{ chainId: "0x11a111" }],
-            });
-          }
+      if (network.chainId !== 11155111) {
+        await window.ethereum.request({
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: "0x11a111" }],
+        });
+      }
       //   }
       // }
 
@@ -313,23 +313,20 @@ const persentageTransactionFee=transactionFee/100
     // handleConnectWallet();
     handleTokenApi();
     getUSDTprice();
-  
-    
-    
-    
   }, []);
- 
- 
+
   useEffect(() => {
     if (!invoicesId) return;
     // Function to periodically check the transaction status from CoinPayments API
     const checkTransactionStatus = async () => {
       try {
-        const response = await axios.get(`${baseUrl}coinpayments/invoice/${invoicesId}/currency/${currencyId}/status`  );
-       
+        const response = await axios.get(
+          `${baseUrl}coinpayments/invoice/${invoicesId}/currency/${currencyId}/status`
+        );
+
         if (response?.data?.status === "completed") {
           setStatus("completed");
-          setAllStatusData(response?.data)
+          setAllStatusData(response?.data);
           clearInterval(intervalId);
         }
       } catch (error) {
@@ -341,36 +338,38 @@ const persentageTransactionFee=transactionFee/100
 
     return () => clearInterval(intervalId);
   }, [invoicesId]);
-// ✅ Trigger handlePin only when status is "completed"
-useEffect(() => {
-  if (status !== "completed") return;
+  // ✅ Trigger handlePin only when status is "completed"
+  useEffect(() => {
+    if (status !== "completed") return;
 
-  console.log("coinpayments/Tokenator");
+    console.log("coinpayments/Tokenator");
 
-  const handlePin = async () => {
-    try {
-      await axios.post(`${baseUrl}coinpayments/Tokenator`, {
-        status: status,
-        txn_id: invoicesId,
-        amountusdt: statusData?.payment?.expectedAmount?.breakdown?.[0]?.displayValue,
-        amounttoken: getBnbAmount(statusData?.payment?.expectedAmount?.breakdown?.[0]?.displayValue),
-        currency: selectedToken?.name,
-        user_email: userData?.email,
-        user_wallet_address: walletData?.address,
-        custom: 1,
-        token_contract_address: selectedToken?.token_contract_address
-      });
+    const handlePin = async () => {
+      try {
+        await axios.post(`${baseUrl}coinpayments/Tokenator`, {
+          status: status,
+          txn_id: invoicesId,
+          amountusdt:
+            statusData?.payment?.expectedAmount?.breakdown?.[0]?.displayValue,
+          amounttoken: getBnbAmount(
+            statusData?.payment?.expectedAmount?.breakdown?.[0]?.displayValue
+          ),
+          currency: selectedToken?.name,
+          user_email: userData?.email,
+          user_wallet_address: walletData?.address,
+          custom: 1,
+          token_contract_address: selectedToken?.token_contract_address,
+        });
 
-      setStatus(null); // ✅ Reset status
-      setinvoicesId(null)
-    } catch (error) {
-      console.error("Error handling pin:", error);
-    }
-  };
+        setStatus(null); // ✅ Reset status
+        setinvoicesId(null);
+      } catch (error) {
+        console.error("Error handling pin:", error);
+      }
+    };
 
-  handlePin();
-}, [status]);
-
+    handlePin();
+  }, [status]);
 
   return (
     <SactionContainer container={false}>
@@ -663,7 +662,20 @@ useEffect(() => {
                         {`USDT Current Price : ${usdtData?.Price?.toFixed(3)}`}
                       </div> */}
 
-                      <div className="mb-1 con-head"> You Pay </div>
+                      <div className="mb-1 con-head">
+                        {" "}
+                        You Pay{" "}
+                        <Tooltip
+                          title="Enter the amount of USDT you want to spend to buy tokens. The equivalent token amount will be calculated automatically."
+                          placement="top"
+                          arrow
+                          className="ml-1"
+                        >
+                          <span style={{ cursor: "pointer" }}>
+                            <BsInfoCircle />
+                          </span>
+                        </Tooltip>
+                      </div>
                       <div className="input-group mb-3">
                         <div className="con-dropDown dropdown">
                           <button
@@ -703,7 +715,20 @@ useEffect(() => {
                           aria-label="Text input with checkbox"
                         />
                       </div>
-                      <div className="con-head mb-1"> You Get </div>
+                      <div className="con-head mb-1">
+                        {" "}
+                        You Get{" "}
+                        <Tooltip
+                          title="This shows the number of tokens you will receive based on the entered USDT amount and the current exchange rate."
+                          placement="top"
+                          arrow
+                          className="ml-1"
+                        >
+                          <span style={{ cursor: "pointer" }}>
+                            <BsInfoCircle />
+                          </span>
+                        </Tooltip>
+                      </div>
                       {/* <div className="input-group mb-3">
                         <div>
                           <button
@@ -809,14 +834,27 @@ useEffect(() => {
                           placeholder="You will receive"
                         />
                       </div>
-                      <div className="mb-1 con-head"> Enter your wallet address </div>
+                      <div className="mb-1 con-head">
+                        {" "}
+                        Enter your wallet address{" "}
+                        <Tooltip
+                          title="Enter the wallet address where you want to receive the tokens. You can find your wallet address in your crypto wallet app under 'Receive'"
+                          placement="top"
+                          arrow
+                          className="ml-1"
+                        >
+                          <span style={{ cursor: "pointer" }}>
+                            <BsInfoCircle />
+                          </span>
+                        </Tooltip>
+                      </div>
                       <div className="input-group mb-3">
-                      
-
                         {/* BNB calculation input field */}
                         <input
-                          // value={} 
-                          onChange={(e) => {setUserWallet(e.target.value)}}
+                          // value={}
+                          onChange={(e) => {
+                            setUserWallet(e.target.value);
+                          }}
                           type="text"
                           className="form-control"
                           aria-label="Text input with checkbox"
@@ -940,7 +978,6 @@ useEffect(() => {
                           placeholder="You will receive"
                         />
                       </div> */}
-                    
                     </div>
                   </div>
                 </div>
@@ -961,6 +998,7 @@ useEffect(() => {
                 {/* <div className="conBtn">Buy Now</div> */}
                 <div className="largeButtonContainer mt-3  pt-3 mb-5 col-lg-4 col-md-4 col-sm-2">
                   <LargeButton
+                     disabled={!userWallet || !usdtAmount}
                     text={loading ? "Processing..." : "Buy Now"}
                     onClick={handlePay}
                     // onClick={handlePin}
