@@ -476,7 +476,7 @@ const Dashboard = () => {
           `${baseUrl}coinpayments/invoice/${invoicesId}/currency/${currencyId}/status`
         );
 
-        if (response?.data?.status === "unpaid") {
+        if (response?.data?.status === "completed") {
           setStatus("completed");
           setAllStatusData(response?.data);
           clearInterval(intervalId);
@@ -511,11 +511,13 @@ const recipentWalletAddress=JSON.parse(localStorage.getItem("recipentWalletAddre
           user_wallet_address: recipentWalletAddress,
           custom: 1,
           token_contract_address: selectedToken?.token_contract_address,
+          network: network,
         });
 
         setStatus(null); // ✅ Reset status
         setinvoicesId(null);
         localStorage.removeItem("recipentWalletAddress");
+        localStorage.removeItem("userWalletAddress");
       } catch (error) {
         console.error("Error handling pin:", error);
       }
