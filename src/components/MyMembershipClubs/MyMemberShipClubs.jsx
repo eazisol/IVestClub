@@ -10,7 +10,7 @@ import useApi from "../Hooks/useApi";
 import { useLocation, useNavigate } from "react-router-dom";
 import { appData } from "../Context/AppContext";
 import { imgUrl } from "../../../apiConfig";
-
+import { encryptNumber } from "../Common/Utills";
 const MyMemberShipClubs = () => {
   
   const location = useLocation();
@@ -96,19 +96,19 @@ const MyMemberShipClubs = () => {
               {membershipList?.filter((data) => data.joined)?.map((data, index) => (
               <React.Fragment key={data.id}>
                 <MemberShipClubCards
-                  image={imgUrl + data.img}
+                  image={data.img}
                   col={6}
                   heading={data.title}
                   text={data.overview}
                   price={data.price}
                   to={
                     data.joined
-                      ? `/Membership/Private?id=${data.id}`
-                      : `/Membership/Public?id=${data.id}`
+                      ? `/Membership/Private?id=${encryptNumber(data.id)}`
+                      : `/Membership/Public?id=${encryptNumber(data.id)}`
                   }
                   joined={data.joined}
                   members={data.members}
-                  // to={`/Membership/Private?id=${data.id}`}
+                  rating={data.totalrating}
                 />
               </React.Fragment>
             ))}
@@ -159,19 +159,19 @@ const MyMemberShipClubs = () => {
               {membershipList?.filter((data) => !data.joined)?.map((data, index) => (
               <React.Fragment key={data.id}>
                 <MemberShipClubCards
-                  image={imgUrl + data.img}
+                  image={data.img}
                   col={6}
                   heading={data.title}
                   text={data.overview}
                   price={data.price}
                   to={
                     data.joined
-                      ? `/Membership/Private?id=${data.id}`
-                      : `/Membership/Public?id=${data.id}`
+                      ? `/Membership/Private?id=${encryptNumber(data.id)}`
+                      : `/Membership/Public?id=${encryptNumber(data.id)}`
                   }
                   joined={data.joined}
                   members={data.members}
-                  // to={`/Membership/Private?id=${data.id}`}
+                  rating={data.totalrating}
                 />
               </React.Fragment>
             ))}
@@ -182,7 +182,8 @@ const MyMemberShipClubs = () => {
                 text={
                   "Have a membership club idea? Share your proposal with others for consideration and collaboration."
                 }
-                to={`/Membership/PublicMemberShip`}
+                to={`/Membership/FutureClubs`}
+                staticImg
               />
             </div>
           </div>

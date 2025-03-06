@@ -420,19 +420,19 @@ const fetchTokenHoldings = async (provider, address) => {
                       </li> */}
 
                       <li
-                        className={
-                          location.pathname == "/manifesto"
-                            ? "current dropdown "
-                            : "dropdown "
-                        }
-                      >
-                        <HeaderLink
-                          text="Blogs"
-                          onClick={() => {
-                            navigate("/Blogs");
-                          }}
-                        />
-                      </li>
+                          className={
+                            location.pathname == "/manifesto"
+                              ? "current dropdown "
+                              : "dropdown "
+                          }
+                        >
+                          <HeaderLink
+                            text="Blog"
+                            onClick={() => {
+                              navigate("/Blog");
+                            }}
+                          />
+                        </li>
                       <li
                         className={
                           location.pathname == "/manifesto"
