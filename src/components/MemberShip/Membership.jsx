@@ -1,8 +1,10 @@
 import React from 'react'
 import about from "../../assets/image/about.png";
 import MemberShipClubSaction from '../Home/MemberShipClubSaction';
+import { useNavigate } from 'react-router-dom';
 
 const Membership = () => {
+  const navigate=useNavigate()
   return (
     <>
         <section className="page-banner">
