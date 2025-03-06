@@ -42,6 +42,9 @@ import Articals from "./components/Blogs/Articals.jsx";
 import News from "./components/Blogs/News.jsx";
 import { TransactionHistory } from "./components/TransactionHistory/TransactionHistory.jsx";
 import Shop from "./components/Shop/Shop.jsx";
+import ContactUs from "./components/Contact/ContactUs.jsx";
+import BlogList from "./components/Blog/BlogList.jsx";
+import BlogView from "./components/Blog/BlogView.jsx";
 
 function App() {
   const queryClient = new QueryClient();
@@ -58,8 +61,11 @@ function App() {
               <Route path="Login" element={<LoginPage />} />
               <Route path="ResetPassword" element={<ResetPassword />} />
               <Route path="SignUp" element={<SignUpPage />} />
-              <Route path="ContactUs" element={<UnderConstruction />} />
-              <Route path="Blogs" element={<UnderConstruction />} />
+              {/* <Route path="ContactUs" element={<UnderConstruction />} /> */}
+              <Route path="ContactUs" element={<ContactUs />} />
+              {/* <Route path="Blogs" element={<UnderConstruction />} /> */}
+              <Route path="Blog" element={<BlogList />} />
+              <Route path="Blog/View" element={<BlogView />} />
               <Route path="ConnectWallet" element={<UnderConstruction />} />
               <Route path="Forget" element={<ForgetPassword />} />
               <Route path="About" element={<About />} />
