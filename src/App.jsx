@@ -48,6 +48,7 @@ import ErrorPage from "./components/ErrorPage.jsx";
 import { TransactionHistory } from "./components/TransactionHistory/TransactionHistory.jsx";
 import Shop from "./components/Shop/Shop.jsx";
 
+
 function App() {
   const queryClient = new QueryClient();
 
