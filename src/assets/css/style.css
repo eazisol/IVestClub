@@ -11400,6 +11400,12 @@ body {
 	font-weight: 500 !important;
 	font-family: "Montserrat", sans-serif !important;
 }
+.shop-text {
+	font-size: 15px !important;
+	font-weight: 500 !important;
+	font-family: "Montserrat", sans-serif !important;
+	color: #F7B138;
+}
 
 .cursor-not-allowed {
 	cursor: not-allowed;

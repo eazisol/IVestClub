@@ -126,7 +126,7 @@ export const TransactionHistory = () => {
                           </TableCell>
                         </TableRow>
                       ) : (
-                        transactionData.map((row, index) => {
+                        transactionData.reverse().map((row, index) => {
                           let fullDate = row?.created_at ? new Date(row.created_at).toLocaleString("en-GB") : "N/A";
                           let shortDate = row?.created_at ? new Date(row.created_at).toLocaleDateString("en-GB") : "N/A";
 

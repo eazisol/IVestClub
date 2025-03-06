@@ -12,6 +12,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
+import { useNavigate } from "react-router-dom";
 import { FormControlLabel, Switch, Tooltip } from "@mui/material"; // Add this import"
 import { SparkLineChart } from "@mui/x-charts/SparkLineChart";
 import { LineChart } from "@mui/x-charts/LineChart";
@@ -67,20 +68,25 @@ const Dashboard = () => {
   const { userData, walletData, setWalletData, setSnackBarData } = appData();
   const [status, setStatus] = useState(null);
   const [balance, setBalance] = useState("");
+  const navigate = useNavigate();
   const [invoicesId, setinvoicesId] = useState(null);
   const [currencyId, setCurrencyId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [usdtAmount, setustdAmount] = useState("");
+  const [userWallet, setUserWallet] = useState("");
   const [tokenDataList, setTokenDataList] = useState([]); // List of tokens from API
   const [selectedToken, setSelectedToken] = useState(null);
   const [usdtData, setUSDTData] = useState("");
+  const [usdcData, setUSDCData] = useState("");
+  console.log("🚀 ~ Dashboard ~ usdcData:", usdcData);
   const [usdtBalance, setUsdtBalance] = useState(null);
   const [statusData, setAllStatusData] = useState(null);
+  const [tokenHoldings, setTokenHoldings] = useState(null);
+  console.log("🚀 ~ Dashboard ~ tokenHoldings:", tokenHoldings);
   const [network, setNetwork] = useState("testnet");
-  const [userWallet, setUserWallet] = useState("");
   // let usdtAmountCalculate = usdtAmount * usdtData?.Price;
-  let myWalletAmount = usdtData?.Price * usdtBalance; //caluculate USDT which is write in input with today USDT price
+  let myWalletAmount = usdcData?.Price * usdtBalance; //caluculate USDT which is write in input with today USDT price
   //SHOW USERS TOKEN ON IN THE TABLE
   const rows = [
     createData(
@@ -94,7 +100,7 @@ const Dashboard = () => {
   const getBnbAmount = (usdtAmount) => {
     if (!usdtAmount || !selectedToken) return ""; // Ensure selected token is available
 
-    const price = parseFloat(usdtData?.Price) || 0;
+    const price = parseFloat(usdcData?.Price) || 0;
     const transactionFee = parseFloat(selectedToken?.transaction_fee) || 0;
     const conversionRate =
       parseFloat(selectedToken?.token_conversion_rate) || 1; // Avoid division by zero
@@ -195,6 +201,9 @@ const Dashboard = () => {
         body: JSON.stringify(requestData),
       });
 
+      setustdAmount(localStorage.removeItem("usdtAmount"));
+      getBnbAmount(localStorage.removeItem("convertAmount"));
+      setUserWallet(localStorage.removeItem("userWalletAddress"));
       const data = await response.json();
       const newCurrencyId =
         data?.response?.invoices[0]?.payment?.paymentCurrencies[0]?.currency
@@ -203,7 +212,6 @@ const Dashboard = () => {
 
       setCurrencyId(newCurrencyId);
       setinvoicesId(newInvoicesId);
-
       //  Save the new values immediately
 
       if (data?.response?.invoices[0]?.checkoutLink) {
@@ -223,6 +231,7 @@ const Dashboard = () => {
         link.click();
         document.body.removeChild(link);
       }
+
       setustdAmount("");
       setUserWallet("");
       setLoading(false);
@@ -230,8 +239,37 @@ const Dashboard = () => {
       setLoading(false);
     }
   };
+  // Function to fetch token balances
+  const fetchTokenHoldings = async (provider, address) => {
+    console.log("🚀 ~ fetchTokenHoldings ~ address: check function trigger");
+    console.log("🚀 ~ fetchTokenHoldings ~ provider:", provider);
+    console.log("🚀 ~ fetchTokenHoldings ~ address:", address);
+    const tokenHoldings = [];
+
+    // ERC-20 Token Contract Addresses on Sepolia Testnet
+    const tokens = [{ name: "iVT", address: address }];
+
+    for (const token of tokens) {
+      const contract = new ethers.Contract(
+        "0x1234567890abcdef1234567890abcdef12345678",
+        ERC20_ABI,
+        provider
+      );
+      const balance = await contract.balanceOf(address);
+      const decimals = await contract.decimals();
+
+      tokenHoldings.push({
+        name: token.name,
+        balance: ethers.utils.formatUnits(balance, decimals),
+      });
+    }
+
+    // Store token holdings in state
+    setTokenHoldings(tokenHoldings);
+  };
   // Function to handle wallet connection (requesting user’s MetaMask address and balance)
   const handleConnectWallet = async () => {
+    console.log("handleConnectWallet triggered");
     setError("");
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -256,6 +294,7 @@ const Dashboard = () => {
       const signer = provider.getSigner();
       const address = await signer.getAddress();
       const balance = await provider.getBalance(address);
+      fetchTokenHoldings(provider, address);
       setBalance(ethers.utils.formatEther(balance));
       await getUSDTBalance(provider, address);
       setWalletData({ provider, signer, address });
@@ -300,6 +339,12 @@ const Dashboard = () => {
     );
     setUSDTData(data);
   };
+  const getUSDCprice = async () => {
+    const { data } = await axios.get(
+      `https://api.diadata.org/v1/assetQuotation/Ethereum/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48`
+    );
+    setUSDCData(data);
+  };
   // useEffect hook that runs once to handle MetaMask account and network changes
   useEffect(() => {
     if (window.ethereum) {
@@ -310,11 +355,21 @@ const Dashboard = () => {
         window.location.reload();
       });
     }
-    // handleConnectWallet();
+    handleConnectWallet();
     handleTokenApi();
     getUSDTprice();
+    getUSDCprice();
   }, []);
-
+  useEffect(() => {
+    const usdtAmount = JSON.parse(localStorage.getItem("usdtAmount"));
+    const userWalletAddress = JSON.parse(
+      localStorage.getItem("userWalletAddress")
+    );
+    const convertAmount = JSON.parse(localStorage.getItem("convertAmount"));
+    setustdAmount(usdtAmount);
+    getBnbAmount(convertAmount);
+    setUserWallet(userWalletAddress);
+  }, []);
   useEffect(() => {
     if (!invoicesId) return;
     // Function to periodically check the transaction status from CoinPayments API
@@ -356,7 +411,7 @@ const Dashboard = () => {
           ),
           currency: selectedToken?.name,
           user_email: userData?.email,
-          user_wallet_address: walletData?.address,
+          user_wallet_address: userWallet,
           custom: 1,
           token_contract_address: selectedToken?.token_contract_address,
         });
@@ -391,16 +446,26 @@ const Dashboard = () => {
                     <VectorIcon size={40} rounded={true} />
                     <h4 className="mb-0 pl-2">
                       {" "}
-                      <strong className="currDigit">10.251469</strong>
+                      <strong className="currDigit">{balance}</strong>
                     </h4>
                     <p className="currDollar mt-2 LightText w-100 pl-3">
-                      $64,349.99
+                      ${(usdcData?.Price || 0).toFixed(4)}
                     </p>
                   </div>
                 </div>
                 <div className="currBtnContainer">
                   <button className="d-flex currBtn">Deposit</button>
                   <button className="d-flex currBtn">Withdraw</button>
+
+                  <div
+                    style={{ cursor: "pointer" }}
+                    onClick={() => {
+                      navigate("/Dashboard/TransactionHistory");
+                    }}
+                  >
+                    {" "}
+                    <i className="fa-regular LightText-1 dashCardIcon fas fa-history"></i>
+                  </div>
                 </div>
               </div>
               <div className="section2">
@@ -851,7 +916,7 @@ const Dashboard = () => {
                       <div className="input-group mb-3">
                         {/* BNB calculation input field */}
                         <input
-                          // value={}
+                          value={userWallet}
                           onChange={(e) => {
                             setUserWallet(e.target.value);
                           }}
@@ -998,7 +1063,7 @@ const Dashboard = () => {
                 {/* <div className="conBtn">Buy Now</div> */}
                 <div className="largeButtonContainer mt-3  pt-3 mb-5 col-lg-4 col-md-4 col-sm-2">
                   <LargeButton
-                     disabled={!userWallet || !usdtAmount}
+                    disabled={!userWallet || !usdtAmount}
                     text={loading ? "Processing..." : "Buy Now"}
                     onClick={handlePay}
                     // onClick={handlePin}

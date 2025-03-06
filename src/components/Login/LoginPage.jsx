@@ -11,6 +11,8 @@ import validator from "validator";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({});
+    const [usdtAmount, setustdAmount] = useState("");
+    const [userWallet, setUserWallet] = useState("");
   const [submitclicked, setSubmitclicked] = useState(false);
   const { setSnackBarData, setUserData } = appData();
   const { mutate: login, isPending: isLoginLoading, error } = useApi();
@@ -78,7 +80,7 @@ const LoginPage = () => {
           console.log(data);
           localStorage.setItem("userData", JSON.stringify(data));
           setUserData(data);
-          navigate("/");
+          navigate(userWallet||usdtAmount?'/Dashboard':"/");
           // setSnackBarData({
           //   visibility: true,
           //   // error: "info",
@@ -92,6 +94,13 @@ const LoginPage = () => {
     );
   };
   const navigate = useNavigate();
+
+useEffect(()=>{
+  const usdtAmount = JSON.parse(localStorage.getItem('usdtAmount'));
+  const userWalletAddress = JSON.parse(localStorage.getItem('userWalletAddress'));
+  setustdAmount(usdtAmount)
+  setUserWallet(userWalletAddress)
+},[])
 
   return (
     <div

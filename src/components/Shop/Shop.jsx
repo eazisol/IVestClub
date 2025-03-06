@@ -9,27 +9,28 @@ import { Ethereum, Bitcoin, Usdt, IVC } from "../Common/CurrencyIcons";
 import Tooltip from "@mui/material/Tooltip";
 import axios from "axios";
 const EXCHANGE_RATE = 0.02;
-
+import { useNavigate } from "react-router-dom";
 const ADMIN_WALLET = "0xc244351E16a5c04b1fc9d8808b1A66F5Fe2dB66d";
 const backendUrl = "http://192.168.18.14:8000/api/coinpayments";
 const Shop = () => {
   const [tokenDataList, setTokenDataList] = useState([]); // List of tokens from API
   const [selectedToken, setSelectedToken] = useState(null);
   const [userWallet, setUserWallet] = useState("");
-  const { walletData ,userData} = appData();
- const [status, setStatus] = useState(null);
-   const [usdtAmount, setusdtAmount] = useState("");
+  const { walletData, userData, setSnackBarData } = appData();
+  const [status, setStatus] = useState(null);
+  const [usdtAmount, setusdtAmount] = useState("");
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [txHash, setTxHash] = useState("");
   const [balance, setBalance] = useState(null);
   const [invoicesId, setinvoicesId] = useState(null);
-    const [currencyId, setCurrencyId] = useState(null);
-    const [usdtData, setUSDTData] = useState("");
+  const [currencyId, setCurrencyId] = useState(null);
+  const [usdtData, setUSDTData] = useState("");
   // Add connection status state
   const [connectionStatus, setConnectionStatus] = useState("");
-   //GET USDT PRICE FROM API
-   const getUSDTprice = async () => {
+  //GET USDT PRICE FROM API
+  const getUSDTprice = async () => {
     const { data } = await axios.get(
       `https://api.diadata.org/v1/assetQuotation/Ethereum/0xdAC17F958D2ee523a2206206994597C13D831ec7`
     );
@@ -44,131 +45,126 @@ const Shop = () => {
       parseFloat(selectedToken?.token_conversion_rate) || 1; // Avoid division by zero
 
     if (conversionRate === 0) return "0.0000"; // Prevent division by zero
-const persentageTransactionFee=transactionFee/100
+    const persentageTransactionFee = transactionFee / 100;
     return Math.abs(
-      ((parseFloat(usdtAmount) * price * persentageTransactionFee)-price*parseFloat(usdtAmount)) / conversionRate
+      (parseFloat(usdtAmount) * price * persentageTransactionFee -
+        price * parseFloat(usdtAmount)) /
+        conversionRate
     ).toFixed(4);
   };
 
- const handlePay = async (e) => {
-     e.preventDefault();
- 
-    
-     const usernameRegex = /^[a-zA-Z0-9 ]+$/;
-     if (!usernameRegex.test(!userData?.username)) {
-       setSnackBarData({
-         visibility: true,
-         error: "error",
-         text: "Username should not contain special characters (only letters, numbers).",
-       });
-       return;
-     }
-     if (!userData?.username) {
-       setSnackBarData({
-         visibility: true,
-         error: "error",
-         text: "Username must be required.",
-       });
-       return;
-     }
-     setIsLoading(true);
-     const requestData = {
-       "currency": "1002",
-       "items": [
-           {
-               "name": "test item",
-               "description": "1738751764",
-               "quantity": {
-                   "value": "1",
-                   "type": "2"
-               },
-               "amount": `${usdtAmount}`
-           }
-       ],
-       "amount": {
-           "breakdown": {
-               "subtotal": `${usdtAmount}`
-           },
-           "total": `${usdtAmount}`
-       },
-       "buyer": {
-           "name": {
-               "firstName": "Test",
-               "lastName": "Test"
-           },
-           "emailAddress": "test@test.com",
-           "phoneNumber": "1111111111",
-           "address": {
-               "address1": "Test str",
-               "city": "Warsaw",
-               "countryCode": "PL",
-               "postalCode": "01-001"
-           }
-       },
-       "payment": {
-           "paymentCurrency": "1002",
-           "refundEmail": "test@test.com"
-       },
-       // Format numeric values with fixed precision
-       "amountusdt":usdtAmount,
-       "amounttoken": +getBnbAmount(usdtAmount),
-       "token":   selectedToken?.name,
-       "currency1": "LTCT",
-       "currency2": "LTCT",
-       "buyer_email": userData?.email,
-       "username": userData?.username,
-       "user_wallet_address": userWallet,
-       "user_id": `${userData?.user_id}`,
-      //  "network": network,
-   };
-  
-     
-     
- 
-     try {
-     
-       const response = await fetch(`${baseUrl}coinpayments/invoices`, {
-         method: 'POST',
-         headers: {
-             'Content-Type': 'application/json',
-             'Accept': 'application/json'
-         },
-         body: JSON.stringify(requestData)
-     });
-     
-     const data = await response.json();
-     const newCurrencyId = data?.response?.invoices[0]?.payment?.paymentCurrencies[0]?.currency?.id;
-     const newInvoicesId = data?.response?.invoices[0]?.id;
-     
-     setCurrencyId(newCurrencyId);
-     setinvoicesId(newInvoicesId);
-     
-     //  Save the new values immediately
-   
-     
-     if (data?.response?.invoices[0]?.checkoutLink) {
-       const cleanUrl = data.response.invoices[0].checkoutLink.replace(/\\/g, '');
-       
-       // Create a new anchor element
-       const link = document.createElement('a');
-       link.href = cleanUrl;
-       link.target = '_blank';
-       link.rel = 'noopener noreferrer';
-       
-       // Append to the document, click it, and remove it
-       document.body.appendChild(link);
-       link.click();
-       document.body.removeChild(link);
-     }
-     setusdtAmount('')
-     setUserWallet('')
-     setIsLoading(false);
-     } catch (error) {
-      setIsLoading(false);
-     }
-   };
+  const handlePay = async (e) => {
+    e.preventDefault();
 
- 
+    localStorage.setItem("userWalletAddress", JSON.stringify(userWallet));
+    localStorage.setItem("usdtAmount", JSON.stringify(usdtAmount));
+    localStorage.setItem(
+      "convertAmount",
+      JSON.stringify(getBnbAmount(usdtAmount))
+    );
+    if (!userData?.access_token) {
+      navigate("/login");
+      return;
+    }
+    setIsLoading(true);
+    const requestData = {
+      currency: "1002",
+      items: [
+        {
+          name: "test item",
+          description: "1738751764",
+          quantity: {
+            value: "1",
+            type: "2",
+          },
+          amount: `${usdtAmount}`,
+        },
+      ],
+      amount: {
+        breakdown: {
+          subtotal: `${usdtAmount}`,
+        },
+        total: `${usdtAmount}`,
+      },
+      buyer: {
+        name: {
+          firstName: "Test",
+          lastName: "Test",
+        },
+        emailAddress: "test@test.com",
+        phoneNumber: "1111111111",
+        address: {
+          address1: "Test str",
+          city: "Warsaw",
+          countryCode: "PL",
+          postalCode: "01-001",
+        },
+      },
+      payment: {
+        paymentCurrency: "1002",
+        refundEmail: "test@test.com",
+      },
+      // Format numeric values with fixed precision
+      amountusdt: usdtAmount,
+      amounttoken: +getBnbAmount(usdtAmount),
+      token: selectedToken?.name,
+      currency1: "LTCT",
+      currency2: "LTCT",
+      buyer_email: userData?.email,
+      username: userData?.username,
+      user_wallet_address: userWallet,
+      user_id: `${userData?.user_id}`,
+      //  "network": network,
+    };
+    try {
+      const response = await fetch(`${baseUrl}coinpayments/invoices`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(requestData),
+      });
+
+      const data = await response.json();
+      const newCurrencyId =
+        data?.response?.invoices[0]?.payment?.paymentCurrencies[0]?.currency
+          ?.id;
+      const newInvoicesId = data?.response?.invoices[0]?.id;
+
+      setCurrencyId(newCurrencyId);
+      setinvoicesId(newInvoicesId);
+
+      //  Save the new values immediately
+      setusdtAmount(localStorage.removeItem("usdtAmount"));
+      getBnbAmount(localStorage.removeItem("convertAmount"));
+      setUserWallet(localStorage.removeItem("userWalletAddress"));
+
+      if (data?.response?.invoices[0]?.checkoutLink) {
+        const cleanUrl = data.response.invoices[0].checkoutLink.replace(
+          /\\/g,
+          ""
+        );
+
+        // Create a new anchor element
+        const link = document.createElement("a");
+        link.href = cleanUrl;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+
+        // Append to the document, click it, and remove it
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+      setusdtAmount("");
+      setUserWallet("");
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+    }
+  };
+
   const handleTokenApi = async () => {
     const { data } = await axios.get(`${baseUrl}token/getAllTokenData`);
     setTokenDataList(data?.data);
@@ -183,11 +179,13 @@ const persentageTransactionFee=transactionFee/100
     // Function to periodically check the transaction status from CoinPayments API
     const checkTransactionStatus = async () => {
       try {
-        const response = await axios.get(`${baseUrl}coinpayments/invoice/${invoicesId}/currency/${currencyId}/status`  );
-       
+        const response = await axios.get(
+          `${baseUrl}coinpayments/invoice/${invoicesId}/currency/${currencyId}/status`
+        );
+
         if (response?.data?.status === "completed") {
           setStatus("completed");
-          setAllStatusData(response?.data)
+          setAllStatusData(response?.data);
           clearInterval(intervalId);
         }
       } catch (error) {
@@ -199,38 +197,49 @@ const persentageTransactionFee=transactionFee/100
 
     return () => clearInterval(intervalId);
   }, [invoicesId]);
-// ✅ Trigger handlePin only when status is "completed"
-useEffect(() => {
-  if (status !== "completed") return;
+  // ✅ Trigger handlePin only when status is "completed"
+  useEffect(() => {
+    if (status !== "completed") return;
 
-  console.log("coinpayments/Tokenator");
+    console.log("coinpayments/Tokenator");
 
-  const handlePin = async () => {
-    try {
-      await axios.post(`${baseUrl}coinpayments/Tokenator`, {
-        status: status,
-        txn_id: invoicesId,
-        amountusdt: statusData?.payment?.expectedAmount?.breakdown?.[0]?.displayValue,
-        amounttoken: getBnbAmount(statusData?.payment?.expectedAmount?.breakdown?.[0]?.displayValue),
-        currency: selectedToken?.name,
-        user_email: userData?.email,
-        user_wallet_address: userWallet,
-        custom: 1,
-        token_contract_address: selectedToken?.token_contract_address
-      });
+    const handlePin = async () => {
+      try {
+        await axios.post(`${baseUrl}coinpayments/Tokenator`, {
+          status: status,
+          txn_id: invoicesId,
+          amountusdt:
+            statusData?.payment?.expectedAmount?.breakdown?.[0]?.displayValue,
+          amounttoken: getBnbAmount(
+            statusData?.payment?.expectedAmount?.breakdown?.[0]?.displayValue
+          ),
+          currency: selectedToken?.name,
+          user_email: userData?.email,
+          user_wallet_address: userWallet,
+          custom: 1,
+          token_contract_address: selectedToken?.token_contract_address,
+        });
 
-      setStatus(null); // ✅ Reset status
-      setinvoicesId(null)
-    } catch (error) {
-      console.error("Error handling pin:", error);
-    }
-  };
+        setStatus(null); // ✅ Reset status
+        setinvoicesId(null);
+      } catch (error) {
+        console.error("Error handling pin:", error);
+      }
+    };
 
-  handlePin();
-}, [status]);
+    handlePin();
+  }, [status]);
   useEffect(() => {
     handleTokenApi();
-    getUSDTprice()
+    getUSDTprice();
+    const usdtAmount = JSON.parse(localStorage.getItem("usdtAmount"));
+    const userWalletAddress = JSON.parse(
+      localStorage.getItem("userWalletAddress")
+    );
+    const convertAmount = JSON.parse(localStorage.getItem("convertAmount"));
+    setusdtAmount(usdtAmount);
+    getBnbAmount(convertAmount);
+    setUserWallet(userWalletAddress);
   }, []);
 
   return (
@@ -370,7 +379,7 @@ useEffect(() => {
             <div className="input-group shop-form mb-5 ">
               {/* BNB calculation input field */}
               <input
-                // value={}
+                value={userWallet}
                 onChange={(e) => {
                   setUserWallet(e.target.value);
                 }}
@@ -380,6 +389,13 @@ useEffect(() => {
                 placeholder="You will receive"
               />
             </div>
+            <div
+              className="shop-text  d-flex justify-content-center align-items-center"
+           
+            >
+              <div>"You need to log in first to buy tokens."</div>
+            </div>
+
             <LargeButton
               disabled={!userWallet || !usdtAmount}
               //   disabled={!ustdAmount || isLoading || !signer}

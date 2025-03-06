@@ -270,19 +270,19 @@ const fetchTokenHoldings = async (provider, address) => {
                             : "dropdown "
                         }
                       >
-                         <HeaderLink
+                         {/* <HeaderLink
                           text="Shop"
                           onClick={() => {
                             navigate(userData?"/Dashboard":"/Login");
                           }}
-                        />
-                        {/* <HeaderLink
+                        /> */}
+                        <HeaderLink
                           text="Shop"
                           onClick={() => {
-                            // navigate("/shop");
+                            navigate("/shop");
                             
                           }}
-                        /> */}
+                        />
                       </li>
                       {/* <li
                         className={
