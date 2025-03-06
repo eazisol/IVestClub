@@ -79,11 +79,11 @@ const Dashboard = () => {
   const [selectedToken, setSelectedToken] = useState(null);
   const [usdtData, setUSDTData] = useState("");
   const [usdcData, setUSDCData] = useState("");
-  console.log("🚀 ~ Dashboard ~ usdcData:", usdcData);
+  
+  console.log("🚀 ~ Dashboard ~ selectedToken:", selectedToken);
   const [usdtBalance, setUsdtBalance] = useState(null);
   const [statusData, setAllStatusData] = useState(null);
   const [tokenHoldings, setTokenHoldings] = useState(null);
-  console.log("🚀 ~ Dashboard ~ tokenHoldings:", tokenHoldings);
   const [network, setNetwork] = useState("testnet");
   // let usdtAmountCalculate = usdtAmount * usdtData?.Price;
   let myWalletAmount = usdcData?.Price * usdtBalance; //caluculate USDT which is write in input with today USDT price
@@ -91,7 +91,14 @@ const Dashboard = () => {
   const rows = [
     createData(
       { name: "USDT", des: "TetherUS" },
-      usdtBalance,
+      0,
+      `${myWalletAmount}`,
+      console.log(tokenDataList),
+      "Convert"
+    ),
+    createData(
+      { name: "ISPX", des: "Spacextoken" },
+      balance?.[1]?.balance,
       `${myWalletAmount}`,
       "Convert"
     ),
@@ -239,69 +246,83 @@ const Dashboard = () => {
       setLoading(false);
     }
   };
-  // Function to fetch token balances
+  
   const fetchTokenHoldings = async (provider, address) => {
-    console.log("🚀 ~ fetchTokenHoldings ~ address: check function trigger");
-    console.log("🚀 ~ fetchTokenHoldings ~ provider:", provider);
-    console.log("🚀 ~ fetchTokenHoldings ~ address:", address);
-    const tokenHoldings = [];
-
-    // ERC-20 Token Contract Addresses on Sepolia Testnet
-    const tokens = [{ name: "iVT", address: address }];
-
+    const tokens = [
+      { name: "iVT", address: "0xB34c841F79c2626260cd1657c9f5c10Be4339D1B" },
+      { name: "iSPX", address: "0x324d720f13764d6BE02ef1329D6a3e4dd8ec1e64" },
+    ];
+  
+    const erc20Abi = [
+      "function balanceOf(address owner) view returns (uint256)",
+      "function decimals() view returns (uint8)"
+    ];
+  
+    let tokenHoldings = {};
+  
     for (const token of tokens) {
-      const contract = new ethers.Contract(
-        "0x1234567890abcdef1234567890abcdef12345678",
-        ERC20_ABI,
-        provider
-      );
+      const contract = new ethers.Contract(token.address, erc20Abi, provider);
       const balance = await contract.balanceOf(address);
       const decimals = await contract.decimals();
+      
+      tokenHoldings[token.name] = ethers.utils.formatUnits(balance, decimals);
+    }
+  
+    return tokenHoldings; // Return the holdings
+  };
 
-      tokenHoldings.push({
-        name: token.name,
-        balance: ethers.utils.formatUnits(balance, decimals),
+  // Modify your wallet connection function
+const handleConnectWallet = async () => {
+  if (!window.ethereum) {
+    setSnackBarData({
+      visibility: true,
+      error: "error",
+      text: "Please install MetaMask!",
+    });
+    return;
+  }
+  setLoading(true);
+  setError("");
+  try {
+    let provider = new ethers.providers.Web3Provider(window.ethereum);
+    let network = await provider.getNetwork();
+
+    if (network.chainId !== 11155111) {
+      await window.ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: "0xaa36a7" }],
       });
+      await new Promise((resolve) =>
+        window.ethereum.on("chainChanged", resolve)
+      );
+      provider = new ethers.providers.Web3Provider(window.ethereum);
+      network = await provider.getNetwork();
     }
 
-    // Store token holdings in state
-    setTokenHoldings(tokenHoldings);
-  };
-  // Function to handle wallet connection (requesting user’s MetaMask address and balance)
-  const handleConnectWallet = async () => {
-    console.log("handleConnectWallet triggered");
-    setError("");
-    try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const network = await provider.getNetwork();
-      // if (baseUrl === "https://ivestclub.eazisols.com/api/") {
-      //   if (network.chainId !== 1) {
-      //     await window.ethereum.request({
-      //       method: "wallet_switchEthereumChain",
-      //       params: [{ chainId: "0x1" }],
-      //     });
-      //   } else {
-      if (network.chainId !== 11155111) {
-        await window.ethereum.request({
-          method: "wallet_switchEthereumChain",
-          params: [{ chainId: "0x11a111" }],
-        });
-      }
-      //   }
-      // }
-
-      await provider.send("eth_requestAccounts", []);
-      const signer = provider.getSigner();
-      const address = await signer.getAddress();
-      const balance = await provider.getBalance(address);
-      fetchTokenHoldings(provider, address);
-      setBalance(ethers.utils.formatEther(balance));
-      await getUSDTBalance(provider, address);
-      setWalletData({ provider, signer, address });
-    } catch (err) {
-      setError(err.message);
+    if (network.chainId !== 11155111) {
+      throw new Error(
+        "Failed to switch to Sepolia Testnet. Please switch manually in MetaMask."
+      );
     }
-  };
+
+    await provider.send("eth_requestAccounts", []);
+    const signer = provider.getSigner();
+    const address = await signer.getAddress();
+    const ethBalance = await provider.getBalance(address);
+    
+    // Fetch token holdings
+    const holdings = await fetchTokenHoldings(provider, address);
+    console.log("holdings", holdings);
+    setBalance(holdings["iVT"] || "0"); // Set IVT balance
+    await getUSDTBalance(provider, address);
+
+    setWalletData({ provider, signer, address });
+  } catch (err) {
+    setError(err.message);
+  } finally {
+    setLoading(false);
+  }
+};
 
   //GET USDT TOKEN FROM WALLET
   const getUSDTBalance = async (provider, address) => {
@@ -345,7 +366,22 @@ const Dashboard = () => {
     );
     setUSDCData(data);
   };
-  // useEffect hook that runs once to handle MetaMask account and network changes
+  // // useEffect hook that runs once to handle MetaMask account and network changes
+  // useEffect(() => {
+  //   if (window.ethereum) {
+  //     window.ethereum.on("accountsChanged", () => {
+  //       handleConnectWallet();
+  //     });
+  //     window.ethereum.on("chainChanged", () => {
+  //       window.location.reload();
+  //     });
+  //   }
+  //   handleConnectWallet();
+  //   handleTokenApi();
+  //   getUSDTprice();
+  //   getUSDCprice();
+  // }, []);
+
   useEffect(() => {
     if (window.ethereum) {
       window.ethereum.on("accountsChanged", () => {
@@ -355,11 +391,28 @@ const Dashboard = () => {
         window.location.reload();
       });
     }
-    handleConnectWallet();
+  
+    // ✅ Restore wallet & holdings from localStorage on reload
+   
+    
+    // if (savedWallet) {
+      // const { address } = JSON.parse(savedWallet);
+      // const provider = new ethers.providers.Web3Provider(window.ethereum);
+      // const signer = provider.getSigner();
+      // setWalletData({ provider, signer, address });
+  
+      // ✅ Fetch balance and token holdings for stored address
+      // fetchTokenHoldings(provider, address);
+    // }
+  
     handleTokenApi();
     getUSDTprice();
     getUSDCprice();
   }, []);
+  useEffect(()=>{
+    const savetokenHoldingsdWallet = JSON.parse(localStorage.getItem("tokenHoldings"));
+    setBalance(savetokenHoldingsdWallet);
+  },[balance])
   useEffect(() => {
     const usdtAmount = JSON.parse(localStorage.getItem("usdtAmount"));
     const userWalletAddress = JSON.parse(
@@ -379,7 +432,7 @@ const Dashboard = () => {
           `${baseUrl}coinpayments/invoice/${invoicesId}/currency/${currencyId}/status`
         );
 
-        if (response?.data?.status === "completed") {
+        if (response?.data?.status === "unpaid") {
           setStatus("completed");
           setAllStatusData(response?.data);
           clearInterval(intervalId);
@@ -446,10 +499,11 @@ const Dashboard = () => {
                     <VectorIcon size={40} rounded={true} />
                     <h4 className="mb-0 pl-2">
                       {" "}
-                      <strong className="currDigit">{balance}</strong>
+                      <strong className="currDigit">{balance?.[0]?.balance}</strong>
                     </h4>
                     <p className="currDollar mt-2 LightText w-100 pl-3">
-                      ${(usdcData?.Price || 0).toFixed(4)}
+                      {/* ${(usdcData?.Price || 0).toFixed(4)} */}
+                      ${(usdcData?.Price*balance?.[0]?.balance).toFixed(4)}         
                     </p>
                   </div>
                 </div>
@@ -481,10 +535,10 @@ const Dashboard = () => {
                           Available{" "}
                           <i className="fa-solid fa-up-down sortIcon"></i>
                         </TableCell>
-                        <TableCell align="right" className="pb-0 tableHeadText">
+                        {/* <TableCell align="right" className="pb-0 tableHeadText">
                           Amount{" "}
                           <i className="fa-solid fa-up-down sortIcon"></i>
-                        </TableCell>
+                        </TableCell> */}
                         <TableCell align="right" className="pb-0 tableHeadText">
                           Action{" "}
                           <i className="fa-solid fa-up-down sortIcon"></i>
@@ -515,10 +569,10 @@ const Dashboard = () => {
                             <TableCell align="right">
                               <span className="availNum"> {row.avail} </span>
                             </TableCell>
-                            <TableCell align="right">
+                            {/* <TableCell align="right">
                               {" "}
                               <span className="availNum">{row.amount}</span>
-                            </TableCell>
+                            </TableCell> */}
                             <TableCell align="right">
                               {" "}
                               <u className="LightText actionText">

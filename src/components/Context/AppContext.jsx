@@ -40,6 +40,12 @@ useEffect(() => {
 const handleLogout = () => {
   localStorage.setItem('userData', JSON.stringify({})); 
   setUserData({access_token : ""})
+  localStorage.removeItem("usdtAmount")
+  localStorage.removeItem("convertAmount")
+  localStorage.removeItem("userWalletAddress")
+  localStorage.removeItem("tokenHoldings")
+  localStorage.removeItem("walletData")
+
 };
 
 

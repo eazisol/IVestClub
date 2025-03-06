@@ -44,39 +44,47 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
 
   //   }
   // };
-  const handleDisconnect = () => {
-    localStorage.removeItem("walletData");
-    setWalletData({});
-  };
+
   // Function to fetch token balances
 const fetchTokenHoldings = async (provider, address) => {
-  const tokenHoldings = [];
+  try {
+    const tokenHoldings = [];
 
-  // ERC-20 Token Contract Addresses on Sepolia Testnet
-  const tokens = [
-    { name: "iVT", address: "0xYour_iVT_Token_Address_Here" },
-    { name: "iSPX", address: "0xYour_iSPX_Token_Address_Here" }
-  ];
+    // ERC-20 Token Contract Addresses on Sepolia Testnet
+    const tokens = [
+      { name: "iVT", address: "0xB34c841F79c2626260cd1657c9f5c10Be4339D1B" },
+      { name: "iSPX", address: "0x324d720f13764d6BE02ef1329D6a3e4dd8ec1e64" }
+    ];
 
-  const erc20Abi = [
-    "function balanceOf(address owner) view returns (uint256)",
-    "function decimals() view returns (uint8)"
-  ];
+    const erc20Abi = [
+      "function balanceOf(address owner) view returns (uint256)",
+      "function decimals() view returns (uint8)"
+    ];
 
-  for (const token of tokens) {
-    const contract = new ethers.Contract(token.address, erc20Abi, provider);
-    const balance = await contract.balanceOf(address);
-    const decimals = await contract.decimals();
-    
-    tokenHoldings.push({
-      name: token.name,
-      balance: ethers.utils.formatUnits(balance, decimals)
-    });
+    for (const token of tokens) {
+      const contract = new ethers.Contract(token.address, erc20Abi, provider);
+      const balance = await contract.balanceOf(address);
+      const decimals = await contract.decimals();
+      
+      const formattedBalance = ethers.utils.formatUnits(balance, decimals);
+
+      tokenHoldings.push({
+        name: token.name,
+        balance: formattedBalance
+      });
+
+      // console.log(`Token: ${token.name}, Balance: ${formattedBalance}`);
+    }
+
+    setTokenHoldings(tokenHoldings); // Update state with token holdings
+    localStorage.setItem("tokenHoldings", JSON.stringify(tokenHoldings)); // Save to localStorage
+
+  } catch (error) {
+    console.error("Error fetching token holdings:", error);
   }
-
-  // Store token holdings in state
-  // setTokenHoldings(tokenHoldings);
 };
+
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -112,7 +120,7 @@ const fetchTokenHoldings = async (provider, address) => {
     }
     return "";
   };
-  // This function is responsible for connecting the user's wallet and ensuring the correct network is selected.
+  
   const handleConnectWallet = async () => {
     if (!window.ethereum) {
       setSnackBarData({
@@ -122,42 +130,49 @@ const fetchTokenHoldings = async (provider, address) => {
       });
       return;
     }
+    
     setLoading(true);
     setError("");
+  
     try {
+      // Always ask user for confirmation
       let provider = new ethers.providers.Web3Provider(window.ethereum);
+      await provider.send("eth_requestAccounts", []);
+  
       let network = await provider.getNetwork();
-      // Check if wallet is already connected
-
-      // Check if user is on Sepolia
+  
+      // Ensure user is on Sepolia Testnet
       if (network.chainId !== 11155111) {
         await window.ethereum.request({
           method: "wallet_switchEthereumChain",
-          params: [{ chainId: "0xaa36a7" }], // Sepolia Testnet Chain ID in hex
+          params: [{ chainId: "0xaa36a7" }],
         });
-        // Wait for the network change event
         await new Promise((resolve) =>
           window.ethereum.on("chainChanged", resolve)
         );
-        // Reinitialize provider after switching
         provider = new ethers.providers.Web3Provider(window.ethereum);
         network = await provider.getNetwork();
       }
-      // Ensure we are now on Sepolia
+  
       if (network.chainId !== 11155111) {
         throw new Error(
           "Failed to switch to Sepolia Testnet. Please switch manually in MetaMask."
         );
       }
-      // Request user accounts
-      await provider.send("eth_requestAccounts", []);
+  
       const signer = provider.getSigner();
       const address = await signer.getAddress();
       const balance = await provider.getBalance(address);
-      setBalance(ethers.utils.formatEther(balance));
-      const walletInfo = { address };
+      
+      // Set ETH balance and wallet data
       setWalletData({ provider, signer, address });
-      localStorage.setItem("walletData", JSON.stringify(walletInfo));
+      
+      // Fetch token holdings
+      await fetchTokenHoldings(provider, address);
+      const savetokenHoldingsdWallet = JSON.parse(localStorage.getItem("tokenHoldings"));
+      setBalance(savetokenHoldingsdWallet);
+      // setBalance(tokenHoldings?.[0]?.balance);
+      
     } catch (err) {
       setError(err.message);
       setSnackBarData({
@@ -169,18 +184,102 @@ const fetchTokenHoldings = async (provider, address) => {
       setLoading(false);
     }
   };
+  
+  const handleDisconnect = async () => {
+    try {
+      // Clear state values
+      setWalletData({});
+      setBalance("0.0");
+      setTokenHoldings(null);
+  
+      // Remove wallet data from localStorage
+      localStorage.removeItem("walletData");
+      localStorage.removeItem("tokenHoldings");
+  
+      // MetaMask workaround: Reset provider (optional)
+      if (window.ethereum && window.ethereum.removeListener) {
+        window.ethereum.removeListener("accountsChanged", handleConnectWallet);
+        window.ethereum.removeListener("chainChanged", handleConnectWallet);
+      }
+  
+      // Force MetaMask to require user confirmation next time
+      window.ethereum.request({ method: "wallet_revokePermissions", params: [{ eth_accounts: {} }] })
+        .catch(err => console.log("Ignore if MetaMask doesn't support this:", err));
+  
+      // Optionally reload to ensure clean state
+      window.location.reload();
+      
+    } catch (error) {
+      console.error("Error disconnecting:", error);
+    }
+  };
+  
+  
+  // // useEffect to handle wallet connection updates when the account or chain changes
+  // useEffect(() => {
+  //   if (window.ethereum) {
+  //     window.ethereum.on("accountsChanged", () => {
+  //       handleConnectWallet();
+  //     });
+  //     window.ethereum.on("chainChanged", () => {
+  //       handleConnectWallet();
+  //     });
+  //   }
+  // }, []);
 
-  // useEffect to handle wallet connection updates when the account or chain changes
   useEffect(() => {
     if (window.ethereum) {
-      window.ethereum.on("accountsChanged", () => {
-        handleConnectWallet();
-      });
-      window.ethereum.on("chainChanged", () => {
-        handleConnectWallet();
-      });
+      const handleAccountChange = async (accounts) => {
+        if (accounts.length > 0) {
+          const provider = new ethers.providers.Web3Provider(window.ethereum);
+          const signer = provider.getSigner();
+          const address = await signer.getAddress();
+  
+          setWalletData({ provider, signer, address });
+          localStorage.setItem("walletData", JSON.stringify({ address }));
+  
+          // Fetch balance and token holdings
+          const balance = await provider.getBalance(address);
+          fetchTokenHoldings(provider, address);
+          setBalance();
+
+        } else {
+          handleDisconnect();
+        }
+      };
+  
+      const handleChainChange = async (chainId) => {
+        console.log("Network changed to:", chainId);
+  
+        if (walletData?.address) {
+          handleDisconnect(); // Disconnect wallet to prevent issues
+        }
+  
+        // Instead of full reload, try reconnecting
+        setTimeout(() => {
+          handleConnectWallet();
+        }, 1000);
+      };
+  
+      window.ethereum.on("accountsChanged", handleAccountChange);
+      window.ethereum.on("chainChanged", handleChainChange);
+  
+      // Restore wallet if already connected
+      const savedWallet = localStorage.getItem("walletData");
+      if (savedWallet) {
+        const { address } = JSON.parse(savedWallet);
+        handleAccountChange([address]);
+      }
+  
+      return () => {
+        window.ethereum.removeListener("accountsChanged", handleAccountChange);
+        window.ethereum.removeListener("chainChanged", handleChainChange);
+      };
     }
   }, []);
+  
+  
+  
   return (
     <>
       <header className="main-header header-style-one">
