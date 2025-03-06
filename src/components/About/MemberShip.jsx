@@ -95,25 +95,25 @@ const MemberShip = () => {
             <MembershipTokenCards
               header={"OpenAI (OAIT) Membership Club"}
               text={
-                "Educate yourself about the company that develops ChatGPT and AI developments. Get rewarded as AI revolutionizes industri"
+                "Educate yourself about the company that develops ChatGPT and AI developments. Get rewarded as AI revolutionizes industries."
               }
             />
             <MembershipTokenCards
               header={"Space X"}
               text={
-                "aceX, founded by Elon Musk in 2002, designs, manufactures, and launches advanced rockets and spacecraft with t"
+                "SpaceX, founded by Elon Musk in 2002, designs, manufactures, and launches advanced rockets and spacecraft."
               }
             />
             <MembershipTokenCards
               header={"IVestClub (IVC) Token"}
               text={
-                "IVC is the token that powers the platform that provides your membership club. Exchangeable for your chosen members"
+                "IVC is the token that powers the platform that provides your membership club. Exchangeable for your chosen members."
               }
             />
             <MembershipTokenCards
               header={"IVestClub (IVC) Token"}
               text={
-                "IVC is the token that powers the platform that provides your membership club. Exchangeable for your chosen members"
+                "IVC is the token that powers the platform that provides your membership club. Exchangeable for your chosen members."
               }
             />
           </div>

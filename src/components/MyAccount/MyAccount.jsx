@@ -66,7 +66,6 @@ const MyAccount = () => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
- 
   // Function to handle file selection
 
   const handlePassportUpload = (e) => {
@@ -176,7 +175,7 @@ const MyAccount = () => {
 
     postData.append("formData", formData);
 
-    console.log("formDataformData",formData);
+    console.log("formDataformData", formData);
     postUserData(
       {
         url: "profile/save",
@@ -441,13 +440,20 @@ const MyAccount = () => {
                           text={"Upload Photo"}
                           onClick={triggerPassportInput}
                         />
-                      
                       </div>
                       <div className="col-lg-3 col-md-6 col-sm-12">
                         <OutlinedButtonDark text={"Take Photo"} />
                       </div>
                     </div>
+                    <div className="w-50"></div>
                   </div>
+                  <div className="w-10 d-flex justify-content-end mt-4 ml-auto">
+  <LargeButton
+    text={isProfileSendLoading ? "Saving" : "Save"}
+    onClick={handleSignup}
+  />
+</div>
+
                 </div>
               </div>
             </div>

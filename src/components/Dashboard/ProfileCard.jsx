@@ -146,7 +146,7 @@ const ProfileCard = ({ enableEdit, profilePic, setProfilePic, prevPic }) => {
         }}
       >
         <i className="fa-regular fa-user LightText-1 dashCardIcon"></i> &nbsp;
-        <span className="dashCardText LightText-1 bold-5"> My Account</span>
+        <span className="dashCardText LightText-1 bold-5"> My Account/KYC</span>
       </button>
       <button
         className="dashBtn"

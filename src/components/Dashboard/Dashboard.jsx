@@ -769,7 +769,7 @@ const handleConnectWallet = async () => {
               <div className="section4 rounded-3 m-3 p-3 ">
                 <div className="text-center">
                   <div className="section4-head">Buy Tokens</div>
-                  <div class="text-warning">
+                  <div  style={{color: '#F7B138'}}>
                     "Payment Module is under development. It will receive only
                     LTCT currency for now (TestNet only)"
                   </div>
@@ -901,6 +901,7 @@ const handleConnectWallet = async () => {
                             className="btn mt-1 btn-secondary dropdown-toggle"
                             data-bs-toggle="dropdown"
                             aria-expanded="false"
+                            style={{width:"90px"}}
                           >
                             {/* Display the logo and symbol of the selected token */}
                             <img

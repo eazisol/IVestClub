@@ -98,7 +98,7 @@ const About = () => {
                     style={{ fontSize: "12px" }}
                     className="LightText text-bold"
                   >
-                    Get rewarded for your access to yoour chosen Pre-IPO
+                    Get rewarded for your access to your chosen Pre-IPO
                     company.
                   </p>
                 </div>
