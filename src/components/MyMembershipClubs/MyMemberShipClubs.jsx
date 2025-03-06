@@ -11,7 +11,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { appData } from "../Context/AppContext";
 import { imgUrl } from "../../../apiConfig";
 import { encryptNumber } from "../Common/Utills";
+
 const MyMemberShipClubs = () => {
+  
   const location = useLocation();
   const navigate = useNavigate();
   const { mutate: getData, isPending: isMembershipLoading, error } = useApi();
@@ -32,10 +34,10 @@ const MyMemberShipClubs = () => {
   useEffect(() => {
     getData(
       {
-        url: `membershipclub/list?filter=${sortFilter}&limit${limit}`,
-
+        url:`membershipclub/list?filter=${sortFilter}&limit${limit}`,
+        
         method: "GET",
-        sendHeaders: true,
+        sendHeaders:  true 
       },
       {
         onSuccess: (data) => {
@@ -92,27 +94,25 @@ const MyMemberShipClubs = () => {
                 }
                 to={`/Membership/SpaceXMembership`}
               /> */}
-              {membershipList
-                ?.filter((data) => data.joined)
-                ?.map((data, index) => (
-                  <React.Fragment key={data.id}>
-                    <MemberShipClubCards
-                      image={data.img}
-                      col={6}
-                      heading={data.title}
-                      text={data.overview}
-                      price={data.price}
-                      to={
-                        data.joined
-                          ? `/Membership/Private?id=${encryptNumber(data.id)}`
-                          : `/Membership/Public?id=${encryptNumber(data.id)}`
-                      }
-                      joined={data.joined}
-                      members={data.members}
-                      rating={data.totalrating}
-                    />
-                  </React.Fragment>
-                ))}
+              {membershipList?.filter((data) => data.joined)?.map((data, index) => (
+              <React.Fragment key={data.id}>
+                <MemberShipClubCards
+                  image={data.img}
+                  col={6}
+                  heading={data.title}
+                  text={data.overview}
+                  price={data.price}
+                  to={
+                    data.joined
+                      ? `/Membership/Private?id=${encryptNumber(data.id)}`
+                      : `/Membership/Public?id=${encryptNumber(data.id)}`
+                  }
+                  joined={data.joined}
+                  members={data.members}
+                  rating={data.totalrating}
+                />
+              </React.Fragment>
+            ))}
               {/* <MemberShipClubCards
                 col={6}
                 image={membershipimg4}
@@ -157,27 +157,25 @@ const MyMemberShipClubs = () => {
                 }
                 to={`/Membership/SpaceXMembership`}
               /> */}
-              {membershipList
-                ?.filter((data) => !data.joined)
-                ?.map((data, index) => (
-                  <React.Fragment key={data.id}>
-                    <MemberShipClubCards
-                      image={imgUrl + data.img}
-                      col={6}
-                      heading={data.title}
-                      text={data.overview}
-                      price={data.price}
-                      to={
-                        data.joined
-                          ? `/Membership/Private?id=${encryptNumber(data.id)}`
-                          : `/Membership/Public?id=${encryptNumber(data.id)}`
-                      }
-                      joined={data.joined}
-                      members={data.members}
-                      rating={data.totalrating}
-                    />
-                  </React.Fragment>
-                ))}
+              {membershipList?.filter((data) => !data.joined)?.map((data, index) => (
+              <React.Fragment key={data.id}>
+                <MemberShipClubCards
+                  image={data.img}
+                  col={6}
+                  heading={data.title}
+                  text={data.overview}
+                  price={data.price}
+                  to={
+                    data.joined
+                      ? `/Membership/Private?id=${encryptNumber(data.id)}`
+                      : `/Membership/Public?id=${encryptNumber(data.id)}`
+                  }
+                  joined={data.joined}
+                  members={data.members}
+                  rating={data.totalrating}
+                />
+              </React.Fragment>
+            ))}
               <MemberShipClubCards
                 col={6}
                 image={membershipimg4}

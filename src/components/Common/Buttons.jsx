@@ -54,13 +54,14 @@ export function OutlinedButtonWarning({ text, onClick = () => {} }) {
   );
 }
 
-export function OutlinedButtonDark({ text, onClick = () => {} }) {
+export function OutlinedButtonDark({ text, onClick = () => {} , loading=false}) {
   return (
     <button
-      className=" btn btn-outline-primary btn-rounded w-100 d-flex justify-content-center align-items-center btn-py"
+      className={`btn btn-outline-primary btn-rounded w-100 d-flex justify-content-center align-items-center ${loading? "py-2" :"btn-py"}`}
       onClick={onClick}
+      disabled={loading}
     >
-      {text}
+      {loading && <div className="loader" />}{text}
     </button>
   );
 }

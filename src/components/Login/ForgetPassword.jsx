@@ -149,10 +149,11 @@ const ForgetPassword = () => {
           </FormControl>
           <div className="forgetBtns mt-5">
             <LargeButton
-              text="Send"
+              text={isforgetLoading ? "Sending Mail" : "Submit"}
+              loading={isforgetLoading}
               onClick={(e) => {
-                // handleForgetPassword(e)
-                setOpenModal(true);
+                handleForgetPassword(e)
+         
               }}
             />
 

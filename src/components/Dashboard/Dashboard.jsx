@@ -18,7 +18,7 @@ import { SparkLineChart } from "@mui/x-charts/SparkLineChart";
 import { LineChart } from "@mui/x-charts/LineChart";
 import { Avatar, VectorIcon } from "../Common/Icons";
 import { SactionContainer } from "../Common/Containers";
-import { Ethereum, Bitcoin, Usdt, IVC } from "../Common/CurrencyIcons";
+import { Ethereum, Bitcoin, Usdt, IVC, spaceX } from "../Common/CurrencyIcons";
 import { MiniGraph, LargeGraph } from "../Common/CurrencyIcons";
 import ProfileCard from "./ProfileCard";
 import { FilledButtonLight } from "../Common/Buttons";
@@ -41,11 +41,18 @@ function createData(currObj, avail, amount, action) {
     case "USDT":
       Icon = Usdt;
       break;
+    case "ISPX":
+      Icon = spaceX;
+      break;
+    case "IVT":
+      Icon = IVC;
+      break;
     default:
       Icon = null;
   }
   return { currObj, avail, amount, action, Icon };
 }
+
 
 const USDT_CONTRACT_ADDRESS = "0xdAC17F958D2ee523a2206206994597C13D831ec7";
 const ERC20_ABI = [
@@ -79,8 +86,6 @@ const Dashboard = () => {
   const [selectedToken, setSelectedToken] = useState(null);
   const [usdtData, setUSDTData] = useState("");
   const [usdcData, setUSDCData] = useState("");
-  
-  console.log("🚀 ~ Dashboard ~ selectedToken:", selectedToken);
   const [usdtBalance, setUsdtBalance] = useState(null);
   const [statusData, setAllStatusData] = useState(null);
   const [tokenHoldings, setTokenHoldings] = useState(null);
@@ -93,12 +98,17 @@ const Dashboard = () => {
       { name: "USDT", des: "TetherUS" },
       0,
       `${myWalletAmount}`,
-      console.log(tokenDataList),
       "Convert"
     ),
     createData(
       { name: "ISPX", des: "Spacextoken" },
       balance?.[1]?.balance,
+      `${myWalletAmount}`,
+      "Convert"
+    ),
+    createData(
+      { name: "IVT", des: "IVT" },
+      balance?.[0]?.balance,
       `${myWalletAmount}`,
       "Convert"
     ),
@@ -129,7 +139,15 @@ const Dashboard = () => {
   // Function to handle the payment process (creating a transaction via CoinPayments API)
   const handlePay = async (e) => {
     e.preventDefault();
+    if (userWallet.length > 42) {
+      setSnackBarData({
+        visibility: true,
+        error: "error",
+        text: "Incorrect Wallet Address, Please Enter a Valid Wallet Address!",
+      });
 
+      return;
+    }
     const usernameRegex = /^[a-zA-Z0-9 ]+$/;
     if (!usernameRegex.test(!userData?.username)) {
       setSnackBarData({
@@ -210,7 +228,6 @@ const Dashboard = () => {
 
       setustdAmount(localStorage.removeItem("usdtAmount"));
       getBnbAmount(localStorage.removeItem("convertAmount"));
-      setUserWallet(localStorage.removeItem("userWalletAddress"));
       const data = await response.json();
       const newCurrencyId =
         data?.response?.invoices[0]?.payment?.paymentCurrencies[0]?.currency
@@ -246,83 +263,83 @@ const Dashboard = () => {
       setLoading(false);
     }
   };
-  
+
   const fetchTokenHoldings = async (provider, address) => {
     const tokens = [
       { name: "iVT", address: "0xB34c841F79c2626260cd1657c9f5c10Be4339D1B" },
       { name: "iSPX", address: "0x324d720f13764d6BE02ef1329D6a3e4dd8ec1e64" },
     ];
-  
+
     const erc20Abi = [
       "function balanceOf(address owner) view returns (uint256)",
-      "function decimals() view returns (uint8)"
+      "function decimals() view returns (uint8)",
     ];
-  
+
     let tokenHoldings = {};
-  
+
     for (const token of tokens) {
       const contract = new ethers.Contract(token.address, erc20Abi, provider);
       const balance = await contract.balanceOf(address);
       const decimals = await contract.decimals();
-      
+
       tokenHoldings[token.name] = ethers.utils.formatUnits(balance, decimals);
     }
-  
+
     return tokenHoldings; // Return the holdings
   };
 
   // Modify your wallet connection function
-const handleConnectWallet = async () => {
-  if (!window.ethereum) {
-    setSnackBarData({
-      visibility: true,
-      error: "error",
-      text: "Please install MetaMask!",
-    });
-    return;
-  }
-  setLoading(true);
-  setError("");
-  try {
-    let provider = new ethers.providers.Web3Provider(window.ethereum);
-    let network = await provider.getNetwork();
-
-    if (network.chainId !== 11155111) {
-      await window.ethereum.request({
-        method: "wallet_switchEthereumChain",
-        params: [{ chainId: "0xaa36a7" }],
+  const handleConnectWallet = async () => {
+    if (!window.ethereum) {
+      setSnackBarData({
+        visibility: true,
+        error: "error",
+        text: "Please install MetaMask!",
       });
-      await new Promise((resolve) =>
-        window.ethereum.on("chainChanged", resolve)
-      );
-      provider = new ethers.providers.Web3Provider(window.ethereum);
-      network = await provider.getNetwork();
+      return;
     }
+    setLoading(true);
+    setError("");
+    try {
+      let provider = new ethers.providers.Web3Provider(window.ethereum);
+      let network = await provider.getNetwork();
 
-    if (network.chainId !== 11155111) {
-      throw new Error(
-        "Failed to switch to Sepolia Testnet. Please switch manually in MetaMask."
-      );
+      if (network.chainId !== 11155111) {
+        await window.ethereum.request({
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: "0xaa36a7" }],
+        });
+        await new Promise((resolve) =>
+          window.ethereum.on("chainChanged", resolve)
+        );
+        provider = new ethers.providers.Web3Provider(window.ethereum);
+        network = await provider.getNetwork();
+      }
+
+      if (network.chainId !== 11155111) {
+        throw new Error(
+          "Failed to switch to Sepolia Testnet. Please switch manually in MetaMask."
+        );
+      }
+
+      await provider.send("eth_requestAccounts", []);
+      const signer = provider.getSigner();
+      const address = await signer.getAddress();
+      const ethBalance = await provider.getBalance(address);
+
+      // Fetch token holdings
+      const holdings = await fetchTokenHoldings(provider, address);
+      console.log("holdings", holdings);
+      setBalance(holdings["iVT"] || "0"); // Set IVT balance
+      await getUSDTBalance(provider, address);
+
+      setWalletData({ provider, signer, address });
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
-
-    await provider.send("eth_requestAccounts", []);
-    const signer = provider.getSigner();
-    const address = await signer.getAddress();
-    const ethBalance = await provider.getBalance(address);
-    
-    // Fetch token holdings
-    const holdings = await fetchTokenHoldings(provider, address);
-    console.log("holdings", holdings);
-    setBalance(holdings["iVT"] || "0"); // Set IVT balance
-    await getUSDTBalance(provider, address);
-
-    setWalletData({ provider, signer, address });
-  } catch (err) {
-    setError(err.message);
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   //GET USDT TOKEN FROM WALLET
   const getUSDTBalance = async (provider, address) => {
@@ -391,28 +408,29 @@ const handleConnectWallet = async () => {
         window.location.reload();
       });
     }
-  
+
     // ✅ Restore wallet & holdings from localStorage on reload
-   
-    
+
     // if (savedWallet) {
-      // const { address } = JSON.parse(savedWallet);
-      // const provider = new ethers.providers.Web3Provider(window.ethereum);
-      // const signer = provider.getSigner();
-      // setWalletData({ provider, signer, address });
-  
-      // ✅ Fetch balance and token holdings for stored address
-      // fetchTokenHoldings(provider, address);
+    // const { address } = JSON.parse(savedWallet);
+    // const provider = new ethers.providers.Web3Provider(window.ethereum);
+    // const signer = provider.getSigner();
+    // setWalletData({ provider, signer, address });
+
+    // ✅ Fetch balance and token holdings for stored address
+    // fetchTokenHoldings(provider, address);
     // }
-  
+
     handleTokenApi();
     getUSDTprice();
     getUSDCprice();
   }, []);
-  useEffect(()=>{
-    const savetokenHoldingsdWallet = JSON.parse(localStorage.getItem("tokenHoldings"));
+  useEffect(() => {
+    const savetokenHoldingsdWallet = JSON.parse(
+      localStorage.getItem("tokenHoldings")
+    );
     setBalance(savetokenHoldingsdWallet);
-  },[balance])
+  }, [balance]);
   useEffect(() => {
     const usdtAmount = JSON.parse(localStorage.getItem("usdtAmount"));
     const userWalletAddress = JSON.parse(
@@ -499,11 +517,13 @@ const handleConnectWallet = async () => {
                     <VectorIcon size={40} rounded={true} />
                     <h4 className="mb-0 pl-2">
                       {" "}
-                      <strong className="currDigit">{balance?.[0]?.balance}</strong>
+                      <strong className="currDigit">
+                        {balance?.[0]?.balance}
+                      </strong>
                     </h4>
                     <p className="currDollar mt-2 LightText w-100 pl-3">
-                      {/* ${(usdcData?.Price || 0).toFixed(4)} */}
-                      ${(usdcData?.Price*balance?.[0]?.balance).toFixed(4)}         
+                      {/* ${(usdcData?.Price || 0).toFixed(4)} */}$
+                      {(usdcData?.Price * balance?.[0]?.balance).toFixed(4)}
                     </p>
                   </div>
                 </div>
@@ -769,7 +789,7 @@ const handleConnectWallet = async () => {
               <div className="section4 rounded-3 m-3 p-3 ">
                 <div className="text-center">
                   <div className="section4-head">Buy Tokens</div>
-                  <div  style={{color: '#F7B138'}}>
+                  <div style={{ color: "#F7B138" }}>
                     "Payment Module is under development. It will receive only
                     LTCT currency for now (TestNet only)"
                   </div>
@@ -804,7 +824,10 @@ const handleConnectWallet = async () => {
                             aria-expanded="false"
                           >
                             <Usdt />
-                            <span> USDT </span>
+                            <span>
+                              USDC
+                              <span style={{ fontSize: "9px" }}>(ERC20)</span>
+                            </span>
                           </button>
                           {/* <ul className="dropdown-menu">
                             <li className="">
@@ -901,7 +924,7 @@ const handleConnectWallet = async () => {
                             className="btn mt-1 btn-secondary dropdown-toggle"
                             data-bs-toggle="dropdown"
                             aria-expanded="false"
-                            style={{width:"90px"}}
+                            style={{ width: "102px", marginRight: "22px" }}
                           >
                             {/* Display the logo and symbol of the selected token */}
                             <img
@@ -968,7 +991,7 @@ const handleConnectWallet = async () => {
                           </span>
                         </Tooltip>
                       </div>
-                      <div className="input-group mb-3">
+                      <div className="input-group ">
                         {/* BNB calculation input field */}
                         <input
                           value={userWallet}
@@ -982,7 +1005,7 @@ const handleConnectWallet = async () => {
                         />
                       </div>
                     </div>
-                    <div className="converter2 mt-4 col-sm-12 col-lg-6 col-md-12">
+                    <div className="converter2 col-sm-12 col-lg-6 col-md-12">
                       {/* <div className="con-head mb-1"> You Get </div> */}
                       {/* <div className="input-group mb-3">
                         <div>
@@ -1116,7 +1139,7 @@ const handleConnectWallet = async () => {
                   />
                 </div>             */}
                 {/* <div className="conBtn">Buy Now</div> */}
-                <div className="largeButtonContainer mt-3  pt-3 mb-5 col-lg-4 col-md-4 col-sm-2">
+                <div className="largeButtonContainer   pt-3 mb-5 col-lg-4 col-md-4 col-sm-2">
                   <LargeButton
                     disabled={!userWallet || !usdtAmount}
                     text={loading ? "Processing..." : "Buy Now"}

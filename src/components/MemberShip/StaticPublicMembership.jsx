@@ -37,7 +37,7 @@ const StaticPublicMembership = () => {
     
             <div className="bannerHead mb-0 ">
               {" "}
-              <h2 className="bold-7">iVest Membership Clubs</h2>{" "}
+              <h2 className="bold-7">IVest Membership Clubs</h2>{" "}
             </div>
     
             <div className="">
@@ -157,7 +157,7 @@ const StaticPublicMembership = () => {
                   <div className="row">
                     <div className="image-column px-0 col-lg-7 col-md-7 col-sm-12 mb-2 pr-4">
                       <figure
-                        className="image wow slideInLeft animated"
+                        className="image wow d-flex justify-content-center slideInLeft animated"
                         data-wow-delay="0ms"
                         style={{
                           visibility: "visible",
@@ -379,7 +379,7 @@ const StaticPublicMembership = () => {
     
             <div className="image-column col-lg-6 col-md-12 col-sm-12 mt-4 pt-2 pl-4 pl-xl-5">
               <figure
-                className="image wow slideInRight animated"
+                className="image wow d-flex justify-content-center slideInRight animated"
                 data-wow-delay="0ms"
                 style={{
                   visibility: "visible",
@@ -395,7 +395,7 @@ const StaticPublicMembership = () => {
           <SactionContainer container={false}>
             <div className="image-column col-lg-6 col-md-12 col-sm-12 mb-5 mt-5">
               <figure
-                className="image wow slideInLeft animated"
+                className="image wow d-flex justify-content-center slideInLeft animated"
                 data-wow-delay="0ms"
                 style={{
                   visibility: "visible",

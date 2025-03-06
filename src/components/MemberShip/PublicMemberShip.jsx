@@ -22,26 +22,24 @@ import ExclusiveAccess from "../Home/ExclusiveAccess";
 import { Quotations } from "../Common/Feedbacks";
 import { TextUnderWrap } from "../Common/MiniComponents";
 import useApi from "../Hooks/useApi";
-import { formatdateHeading } from "../Common/Utills";
+import { decryptNumber, formatdateHeading } from "../Common/Utills";
 import { imgUrl } from "../../../apiConfig";
 import { CustomizedLoader } from "../Common/MiniComponents";
 import { useNavigate } from "react-router-dom";
 import { appData } from "../Context/AppContext";
+import JoinMembership from "../Common/JoinMembership";
 
 const PublicMemberShip = () => {
   const queryParams = new URLSearchParams(window.location.search);
-  const idParam = Number(queryParams.get("id"));
+  const idParam = queryParams.get("id");
   const navigate = useNavigate();
   const { mutate: getData, isPending: isMembershipLoading, error } = useApi();
-  const { mutate: joinMembership, isPending: isJoinClubLoading } = useApi();
   const [data, setData] = useState({});
-  const { userData } = appData();
   useEffect(() => {
-    
    
     getData(
       {
-        url: `membershipclub/public-view/${idParam}`,
+        url: `membershipclub/public-view/${decryptNumber(idParam)}`,
         method: "GET",
         sendHeaders: true,
       },
@@ -55,30 +53,8 @@ const PublicMemberShip = () => {
         },
       }
     );
-  }, []);
-  const joinClub = () => {
-    if(!userData.access_token) {
-      navigate(`/Login`)
-      return
-    }
-    joinMembership(
-      {
-        url: `membershipclub/joining/${idParam}`,
-        method: "GET",
-        sendHeaders: true,
-      },
-      {
-        onSuccess: (data) => {
-          console.log("get data", data);
-          navigate(`/Membership/Private?id=${idParam}`);
-          
-        },
-        onError: (error) => {
-          console.log(error);
-        },
-      }
-    );
-  };
+  }, [idParam]);
+
   if (isMembershipLoading) {
     return <CustomizedLoader />;
   } else {
@@ -96,7 +72,7 @@ const PublicMemberShip = () => {
 
           <div className="bannerHead mb-0 ">
             {" "}
-            <h2 className="bold-7">iVest Membership Clubs</h2>{" "}
+            <h2 className="bold-7">IVest Membership Clubs</h2>{" "}
           </div>
 
           <div className="">
@@ -154,7 +130,7 @@ const PublicMemberShip = () => {
                 src={imgUrl + data.img}
                 style={{ objectFit: "cover", width: "100%", height: "auto" }}
                 alt=""
-                className=""
+                className="mb-3"
               />
               <div dangerouslySetInnerHTML={{ __html: data.content }} />
             </div>
@@ -169,7 +145,7 @@ const PublicMemberShip = () => {
                 <div className="row">
                   <div className="image-column px-0 col-lg-7 col-md-7 col-sm-12 mb-2 pr-4">
                     <figure
-                      className="image wow slideInLeft animated"
+                      className="image wow d-flex justify-content-center slideInLeft animated"
                       data-wow-delay="0ms"
                       style={{
                         visibility: "visible",
@@ -264,7 +240,7 @@ const PublicMemberShip = () => {
                     Our exclusive membership clubs are supported by a limited
                     issuance of membership club tokens on the blockchain,
                     serving as the club's currency. These tokens, purchasable
-                    with the iVestClub Token (IVC), represent your membership
+                    with the IVestClub Token (IVC), represent your membership
                     stake and can be acquired through our platform. They play a
                     crucial role in club development, aligning with your
                     collective objectives. The quantity of tokens you possess
@@ -405,7 +381,7 @@ const PublicMemberShip = () => {
 
           <div className="image-column col-lg-6 col-md-12 col-sm-12 mt-4 pt-2 pl-4 pl-xl-5">
             <figure
-              className="image wow slideInRight animated"
+              className="image wow d-flex justify-content-center slideInRight animated"
               data-wow-delay="0ms"
               style={{
                 visibility: "visible",
@@ -421,7 +397,7 @@ const PublicMemberShip = () => {
         <SactionContainer container={false}>
           <div className="image-column col-lg-6 col-md-12 col-sm-12 mb-5 mt-5">
             <figure
-              className="image wow slideInLeft animated"
+              className="image wow d-flex justify-content-center slideInLeft animated"
               data-wow-delay="0ms"
               style={{
                 visibility: "visible",
@@ -440,20 +416,11 @@ const PublicMemberShip = () => {
               membership clubs now.{" "}
             </p>
             <div className="mt-4 pt-2 mb-4 pb-2 d-flex row ">
-              <div className="col-lg-4 col-sm-12 mt-1 " onClick={()=>navigate('/Dashboard')}>
-                <LargeButton text="Buy your IVC tokens" />
+              <div className="col-lg-4 col-sm-12 mt-1 ">
+                <LargeButton text="Buy your IVC tokens"onClick={() => {navigate(`/ConnectWallet`)}} />
               </div>
               <div className="col-lg-8 col-sm-12 mt-1">
-                <OutlinedButtonDark
-                  text={
-                    <span className=" bold-5">
-                      {" "}
-                      {isJoinClubLoading?"Joining Club":"Buy your selected memership club token"}
-                    </span>
-                  }
-                  // onClick={joinClub}
-                  onClick={()=>navigate('/Dashboard')}
-                />
+              <JoinMembership />
               </div>
             </div>
           </div>
@@ -579,9 +546,9 @@ const PublicMemberShip = () => {
               </p>
               <p className="text-basic DarkText">
                 Please note that you membership token does not constitute any
-                shares or economic rights to SpaceX and iVest Club does not
+                shares or economic rights to SpaceX and IVestClub does not
                 guarantee that you will be able to get any shares at an IPO
-                should it happen. iVest Club provides a service where you can
+                should it happen. IVestClub provides a service where you can
                 benefit from your membership to your chosen company and position
                 yourself in the best possible way to participate and obtain
                 shares in the IPO.
@@ -637,7 +604,7 @@ const PublicMemberShip = () => {
                     How can being a member help in IPO
                   </span>
                 }
-                text1="Receive details on the upcoming IPO Get introduced to iVest Club partners that will allow you to participate in the IPO. Sell you SPaceX tokens and use the proceeds to subscribe to the IPO"
+                text1="Receive details on the upcoming IPO Get introduced to IVestClub partners that will allow you to participate in the IPO. Sell you SPaceX tokens and use the proceeds to subscribe to the IPO"
               />
             </div>
           </div>

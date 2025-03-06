@@ -5,6 +5,8 @@ import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorder from "@mui/icons-material/StarBorder";
 import { LinearProgress } from "@mui/material";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+
 export const Quotations = ({ text, by }) => {
   return (
     <div className="d-flex p-3 mt-3" style={{ backgroundColor: "#F5F8FF" }}>
@@ -23,16 +25,20 @@ export const Quotations = ({ text, by }) => {
   );
 };
 
-export const Ratings = ({ text, heading,value }) => {
+export const Ratings = ({ text, heading,value,profilePic, date }) => {
   return (
     <div className="d-flex pl-0">
       <div className="col-2 text-center p-0">
+        {profilePic ? 
         <img
-          src={avatar}
+          src={profilePic}
           alt=""
           className=""
-          style={{ borderRadius: "500px" }}
-        />
+          style={{ borderRadius: "500px", height : "50px", width : "50px" }}
+        />:<>
+         <AccountCircleOutlinedIcon
+                sx={{ color: "#ccc", fontSize: 50 }}
+              /></>}
       </div>
       <div className="col-10 ">
         <Rating
@@ -51,6 +57,9 @@ export const Ratings = ({ text, heading,value }) => {
             {line}
           </p>
         ))}
+        <p style={{fontSize:"10px"}}  className="mb-0 LightText Opacity" >
+            {date}
+          </p>
       </div>
     </div>
   );

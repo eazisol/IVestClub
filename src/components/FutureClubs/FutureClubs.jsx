@@ -13,7 +13,7 @@ const FutureClubs = () => {
             <strong>Suggested Membership <TextUnderWrap padding={10} >Clubs</TextUnderWrap></strong>
           </h3>
           <p className="mt-3 mb-5 bold-4" style={{fontSize:"14px" , opacity:"0.9"}}>
-            iVestClub is your membership club platform. As such, we are happy to
+            IVestClub is your membership club platform. As such, we are happy to
             hear suggestions from you about which company you want access to. If
             there is enough interest, we will look to launch that club for you!
           </p>

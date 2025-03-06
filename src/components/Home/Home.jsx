@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import landingimg from "../../assets/image/landingimg.png";
 import landingbg2 from "../../assets/image/landingbg2.png";
@@ -49,7 +49,30 @@ import CreateAccountModal from "../Common/CreateAccountModal";
 
 const Home = () => {
   const navigate = useNavigate();
-  const { showLandingSaction, setShowLandingSaction,setOpenModal } = appData();
+  const { showLandingSaction, setSnackBarData, setOpenModal } = appData();
+  const queryParams = new URLSearchParams(window.location.search);
+  const idParam = queryParams.get("verification-status");
+
+  useEffect(() => {
+    console.log("idparam", idParam)
+    if (idParam) {
+      if (idParam == "verified") {
+        setSnackBarData({
+          visibility: true,
+          // error: "info",
+          text: "Email Verified Successfully",
+        });
+      } else {
+        setSnackBarData({
+          visibility: true,
+          error: "error",
+          text: "Email Verification Failed",
+        });
+      }
+    }
+
+
+  }, [])
 
 
   return (
@@ -78,13 +101,13 @@ const Home = () => {
                       making it challenging for you to get access.
                       <br />
                       <br />
-                      Join iVest Club now to get Exclusive access to these
+                      Join IVestClub now to get Exclusive access to these
                       companies that are already shaping the future.
                     </div>
                   </div>
                   <div className=" mt-4">
                     <p className="text-basic text-dark">
-                      iVest Club Platform addresses this by providing you with
+                      IVestClub Platform addresses this by providing you with
                       an unique space to collectively research and share
                       insights about these innovative privately owned companies
                       with other members. Our interactive hub fosters a
@@ -95,7 +118,7 @@ const Home = () => {
                   </div>
                   <div className=" mt-3">
                     <p className="text-basic text-dark">
-                      By joining the iVest Club community, you can collaborate
+                      By joining the IVestClub community, you can collaborate
                       with like-minded dynamic individuals to expand your
                       knowledge of pre-IPO companies and explore the world of
                       privately owned companies, just like the ultra wealthy.
@@ -117,14 +140,13 @@ const Home = () => {
                     </p>
                   </div>
 
-                  
                 </div>
               </div>
             </div>
 
             <div className="image-column col-lg-6 col-md-12 col-sm-12   ">
               <figure
-                className="image wow  animated"
+                className="image wow d-flex justify-content-center  animated"
                 // className="image wow slideInRight animated"
                 data-wow-delay="0ms"
                 style={{
@@ -137,15 +159,15 @@ const Home = () => {
               </figure>
             </div>
             <div className="mt-4 pt-2 d-flex row pb-5 ">
-                    <div className="col-lg-7 col-sm-12  ">
-                      <LargeButton text="Learn More about the membership clubs" onClick={() => {navigate(`/Membership`)}} />
-                    </div>
-                    <div className="col-lg-5 col-sm-12  ">
-                    
-                      
-                      <CreateAccountModal Component={OutlinedButtonDark} text={"Join Here for Free!"} />
-                    </div>
-                  </div>
+              <div className="col-lg-7 col-sm-12 mb-3 mb-lg-0  ">
+                <LargeButton text="Learn More about the membership clubs" onClick={() => { navigate(`/Membership`) }} />
+              </div>
+              <div className="col-lg-5 col-sm-12  ">
+
+
+                <CreateAccountModal Component={OutlinedButtonDark} text={"Join Here for Free!"} />
+              </div>
+            </div>
           </SactionContainer>
 
           <ImgBgSactionContainer bgImage={landingbg2} showPadding={false}>
@@ -227,7 +249,7 @@ const Home = () => {
               style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
             >
               <div className="pop-font py-4  exFoot">
-                At iVestclub, we believe in empowering you by providing the
+                At IVestclub, we believe in empowering you by providing the
                 access, tools, community, and incentives needed to navigate the
                 world of Pre-IPO companies with confidence. Our platform is
                 designed to put you at the center, giving you access, the power
@@ -242,7 +264,7 @@ const Home = () => {
               <div className="col-12 mt-5 pt-4">
                 <h3>
                   <div className="bold-sec-title">
-                  IVest <TextUnderWrap padding={10}> Club AIR </TextUnderWrap>{" "}
+                    IVest <TextUnderWrap padding={10}> Club AIR </TextUnderWrap>{" "}
                     Mission - our promise to you
                   </div>
                 </h3>
@@ -280,7 +302,7 @@ const Home = () => {
                 </div>
                 <figure
                   // className="image wow slideInLeft animated"
-                  className="image wow  animated"
+                  className="image wow d-flex justify-content-center  animated"
                   data-wow-delay="0ms"
                   style={{
                     visibility: "visible",
@@ -363,14 +385,14 @@ const Home = () => {
                 <div className="d-flex align-items-center membership-clubs-checks">
                   <TaskAltOutlinedIcon sx={{ color: "#F7B138" }} />
                   <div className="w-100 ml-3 mb-0  pop-font tickText">
-                    Referring other active and engaged members to the iVest Club
+                    Referring other active and engaged members to the IVestClub
                   </div>
                 </div>
               </div>
 
               <div className="image-column col-lg-6 col-md-12 col-sm-12 pl-3 pl-xl-5">
                 <figure
-                  className="image wow  animated"
+                  className="image wow d-flex justify-content-center  animated"
                   // className="image wow slideInRight animated"
                   data-wow-delay="0ms"
                   style={{
@@ -480,7 +502,7 @@ const Home = () => {
                 </div>
                 <div className="image-column col-lg-6 col-md-12 col-sm-12 mt-3 mx-0">
                   <figure
-                    className="image wow  animated pl-4"
+                    className="image wow d-flex justify-content-center  animated pl-4"
                     // className="image wow slideInLeft animated pl-4"
                     data-wow-delay="0ms"
                     style={{
@@ -533,13 +555,13 @@ const Home = () => {
                 </div>
                 <div className="col-12 ml-4 mt-3">
                   <div className=" section5-contentText pop-font mt-4 text-spacing">
-                    In light of the exciting information gap, iVest Club has
+                    In light of the exciting information gap, IVestClub has
                     developed a platform to offer you the chance to explore and
                     access the growing Pre-IPO market opportunities in an
                     engaging and dynamic forum.
                   </div>
                   <div className=" section5-contentText pop-font  text-spacing">
-                    Leveraging the power of your iVest Club community, we
+                    Leveraging the power of your IVestClub community, we
                     facilitate direct interaction with companies.
                   </div>
                   <div className=" section5-contentText pop-font  text-spacing mb-5">
@@ -630,7 +652,7 @@ const Home = () => {
                   custom={true}
                   icon={goldicon5}
                   col={4}
-                  heading="Membership in the iVest Club Ecosystem"
+                  heading="Membership in the IVestClub Ecosystem"
                   text1={
                     <span
                       className="pop-font"
@@ -682,7 +704,7 @@ const Home = () => {
                   custom={true}
                   icon={goldicon7}
                   col={4}
-                  heading="iVestClubToken (IVC)"
+                  heading="IVestClubToken (IVC)"
                   text1={
                     <span
                       className="pop-font"

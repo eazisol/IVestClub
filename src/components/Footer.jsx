@@ -1,10 +1,9 @@
 import React from "react";
 import logo from "../../src/assets/images/FooterLogo.png";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const Footer = () => {
   const navigate = useNavigate();
-  const location = useLocation();
 
   return (
     <>
@@ -95,12 +94,7 @@ const Footer = () => {
                       <li>
                         <a
                           className=" text-light-c linkList"
-                          onClick={() => {
-                            navigate("/");
-                            if (location.pathname == "/WarsAndConflict") {
-                              window.location.reload();
-                            }
-                          }}
+                          onClick={() => {navigate("/Blog")}}
                         >
                           Blog news
                         </a>
@@ -180,7 +174,7 @@ const Footer = () => {
                   <div className="widget-content">
                     <h6>Support</h6>
                     <ul className="contact-info" style={{ paddingLeft: 0 }}>
-                      <li>
+                      <li onClick={() => {navigate("/ContactUs")}}>
                         <a className=" text-light-c linkList" target="_blank" style={{ textDecoration: "none" }}>
                           Contact Us
                         </a>
@@ -211,7 +205,7 @@ const Footer = () => {
                     <ul className="contact-info" style={{ paddingLeft: 0 }}>
                       <li>
                         <a className=" text-light-c linkList" target="_blank" style={{ textDecoration: "none" }}>
-                          Our coin
+                          Our Coin
                         </a>
                       </li>
                       <li>

@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import FormControl from "@mui/material/FormControl";
 import { useNavigate } from "react-router-dom";
-import { SimpleInput, PasswordInput } from "../Common/Inputs";
+import {  PasswordInput } from "../Common/Inputs";
 import { LargeButton } from "../Common/Buttons";
-import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 import { appData } from "../Context/AppContext";
 import useApi from "../Hooks/useApi";
 
@@ -25,7 +24,7 @@ const ResetPassword = () => {
       login({
         url: 'reset-password',
         method: 'POST',
-        data: {...formData, email : email, token: token},
+        data: {...formData, email : email, token},
       }, {
         onSuccess: (data) => {
          
@@ -82,7 +81,7 @@ const ResetPassword = () => {
             </FormControl>
             
             <div className="mt-4">
-            <LargeButton onClick={handleLogin}    text={isLoginLoading ? 'Resetting in...' : 'Reset'} /></div>
+            <LargeButton onClick={handleLogin} loading={isLoginLoading}   text={isLoginLoading ? 'Resetting in...' : 'Reset'} /></div>
     
            
           </div>

@@ -7,10 +7,13 @@ import { Avatar, PdfIcon, DocIcon, SidebarImg } from "../Common/Icons";
 import { NavLink } from "react-bootstrap";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 import { imgUrl } from "../../../apiConfig";
-import { formatdateHeading } from "../Common/Utills";
+import { formatBytes, formatdateHeading } from "../Common/Utills";
 import ImageOutlinedIcon from "@mui/icons-material/ImageOutlined";
 import { useNavigate } from "react-router-dom";
 import { appData } from "../Context/AppContext";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import SpaceDashboardOutlinedIcon from '@mui/icons-material/SpaceDashboardOutlined';
+import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 const SideBarMembership = ({
   memberorlist,
   files,
@@ -95,7 +98,7 @@ const SideBarMembership = ({
             </div>
           </div>
           <div className="w-100 mb-2 pb-1 mt-3">
-            <OutlinedButtonWarning text={"Buy More OpenAI Membership Tokens"} />
+            <OutlinedButtonWarning text={"Buy More OpenAI Membership Tokens"} onClick={() => {navigate(`/ConnectWallet`)}}/>
           </div>
         </div>
         <div className="p-4  ">
@@ -165,15 +168,21 @@ const SideBarMembership = ({
           <React.Fragment key={index}>
             <div className="d-flex align-items-center mt-2">
               <div className="col-3 p-0 text-right">
-                {/* <Avatar size={50} /> */}
+                {data.user.profileimg? 
+                
                 <img
-                  src={imgUrl + data.user.profileimg}
-                  style={{
-                    height: "50px",
-                    width: "50px",
-                    borderRadius: "50px",
-                  }}
+                src={imgUrl + data.user.profileimg}
+                style={{
+                  height: "50px",
+                  width: "50px",
+                  borderRadius: "50px",
+                }}
                 />
+              : 
+                <AccountCircleOutlinedIcon
+                sx={{ color: "#ccc", fontSize: 50 }}
+                />
+              }
               </div>
               <div className="col-8  ">
                 <div>
@@ -188,22 +197,25 @@ const SideBarMembership = ({
                 </div>
               </div>
             </div>
-            <hr />
+            {index !== memberorlist?.slice(0, memberLimit).length - 1 && <hr />}
           </React.Fragment>
         ))}
 
         {memberLimit < memberorlist?.length ? (
-          <NavLink
-            to={"/"}
-            style={{ textDecoration: "underline" }}
-            className="pt-0 text-center mb-2"
-            onClick={(e) => {
-              e.preventDefault();
-              setMemberLimit(memberorlist?.length);
-            }}
-          >
-            View All
-          </NavLink>
+          <>
+            <hr />
+            <NavLink
+              to={"/"}
+              style={{ textDecoration: "underline" }}
+              className="pt-0 text-center mb-2"
+              onClick={(e) => {
+                e.preventDefault();
+                setMemberLimit(memberorlist?.length);
+              }}
+            >
+              View All
+            </NavLink>
+          </>
         ) : null}
       </div>
       <div className="card card-border-c mt-3 p-2">
@@ -222,38 +234,41 @@ const SideBarMembership = ({
               <div className="col-8">
                 <div>
                   <p className="mb-0 text-basic text-dark bold-5">
-                    {data.file}
+                    {data.name}
                   </p>
                   <p className="text-secondary text-xs mb-0">
-                    Updated {formatdateHeading(data.updated_at)}
+                    {formatBytes(data.size)} &#8226; Updated{" "}
+                    {formatdateHeading(data.updated_at)}
                   </p>
                 </div>
               </div>
               <div className="col-2 p-0 pr-1">
-                <a href={imgUrl + data.file} download={imgUrl + data.file}>
+                <a href={imgUrl + data.file} download>
                   <FileDownloadOutlinedIcon
                     sx={{ color: "#ccc", cursor: "pointer" }}
                   />
                 </a>
               </div>
             </div>
-            <hr />
+            {index !== files?.slice(0, filesLimit).length - 1 && <hr />}
           </React.Fragment>
         ))}
 
-      
         {filesLimit < files?.files ? (
-          <NavLink
-            to={"/"}
-            style={{ textDecoration: "underline" }}
-            className="pt-0 text-center mb-2"
-            onClick={(e) => {
-              e.preventDefault();
-              setFilesLimit(files?.length);
-            }}
-          >
-            View All
-          </NavLink>
+          <>
+            <hr />
+            <NavLink
+              to={"/"}
+              style={{ textDecoration: "underline" }}
+              className="pt-0 text-center mb-2"
+              onClick={(e) => {
+                e.preventDefault();
+                setFilesLimit(files?.length);
+              }}
+            >
+              View All
+            </NavLink>
+          </>
         ) : null}
       </div>
       <div className="card card-border-c mt-3 p-4">
@@ -266,10 +281,13 @@ const SideBarMembership = ({
           <React.Fragment key={index}>
             <div className="d-flex align-items-center mt-2">
               <div className="w-auto p-0 text-right ">
+                {data.thumnnail? 
                 <img
-                  src={imgUrl + data.thumnnail}
-                  style={{ height: "50px", width: "50px" }}
+                src={imgUrl + data.thumnnail}
+                style={{ height: "50px", width: "50px" }}
                 />
+              : 
+              <SpaceDashboardOutlinedIcon  sx={{ color: "#ccc", fontSize: 40 }}/>}
               </div>
               <div className="col-9  ">
                 <div>
@@ -277,7 +295,7 @@ const SideBarMembership = ({
                     {data.title}
                   </p>
                   <NavLink
-                    to={"/Articals"}
+                    to="#"
                     style={{
                       textDecoration: "underline",
                       fontSize: "14px",
@@ -290,7 +308,12 @@ const SideBarMembership = ({
                         ...membershipData,
                         articalTitle: data.title,
                       });
-                      navigate("/Articals");
+                      if (data.type == "url") {
+                        window.open(data.content, "_blank");
+                          
+                      } else {
+                        navigate("/Articals");
+                      }
                     }}
                   >
                     Read More
@@ -298,22 +321,25 @@ const SideBarMembership = ({
                 </div>
               </div>
             </div>
-            <hr />
+            {index !== bloglist?.slice(0, articalsLimit).length - 1 && <hr />}
           </React.Fragment>
         ))}
 
         {articalsLimit < bloglist?.length ? (
-          <NavLink
-            to={"/"}
-            style={{ textDecoration: "underline" }}
-            className="pt-0 text-center mb-2"
-            onClick={(e) => {
-              e.preventDefault();
-              setArticalsLimit(bloglist?.length);
-            }}
-          >
-            View All
-          </NavLink>
+          <>
+            <hr />
+            <NavLink
+              to={"/"}
+              style={{ textDecoration: "underline" }}
+              className="pt-0 text-center mb-2"
+              onClick={(e) => {
+                e.preventDefault();
+                setArticalsLimit(bloglist?.length);
+              }}
+            >
+              View All
+            </NavLink>
+          </>
         ) : null}
       </div>
       <div className="card card-border-c mt-3 p-4">
@@ -327,10 +353,13 @@ const SideBarMembership = ({
           <React.Fragment key={index}>
             <div className="d-flex align-items-center mt-2">
               <div className="w-auto p-0 text-right ">
+              {data.thumbnail? 
                 <img
-                  src={imgUrl + data.thumbnail}
-                  style={{ height: "50px", width: "50px" }}
+                src={imgUrl + data.thumbnail}
+                style={{ height: "50px", width: "50px" }}
                 />
+              : 
+              <ArticleOutlinedIcon  sx={{ color: "#ccc", fontSize: 40 }}/>}
               </div>
               <div className="col-9  ">
                 <div>
@@ -338,7 +367,7 @@ const SideBarMembership = ({
                     {data.title}
                   </p>
                   <NavLink
-                    to={"/News"}
+                    to="#"
                     style={{
                       textDecoration: "underline",
                       fontSize: "14px",
@@ -351,7 +380,13 @@ const SideBarMembership = ({
                         ...membershipData,
                         articalTitle: data.title,
                       });
-                      navigate("/News");
+                     
+                      if (data.type == "url") {
+                        window.open(data.content, "_blank");
+                          
+                      } else {
+                        navigate("/News");
+                      }
                     }}
                   >
                     Read More
@@ -359,21 +394,24 @@ const SideBarMembership = ({
                 </div>
               </div>
             </div>
-            <hr />
+            {index !== newslist?.slice(0, newsLimit).length - 1 && <hr />}
           </React.Fragment>
         ))}
         {newsLimit < newslist?.length ? (
-          <NavLink
-            to={"/"}
-            style={{ textDecoration: "underline" }}
-            className="pt-0 text-center mb-2"
-            onClick={(e) => {
-              e.preventDefault();
-              setNewsLimit(newslist?.length);
-            }}
-          >
-            View All
-          </NavLink>
+          <>
+            <hr />
+            <NavLink
+              to={"/"}
+              style={{ textDecoration: "underline" }}
+              className="pt-0 text-center mb-2"
+              onClick={(e) => {
+                e.preventDefault();
+                setNewsLimit(newslist?.length);
+              }}
+            >
+              View All
+            </NavLink>
+          </>
         ) : null}
       </div>
 

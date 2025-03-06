@@ -5,20 +5,27 @@ import {
   LargeButton,
   OutlinedButtonDark,
 } from "./Buttons";
-import { SimpleInput, DatePicker } from "../Common/Inputs";
+import { SimpleInput, DatePicker, PasswordInput } from "../Common/Inputs";
 import { appData } from "../Context/AppContext";
 import MaterialModal from "./MaterialModal";
 import useApi from "../Hooks/useApi";
 import { validateFormData } from "./Validations";
-import { formatDateToDDMMYYYY } from "./Utills";
+import { calculateAge, formatDateToDDMMYYYY } from "./Utills";
 import validator from "validator";
 import { useNavigate } from "react-router-dom";
+import ModalAlert from "./ModalAlert";
 
 const CreateAccountModal = ({ text, Component = FilledButtonLight }) => {
-  const { openModal, setUserData, setSnackBarData } = appData();
-  const { mutate: sendOTP, isPending: isRegisterLoading, error } = useApi();
-  const { mutate: verifyOTP, isPending: isVerifyingOTP } = useApi();
-  const { mutate: resendOTP, isPending: isResendingOTP } = useApi();
+  const {  setUserData,showHeader, setShowHeader } = appData();
+  const [snackBarData, setSnackBarData] = useState({
+    text: "test",
+    error: "error",
+    visibility: false,
+  })
+  const { mutate: sendOTP, isPending: isRegisterLoading, error } = useApi(false);
+  const { mutate: verifyOTP, isPending: isVerifyingOTP } = useApi(false);
+  const { mutate: resendOTP, isPending: isResendingOTP } = useApi(false);
+  const { mutate: sendPassword, isPending: isSendingPassword } = useApi(false);
   const [isResendDisabled, setIsResendDisabled] = useState(false);
   // State to track the timer (in seconds)
   const [timer, setTimer] = useState(60);
@@ -28,13 +35,42 @@ const CreateAccountModal = ({ text, Component = FilledButtonLight }) => {
   const [openModal3, setOpenModal3] = useState(false);
   const [openModal4, setOpenModal4] = useState(false);
   const [openModal5, setOpenModal5] = useState(false);
+  const [pwdModal, setPwdModal] = useState(false)
   const [submitclicked, setSubmitclicked] = useState(false);
   const [submitclicked2, setSubmitclicked2] = useState(false);
+
+  const [responseUserData, setResponseUserData] = useState({})
 
   const [formData, setFormData] = useState({});
   const [OTP, setOTP] = useState(["", "", "", ""]);
 
   const navigate = useNavigate();
+
+  const errorHandler = (error) => {
+    if (error.response && error.response.data && error.response.data.message) {
+      setSnackBarData({
+        visibility: true,
+        error: "error",
+        text: error.response.data.message,
+      });
+    } 
+    // Check if error has a message property
+    else if (error.message) {
+      setSnackBarData({
+        visibility: true,
+        error: "error",
+        text: error.message,
+      });
+    } 
+    // Fallback for unexpected error structures
+    else {
+      setSnackBarData({
+        visibility: true,
+        error: "error",
+        text: "Something went wrong",
+      });
+    }
+  };
 
   const handleOTPChange = (e, index) => {
     const value = e.target.value;
@@ -66,6 +102,16 @@ const CreateAccountModal = ({ text, Component = FilledButtonLight }) => {
     // console.log("e.target", e.target);
     const { name, value, type } = e.target;
     if (type == "date") {
+      const age =  calculateAge(value)
+      if (age < 16) {
+        console.log("Age should more than 16 years.");
+        setSnackBarData({
+          visibility: true,
+          error: "error",
+          text: "Age should more than 16 years.",
+        });
+        return
+      }
       const formattedDate = formatDateToDDMMYYYY(value);
       setFormData((prevData) => ({ ...prevData, [name]: formattedDate }));
     } else {
@@ -106,6 +152,23 @@ const CreateAccountModal = ({ text, Component = FilledButtonLight }) => {
       });
       return;
     }
+
+    if (!validator.isAlpha(formData.FirstName)) {
+      setSnackBarData({
+        visibility: true,
+        error: "error",
+        text: "Please enter a valid First name",
+      });
+      return;
+    }
+    if (!validator.isAlpha(formData.LastName)) {
+      setSnackBarData({
+        visibility: true,
+        error: "error",
+        text: "Please enter a valid Last Name",
+      });
+      return;
+    }
     setOpenModal1(false);
     setOpenModal2(true);
   };
@@ -132,11 +195,12 @@ const CreateAccountModal = ({ text, Component = FilledButtonLight }) => {
       {
         onSuccess: (data) => {
           console.log(data);
-          localStorage.setItem("userData", JSON.stringify({...data,...formData}));
-          setUserData({...data,...formData});
+          // localStorage.setItem("userData", JSON.stringify({...data,...formData}));
+          // setUserData({...data,...formData});
+          setResponseUserData({...data,...formData})
           setOpenModal3(false);
-          setOpenModal4(true);
-
+          // setOpenModal4(true);
+          setPwdModal(true);
           setSnackBarData({
             visibility: true,
             // error: "info",
@@ -145,6 +209,7 @@ const CreateAccountModal = ({ text, Component = FilledButtonLight }) => {
         },
         onError: (error) => {
           console.log(error);
+          errorHandler(error)
         },
       }
     );
@@ -180,6 +245,14 @@ const CreateAccountModal = ({ text, Component = FilledButtonLight }) => {
       });
       return;
     }
+    if (!validator.isAlphanumeric(formData.username.replace(/ /g, ''))) {
+      setSnackBarData({
+        visibility: true,
+        error: "error",
+        text: "Please enter a valid User name",
+      });
+      return;
+    }
 
     sendOTP(
       {
@@ -192,6 +265,7 @@ const CreateAccountModal = ({ text, Component = FilledButtonLight }) => {
           console.log(data);
           setOpenModal2(false);
           setOpenModal3(true);
+          
 
           setSnackBarData({
             visibility: true,
@@ -201,6 +275,7 @@ const CreateAccountModal = ({ text, Component = FilledButtonLight }) => {
         },
         onError: (error) => {
           console.log(error);
+          errorHandler(error)
         },
       }
     );
@@ -233,15 +308,75 @@ if (isResendDisabled) {
         },
         onError: (error) => {
           console.log(error);
+          errorHandler(error)
         },
       }
     );
   };
+  const handleSubmitPassword = (e) => {
+    if (!formData.password ) {
+      setSnackBarData({
+        visibility: true,
+        error: "error",
+        text: "Password is Required",
+      });
+      return;
+    }
+    if (formData.password !== formData.password_confirmation) {
+      setSnackBarData({
+        visibility: true,
+        error: "error",
+        text: "Password and Confirm Password do not match",
+      });
+      return;
+    }
+    sendPassword(
+      {
+        url: "set-password",
+        method: "POST",
+        data: { password: formData.password,
+          password_confirmation: formData.password_confirmation
+         },
+        sendHeaders: false,
+        customHeaders:responseUserData
+      },
+      {
+        onSuccess: (data) => {
+          console.log(data);
+
+          setSnackBarData({
+            visibility: true,
+            // error: "info",
+            text: "Password Set Successfully",
+          });
+          //  localStorage.setItem("userData", JSON.stringify(responseUserData));
+          // setUserData(responseUserData);
+          setPwdModal(false);
+          setShowHeader(true)
+          setOpenModal4(true)
+        
+        },
+        onError: (error) => {
+          console.log(error);
+          errorHandler(error)
+        },
+      }
+    );
+  };
+  useEffect(() => {
+    setSnackBarData({ text: "test",
+      error: "error",
+      visibility: false,})
+  
+  
+  }, [openModal1,openModal2,openModal3,pwdModal,openModal4,openModal5])
+  
 
   return (
     <>
       <MaterialModal open={openModal1}>
         <>
+        <ModalAlert setSnackBarData={setSnackBarData} snackBarData={snackBarData}/>
           <div className="ModalContainer p-3 z-index-0">
             <div className="row">
               <div className="col-12">
@@ -278,7 +413,7 @@ if (isResendDisabled) {
                       onChange={handleChange}
                       value={formData.LastName || ""}
                       required
-                      error={submitclicked && !formData.LastName}
+                      error={submitclicked && !formData.LastName }
                       helperText={"Surname is Required"}
                     />
                   </div>
@@ -293,6 +428,7 @@ if (isResendDisabled) {
                       required
                       error={submitclicked && !formData.dob}
                       helperText={"Date of Birth is Required"}
+                      futureDates={false}
                     />
                   </div>
                 </div>
@@ -307,6 +443,7 @@ if (isResendDisabled) {
                 style={{ cursor: "pointer" }}
                 onClick={() => {
                   setOpenModal1(false);
+                  setShowHeader(true)
                 }}
               >
                 Cancel
@@ -316,6 +453,7 @@ if (isResendDisabled) {
         </>
       </MaterialModal>
       <MaterialModal open={openModal2}>
+      <ModalAlert setSnackBarData={setSnackBarData} snackBarData={snackBarData}/>
         <>
           <div className="ModalContainer p-3 z-0 container ">
             <div className="row">
@@ -363,6 +501,7 @@ if (isResendDisabled) {
               <LargeButton
                 text={isRegisterLoading ? "Submitting..." : "Submit"}
                 onClick={handleVerifyOTP}
+                loading={isRegisterLoading}
               />
 
               <p
@@ -370,6 +509,7 @@ if (isResendDisabled) {
                 style={{ cursor: "pointer" }}
                 onClick={() => {
                   setOpenModal2(false);
+                  setShowHeader(true)
                 }}
               >
                 Cancel
@@ -379,13 +519,14 @@ if (isResendDisabled) {
         </>
       </MaterialModal>
       <MaterialModal open={openModal3}>
+      <ModalAlert setSnackBarData={setSnackBarData} snackBarData={snackBarData}/>
         <>
           <div className="ModalContainer p-3 z-0">
             <div className="row">
               <div className="col-12">
                 <div className="text-dark modalHeading">
                   {" "}
-                  You’re all set John! <br />
+                  You’re all set {formData.FirstName}! <br />
                   Let’s verify your email.
                 </div>
               </div>
@@ -394,7 +535,7 @@ if (isResendDisabled) {
                 <div className="col-12 modal-des" style={{ marginTop: "10px" }}>
                   <p className="text-basic">
                     Please enter the 4 digit code sent to <br />
-                    yourmail@example.com
+                    {formData.email}
                   </p>
                 </div>
 
@@ -420,33 +561,102 @@ if (isResendDisabled) {
               <LargeButton
                 text={isVerifyingOTP ? "Verifying..." : "Verify"}
                 onClick={handleSendOTP}
+                loading={isVerifyingOTP}
               />
             </div>
             <div className="container col-12 verify-btn d-flex justify-content-between ">
-              <p
+              {/* <p
                 className="text-basic text-dark w-auto mt-3"
                 style={{ cursor: "pointer" }}
                 onClick={() => {
                   setOpenModal3(false);
+                  setShowHeader(true)
                 }}
               >
                 Cancel
-              </p>
-              <p
-                className="text-basic text-dark w-auto mt-3"
+              </p> */}
+              
+              <span
+                className="text-basic text-dark w-auto mt-3 row"
                 onClick={handleResendOTP}
                 style={{
                   cursor: isResendDisabled ? "not-allowed" : "pointer",
                   color: isResendDisabled ? "gray" : "black",
                 }}
               >
-                {isResendDisabled ? `Resend Code (${timer}s)` : "Resend Code"}
-              </p>
+                {isResendDisabled ? `Resend Code (${timer}s)` : "Resend Code"}{isResendingOTP&& <div className="loader"></div> }
+              </span>
+            </div>
+          </div>
+        </>
+      </MaterialModal>
+      <MaterialModal open={pwdModal}>
+      <ModalAlert setSnackBarData={setSnackBarData} snackBarData={snackBarData}/>
+        <>
+          <div className="ModalContainer p-3 z-index-0">
+            <div className="row">
+              <div className="col-12">
+                <div className="text-dark modalHeading">
+                  {" "}
+                  Please Set your Password
+                </div>
+              </div>
+
+              <div className="modalSection">
+                {/* <div className="col-12 modal-des" style={{ marginTop: "10px" }}>
+                  <p className="text-basic">
+                    Please let us know a little bit more about yourself, so that
+                    we can start creating your Free Acount:
+                  </p>
+                </div> */}
+
+                <div className="row">
+                  <div className="col-md-12 modal-input">
+                    <PasswordInput
+                      lable="Password"
+                      name="password"
+                      onChange={handleChange}
+                      value={formData.password || ""}
+                      required
+                     
+                      helperText={"Password is Required"}
+                    />
+                  </div>
+                  <div className="col-md-12 modal-input">
+                    <PasswordInput
+                      lable="Confirm Password"
+                      name="password_confirmation"
+                      onChange={handleChange}
+                      value={formData.password_confirmation || ""}
+                      required
+                      // error={submitclicked && !formData.password_confirmation}
+                      helperText={"Confirm Password is Required"}
+                    />
+                  </div>
+                </div>
+               
+              </div>
+            </div>
+
+            <div className="modalBtns row text-center mt-3 p-3 justify-content-center">
+              <LargeButton text={"Submit"} onClick={handleSubmitPassword} loading={isSendingPassword}/>
+
+              {/* <p
+                className="text-basic text-dark w-auto mt-3"
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  setPwdModal(false);
+                  setShowHeader(true)
+                }}
+              >
+                Cancel
+              </p> */}
             </div>
           </div>
         </>
       </MaterialModal>
       <MaterialModal open={openModal4}>
+      <ModalAlert setSnackBarData={setSnackBarData} snackBarData={snackBarData}/>
         <>
           <div className="ModalContainer p-3 container z-0">
             <div className="row">
@@ -506,6 +716,7 @@ if (isResendDisabled) {
                 style={{ cursor: "pointer" }}
                 onClick={() => {
                   setOpenModal4(false);
+                  setShowHeader(true)
                 }}
               >
                 Cancel
@@ -515,6 +726,7 @@ if (isResendDisabled) {
         </>
       </MaterialModal>
       <MaterialModal open={openModal5}>
+      <ModalAlert setSnackBarData={setSnackBarData} snackBarData={snackBarData}/>
         <>
           <div className="CompanyModalContainer container">
             <div className="row">
@@ -630,7 +842,8 @@ if (isResendDisabled) {
                 }
                 onClick={() => {
                   setOpenModal5(false);
-                  navigate("/Dashboard/MyAccount")
+                  setShowHeader(true)
+                  // navigate("/Dashboard/MyAccount")
                 }}
               />
 
@@ -639,6 +852,7 @@ if (isResendDisabled) {
                 style={{ cursor: "pointer" }}
                 onClick={() => {
                   setOpenModal5(false);
+                  setShowHeader(true)
                 }}
               >
                 Cancel
@@ -655,6 +869,7 @@ if (isResendDisabled) {
 
           // });
           setOpenModal1(true);
+          setShowHeader(false)
           window.scrollTo({ top: 0 });
         }}
       />

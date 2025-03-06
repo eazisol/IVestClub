@@ -17,11 +17,11 @@ const apiCall = async ({ url, method = "POST", data, headers }) => {
   return response.data;
 };
 
-const useApi = () => {
+const useApi = (showError = false) => {
   const { setSnackBarData, userData } = appData();
 
   const mutation = useMutation({
-    mutationFn: async ({ url, method, data, sendHeaders = false }) => {
+    mutationFn: async ({ url, method, data, sendHeaders = false, customHeaders }) => {
       let headers = {};
       if (sendHeaders) {
         headers = {
@@ -33,6 +33,11 @@ const useApi = () => {
           headers["Content-Type"] = "application/json";
         }
       }
+      if (customHeaders) {
+        headers = {
+          Authorization: `Bearer ${customHeaders.access_token}`,
+        };
+      }
 
       const responseData = await apiCall({ url, method, data, headers });
 
@@ -42,6 +47,10 @@ const useApi = () => {
       console.log("API request successful:", data);
     },
     onError: (error) => {
+      if (!showError) {
+        return ;
+      }
+
       console.error("API request error:", error);
 
       // Check if error has a response and a message

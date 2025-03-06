@@ -419,7 +419,7 @@ const fetchTokenHoldings = async (provider, address) => {
                         </ul>
                       </li> */}
 
-                      <li
+                        <li
                           className={
                             location.pathname == "/manifesto"
                               ? "current dropdown "
@@ -433,23 +433,24 @@ const fetchTokenHoldings = async (provider, address) => {
                             }}
                           />
                         </li>
-                      <li
-                        className={
-                          location.pathname == "/manifesto"
-                            ? "current dropdown "
-                            : "dropdown "
-                        }
-                      >
-                        <HeaderLink
-                          text="Contact Us"
-                          onClick={() => {
-                            navigate("/ContactUs");
-                          }}
-                        />
-                      </li>
-                    </ul>
-                  </div>
-                </nav>
+                        <li
+                          className={
+                            location.pathname == "/manifesto"
+                              ? "current dropdown "
+                              : "dropdown "
+                          }
+                        >
+                          <HeaderLink
+                            text="Contact Us"
+                            onClick={() => {
+                              navigate("/ContactUs");
+                            }}
+                          />
+                        </li>
+                      </ul>
+                    </div>
+                  </nav>
+                
                 <>
                   <div className="px-2 d-none d-xl-flex">
                     <span
@@ -457,6 +458,26 @@ const fetchTokenHoldings = async (provider, address) => {
                       data-placement="top"
                       title="Tooltip on top"
                     >
+                      {showSearchInput && (
+                        <TextField
+                          type="text"
+                          size="small"
+                          // variant="underlined"
+                          value={"Search will available soon"}
+                          sx={{
+                            backgroundColor: "transparent",
+                            // borderRadius: 10,
+                            width: "80vh",
+                            borderBottom: "1px solid #fff",
+                          }}
+                          InputProps={{
+                            sx: {
+                              // fontSize: 9,
+                              color: "#ffffff",
+                            },
+                          }}
+                        />
+                      )}
                       <SearchIcon
                         sx={{
                           color: "#fff",
@@ -467,24 +488,6 @@ const fetchTokenHoldings = async (provider, address) => {
                           setShowSearchInput(!showSearchInput);
                         }}
                       />
-                      {showSearchInput && (
-                        <TextField
-                          type="text"
-                          size="small"
-                          value={"Search will available soon"}
-                          sx={{
-                            backgroundColor: "#f5f5dc52",
-                            borderRadius: 10,
-                            width: "10em",
-                          }}
-                          InputProps={{
-                            sx: {
-                              fontSize: 9,
-                              color: "#ffffff",
-                            },
-                          }}
-                        />
-                      )}
                     </span>
                   </div>
                 </>

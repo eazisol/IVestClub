@@ -138,7 +138,6 @@ const Shop = () => {
       //  Save the new values immediately
       setusdtAmount(localStorage.removeItem("usdtAmount"));
       getBnbAmount(localStorage.removeItem("convertAmount"));
-      setUserWallet(localStorage.removeItem("userWalletAddress"));
 
       if (data?.response?.invoices[0]?.checkoutLink) {
         const cleanUrl = data.response.invoices[0].checkoutLink.replace(

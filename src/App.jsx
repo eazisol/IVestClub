@@ -25,6 +25,7 @@ import OpenAIMembership from "./components/MemberShip/OpenAIMembership.jsx";
 import IvestMembership from "./components/MemberShip/IvestMembership.jsx";
 import SpaceXMembership from "./components/MemberShip/SpaceXMembership.jsx";
 import FutureClubs from "./components/FutureClubs/FutureClubs.jsx";
+
 import Dashboard from "./components/Dashboard/Dashboard.jsx";
 import MyMemberShipClubs from "./components/MyMembershipClubs/MyMemberShipClubs.jsx";
 import MyAccount from "./components/MyAccount/MyAccount.jsx";
@@ -40,12 +41,12 @@ import PublicMemberShip from "./components/MemberShip/PublicMemberShip.jsx";
 import StaticPublicMembership from "./components/MemberShip/StaticPublicMembership.jsx";
 import Articals from "./components/Blogs/Articals.jsx";
 import News from "./components/Blogs/News.jsx";
-import { TransactionHistory } from "./components/TransactionHistory/TransactionHistory.jsx";
-import Shop from "./components/Shop/Shop.jsx";
-import ContactUs from "./components/Contact/ContactUs.jsx";
 import BlogList from "./components/Blog/BlogList.jsx";
 import BlogView from "./components/Blog/BlogView.jsx";
-
+import ContactUs from "./components/Contact/ContactUs.jsx";
+import ErrorPage from "./components/ErrorPage.jsx";
+import { TransactionHistory } from "./components/TransactionHistory/TransactionHistory.jsx";
+import Shop from "./components/Shop/Shop.jsx";
 
 function App() {
   const queryClient = new QueryClient();
@@ -57,14 +58,12 @@ function App() {
           <ScrollOnTop />
           <Routes>
             <Route path="/" element={<Layout />}>
-              {/* <Route index element={<Navigate to="/" />} /> */}
-              <Route index  element={<Home />} />
+              {/* <Route index element={<Navigate to="home" />} /> */}
+              <Route index element={<Home />} />
               <Route path="Login" element={<LoginPage />} />
               <Route path="ResetPassword" element={<ResetPassword />} />
               <Route path="SignUp" element={<SignUpPage />} />
-              {/* <Route path="ContactUs" element={<UnderConstruction />} /> */}
               <Route path="ContactUs" element={<ContactUs />} />
-              {/* <Route path="Blogs" element={<UnderConstruction />} /> */}
               <Route path="Blog" element={<BlogList />} />
               <Route path="Blog/View" element={<BlogView />} />
               <Route path="ConnectWallet" element={<UnderConstruction />} />
@@ -109,12 +108,13 @@ function App() {
                   path="Dashboard/MyMemberShipClubs"
                   element={<MyMemberShipClubs />}
                 />
-                <Route
+                 <Route
                   path="Dashboard/TransactionHistory"
                   element={<TransactionHistory />}
                 />
                 <Route path="Dashboard/MyAccount" element={<MyAccount />} />
               </Route>
+              <Route path="*" element={<ErrorPage />} />
             </Route>
           </Routes>
         </BrowserRouter>

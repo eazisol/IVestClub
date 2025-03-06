@@ -6,7 +6,7 @@ import { appData } from "../../components/Context/AppContext.jsx";
 import { Margin } from "@mui/icons-material";
 import { fontSize } from "@mui/system";
 
-const EventPopups = () => {
+const EventPopups = ({marginTop="8em"}) => {
   const { snackBarData, setSnackBarData } = appData();
 
   const Alert = React.forwardRef(function Alert(props, ref) {
@@ -43,7 +43,7 @@ const EventPopups = () => {
             alignItems: "center",
             minWidth: "30em",
             height: "4em",
-            marginTop: "8em",
+            marginTop: marginTop,
             marginLeft: "2em",
             fontWeight: "bold",
             zIndex: 9999999,

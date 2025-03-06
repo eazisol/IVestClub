@@ -1,5 +1,4 @@
 import React from "react";
-import { CustomizedTooltips, TextUnderWrap } from "./Common/MiniComponents";
 import { GiCargoCrane } from "react-icons/gi";
 
 const UnderConstruction = () => {

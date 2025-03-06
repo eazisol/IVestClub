@@ -9,7 +9,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import FormHelperText from "@mui/material/FormHelperText";
 
-export const SimpleInput = ({ lable, onChange = () => {}, value, name, error,helperText, required }) => {
+export const SimpleInput = ({ lable, onChange = () => {}, value, name, error,helperText, required ,disabled=false}) => {
   return (
     <>
       <label
@@ -24,6 +24,7 @@ export const SimpleInput = ({ lable, onChange = () => {}, value, name, error,hel
         // placeholder={lable} 
         variant="outlined"
         fullWidth
+        disabled={disabled}
         size="small"
         name={name}
         onChange={onChange}
@@ -36,25 +37,26 @@ export const SimpleInput = ({ lable, onChange = () => {}, value, name, error,hel
   );
 };
 
-export const DatePicker = ({ lable, onChange = () => {}, value, name, error,helperText, required }) => {
+export const DatePicker = ({ lable, onChange = () => {}, value, name, error, helperText, required, futureDates = true }) => {
   const formatDateToYYYYMMDD = (dateString) => {
     if (!dateString) return "";
     const [day, month, year] = dateString.split("-");
     return `${year}-${month}-${day}`;
   };
-  
+
+  const maxDate = futureDates ? undefined : new Date().toISOString().split('T')[0];
+
   return (
     <>
       <label
         htmlFor={`input-with-icon-adornment-${name}`}
         className="text-basic-lable mt-2 pop-font LoginSubHead"
       >
-        {lable} {required &&<span className="text-danger">*</span>}
+        {lable} {required && <span className="text-danger">*</span>}
       </label>
       <TextField
-       className="inputField"
+        className="inputField"
         id={`input-with-icon-adornment-${name}`}
-        // placeholder={lable} 
         variant="outlined"
         fullWidth
         size="small"
@@ -63,8 +65,10 @@ export const DatePicker = ({ lable, onChange = () => {}, value, name, error,help
         onChange={onChange}
         value={formatDateToYYYYMMDD(value) || ""}
         error={error}
-        helperText={error ? helperText:null}
-        
+        helperText={error ? helperText : null}
+        inputProps={{
+          max: maxDate,
+        }}
       />
     </>
   );

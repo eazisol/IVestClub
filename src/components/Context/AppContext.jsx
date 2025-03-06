@@ -16,11 +16,12 @@ export const DataProvider = ({ children }) => {
   const [userData, setUserData] = useState(localuserdata)
   const [newsData, setNewsData] = useState({})
   const [articalData, setArticalData] = useState({})
-  const [walletData, setWalletData] = useState({})
 
 const [mainLoader, setmainLoader] = useState(true)
 const [showLandingSaction, setShowLandingSaction] = useState(true)
-
+const [showHeader, setShowHeader] = useState(true)
+const [showPassword, setShowPassword] = useState(false)
+const [walletData, setWalletData] = useState({})
 const [openModal, setOpenModal] = useState({
   open : false,
   content : <></>
@@ -62,6 +63,8 @@ const handleLogout = () => {
         handleLogout,
         newsData, setNewsData,
         articalData, setArticalData,
+        showHeader, setShowHeader,
+        showPassword, setShowPassword,
         walletData, setWalletData
       }}
     >

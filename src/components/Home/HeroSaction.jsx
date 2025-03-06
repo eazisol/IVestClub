@@ -9,10 +9,11 @@ import { TextUnderWrap } from "../Common/MiniComponents";
 import { appData } from "../Context/AppContext";
 import CreateAccountModal from "../Common/CreateAccountModal";
 import { useNavigate } from "react-router-dom";
+import CloseIcon from "@mui/icons-material/Close";
 const HeroSaction = () => {
- const navigate =  useNavigate();
+  const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState(0);
-  const { setShowLandingSaction, showLandingSaction } = appData();
+  const { setShowLandingSaction, showLandingSaction, userData } = appData();
   const handlePresentationClick = (index) => {
     setActiveIndex(index);
     const carousel = document.querySelector("#carouselIvest");
@@ -22,18 +23,14 @@ const HeroSaction = () => {
   };
 
   useEffect(() => {
-    
-      if (showLandingSaction) {
-        
-        handlePresentationClick(0)
-      }
-        
-        
-  }, [showLandingSaction])
-  
+    if (showLandingSaction) {
+      handlePresentationClick(0);
+    }
+    console.log("userData?.access_token ", userData?.access_token);
+  }, [showLandingSaction]);
 
   return (
-    <ImgBgSactionContainer bgImage={landingimg} showPadding={false} hero >
+    <ImgBgSactionContainer bgImage={landingimg} showPadding={false} hero>
       <div
         id="carouselIvest"
         className="carousel slide carousel-fade"
@@ -41,7 +38,7 @@ const HeroSaction = () => {
         data-interval="false"
       >
         {/* This is the Element of Carousel on the First Index  */}
-        <div className="carousel-inner " >
+        <div className="carousel-inner ">
           <div className={`carousel-item ${activeIndex === 0 ? "active" : ""}`}>
             <div className="row mt-5">
               <div className="col-xl-11 mt-2 pl-xl-3">
@@ -55,12 +52,12 @@ const HeroSaction = () => {
                   className="hero-text text-light-c w-60 mb-0 mt-3 pl-1"
                   style={{ lineHeight: "1.7em" }}
                 >
-                  At iVest Club, we believe you should have equal access to
+                  At IVest Club, we believe you should have equal access to
                   opportunities about late-stage companies that are currently
                   privately owned and not listed on an exchange. Our Gateway
                   empowers you to gain access to these Pre-IPO companies, share
                   information with peers in a fun and rewarding environment.
-                  iVest Club aims to level the playing field for you and
+                  IVest Club aims to level the playing field for you and
                   democratize the landscape ahead of an IPO, making it inclusive
                   for all.
                 </p>
@@ -77,9 +74,13 @@ const HeroSaction = () => {
                 </div>
 
                 <div className=" mt-1 row">
+                  {/* {userData?.access_token == undefined && ( */}
                   <div className="col-lg-2 col-sm-6 pt-2 mt-4 ">
-                    <CreateAccountModal text={<span className="fillBtn ">Join For Free Now</span>} />
+                    <CreateAccountModal
+                      text={<span className="fillBtn ">Join For Free Now</span>}
+                    />
                   </div>
+                  {/* // )} */}
                   <div className="col-lg-3 col-sm-6 pt-2 mt-4 ">
                     <OutlinedButtonLight
                       onClick={() => {
@@ -89,42 +90,55 @@ const HeroSaction = () => {
                       text={
                         <>
                           <span className="fa fa-solid fa-play small-icon mr-2"></span>{" "}
-                        <span className="outBtn"> Presentation </span>
+                          <span className="outBtn"> Presentation </span>
                         </>
                       }
                     />
                   </div>
                 </div>
               </div>
-              <div className="col-xl-1 d-none  d-xl-flex flex-column justify-content-center main-footer">
-                <ul className="social-links  iconContainer clearfix mb-0 text-right">
-                  <li className="mb-3 w-100 d-flex justify-content-end">
-                    <a href="https://www.facebook.com">
-                      <span className="fab fa-xs fa-facebook-f"></span>
+              <div className="col-xl-1 d-none  d-xl-flex flex-column justify-content-between align-items-end main-footer">
+                <span
+                  className="cursor-pointer"
+                  onClick={() => {
+                    setShowLandingSaction(true);
+                  }}
+                >
+                  {!showLandingSaction && <CloseIcon sx={{ color: "#fff" }} />}
+                </span>
+                <ul className="social-links clearfix">
+                  <li className="mb-2 w-100">
+                    <a href="#">
+                      <span className="fab fa-facebook-f"></span>
                     </a>
                   </li>
-                  <li className="mb-3 w-100 d-flex justify-content-end">
-                    <a href="https://www.instagram.com">
-                      <span className="fab fa-xs fa-instagram"></span>
+                  <li className="mb-2 w-100">
+                    <a href="#">
+                      <span className="fab fa-twitter"></span>
                     </a>
                   </li>
-                  <li className="mb-3 w-100 d-flex justify-content-end">
-                    <a href="https://www.twitter.com">
-                      <span className="fab fa-xs fa-twitter"></span>
+                  <li className="mb-2 w-100">
+                    <a href="#">
+                      <span className="fab fa-vimeo-v"></span>
                     </a>
                   </li>
-                  <li className="mb-3 w-100 d-flex justify-content-end">
-                    <a href="https://www.snapchat.com">
-                      <span className="fab fa-xs fa-solid fa-snapchat"></span>
+                  <li className="mb-2 w-100">
+                    <a href="#">
+                      <span className="fab fa-instagram"></span>
                     </a>
                   </li>
                 </ul>
+                <div className=""></div>
               </div>
             </div>
           </div>
 
           {/* This is the second element on the Carousel index  */}
-          <div className={`carousel-item ${activeIndex === 1 ? "active header-height" : " header-height"}`}>
+          <div
+            className={`carousel-item ${
+              activeIndex === 1 ? "active header-height" : " header-height"
+            }`}
+          >
             <div className="row mt-5 pt-5 pt-xl-0">
               <div className="col-12 col-xl-7">
                 <h1 className="mb-4">
@@ -155,14 +169,14 @@ const HeroSaction = () => {
                 </p>
 
                 <div className="w-100 d-flex  flex-column mt-5 ">
-                  <div className="col-lg-11 col-sm-6 mb-4 p-0">
-                    <CreateAccountModal
-                      text={
-                        "Yes, I'm ready to start my Pre-IPo journey by joining IVest Club for Free!"
-                      }
-                    />
-                  </div>
-                  <div className="col-lg-8 col-sm-6 p-0">
+                    <div className="col-lg-9 col-sm-6 mb-4 p-0">
+                      <CreateAccountModal
+                        text={
+                          "Yes, I'm ready to start my Pre-IPo journey by joining IVest Club for Free!"
+                        }
+                      />
+                    </div>
+                  <div className="col-lg-9 col-sm-6 p-0">
                     <FilledButtonLight
                       onClick={() => handlePresentationClick(2)}
                       text={
@@ -183,7 +197,17 @@ const HeroSaction = () => {
                 />
               </div>
 
-              <div className="col-xl-1 d-none  d-xl-flex flex-column justify-content-center main-footer">
+              <div className="col-xl-1 d-none  d-xl-flex flex-column justify-content-between align-items-end main-footer">
+                {!showLandingSaction && (
+                  <span
+                    className="cursor-pointer"
+                    onClick={() => {
+                      setShowLandingSaction(true);
+                    }}
+                  >
+                    <CloseIcon sx={{ color: "#fff" }} />
+                  </span>
+                )}
                 <ul className="social-links clearfix">
                   <li className="mb-2 w-100">
                     <a href="#">
@@ -206,11 +230,16 @@ const HeroSaction = () => {
                     </a>
                   </li>
                 </ul>
+                <div className=""></div>
               </div>
             </div>
           </div>
 
-          <div className={`carousel-item ${activeIndex === 2 ? "active header-height" : "header-height"}`}>
+          <div
+            className={`carousel-item ${
+              activeIndex === 2 ? "active header-height" : "header-height"
+            }`}
+          >
             <div className="row mt-5 pt-5 pt-xl-0">
               <div className="col-12 col-xl-7">
                 <h1 className="mb-4">
@@ -243,11 +272,11 @@ const HeroSaction = () => {
                       text={"Tell me more!"}
                     />
                   </div>
-                  <div className="col-lg-8 col-sm-6 mt-2 mt-xl-0">
-                    <CreateAccountModal
-                      text={" Great I'm ready to create my free account!"}
-                    />
-                  </div>
+                    <div className="col-lg-8 col-sm-6 mt-2 mt-xl-0">
+                      <CreateAccountModal
+                        text={" Great I'm ready to create my free account!"}
+                      />
+                    </div>
                 </div>
               </div>
               <div className="col-12 col-xl-4 mt-3 mt-xl-0  align-content-center">
@@ -260,7 +289,17 @@ const HeroSaction = () => {
                   }}
                 />
               </div>
-              <div className="col-xl-1 d-none  d-xl-flex flex-column justify-content-center main-footer">
+              <div className="col-xl-1 d-none  d-xl-flex flex-column justify-content-between align-items-end main-footer">
+                {!showLandingSaction && (
+                  <span
+                    className="text-lg cursor-pointer"
+                    onClick={() => {
+                      setShowLandingSaction(true);
+                    }}
+                  >
+                    <CloseIcon sx={{ color: "#fff" }} />
+                  </span>
+                )}
                 <ul className="social-links clearfix">
                   <li className="mb-2 w-100">
                     <a href="#">
@@ -283,11 +322,16 @@ const HeroSaction = () => {
                     </a>
                   </li>
                 </ul>
+                <div className=""></div>
               </div>
             </div>
           </div>
 
-          <div className={`carousel-item ${activeIndex === 3 ? "active header-height" : "header-height"}`}>
+          <div
+            className={`carousel-item ${
+              activeIndex === 3 ? "active header-height" : "header-height"
+            }`}
+          >
             <div className="row mt-5 pt-5 pt-xl-0">
               <div className="col-12 col-xl-7">
                 <h1 className="mb-4">
@@ -309,7 +353,7 @@ const HeroSaction = () => {
                   className="text-basic text-light-c w-60"
                 >
                   Do you own these stocks and wish you had known about them
-                  before they did their IPO - Join us at iVest Club to lget
+                  before they did their IPO - Join us at IVest Club to lget
                   access to these companies?
                 </p>
 
@@ -320,11 +364,11 @@ const HeroSaction = () => {
                       text={"Tell me more!"}
                     />
                   </div>
-                  <div className="col-lg-7 col-sm-6 mt-2 mt-xl-0">
-                    <CreateAccountModal
-                      text={"  Ok, I'm ready to create my free account!"}
-                    />
-                  </div>
+                    <div className="col-lg-7 col-sm-6 mt-2 mt-xl-0">
+                      <CreateAccountModal
+                        text={"  Ok, I'm ready to create my free account!"}
+                      />
+                    </div>
                 </div>
               </div>
               <div className="col-12 col-xl-4 mt-3 mt-xl-0  align-content-center">
@@ -342,7 +386,17 @@ const HeroSaction = () => {
                 />
               </div>
 
-              <div className="col-xl-1 d-none  d-xl-flex flex-column justify-content-center main-footer">
+              <div className="col-xl-1 d-none  d-xl-flex flex-column justify-content-between align-items-end main-footer">
+                {!showLandingSaction && (
+                  <span
+                    className="text-lg cursor-pointer"
+                    onClick={() => {
+                      setShowLandingSaction(true);
+                    }}
+                  >
+                    <CloseIcon sx={{ color: "#fff" }} />
+                  </span>
+                )}
                 <ul className="social-links clearfix">
                   <li className="mb-2 w-100">
                     <a href="#">
@@ -365,11 +419,16 @@ const HeroSaction = () => {
                     </a>
                   </li>
                 </ul>
+                <div className=""></div>
               </div>
             </div>
           </div>
 
-          <div className={`carousel-item ${activeIndex === 4 ? "active header-height" : "header-height"}`}>
+          <div
+            className={`carousel-item ${
+              activeIndex === 4 ? "active header-height" : "header-height"
+            }`}
+          >
             <div className="row mt-5 pt-5 pt-xl-0">
               <div className="col-12 col-xl-7">
                 <h1 className="mb-4">
@@ -391,7 +450,6 @@ const HeroSaction = () => {
                   earning rewards!
                 </p>
 
-               
                   <div className="col-lg-9 col-sm-6 mt-5 ">
                     <CreateAccountModal
                       text={
@@ -399,7 +457,7 @@ const HeroSaction = () => {
                       }
                     />
                   </div>
-               
+
                 <div className="row">
                   <div className="col-lg-5 col-sm-6 mt-xl-5 mt-2">
                     <FilledButtonLight
@@ -408,7 +466,10 @@ const HeroSaction = () => {
                     />
                   </div>
                   <div className="col-lg-4 col-sm-6 mt-xl-5 mt-2 ">
-                    <FilledButtonLight text={<>Tell me more!</>}  onClick={() => handlePresentationClick(0)}/>
+                    <FilledButtonLight
+                      text={<>Tell me more!</>}
+                      onClick={() => handlePresentationClick(0)}
+                    />
                   </div>
                 </div>
               </div>
@@ -426,7 +487,17 @@ const HeroSaction = () => {
                   }}
                 />
               </div>
-              <div className="col-xl-1 d-none  d-xl-flex flex-column justify-content-center main-footer">
+              <div className="col-xl-1 d-none  d-xl-flex flex-column justify-content-between align-items-end main-footer">
+                {!showLandingSaction && (
+                  <span
+                    className="text-lg cursor-pointer"
+                    onClick={() => {
+                      setShowLandingSaction(true);
+                    }}
+                  >
+                    <CloseIcon sx={{ color: "#fff" }} />
+                  </span>
+                )}
                 <ul className="social-links clearfix">
                   <li className="mb-2 w-100">
                     <a href="#">
@@ -449,6 +520,7 @@ const HeroSaction = () => {
                     </a>
                   </li>
                 </ul>
+                <div className=""></div>
               </div>
             </div>
           </div>
