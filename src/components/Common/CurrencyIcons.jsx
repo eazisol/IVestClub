@@ -18,7 +18,7 @@ export const MiniGraph = ({size=20}) => {
 }
 export const spaceX = ({size=20}) => {
   return (
-    <img src={SpaceX} style={{height : `${size}px` , width : `${size+30}px`}} />
+    <img src={SpaceX} style={{height : `${size}px` , width : `${24}px`}} />
   )
 }
 
