@@ -46,6 +46,7 @@ import ContactUs from "./components/Contact/ContactUs.jsx";
 import BlogList from "./components/Blog/BlogList.jsx";
 import BlogView from "./components/Blog/BlogView.jsx";
 
+
 function App() {
   const queryClient = new QueryClient();
 
