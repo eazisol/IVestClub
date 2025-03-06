@@ -27,6 +27,7 @@ const Shop = () => {
   const [invoicesId, setinvoicesId] = useState(null);
   const [currencyId, setCurrencyId] = useState(null);
   const [usdtData, setUSDTData] = useState("");
+  const [network, setNetwork] = useState("");
   // Add connection status state
   const [connectionStatus, setConnectionStatus] = useState("");
   //GET USDT PRICE FROM API
@@ -54,116 +55,140 @@ const Shop = () => {
   };
 
   const handlePay = async (e) => {
-    e.preventDefault();
-
-    localStorage.setItem("userWalletAddress", JSON.stringify(userWallet));
-    localStorage.setItem("usdtAmount", JSON.stringify(usdtAmount));
-    localStorage.setItem(
-      "convertAmount",
-      JSON.stringify(getBnbAmount(usdtAmount))
-    );
-    if (!userData?.access_token) {
-      navigate("/login");
-      return;
-    }
-    setIsLoading(true);
-    const requestData = {
-      currency: "1002",
-      items: [
-        {
-          name: "test item",
-          description: "1738751764",
-          quantity: {
-            value: "1",
-            type: "2",
-          },
-          amount: `${usdtAmount}`,
-        },
-      ],
-      amount: {
-        breakdown: {
-          subtotal: `${usdtAmount}`,
-        },
-        total: `${usdtAmount}`,
-      },
-      buyer: {
-        name: {
-          firstName: "Test",
-          lastName: "Test",
-        },
-        emailAddress: "test@test.com",
-        phoneNumber: "1111111111",
-        address: {
-          address1: "Test str",
-          city: "Warsaw",
-          countryCode: "PL",
-          postalCode: "01-001",
-        },
-      },
-      payment: {
-        paymentCurrency: "1002",
-        refundEmail: "test@test.com",
-      },
-      // Format numeric values with fixed precision
-      amountusdt: usdtAmount,
-      amounttoken: +getBnbAmount(usdtAmount),
-      token: selectedToken?.name,
-      currency1: "LTCT",
-      currency2: "LTCT",
-      buyer_email: userData?.email,
-      username: userData?.username,
-      user_wallet_address: userWallet,
-      user_id: `${userData?.user_id}`,
-      //  "network": network,
-    };
-    try {
-      const response = await fetch(`${baseUrl}coinpayments/invoices`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(requestData),
-      });
-
-      const data = await response.json();
-      const newCurrencyId =
-        data?.response?.invoices[0]?.payment?.paymentCurrencies[0]?.currency
-          ?.id;
-      const newInvoicesId = data?.response?.invoices[0]?.id;
-
-      setCurrencyId(newCurrencyId);
-      setinvoicesId(newInvoicesId);
-
-      //  Save the new values immediately
-      setusdtAmount(localStorage.removeItem("usdtAmount"));
-      getBnbAmount(localStorage.removeItem("convertAmount"));
-      setUserWallet(localStorage.removeItem("userWalletAddress"));
-
-      if (data?.response?.invoices[0]?.checkoutLink) {
-        const cleanUrl = data.response.invoices[0].checkoutLink.replace(
-          /\\/g,
-          ""
-        );
-
-        // Create a new anchor element
-        const link = document.createElement("a");
-        link.href = cleanUrl;
-        link.target = "_blank";
-        link.rel = "noopener noreferrer";
-
-        // Append to the document, click it, and remove it
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      }
-      setusdtAmount("");
-      setUserWallet("");
-      setIsLoading(false);
-    } catch (error) {
-      setIsLoading(false);
-    }
-  };
+     e.preventDefault();
+    navigate("/login");
+    //  const usernameRegex = /^[a-zA-Z0-9 ]+$/;
+    //  if (!usernameRegex.test(!userData?.username)) {
+    //    setSnackBarData({
+    //      visibility: true,
+    //      error: "error",
+    //      text: "Username should not contain special characters (only letters, numbers).",
+    //    });
+    //    return;
+    //  }
+    //  if (!userData?.username) {
+    //    setSnackBarData({
+    //      visibility: true,
+    //      error: "error",
+    //      text: "Username must be required.",
+    //    });
+    //    return;
+    //  }
+    //  setIsLoading(true);
+ 
+    //  const networkCurrencyMap = {
+    //    Mainnet: "USDC.ERC20",
+    //    Testnet: "LTCT",
+    //    BSC: "BNB",
+    //    Ethereum: "ETH",
+    //    // Add more networks and their respective currencies if needed
+    //  };
+ 
+    //  // Get currency based on the network, default to "LTCT" if not found
+    //  const selectedCurrency = networkCurrencyMap[network] || "LTCT";
+ 
+    //  console.log("selectedCurrency", selectedCurrency);
+ 
+    //  const requestData = {
+    //    currency: selectedCurrency=='USDC.ERC20'?'4:0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48':"1002",
+    //    items: [
+    //      {
+    //        name: "test item",
+    //        description: "1738751764",
+    //        quantity: {
+    //          value: "1",
+    //          type: "2",
+    //        },
+    //        amount: `${usdtAmount}`,
+    //      },
+    //    ],
+    //    amount: {
+    //      breakdown: {
+    //        subtotal: `${usdtAmount}`,
+    //      },
+    //      total: `${usdtAmount}`,
+    //    },
+    //    buyer: {
+    //      name: {
+    //        firstName: "Test",
+    //        lastName: "Test",
+    //      },
+    //      emailAddress: "test@test.com",
+    //      phoneNumber: "1111111111",
+    //      address: {
+    //        address1: "Test str",
+    //        city: "Warsaw",
+    //        countryCode: "PL",
+    //        postalCode: "01-001",
+    //      },
+    //    },
+    //    payment: {
+    //      paymentCurrency:selectedCurrency=='USDC.ERC20'?'4:0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48':"1002",
+    //      refundEmail: "test@test.com",
+    //    },
+    //    // Format numeric values with fixed precision
+    //    amountusdt: usdtAmount,
+    //    amounttoken: +getBnbAmount(usdtAmount),
+    //    token: selectedToken?.name,
+    //    currency1: selectedCurrency,
+    //    currency2: selectedCurrency,
+    //    buyer_email: userData?.email,
+    //    username: userData?.username,
+    //    user_wallet_address: userWallet,
+    //    user_id: `${userData?.user_id}`,
+    //    network: network,
+    //  };
+ 
+    //  try {
+    //    const response = await fetch(`${baseUrl}coinpayments/invoices`, {
+    //      method: "POST",
+    //      headers: {
+    //        "Content-Type": "application/json",
+    //        Accept: "application/json",
+    //      },
+    //      body: JSON.stringify(requestData),
+    //    });
+ 
+    //    setustdAmount(localStorage.removeItem("usdtAmount"));
+    //    getBnbAmount(localStorage.removeItem("convertAmount"));
+    //    const data = await response.json();
+    //    const newCurrencyId =
+    //      data?.response?.invoices[0]?.payment?.paymentCurrencies[0]?.currency
+    //        ?.id;
+    //    const newInvoicesId = data?.response?.invoices[0]?.id;
+ 
+    //    setCurrencyId(newCurrencyId);
+    //    setinvoicesId(newInvoicesId);
+    //    //  Save the new values immediately
+ 
+    //    if (data?.response?.invoices[0]?.checkoutLink) {
+    //      const cleanUrl = data.response.invoices[0].checkoutLink.replace(
+    //        /\\/g,
+    //        ""
+    //      );
+ 
+    //      // Create a new anchor element
+    //      const link = document.createElement("a");
+    //      link.href = cleanUrl;
+    //      link.target = "_blank";
+    //      link.rel = "noopener noreferrer";
+ 
+    //      // Append to the document, click it, and remove it
+    //      document.body.appendChild(link);
+    //      link.click();
+    //      document.body.removeChild(link);
+    //    }
+ 
+    //    setusdtAmount("");
+    //    localStorage.setItem("recipentWalletAddress", JSON.stringify(userWallet));
+    //    // setWalletData('');
+    //    setUserWallet("");
+    //    setIsLoading(false);
+    //  } catch (error) {
+    //   setIsLoading(false);
+    //  }
+   };
+   
 
   const handleTokenApi = async () => {
     const { data } = await axios.get(`${baseUrl}token/getAllTokenData`);
@@ -174,6 +199,13 @@ const Shop = () => {
       setSelectedToken(data?.data[0]);
     }
   };
+
+  //network status
+  const getNetworkStatus = async () => {
+    const {data}  = await axios.get( `${baseUrl}network-status`);
+    setNetwork(data?.network_setting);
+  };
+
   useEffect(() => {
     if (!invoicesId) return;
     // Function to periodically check the transaction status from CoinPayments API
@@ -183,7 +215,7 @@ const Shop = () => {
           `${baseUrl}coinpayments/invoice/${invoicesId}/currency/${currencyId}/status`
         );
 
-        if (response?.data?.status === "completed") {
+        if (response?.data?.status === "unpaid") {
           setStatus("completed");
           setAllStatusData(response?.data);
           clearInterval(intervalId);
@@ -202,7 +234,7 @@ const Shop = () => {
     if (status !== "completed") return;
 
     console.log("coinpayments/Tokenator");
-
+const recipentWalletAddress=JSON.parse(localStorage.getItem("recipentWalletAddress"));
     const handlePin = async () => {
       try {
         await axios.post(`${baseUrl}coinpayments/Tokenator`, {
@@ -215,13 +247,14 @@ const Shop = () => {
           ),
           currency: selectedToken?.name,
           user_email: userData?.email,
-          user_wallet_address: userWallet,
+          user_wallet_address: recipentWalletAddress,
           custom: 1,
           token_contract_address: selectedToken?.token_contract_address,
         });
 
         setStatus(null); // ✅ Reset status
         setinvoicesId(null);
+        localStorage.removeItem("recipentWalletAddress");
       } catch (error) {
         console.error("Error handling pin:", error);
       }
@@ -238,6 +271,7 @@ const Shop = () => {
     );
     const convertAmount = JSON.parse(localStorage.getItem("convertAmount"));
     setusdtAmount(usdtAmount);
+    getNetworkStatus();
     getBnbAmount(convertAmount);
     setUserWallet(userWalletAddress);
   }, []);

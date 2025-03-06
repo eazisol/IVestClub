@@ -75,16 +75,17 @@ const Dashboard = () => {
   const [error, setError] = useState("");
   const [usdtAmount, setustdAmount] = useState("");
   const [userWallet, setUserWallet] = useState("");
+  console.log('userWallet',userWallet)
   const [tokenDataList, setTokenDataList] = useState([]); // List of tokens from API
   const [selectedToken, setSelectedToken] = useState(null);
   const [usdtData, setUSDTData] = useState("");
   const [usdcData, setUSDCData] = useState("");
   
-  console.log("🚀 ~ Dashboard ~ selectedToken:", selectedToken);
   const [usdtBalance, setUsdtBalance] = useState(null);
   const [statusData, setAllStatusData] = useState(null);
   const [tokenHoldings, setTokenHoldings] = useState(null);
-  const [network, setNetwork] = useState("testnet");
+  const [network, setNetwork] = useState("");
+
   // let usdtAmountCalculate = usdtAmount * usdtData?.Price;
   let myWalletAmount = usdcData?.Price * usdtBalance; //caluculate USDT which is write in input with today USDT price
   //SHOW USERS TOKEN ON IN THE TABLE
@@ -148,8 +149,22 @@ const Dashboard = () => {
       return;
     }
     setLoading(true);
+
+    const networkCurrencyMap = {
+      Mainnet: "USDC.ERC20",
+      Testnet: "LTCT",
+      BSC: "BNB",
+      Ethereum: "ETH",
+      // Add more networks and their respective currencies if needed
+    };
+
+    // Get currency based on the network, default to "LTCT" if not found
+    const selectedCurrency = networkCurrencyMap[network] || "LTCT";
+
+    console.log("selectedCurrency", selectedCurrency);
+
     const requestData = {
-      currency: "1002",
+      currency: selectedCurrency=='USDC.ERC20'?'4:0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48':"1002",
       items: [
         {
           name: "test item",
@@ -182,20 +197,20 @@ const Dashboard = () => {
         },
       },
       payment: {
-        paymentCurrency: "1002",
+        paymentCurrency:selectedCurrency=='USDC.ERC20'?'4:0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48':"1002",
         refundEmail: "test@test.com",
       },
       // Format numeric values with fixed precision
       amountusdt: usdtAmount,
       amounttoken: +getBnbAmount(usdtAmount),
       token: selectedToken?.name,
-      currency1: "LTCT",
-      currency2: "LTCT",
+      currency1: selectedCurrency,
+      currency2: selectedCurrency,
       buyer_email: userData?.email,
       username: userData?.username,
       user_wallet_address: userWallet,
       user_id: `${userData?.user_id}`,
-      // "network": network,
+      network: network,
     };
 
     try {
@@ -210,7 +225,6 @@ const Dashboard = () => {
 
       setustdAmount(localStorage.removeItem("usdtAmount"));
       getBnbAmount(localStorage.removeItem("convertAmount"));
-      setUserWallet(localStorage.removeItem("userWalletAddress"));
       const data = await response.json();
       const newCurrencyId =
         data?.response?.invoices[0]?.payment?.paymentCurrencies[0]?.currency
@@ -240,6 +254,8 @@ const Dashboard = () => {
       }
 
       setustdAmount("");
+      localStorage.setItem("recipentWalletAddress", JSON.stringify(userWallet));
+      // setWalletData('');
       setUserWallet("");
       setLoading(false);
     } catch (error) {
@@ -353,6 +369,14 @@ const handleConnectWallet = async () => {
       setSelectedToken(data?.data[0]);
     }
   };
+
+  //network status
+  const getNetworkStatus = async () => {
+    const {data}  = await axios.get( `${baseUrl}network-status`);
+    setNetwork(data?.network_setting);
+  };
+
+
   //GET USDT PRICE FROM API
   const getUSDTprice = async () => {
     const { data } = await axios.get(
@@ -404,8 +428,8 @@ const handleConnectWallet = async () => {
       // ✅ Fetch balance and token holdings for stored address
       // fetchTokenHoldings(provider, address);
     // }
-  
     handleTokenApi();
+    getNetworkStatus();
     getUSDTprice();
     getUSDCprice();
   }, []);
@@ -451,7 +475,7 @@ const handleConnectWallet = async () => {
     if (status !== "completed") return;
 
     console.log("coinpayments/Tokenator");
-
+const recipentWalletAddress=JSON.parse(localStorage.getItem("recipentWalletAddress"));
     const handlePin = async () => {
       try {
         await axios.post(`${baseUrl}coinpayments/Tokenator`, {
@@ -464,13 +488,14 @@ const handleConnectWallet = async () => {
           ),
           currency: selectedToken?.name,
           user_email: userData?.email,
-          user_wallet_address: userWallet,
+          user_wallet_address: recipentWalletAddress,
           custom: 1,
           token_contract_address: selectedToken?.token_contract_address,
         });
 
         setStatus(null); // ✅ Reset status
         setinvoicesId(null);
+        localStorage.removeItem("recipentWalletAddress");
       } catch (error) {
         console.error("Error handling pin:", error);
       }
@@ -479,6 +504,7 @@ const handleConnectWallet = async () => {
     handlePin();
   }, [status]);
 
+ 
   return (
     <SactionContainer container={false}>
       <div className="w-100 mt-5  mb-3 pt-5 pl-3">
@@ -768,11 +794,20 @@ const handleConnectWallet = async () => {
 
               <div className="section4 rounded-3 m-3 p-3 ">
                 <div className="text-center">
-                  <div className="section4-head">Buy Tokens</div>
-                  <div  style={{color: '#F7B138'}}>
-                    "Payment Module is under development. It will receive only
-                    LTCT currency for now (TestNet only)"
+                  <div className="section4-head">Buy IVT</div>
+                  <div>
+                      {network === 'Testnet' && (
+                          <div className="text-warning">
+                              Payment Module is under development. It will receive only LTCT currency for now (TestNet only).
+                          </div>
+                      )}
+                      {network === 'Mainnet' && (
+                          <div className="text-warning">
+                              You are on Mainnet.
+                          </div>
+                      )}
                   </div>
+
                 </div>
                 <div className="currConverter col-sm-12  col-lg-12 col-md-12">
                   <div className="row">

@@ -369,19 +369,19 @@ const fetchTokenHoldings = async (provider, address) => {
                             : "dropdown "
                         }
                       >
-                         {/* <HeaderLink
+                         <HeaderLink
                           text="Shop"
                           onClick={() => {
                             navigate(userData?"/Dashboard":"/Login");
                           }}
-                        /> */}
-                        <HeaderLink
+                        />
+                        {/* <HeaderLink
                           text="Shop"
                           onClick={() => {
                             navigate("/shop");
                             
                           }}
-                        />
+                        /> */}
                       </li>
                       {/* <li
                         className={
@@ -628,6 +628,7 @@ const fetchTokenHoldings = async (provider, address) => {
                             }}
                             onClick={() => {
                               handleLogout();
+                              handleDisconnect();
                               setAccountMenuOpen(false)
                             }}
                           >
