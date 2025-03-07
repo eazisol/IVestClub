@@ -286,6 +286,7 @@ const Dashboard = () => {
       localStorage.setItem("recipentWalletAddress", JSON.stringify(userWallet));
       // setWalletData('');
       setUserWallet("");
+      localStorage.removeItem("userWalletAddress");
       setLoading(false);
     } catch (error) {
       setLoading(false);
