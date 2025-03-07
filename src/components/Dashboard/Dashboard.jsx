@@ -53,7 +53,6 @@ function createData(currObj, avail, amount, action) {
   return { currObj, avail, amount, action, Icon };
 }
 
-
 const USDT_CONTRACT_ADDRESS = "0xdAC17F958D2ee523a2206206994597C13D831ec7";
 const ERC20_ABI = [
   {
@@ -86,7 +85,7 @@ const Dashboard = () => {
   const [selectedToken, setSelectedToken] = useState(null);
   const [usdtData, setUSDTData] = useState("");
   const [usdcData, setUSDCData] = useState("");
-  
+
   const [usdtBalance, setUsdtBalance] = useState(null);
   const [statusData, setAllStatusData] = useState(null);
   const [tokenHoldings, setTokenHoldings] = useState(null);
@@ -102,13 +101,14 @@ const Dashboard = () => {
       `${myWalletAmount}`,
       "Convert"
     ),
-    
+
     createData(
       { name: "IVT", des: "IVT" },
       balance?.[0]?.balance,
       `${myWalletAmount}`,
       "Convert"
-    ),createData(
+    ),
+    createData(
       { name: "ISPX", des: "Spacextoken" },
       balance?.[1]?.balance,
       `${myWalletAmount}`,
@@ -131,6 +131,10 @@ const Dashboard = () => {
         price * parseFloat(usdtAmount)) /
         conversionRate
     ).toFixed(4);
+  };
+  const getNetworkStatus = async () => {
+    const { data } = await axios.get(`${baseUrl}network-status`);
+    setNetwork(data?.network_setting);
   };
 
   // handling network change
@@ -183,7 +187,10 @@ const Dashboard = () => {
     console.log("selectedCurrency", selectedCurrency);
 
     const requestData = {
-      currency: selectedCurrency=='USDC.ERC20'?'4:0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48':"1002",
+      currency:
+        selectedCurrency == "USDC.ERC20"
+          ? "4:0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+          : "1002",
       items: [
         {
           name: "test item",
@@ -216,7 +223,10 @@ const Dashboard = () => {
         },
       },
       payment: {
-        paymentCurrency:selectedCurrency=='USDC.ERC20'?'4:0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48':"1002",
+        paymentCurrency:
+          selectedCurrency == "USDC.ERC20"
+            ? "4:0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+            : "1002",
         refundEmail: "test@test.com",
       },
       // Format numeric values with fixed precision
@@ -389,13 +399,6 @@ const Dashboard = () => {
     }
   };
 
-  //network status
-  const getNetworkStatus = async () => {
-    const {data}  = await axios.get( `${baseUrl}network-status`);
-    setNetwork(data?.network_setting);
-  };
-
-
   //GET USDT PRICE FROM API
   const getUSDTprice = async () => {
     const { data } = await axios.get(
@@ -409,21 +412,6 @@ const Dashboard = () => {
     );
     setUSDCData(data);
   };
-  // // useEffect hook that runs once to handle MetaMask account and network changes
-  // useEffect(() => {
-  //   if (window.ethereum) {
-  //     window.ethereum.on("accountsChanged", () => {
-  //       handleConnectWallet();
-  //     });
-  //     window.ethereum.on("chainChanged", () => {
-  //       window.location.reload();
-  //     });
-  //   }
-  //   handleConnectWallet();
-  //   handleTokenApi();
-  //   getUSDTprice();
-  //   getUSDCprice();
-  // }, []);
 
   useEffect(() => {
     if (window.ethereum) {
@@ -435,17 +423,6 @@ const Dashboard = () => {
       });
     }
 
-    // ✅ Restore wallet & holdings from localStorage on reload
-
-    // if (savedWallet) {
-    // const { address } = JSON.parse(savedWallet);
-    // const provider = new ethers.providers.Web3Provider(window.ethereum);
-    // const signer = provider.getSigner();
-    // setWalletData({ provider, signer, address });
-
-    // ✅ Fetch balance and token holdings for stored address
-    // fetchTokenHoldings(provider, address);
-    // }
     handleTokenApi();
     getNetworkStatus();
     getUSDTprice();
@@ -467,66 +444,65 @@ const Dashboard = () => {
     getBnbAmount(convertAmount);
     setUserWallet(userWalletAddress);
   }, []);
-  useEffect(() => {
-    if (!invoicesId) return;
-    // Function to periodically check the transaction status from CoinPayments API
-    const checkTransactionStatus = async () => {
-      try {
-        const response = await axios.get(
-          `${baseUrl}coinpayments/invoice/${invoicesId}/currency/${currencyId}/status`
-        );
+  // useEffect(() => {
+  //   if (!invoicesId) return;
+  //   // Function to periodically check the transaction status from CoinPayments API
+  //   const checkTransactionStatus = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         `${baseUrl}coinpayments/invoice/${invoicesId}/currency/${currencyId}/status`
+  //       );
 
-        if (response?.data?.status === "completed") {
-          setStatus("completed");
-          setAllStatusData(response?.data);
-          clearInterval(intervalId);
-        }
-      } catch (error) {
-        console.error("Error while checking transaction status:", error);
-      }
-    };
-    // If the transaction is completed (status == 100), stop checking
-    const intervalId = setInterval(checkTransactionStatus, 5000);
+  //       if (response?.data?.status === "completed") {
+  //         setStatus("completed");
+  //         setAllStatusData(response?.data);
+  //         clearInterval(intervalId);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error while checking transaction status:", error);
+  //     }
+  //   };
+  //   // If the transaction is completed (status == 100), stop checking
+  //   const intervalId = setInterval(checkTransactionStatus, 5000);
 
-    return () => clearInterval(intervalId);
-  }, [invoicesId]);
+  //   return () => clearInterval(intervalId);
+  // }, [invoicesId]);
   // ✅ Trigger handlePin only when status is "completed"
-  useEffect(() => {
-    if (status !== "completed") return;
+  //   useEffect(() => {
+  //     if (status !== "completed") return;
 
-    console.log("coinpayments/Tokenator");
-const recipentWalletAddress=JSON.parse(localStorage.getItem("recipentWalletAddress"));
-    const handlePin = async () => {
-      try {
-        await axios.post(`${baseUrl}coinpayments/Tokenator`, {
-          status: status,
-          txn_id: invoicesId,
-          amountusdt:
-            statusData?.payment?.expectedAmount?.breakdown?.[0]?.displayValue,
-          amounttoken: getBnbAmount(
-            statusData?.payment?.expectedAmount?.breakdown?.[0]?.displayValue
-          ),
-          currency: selectedToken?.name,
-          user_email: userData?.email,
-          user_wallet_address: recipentWalletAddress,
-          custom: 1,
-          token_contract_address: selectedToken?.token_contract_address,
-          network: network,
-        });
+  //     console.log("coinpayments/Tokenator");
+  // const recipentWalletAddress=JSON.parse(localStorage.getItem("recipentWalletAddress"));
+  //     const handlePin = async () => {
+  //       try {
+  //         await axios.post(`${baseUrl}coinpayments/Tokenator`, {
+  //           status: status,
+  //           txn_id: invoicesId,
+  //           amountusdt:
+  //             statusData?.payment?.expectedAmount?.breakdown?.[0]?.displayValue,
+  //           amounttoken: getBnbAmount(
+  //             statusData?.payment?.expectedAmount?.breakdown?.[0]?.displayValue
+  //           ),
+  //           currency: selectedToken?.name,
+  //           user_email: userData?.email,
+  //           user_wallet_address: recipentWalletAddress,
+  //           custom: 1,
+  //           token_contract_address: selectedToken?.token_contract_address,
+  //           network: network,
+  //         });
 
-        setStatus(null); // ✅ Reset status
-        setinvoicesId(null);
-        localStorage.removeItem("recipentWalletAddress");
-        localStorage.removeItem("userWalletAddress");
-      } catch (error) {
-        console.error("Error handling pin:", error);
-      }
-    };
+  //         setStatus(null); // ✅ Reset status
+  //         setinvoicesId(null);
+  //         localStorage.removeItem("recipentWalletAddress");
+  //         localStorage.removeItem("userWalletAddress");
+  //       } catch (error) {
+  //         console.error("Error handling pin:", error);
+  //       }
+  //     };
 
-    handlePin();
-  }, [status]);
+  //     handlePin();
+  //   }, [status]);
 
- 
   return (
     <SactionContainer container={false}>
       <div className="w-100 mt-5  mb-3 pt-5 pl-3">
@@ -548,7 +524,7 @@ const recipentWalletAddress=JSON.parse(localStorage.getItem("recipentWalletAddre
                     <h4 className="mb-0 pl-2">
                       {" "}
                       <strong className="currDigit">
-                        {balance?.[0]?.balance}  
+                        {balance?.[0]?.balance}
                       </strong>
                     </h4>
                     <p className="currDollar mt-2 LightText w-100 pl-3">
@@ -820,18 +796,19 @@ const recipentWalletAddress=JSON.parse(localStorage.getItem("recipentWalletAddre
                 <div className="text-center">
                   <div className="section4-head">Buy Token</div>
                   <div>
-                      {network === 'Testnet' && (
-                          <div className="text-warning">
-                              Payment Module is under development. It will receive only LTCT currency for now (TestNet only).
-                          </div>
-                      )}
-                      {network === 'Mainnet' && (
-                          <div className="text-warning">
-                              You are on Mainnet.
-                          </div>
-                      )}
+                    {network === "Testnet" && (
+                      <div className="text-warning">
+                        Payment Module is under development. It will receive
+                        only LTCT currency for now (TestNet only).
+                      </div>
+                    )}
+                    {network === "Mainnet" && (
+                      <div className="text-warning">You are on Mainnet.</div>
+                    )}
+                    <div className="text-warning">
+                      Token transfer process could take upto 1 hour.
+                    </div>
                   </div>
-
                 </div>
                 <div className="currConverter col-sm-12  col-lg-12 col-md-12">
                   <div className="row">
@@ -862,10 +839,23 @@ const recipentWalletAddress=JSON.parse(localStorage.getItem("recipentWalletAddre
                             data-bs-toggle="dropdown"
                             aria-expanded="false"
                           >
-                            <Usdt />
+                            <img
+                              src="https://api.coinpayments.com/api/v1/currencies/4:0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48/logosvg?time=1741330018143"
+                              alt="Example"
+                              style={{
+                                width: "21px",
+                                height: "21px",
+                                objectFit: "cover",
+                                marginRight: "3px",
+                              }}
+                            />
+
                             <span>
                               USDC
-                              <span style={{ fontSize: "9px" }}> {''}(ERC20)</span>
+                              <span style={{ fontSize: "9px" }}>
+                                {" "}
+                                {""}(ERC20)
+                              </span>
                             </span>
                           </button>
                           {/* <ul className="dropdown-menu">
