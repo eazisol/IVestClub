@@ -74,6 +74,7 @@ const JoinMembership = () => {
         joinClub();
       } else {
         setOpenModal1(false);
+        window.open("https://discord.gg/MfXhJasq4W", "_blank");
         setOpenModal2(true);
       }
     }
@@ -101,6 +102,7 @@ const JoinMembership = () => {
   };
 
   const handleDiscordId = () => {
+    // window.open("https://discord.gg/MfXhJasq4W", "_blank");
     setSubmitClicked(true);
     if (!formData.userId) {
       return;

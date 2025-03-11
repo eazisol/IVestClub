@@ -7,12 +7,13 @@ import TableRow from "@mui/material/TableRow";
 import Tooltip from "@mui/material/Tooltip";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle"; // ✅ Icon for copied status
+import OpenInNewIcon from "@mui/icons-material/OpenInNew"; // Icon for external link
 
 import { SactionContainer } from "../Common/Containers";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import ProfileCard from "../Dashboard/ProfileCard";
-import { CircularProgress, IconButton, Box } from "@mui/material";
+import { CircularProgress, IconButton, Box, Link } from "@mui/material";
 import { baseUrl } from "../../../apiConfig";
 
 // Function to get status color
@@ -44,6 +45,9 @@ const shortenText = (text) => {
   return `${text.substring(0, 4)}***${text.substring(text.length - 3)}`;
 };
 
+// Sepolia Etherscan base URL
+const SEPOLIA_ETHERSCAN_URL = "https://sepolia.etherscan.io/tx/";
+
 export const TransactionHistory = () => {
   const [transactionData, setTransactionData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -74,6 +78,12 @@ export const TransactionHistory = () => {
     setTimeout(() => {
       setCopied((prev) => ({ ...prev, [id]: false })); // Reset after 2 seconds
     }, 2000);
+  };
+
+  // Function to open Etherscan in a new tab
+  const openEtherscan = (txHash) => {
+    if (!isValidValue(txHash)) return;
+    window.open(`${SEPOLIA_ETHERSCAN_URL}${txHash}`, '_blank');
   };
 
   return (
@@ -182,6 +192,8 @@ export const TransactionHistory = () => {
                                   <Tooltip title={row.tx_hash} placement="top">
                                     <span className="tableHeadText">
                                       {shortenText(row.tx_hash)}
+                                      
+                                      {/* Copy button */}
                                       <IconButton
                                         size="small"
                                         onClick={() => handleCopy(row.tx_hash, `txhash-${index}`)}
@@ -191,6 +203,16 @@ export const TransactionHistory = () => {
                                         ) : (
                                           <ContentCopyIcon fontSize="small" />
                                         )}
+                                      </IconButton>
+                                      
+                                      {/* Open in Etherscan button */}
+                                      <IconButton
+                                        size="small"
+                                        onClick={() => openEtherscan(row.tx_hash)}
+                                        color="primary"
+                                        title="View on Etherscan Sepolia"
+                                      >
+                                        <OpenInNewIcon fontSize="small" />
                                       </IconButton>
                                     </span>
                                   </Tooltip>

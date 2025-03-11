@@ -51,6 +51,13 @@ const PrivateMembership = () => {
     console.log("import.meta.env.VITE_APP_API_IMG_URL",import.meta.env.VITE_APP_DISCORD_SERVER_ID)
   }, []);
 
+  
+  useEffect(() => {
+    if (Object.keys(data).length > 0) { // Ensure data is not empty
+      localStorage.setItem("membershipData", JSON.stringify(data));
+    }
+  }, [data]);
+  
   // useEffect(() => {
   //   console.log("ratingData",ratingData);
 

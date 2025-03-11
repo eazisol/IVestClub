@@ -6,7 +6,7 @@ import { Ethereum, Bitcoin, Usdt } from "../Common/CurrencyIcons";
 import { Avatar, PdfIcon, DocIcon, SidebarImg } from "../Common/Icons";
 import { NavLink } from "react-bootstrap";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
-import { imgUrl } from "../../../apiConfig";
+import { baseUrl, imgUrl } from "../../../apiConfig";
 import { formatBytes, formatdateHeading } from "../Common/Utills";
 import ImageOutlinedIcon from "@mui/icons-material/ImageOutlined";
 import { useNavigate } from "react-router-dom";
@@ -14,6 +14,8 @@ import { appData } from "../Context/AppContext";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import SpaceDashboardOutlinedIcon from '@mui/icons-material/SpaceDashboardOutlined';
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
+import axios from "axios";
+
 const SideBarMembership = ({
   memberorlist,
   files,
@@ -26,9 +28,27 @@ const SideBarMembership = ({
   const [newsLimit, setNewsLimit] = useState(3);
   const [filesLimit, setFilesLimit] = useState(3);
   const [articalsLimit, setArticalsLimit] = useState(1);
+  const [tokens, setTokens] = useState([]);
+  console.log("token: ", tokens);
+ 
+
+  const [membershipDetails, setMembershipDetails] = useState(() => {
+    const savedData = localStorage.getItem("membershipData");
+    return JSON.parse(savedData);
+    // return savedData ? JSON.parse(savedData) : null;
+  });
+
+
   const navigate = useNavigate();
+  
+  
+  
   const getFileIcon = (fileName) => {
+    
+    
+    
     const extension = fileName.split(".").pop().toLowerCase();
+
 
     switch (extension) {
       case "pdf":
@@ -63,27 +83,45 @@ const SideBarMembership = ({
         return <ImageOutlinedIcon sx={{ fontSize: 40, color: "#ccc" }} />; // Default icon for unknown file types
     }
   };
+
+  useEffect(() => {
+    axios.get(`${baseUrl}token/getAllTokenData`)
+      .then(response => {
+        if (response.data.success) {
+          setTokens(response.data.data);
+        }
+      })
+      .catch(error => console.error("Error fetching token data:", error));
+  }, []);
+
   return (
     <>
       <div className="card card-border-c p-0 overflow-hidden">
         <div className=" bg-basic px-4 py-3">
           <div className="w-100 d-flex justify-content-between align-items-center mt-2 pt-2">
             <div className="d-flex">
-              <div
-                className=" d-flex justify-content-between align-items-center mr-2"
-                style={{
-                  padding: 5,
-                  backgroundColor: "#F5A93F",
-                  borderRadius: "30px",
-                  height: "30px",
-                  width: "30px",
-                }}
-              >
-                <CurrencyBitcoinOutlinedIcon
-                  sx={{ color: "#fff", fontSize: 19 }}
+            <div
+              className="d-flex justify-content-between align-items-center mr-2"
+              style={{
+                padding: 5,
+                backgroundColor: "#F5A93F",
+                borderRadius: "30px",
+                height: "30px",
+                width: "30px",
+              }}
+            >
+              {tokens.find(token => token.name === "IVT")?.logo ? (
+                <img
+                  src={`${imgUrl}${tokens.find(token => token.name === "IVT")?.logo}`}
+                  alt="IVT Logo"
+                  style={{ width: "100%", height: "100%", borderRadius: "50%" }}
                 />
-              </div>
-              <h4 className="mb-0 pop-font bold-4">2.06268</h4>
+              ) : (
+                <span style={{ color: "#fff", fontSize: 12 }}>IVT</span> // Fallback text
+              )}
+            </div>
+
+              <h4 className="mb-0 pop-font bold-4">${tokens.find(token => token.name === "IVT")?.token_conversion_rate || "N/A"}</h4>
             </div>
             <div className="">
               <p className="mb-0 text-basic" style={{ fontSize: "11px" }}>
@@ -93,70 +131,36 @@ const SideBarMembership = ({
                 style={{ fontSize: "11px", textAlign: "center" }}
                 className="text-light bold-2"
               >
-                4/22/2024
+                {membershipDetails.memberorlist[0].created_at}
               </p>
             </div>
           </div>
           <div className="w-100 mb-2 pb-1 mt-3">
-            <OutlinedButtonWarning text={"Buy More OpenAI Membership Tokens"} onClick={() => {navigate(`/ConnectWallet`)}}/>
+            <OutlinedButtonWarning text={"Buy More OpenAI Membership Tokens"} onClick={() => {navigate(`/Dashboard`)}}/>
           </div>
         </div>
-        <div className="p-4  ">
-          <h6 className="text-dark mb-3 sideHeadText">
-            <>Your Current Holdings</>
-          </h6>
-          <div className="d-flex align-items-center mt-2">
-            <div className="col-1 p-0">
-              <p className="text-secondary text-xs mb-0">1</p>
-            </div>
-            <div className="col-7 pl-0 d-flex pr-0 align-items-center">
-              <Bitcoin size={20} />
-              <p className="text-dark mb-0 mt-1 pl-1">
-                <strong className="text-sm bold-6">BTC</strong>
-                <small className="text-xs text-grey "> Bitcoin</small>
-              </p>
-            </div>
-            <div className="col-4 px-0 pr-1 text-right">
-              <p className="text-dark mb-0 mt-1">
-                <span className="text-sm bold6">$2,346.787</span>
-              </p>
-            </div>
+        <div className="p-4">
+      <h6 className="text-dark mb-3 sideHeadText">Your Current Holdings</h6>
+      {tokens.map((token, index) => (
+        <div className="d-flex align-items-center mt-2" key={token.tokenId}>
+          <div className="col-1 p-0">
+            <p className="text-secondary text-xs mb-0">{index + 1}</p>
           </div>
-          <div className="d-flex  align-items-center mt-2">
-            <div className="col-1 p-0">
-              <p className="text-secondary text-xs mb-0">2</p>
-            </div>
-            <div className="col-7 pl-0 pr-0 d-flex align-items-center">
-              <Ethereum size={20} />
-              <p className="text-dark  mb-0 mt-1 pl-1">
-                <strong className="text-sm bold-6">ETH</strong>
-                <small className="text-xs text-grey"> Ethereum</small>
-              </p>
-            </div>
-            <div className="col-4 px-0 pr-1 text-right ">
-              <p className="text-dark mb-0 mt-1">
-                <span className="bold-6 text-sm">$34,332.787</span>
-              </p>
-            </div>
+          <div className="col-7 pl-0 d-flex pr-0 align-items-center">
+            <img src={`${imgUrl}${token.logo}`} alt={token.symbol} width={20} height={20} />
+            <p className="text-dark mb-0 mt-1 pl-1">
+              <strong className="text-sm bold-6">{token.symbol}</strong>
+              <small className="text-xs text-grey"> {token.name}</small>
+            </p>
           </div>
-          <div className="d-flex align-items-center mt-2 mb-3">
-            <div className="col-1 p-0">
-              <p className="text-secondary text-xs mb-0">3</p>
-            </div>
-            <div className="col-7 pl-0 d-flex pr-0 align-items-center">
-              <Usdt size={20} />
-              <p className="text-dark mb-0 mt-1 pl-1">
-                <strong className="text-sm bold-6">USDT</strong>
-                <small className="text-xs text-grey"> TetherUS</small>
-              </p>
-            </div>
-            <div className="col-4 px-0 pr-1 text-right">
-              <p className="text-dark mb-0 mt-1">
-                <span className="bold-6 text-sm">$3,455.787</span>
-              </p>
-            </div>
+          <div className="col-4 px-0 pr-1 text-right">
+            <p className="text-dark mb-0 mt-1">
+              <span className="text-sm bold-6">${parseFloat(token.token_conversion_rate).toFixed(2)}</span>
+            </p>
           </div>
         </div>
+      ))}
+    </div>
       </div>
       <div className="card card-border-c mt-3">
         <div className="p-4">
