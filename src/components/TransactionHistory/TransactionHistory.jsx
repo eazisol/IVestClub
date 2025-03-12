@@ -7,10 +7,9 @@ import TableRow from "@mui/material/TableRow";
 import Tooltip from "@mui/material/Tooltip";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle"; // ✅ Icon for copied status
-import OpenInNewIcon from "@mui/icons-material/OpenInNew"; // Icon for external link
 
 import { SactionContainer } from "../Common/Containers";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import axios from "axios";
 import ProfileCard from "../Dashboard/ProfileCard";
 import { CircularProgress, IconButton, Box, Link } from "@mui/material";
@@ -67,24 +66,47 @@ export const TransactionHistory = () => {
     };
     getTransactionHistory();
   }, []);
+  
+  // Create a memoized reversed version of the data to prevent re-sorting on each render
+  const reversedData = useMemo(() => {
+    return [...(transactionData || [])].reverse();
+  }, [transactionData]);
 
-  // Function to copy text to clipboard and show "Copied!"
-  const handleCopy = (text, id) => {
-    if (!isValidValue(text)) return; // Prevent copying empty values
-
-    navigator.clipboard.writeText(text);
-    setCopied((prev) => ({ ...prev, [id]: true })); // Show "Copied!"
-
-    setTimeout(() => {
-      setCopied((prev) => ({ ...prev, [id]: false })); // Reset after 2 seconds
-    }, 2000);
-  };
-
-  // Function to open Etherscan in a new tab
-  const openEtherscan = (txHash) => {
-    if (!isValidValue(txHash)) return;
-    window.open(`${SEPOLIA_ETHERSCAN_URL}${txHash}`, '_blank');
-  };
+  // Function to copy text to clipboard and show "Copied!" - using useCallback to ensure stability
+  const copyToClipboard = useCallback((text, id) => {
+    if (!isValidValue(text)) return;
+    
+    // Use a textarea element as a fallback method for clipboard copy
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed'; // Prevent scrolling to bottom
+    document.body.appendChild(textarea);
+    textarea.select();
+    
+    try {
+      const successful = document.execCommand('copy');
+      if (successful) {
+        // Create a new object instead of modifying the existing one
+        setCopied(prevState => ({
+          ...prevState,
+          [id]: true
+        }));
+        
+        setTimeout(() => {
+          setCopied(prevState => ({
+            ...prevState,
+            [id]: false
+          }));
+        }, 2000);
+      } else {
+        console.error('Failed to copy text');
+      }
+    } catch (err) {
+      console.error('Error copying text: ', err);
+    }
+    
+    document.body.removeChild(textarea);
+  }, []);
 
   return (
     <SactionContainer container={false}>
@@ -129,30 +151,36 @@ export const TransactionHistory = () => {
                             <CircularProgress />
                           </TableCell>
                         </TableRow>
-                      ) : transactionData.length === 0 ? (
+                      ) : reversedData.length === 0 ? (
                         <TableRow>
                           <TableCell colSpan={7} align="center">
                             <span className="tableHeadText">No Transaction History</span>
                           </TableCell>
                         </TableRow>
                       ) : (
-                        transactionData.reverse().map((row, index) => {
+                        reversedData.map((row, index) => {
                           let fullDate = row?.created_at ? new Date(row.created_at).toLocaleString("en-GB") : "N/A";
                           let shortDate = row?.created_at ? new Date(row.created_at).toLocaleDateString("en-GB") : "N/A";
 
                           return (
-                            <TableRow key={index} className="tableRow">
+                            <TableRow key={`row-${index}`} className="tableRow">
                               <TableCell align="center">
                                 <span className="tableHeadText">{index + 1}</span>
                               </TableCell>
                               <TableCell align="center">
                                 {isValidValue(row?.transaction_id) ? (
-                                  <Tooltip title={row.transaction_id} placement="top">
-                                    <span className="tableHeadText">
-                                      {shortenText(row.transaction_id)}
+                                  <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                    <Tooltip title={row.transaction_id} placement="top">
+                                      <span className="tableHeadText">
+                                        {shortenText(row.transaction_id)}
+                                      </span>
+                                    </Tooltip>
+                                    
+                                    <Tooltip title="Copy Transaction ID">
                                       <IconButton
                                         size="small"
-                                        onClick={() => handleCopy(row.transaction_id, `txid-${index}`)}
+                                        onClick={() => copyToClipboard(row.transaction_id, `txid-${index}`)}
+                                        sx={{ ml: 1 }}
                                       >
                                         {copied[`txid-${index}`] ? (
                                           <CheckCircleIcon color="success" fontSize="small" />
@@ -160,8 +188,8 @@ export const TransactionHistory = () => {
                                           <ContentCopyIcon fontSize="small" />
                                         )}
                                       </IconButton>
-                                    </span>
-                                  </Tooltip>
+                                    </Tooltip>
+                                  </Box>
                                 ) : (
                                   "N/A"
                                 )}
@@ -189,14 +217,30 @@ export const TransactionHistory = () => {
                               </TableCell>
                               <TableCell align="center">
                                 {isValidValue(row?.tx_hash) ? (
-                                  <Tooltip title={row.tx_hash} placement="top">
-                                    <span className="tableHeadText">
-                                      {shortenText(row.tx_hash)}
-                                      
-                                      {/* Copy button */}
+                                  <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                    <Tooltip title={row.tx_hash} placement="top">
+                                      <Link
+                                        href={`${SEPOLIA_ETHERSCAN_URL}${row.tx_hash}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        underline="hover"
+                                        sx={{ 
+                                          cursor: 'pointer',
+                                          color: 'primary.main',
+                                          display: 'inline-block' 
+                                        }}
+                                        className="tableHeadText"
+                                        onClick={(e) => e.stopPropagation()}
+                                      >
+                                        {shortenText(row.tx_hash)}
+                                      </Link>
+                                    </Tooltip>
+                                    
+                                    <Tooltip title="Copy TX Hash">
                                       <IconButton
                                         size="small"
-                                        onClick={() => handleCopy(row.tx_hash, `txhash-${index}`)}
+                                        onClick={() => copyToClipboard(row.tx_hash, `txhash-${index}`)}
+                                        sx={{ ml: 1 }}
                                       >
                                         {copied[`txhash-${index}`] ? (
                                           <CheckCircleIcon color="success" fontSize="small" />
@@ -204,18 +248,8 @@ export const TransactionHistory = () => {
                                           <ContentCopyIcon fontSize="small" />
                                         )}
                                       </IconButton>
-                                      
-                                      {/* Open in Etherscan button */}
-                                      <IconButton
-                                        size="small"
-                                        onClick={() => openEtherscan(row.tx_hash)}
-                                        color="primary"
-                                        title="View on Etherscan Sepolia"
-                                      >
-                                        <OpenInNewIcon fontSize="small" />
-                                      </IconButton>
-                                    </span>
-                                  </Tooltip>
+                                    </Tooltip>
+                                  </Box>
                                 ) : (
                                   "N/A"
                                 )}
