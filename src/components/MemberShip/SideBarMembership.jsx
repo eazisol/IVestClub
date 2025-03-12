@@ -33,6 +33,8 @@ const SideBarMembership = ({
   const queryParams = new URLSearchParams(window.location.search);
   const idParam = queryParams.get("id");
   console.log("tokens: ", tokens);
+  const shareUrl = `${imgUrl}/Membership/Public?id=${idParam}`;
+  const encodedShareUrl=encodeURIComponent(shareUrl);
 
   const [tokenHoldings, setTokenHoldings] = useState({});
   const navigate = useNavigate();
@@ -594,15 +596,44 @@ const SideBarMembership = ({
         </div>
       </div>
       <div className="container mt-4 mb-5">
-        <div className="share mont-font bold-7  text-dark">Share</div>
-        <div className="iconContainer d-flex justify-content-between mt-3">
-          <div className="sideBaricon fab  fa-facebook-f"> </div>
-          <div className="sideBaricon fab fa-twitter"></div>
-          <div className="sideBaricon fab fa-whatsapp "></div>
-          <div className="sideBaricon fab fa-instagram"> </div>
-          <div className="sideBaricon fab fa-youtube"></div>
-        </div>
+      <div className="share mont-font bold-7 text-dark">Share</div>
+      <div className="iconContainer d-flex justify-content-between mt-3">
+        <a
+          href={`https://www.facebook.com/sharer/sharer.php?u=${encodedShareUrl}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="sideBaricon fab fa-facebook-f"
+        ></a>
+
+        <a
+          href={`https://twitter.com/intent/tweet?url=${encodedShareUrl}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="sideBaricon fab fa-twitter"
+        ></a>
+
+        <a
+          href={`https://api.whatsapp.com/send?text=${encodedShareUrl}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="sideBaricon fab fa-whatsapp"
+        ></a>
+
+        <a
+          href={`https://www.instagram.com/?url=${encodedShareUrl}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="sideBaricon fab fa-instagram"
+        ></a>
+
+        {/* <a
+          href={`https://www.youtube.com/share?url=${encodedShareUrl}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="sideBaricon fab fa-youtube"
+        ></a> */}
       </div>
+    </div>
     </>
   );
 };

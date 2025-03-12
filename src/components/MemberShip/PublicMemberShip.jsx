@@ -417,7 +417,7 @@ const PublicMemberShip = () => {
             </p>
             <div className="mt-4 pt-2 mb-4 pb-2 d-flex row ">
               <div className="col-lg-4 col-sm-12 mt-1 ">
-                <LargeButton text="Buy your IVC tokens"onClick={() => {navigate(`/ConnectWallet`)}} />
+                <LargeButton text="Buy your IVT tokens"onClick={() => {navigate(`/shop`)}} />
               </div>
               <div className="col-lg-8 col-sm-12 mt-1">
               <JoinMembership />
