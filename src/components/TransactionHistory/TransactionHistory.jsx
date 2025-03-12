@@ -18,12 +18,16 @@ import { baseUrl } from "../../../apiConfig";
 // Function to get status color
 const getStatusColor = (status) => {
   switch (status?.toLowerCase()) {
-    case "completed":
+    case "token-sent":
       return "#4CAF50"; // Green
+    case "completed":
+      return "#FFC107"; // Parrot  
     case "created":
-      return "#FFC107"; // Yellow
+      return "#B1ED4A"; // Yellow
+    case "payment-received":
+      return "#2196F3"; // Blue
     default:
-      return "#2196F3"; // Blue (Default for unknown statuses)
+      return "#FC6161"; // Red (Default for unknown statuses)
   }
 };
 
@@ -66,7 +70,7 @@ export const TransactionHistory = () => {
     };
     getTransactionHistory();
   }, []);
-  
+
   // Create a memoized reversed version of the data to prevent re-sorting on each render
   const reversedData = useMemo(() => {
     return [...(transactionData || [])].reverse();
@@ -75,14 +79,14 @@ export const TransactionHistory = () => {
   // Function to copy text to clipboard and show "Copied!" - using useCallback to ensure stability
   const copyToClipboard = useCallback((text, id) => {
     if (!isValidValue(text)) return;
-    
+
     // Use a textarea element as a fallback method for clipboard copy
     const textarea = document.createElement('textarea');
     textarea.value = text;
     textarea.style.position = 'fixed'; // Prevent scrolling to bottom
     document.body.appendChild(textarea);
     textarea.select();
-    
+
     try {
       const successful = document.execCommand('copy');
       if (successful) {
@@ -91,7 +95,7 @@ export const TransactionHistory = () => {
           ...prevState,
           [id]: true
         }));
-        
+
         setTimeout(() => {
           setCopied(prevState => ({
             ...prevState,
@@ -104,7 +108,7 @@ export const TransactionHistory = () => {
     } catch (err) {
       console.error('Error copying text: ', err);
     }
-    
+
     document.body.removeChild(textarea);
   }, []);
 
@@ -175,7 +179,7 @@ export const TransactionHistory = () => {
                                         {shortenText(row.transaction_id)}
                                       </span>
                                     </Tooltip>
-                                    
+
                                     <Tooltip title="Copy Transaction ID">
                                       <IconButton
                                         size="small"
@@ -224,10 +228,10 @@ export const TransactionHistory = () => {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         underline="hover"
-                                        sx={{ 
+                                        sx={{
                                           cursor: 'pointer',
                                           color: 'primary.main',
-                                          display: 'inline-block' 
+                                          display: 'inline-block'
                                         }}
                                         className="tableHeadText"
                                         onClick={(e) => e.stopPropagation()}
@@ -235,7 +239,7 @@ export const TransactionHistory = () => {
                                         {shortenText(row.tx_hash)}
                                       </Link>
                                     </Tooltip>
-                                    
+
                                     <Tooltip title="Copy TX Hash">
                                       <IconButton
                                         size="small"

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { SactionContainer } from "../Common/Containers";
 import CurrencyBitcoinOutlinedIcon from "@mui/icons-material/CurrencyBitcoinOutlined";
 import { OutlinedButtonDark, OutlinedButtonWarning } from "../Common/Buttons";
@@ -7,7 +7,7 @@ import { Avatar, PdfIcon, DocIcon, SidebarImg } from "../Common/Icons";
 import { NavLink } from "react-bootstrap";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 import { baseUrl, imgUrl } from "../../../apiConfig";
-import { formatBytes, formatdateHeading } from "../Common/Utills";
+import { decryptNumber, formatBytes, formatdateHeading } from "../Common/Utills";
 import ImageOutlinedIcon from "@mui/icons-material/ImageOutlined";
 import { useNavigate } from "react-router-dom";
 import { appData } from "../Context/AppContext";
@@ -15,13 +15,13 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import SpaceDashboardOutlinedIcon from '@mui/icons-material/SpaceDashboardOutlined';
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 import axios from "axios";
+import useApi from "../Hooks/useApi";
 
 const SideBarMembership = ({
   memberorlist,
   files,
   bloglist,
   newslist,
-  membershipData,
 }) => {
   const { newsData, setNewsData, articalData, setArticalData } = appData();
   const [memberLimit, setMemberLimit] = useState(3);
@@ -29,23 +29,110 @@ const SideBarMembership = ({
   const [filesLimit, setFilesLimit] = useState(3);
   const [articalsLimit, setArticalsLimit] = useState(1);
   const [tokens, setTokens] = useState([]);
-  console.log("token: ", tokens);
- 
+  const [membershipData, setMembershipData] = useState();
+  const queryParams = new URLSearchParams(window.location.search);
+  const idParam = queryParams.get("id");
+  console.log("tokens: ", tokens);
 
-  const [membershipDetails, setMembershipDetails] = useState(() => {
-    const savedData = localStorage.getItem("membershipData");
-    return JSON.parse(savedData);
-    // return savedData ? JSON.parse(savedData) : null;
-  });
-
-
+  const [tokenHoldings, setTokenHoldings] = useState({});
   const navigate = useNavigate();
+  // Keep track of the previous holdings to avoid unnecessary updates
+  const prevHoldingsRef = useRef(null);
   
   
+  const { mutate: getData, isPending: isMembershipLoading, error } = useApi();
+  const getMembershipData = () => {
+    getData(
+      {
+        url: `membershipclub/details/${decryptNumber(idParam)}`,
+        method: "GET",
+        sendHeaders: true,
+      },
+      {
+        onSuccess: (data) => {
+          console.log("get data 1234", data);
+         
+          setMembershipData(data);
+        },
+        onError: (error) => {
+          console.log(error);
+        },
+      }
+    );
+  };
+
+  // useEffect(() => {
+  //   getMembershipData();
+  //   console.log("import.meta.env.VITE_APP_API_IMG_URL",import.meta.env.VITE_APP_DISCORD_SERVER_ID)
+  //   // Fetch holdings from localStorage
+  //   const storedHoldings = JSON.parse(localStorage.getItem("tokenHoldings")) || [];
+  //   setTokenHoldings(storedHoldings); // Save holdings in state
+  //   console.log("tokenHoldings-useefecct",tokenHoldings)
+  // }, []);
+
+
+   // Function to get holdings from localStorage with deep comparison
+   const getTokenHoldingsFromStorage = () => {
+    const storedHoldings = JSON.parse(localStorage.getItem("tokenHoldings")) || [];
+    
+    // Only update if the holdings have actually changed
+    if (JSON.stringify(storedHoldings) !== JSON.stringify(prevHoldingsRef.current)) {
+      setTokenHoldings(storedHoldings);
+      prevHoldingsRef.current = storedHoldings;
+      console.log("tokenHoldings updated from storage:", storedHoldings);
+    }
+  };
+  
+
+  // Effect for initial setup and event listeners
+  useEffect(() => {
+    getMembershipData();
+    
+    // Initial fetch of holdings
+    getTokenHoldingsFromStorage();
+    
+    // Set up event listener for storage changes from other tabs
+    const handleStorageChange = (event) => {
+      if (event.key === "tokenHoldings") {
+        getTokenHoldingsFromStorage();
+      }
+    };
+    
+    // Set up event listener for wallet connection
+    const handleWalletConnection = () => {
+      getTokenHoldingsFromStorage();
+    };
+    
+    // Add event listeners
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('walletConnected', handleWalletConnection);
+    
+    // Use a MutationObserver to watch for changes to localStorage within this tab
+    const originalSetItem = localStorage.setItem;
+    localStorage.setItem = function(key, value) {
+      // Call the original function
+      originalSetItem.apply(this, arguments);
+      
+      // If the tokenHoldings key was modified, update our component
+      if (key === 'tokenHoldings') {
+        getTokenHoldingsFromStorage();
+      }
+    };
+    
+    // Clean up
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('walletConnected', handleWalletConnection);
+      
+      // Restore original localStorage.setItem
+      localStorage.setItem = originalSetItem;
+    };
+  }, []);
+
   
   const getFileIcon = (fileName) => {
     
-    
+  
     
     const extension = fileName.split(".").pop().toLowerCase();
 
@@ -121,7 +208,7 @@ const SideBarMembership = ({
               )}
             </div>
 
-              <h4 className="mb-0 pop-font bold-4">${tokens.find(token => token.name === "IVT")?.token_conversion_rate || "N/A"}</h4>
+              <h4 className="mb-0 pop-font bold-4">${tokens.find(token => token.symbol === "IVT")?.token_conversion_rate || "N/A"}</h4>
             </div>
             <div className="">
               <p className="mb-0 text-basic" style={{ fontSize: "11px" }}>
@@ -131,7 +218,8 @@ const SideBarMembership = ({
                 style={{ fontSize: "11px", textAlign: "center" }}
                 className="text-light bold-2"
               >
-                {membershipDetails.memberorlist[0].created_at}
+                {membershipData?.memberorlist[0]?.created_at}
+                {/* {membershipData?.memberorlist[0].created_at} */}
               </p>
             </div>
           </div>
@@ -139,28 +227,37 @@ const SideBarMembership = ({
             <OutlinedButtonWarning text={"Buy More OpenAI Membership Tokens"} onClick={() => {navigate(`/Dashboard`)}}/>
           </div>
         </div>
-        <div className="p-4">
-      <h6 className="text-dark mb-3 sideHeadText">Your Current Holdings</h6>
-      {tokens.map((token, index) => (
-        <div className="d-flex align-items-center mt-2" key={token.tokenId}>
-          <div className="col-1 p-0">
-            <p className="text-secondary text-xs mb-0">{index + 1}</p>
-          </div>
-          <div className="col-7 pl-0 d-flex pr-0 align-items-center">
-            <img src={`${imgUrl}${token.logo}`} alt={token.symbol} width={20} height={20} />
-            <p className="text-dark mb-0 mt-1 pl-1">
-              <strong className="text-sm bold-6">{token.symbol}</strong>
-              <small className="text-xs text-grey"> {token.name}</small>
-            </p>
-          </div>
-          <div className="col-4 px-0 pr-1 text-right">
-            <p className="text-dark mb-0 mt-1">
-              <span className="text-sm bold-6">${parseFloat(token.token_conversion_rate).toFixed(2)}</span>
-            </p>
-          </div>
+      <div  className=" p-2">
+            <h6 className="text-dark mb-3 sideHeadText ">Your Current Holdings</h6>
+            {tokens.length > 0 ? (
+                tokens.map((token, index) => {
+                    // Find holding using token name
+                    const holding = tokenHoldings.find(h =>  h.name.toUpperCase() === token.symbol);
+                    const balance = holding ? holding.balance : "0.0000"; 
+                    return (
+                        <div className="d-flex align-items-center mt-2" key={token.name}>
+                            <div className="col-1 p-0">
+                                <p className="text-secondary text-xs mb-0">{index + 1}</p>
+                            </div>
+                            <div className="col-7 pl-0 d-flex pr-0 align-items-center">
+                                <img src={`${imgUrl}${token.logo}`} alt={token.symbol} width={20} height={20} />
+                                <p className="text-dark mb-0 mt-1 pl-1">
+                                    <strong className="text-sm bold-6">{token.symbol}</strong>
+                                    <small className="text-xs text-grey"> {token.name}</small>
+                                </p>
+                            </div>
+                            <div className="col-4 px-0 pr-1 text-right">
+                                <p className="text-dark mb-0 mt-1">
+                                    <span className="text-sm bold-6">{balance}</span>
+                                </p>
+                            </div>
+                        </div>
+                    );
+                })
+            ) : (
+                <p className="text-secondary">No tokens available.</p>
+            )}
         </div>
-      ))}
-    </div>
       </div>
       <div className="card card-border-c mt-3">
         <div className="p-4">

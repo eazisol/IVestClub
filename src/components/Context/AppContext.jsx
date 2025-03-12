@@ -28,7 +28,7 @@ const [openModal, setOpenModal] = useState({
 })
 
 
-useEffect(() => {
+useEffect(() => {   
   const savedWallet = JSON.parse(localStorage.getItem('walletData'));
   if (savedWallet?.address) {
     setWalletData((prev) => ({
@@ -46,7 +46,6 @@ const handleLogout = () => {
   localStorage.removeItem("userWalletAddress")
   localStorage.removeItem("tokenHoldings")
   localStorage.removeItem("walletData")
-  localStorage.removeItem("membershipData")
 
 };
 
