@@ -9,7 +9,7 @@ import CurrencyBitcoinOutlinedIcon from "@mui/icons-material/CurrencyBitcoinOutl
 import { useNavigate, NavLink } from "react-router-dom";
 import { imgUrl } from "../../../apiConfig";
 import ImageOutlinedIcon from "@mui/icons-material/ImageOutlined";
-import vectorIcon from "C:/bilal/Projects/ivest/IVestClub/src/assets/image/icons/vector.png";
+import VectorIcon from "../../assets/image/icons/vector.png";
 const MemberShipClubCards = ({
   text,
   heading,
@@ -107,7 +107,7 @@ const MemberShipClubCards = ({
                   {/* <CurrencyBitcoinOutlinedIcon
                     sx={{ color: "#fff", fontSize: 12 }}
                   /> */}
-                  <img src={vectorIcon} alt="IVT Icon" style={{ width: 12, height: 12 }} />
+                  <img src={VectorIcon} alt="IVT Icon" style={{ width: 12, height: 12 }} />
                 </div>
                 <h6 className="mb-0 text-basic text-dark">
                   {" "}
