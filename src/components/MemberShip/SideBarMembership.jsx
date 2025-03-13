@@ -537,7 +537,7 @@ const SideBarMembership = ({
             </div>
           </div>
           <div className="col-3 text-right">
-            <p className="mb-0 openAiText text-warning ">99999</p>
+            <p className="mb-0 openAiText text-warning ">{tokens.find(token => token.symbol === "IVT")?.totalsupply || "N/A"}</p>
           </div>
         </div>
         <div className="d-flex align-items-center mt-2 font-italic">
@@ -545,7 +545,7 @@ const SideBarMembership = ({
             <div className=" openAiText DarkText">Tokens in Circulation:</div>
           </div>
           <div className="col-3 text-right">
-            <p className="mb-0 openAiText text-warning">99999</p>
+            <p className="mb-0 openAiText text-warning">{tokens.find(token => token.symbol === "IVT")?.circulation || "N/A"}</p>
           </div>
         </div>
         <div className="d-flex align-items-center mt-2 font-italic">
@@ -555,15 +555,15 @@ const SideBarMembership = ({
             </div>
           </div>
           <div className="col-3 text-right">
-            <p className="mb-0 openAiText text-warning">1 ICT</p>
+            <p className="mb-0 openAiText text-warning">{membershipData?.price} IVT</p>
           </div>
         </div>
         <div className="d-flex align-items-center mt-2 font-italic">
           <div className="col-9 p-0">
-            <div className=" openAiText DarkText">Price of ICT currently:</div>
+            <div className=" openAiText DarkText">Price of IVT currently:</div>
           </div>
           <div className="col-3 text-right">
-            <p className="mb-0 openAiText text-warning">1 USD</p>
+            <p className="mb-0 openAiText text-warning">{tokens.find(token => token.symbol === "IVT")?.token_conversion_rate || "N/A"} USD</p>
           </div>
         </div>
         <hr />

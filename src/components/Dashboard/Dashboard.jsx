@@ -90,7 +90,11 @@ const Dashboard = () => {
   const [statusData, setAllStatusData] = useState(null);
   const [tokenHoldings, setTokenHoldings] = useState(null);
   const [network, setNetwork] = useState("");
+  const imgSrc = network === "Testnet"
+    ? "/assets/imgs/litecoin-ltc-logo-png_seeklogo-329320.png" // Testnet image
+    : "https://api.coinpayments.com/api/v1/currencies/4:0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48/logosvg?time=1741330018143"; // Mainnet image
 
+  const currencyName = network === "Testnet" ? "LTCT" : "USDC"; // Testnet currency name
   // let usdtAmountCalculate = usdtAmount * usdtData?.Price;
   let myWalletAmount = usdcData?.Price * usdtBalance; //caluculate USDT which is write in input with today USDT price
   //SHOW USERS TOKEN ON IN THE TABLE
@@ -594,7 +598,7 @@ const Dashboard = () => {
                               </span>
                             </TableCell>
                             <TableCell align="right">
-                              <span className="availNum"> {row.avail} </span>
+                              <span className="availNum"> {row.avail || '0'} </span>
                             </TableCell>
                             {/* <TableCell align="right">
                               {" "}
@@ -839,9 +843,10 @@ const Dashboard = () => {
                             // type="button"
                             data-bs-toggle="dropdown"
                             aria-expanded="false"
+                            style={{ width: "102px", marginRight: "22px" }}
                           >
                             <img
-                              src="https://api.coinpayments.com/api/v1/currencies/4:0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48/logosvg?time=1741330018143"
+                              src={imgSrc}
                               alt="Example"
                               style={{
                                 width: "21px",
@@ -852,11 +857,15 @@ const Dashboard = () => {
                             />
 
                             <span>
-                              USDC
+                              {currencyName}
+                              {network === "Mainnet"?
                               <span style={{ fontSize: "9px" }}>
                                 {" "}
                                 {""}(ERC20)
-                              </span>
+                              </span>:<span style={{ fontSize: "9px" }}>
+                                {" "}
+                                {""}
+                              </span>}
                             </span>
                           </button>
                           {/* <ul className="dropdown-menu">

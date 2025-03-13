@@ -552,8 +552,20 @@ const fetchTokenHoldings = async (provider, address) => {
                               cursor: "pointer",
                             }}
                             onClick={() => {
-                              navigator.clipboard.writeText(walletData.address);
+                              if (navigator.clipboard && navigator.clipboard.writeText) {
+                                navigator.clipboard.writeText(walletData.address).then(() => {
+                                });
+                              } else {
+                                // Fallback for older browsers
+                                const textArea = document.createElement("textarea");
+                                textArea.value = walletData.address;
+                                document.body.appendChild(textArea);
+                                textArea.select();
+                                document.execCommand("copy");
+                                document.body.removeChild(textArea);
+                              }
                             }}
+                            
                           >
                             <ContentCopyIcon sx={{ fontSize: 18, mr: 1 }} />
                             Copy Address

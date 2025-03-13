@@ -417,7 +417,18 @@ const PublicMemberShip = () => {
             </p>
             <div className="mt-4 pt-2 mb-4 pb-2 d-flex row ">
               <div className="col-lg-4 col-sm-12 mt-1 ">
-                <LargeButton text="Buy your IVT tokens"onClick={() => {navigate(`/shop`)}} />
+              <LargeButton
+                text="Buy your IVT tokens"
+                onClick={() => {
+                  const userData = localStorage.getItem("userData");
+
+                  if (!userData) {
+                    navigate("/shop"); // Navigate to Dashboard if userData exists
+                  } else {
+                    navigate("/Dashboard"); // Navigate to Shop if userData does not exist
+                  }
+                }}
+              />
               </div>
               <div className="col-lg-8 col-sm-12 mt-1">
               <JoinMembership />

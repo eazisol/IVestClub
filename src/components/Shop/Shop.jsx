@@ -436,7 +436,7 @@ const recipentWalletAddress=JSON.parse(localStorage.getItem("recipentWalletAddre
               className="shop-text  d-flex justify-content-center align-items-center"
            
             >
-              <div>"You need to log in first to buy tokens."</div>
+              <div>"You can get estimate but for buying tokens you need to login first."</div>
             </div>
 
             <LargeButton
