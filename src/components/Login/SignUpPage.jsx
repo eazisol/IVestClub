@@ -10,6 +10,7 @@ import useApi from "../Hooks/useApi";
 import { validateFormData, validatePassword } from "../Common/Validations";
 import validator from "validator";
 import { CountryAutocomplete } from "../Common/AutoCompletes";
+import { CustomizedLoader } from "../Common/MiniComponents";
 
 const SignUpPage = () => {
   const { setSnackBarData, setUserData } = appData();
@@ -20,6 +21,7 @@ const SignUpPage = () => {
   const [openModal, setOpenModal] = useState(false);
   const [usCitizenModal, setUsCitizenModal] = useState(true);
   const [uSEmail, setUSEmail] = useState("");
+  const [LoaderModal, setLoaderModal] = useState(false);
 
   const [formData, setFormData] = useState({});
   const handleChange = (e) => {
@@ -41,6 +43,7 @@ const SignUpPage = () => {
     const keysToValidate = [
       { name: "FirstName", errorMessage: "Please enter First Name." },
       { name: "LastName", errorMessage: "Please enter Last Name." },
+      { name: "username", errorMessage: "Please enter Username." },
       { name: "email", errorMessage: "Please enter Email Address." },
       { name: "password", errorMessage: "Please enter Password." },
       {
@@ -110,7 +113,7 @@ const SignUpPage = () => {
       });
       return;
     }
-
+    setLoaderModal(true);
     signup(
       {
         url: "register",
@@ -127,20 +130,27 @@ const SignUpPage = () => {
             handleVerifyMail()
           }, 2000);
          
-          setSnackBarData({
-            visibility: true,
-            // error: "info",
-            text: "Successfully Registered",
-          });
+          // setSnackBarData({
+          //   visibility: true,
+          //   // error: "info",
+          //   text: "Successfully Registered",
+          // });
         },
         onError: (error) => {
-          console.log(error);
+          console.log("🚀 ~ handleSignup ~ error:", error)
+          setSnackBarData({
+            visibility: true,
+            error: "error",
+            text: error?.response?.data?.message,
+          });
+          setLoaderModal(false);
         },
       }
     );
   };
 
   const handleVerifyMail = () => {
+    setLoaderModal(true);
     sendVerificationMail(
       {
         url: "send-verify-email",
@@ -158,9 +168,11 @@ const SignUpPage = () => {
             // error: "info",
             text: "Sent Verification Mail Successfully",
           });
+          setLoaderModal(false);
         },
         onError: (error) => {
           console.log(error);
+          setLoaderModal(false);
         },
       }
     );
@@ -284,6 +296,9 @@ const SignUpPage = () => {
           </div>
         </div>
       </MaterialModal>
+      <MaterialModal open={LoaderModal}>
+       <CustomizedLoader />
+      </MaterialModal>
       <div
         className="container-fluid row justify-content-center"
         style={{ backgroundColor: "#fff" }}
@@ -334,14 +349,17 @@ const SignUpPage = () => {
                   helperText={"Last Name is Required"}
                 />
               </div>
-              {/* <div className="col-12 pl-0 pr-0">
+              <div className="col-12 pl-0 pr-0">
               <SimpleInput
                 lable="User Name"
                 name="username"
                 onChange={handleChange}
                 value={formData.username || ""}
+                error={submitclicked && !formData.username}
+                helperText={"Username is Required"}
+                required
               />
-            </div> */}
+            </div>
               <div className="col-12 pl-0 pr-0">
                 <SimpleInput
                   lable="Email address"
