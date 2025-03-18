@@ -72,7 +72,7 @@ const ERC20_ABI = [
 ];
 const Dashboard = () => {
   const { userData, walletData, setWalletData, setSnackBarData } = appData();
-  const [status, setStatus] = useState(null);
+  const [dropDownOpen, setDropDownOpen] = useState(false);
   const [balance, setBalance] = useState("");
   const navigate = useNavigate();
   const [invoicesId, setinvoicesId] = useState(null);
@@ -83,6 +83,7 @@ const Dashboard = () => {
   const [userWallet, setUserWallet] = useState("");
   const [tokenDataList, setTokenDataList] = useState([]); // List of tokens from API
   const [selectedToken, setSelectedToken] = useState(null);
+  console.log("🚀 ~ Dashboard ~ selectedToken:", selectedToken);
   const [usdtData, setUSDTData] = useState("");
   const [usdcData, setUSDCData] = useState("");
 
@@ -90,9 +91,10 @@ const Dashboard = () => {
   const [statusData, setAllStatusData] = useState(null);
   const [tokenHoldings, setTokenHoldings] = useState(null);
   const [network, setNetwork] = useState("");
-  const imgSrc = network === "Testnet"
-    ? "/assets/imgs/litecoin-ltc-logo-png_seeklogo-329320.png" // Testnet image
-    : "https://api.coinpayments.com/api/v1/currencies/4:0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48/logosvg?time=1741330018143"; // Mainnet image
+  const imgSrc =
+    network === "Testnet"
+      ? "/assets/imgs/litecoin-ltc-logo-png_seeklogo-329320.png" // Testnet image
+      : "https://api.coinpayments.com/api/v1/currencies/4:0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48/logosvg?time=1741330018143"; // Mainnet image
 
   const currencyName = network === "Testnet" ? "LTCT" : "USDC"; // Testnet currency name
   // let usdtAmountCalculate = usdtAmount * usdtData?.Price;
@@ -598,7 +600,10 @@ const Dashboard = () => {
                               </span>
                             </TableCell>
                             <TableCell align="right">
-                              <span className="availNum"> {row.avail || '0'} </span>
+                              <span className="availNum">
+                                {" "}
+                                {row.avail || "0"}{" "}
+                              </span>
                             </TableCell>
                             {/* <TableCell align="right">
                               {" "}
@@ -858,14 +863,14 @@ const Dashboard = () => {
 
                             <span>
                               {currencyName}
-                              {network === "Mainnet"?
-                              <span style={{ fontSize: "9px" }}>
-                                {" "}
-                                {""}(ERC20)
-                              </span>:<span style={{ fontSize: "9px" }}>
-                                {" "}
-                                {""}
-                              </span>}
+                              {network === "Mainnet" ? (
+                                <span style={{ fontSize: "9px" }}>
+                                  {" "}
+                                  {""}(ERC20)
+                                </span>
+                              ) : (
+                                <span style={{ fontSize: "9px" }}> {""}</span>
+                              )}
                             </span>
                           </button>
                           {/* <ul className="dropdown-menu">
@@ -1043,6 +1048,84 @@ const Dashboard = () => {
                           placeholder="You will receive"
                         />
                       </div>
+                      {/* {usdtAmount && (
+                        <p
+                          style={{
+                            fontSize: "10px",
+                            marginTop: "10px",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => setDropDownOpen(!dropDownOpen)}
+                        >
+                          {dropDownOpen ? "Show less" : "Show more"}
+                        </p>
+                      )} */}
+                     {usdtAmount && (
+  <div
+    style={{
+      backgroundColor: "#fff",
+      borderRadius: "10px",
+      border: "1px solid rgba(92, 91, 92, 0.4)",
+      marginTop: "20px",
+      overflow: "hidden",
+      transition: "max-height 0.4s ease-in-out, padding 0.3s ease-in-out",
+      maxHeight: dropDownOpen ? "300px" : "35px", // Reduced collapsed height
+      padding: dropDownOpen ? "10px" : "3px", // Adjust padding for smoother closing
+    }}
+  >
+    <p
+      style={{
+        fontSize: "10px",
+        cursor: "pointer",
+        marginLeft: "16px",
+        padding: "4px",
+      }}
+      onClick={() => setDropDownOpen(!dropDownOpen)}
+    >
+      {dropDownOpen ? "Show less" : "Show more"}
+    </p>
+
+    <div
+      style={{
+        opacity: dropDownOpen ? 1 : 0, // Fade effect for smoother transition
+        transition: "opacity 0.3s ease-in-out",
+      }}
+    >
+    
+      
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              paddingRight: "10px",
+              paddingLeft: "6%",
+            }}
+          >
+            <p style={{ fontSize: "12px" }}>Transaction fee</p>
+            <p style={{ fontSize: "12px" }}>
+              {`${selectedToken.transaction_fee} %`}
+            </p>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              paddingRight: "10px",
+              paddingLeft: "6%",
+            }}
+          >
+            <p style={{ fontSize: "12px" }}>Conversion rate</p>
+            <p style={{ fontSize: "12px" }}>
+              {`${selectedToken.token_conversion_rate} USD`}
+            </p>
+          </div>
+       
+     
+    </div>
+  </div>
+)}
+
+                     
                     </div>
                     <div className="converter2 col-sm-12 col-lg-6 col-md-12">
                       {/* <div className="con-head mb-1"> You Get </div> */}
