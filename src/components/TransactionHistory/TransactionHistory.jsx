@@ -59,17 +59,21 @@ export const TransactionHistory = () => {
   useEffect(() => {
     setLoading(true);
     const getTransactionHistory = async () => {
-      try {
-        const { data } = await axios.get(`${baseUrl}coinpayments/getAllTransactions`);
-        setTransactionData(data?.data || []);
-      } catch (error) {
-        console.error("Error fetching transactions:", error);
-      } finally {
-        setLoading(false);
-      }
+        try {
+            const userData = JSON.parse(localStorage.getItem("userData")); // Retrieve and parse user data
+            const userId = userData?.user_id; // Get user_id
+            const { data } = await axios.get(`${baseUrl}coinpayments/getAllTransactions`);
+            // Filter transactions based on the logged-in user's ID
+            const filteredTransactions = data?.data?.filter(transaction => transaction.user_id === userId) || [];
+            setTransactionData(filteredTransactions);
+        } catch (error) {
+            console.error("Error fetching transactions:", error);
+        } finally {
+            setLoading(false);
+        }
     };
     getTransactionHistory();
-  }, []);
+}, []);
 
   // Create a memoized reversed version of the data to prevent re-sorting on each render
   const reversedData = useMemo(() => {
