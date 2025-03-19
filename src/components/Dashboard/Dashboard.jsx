@@ -71,6 +71,7 @@ const ERC20_ABI = [
   },
 ];
 const Dashboard = () => {
+    const { mutate: getData, isPending: isProfileLoading } = useApi();
   const { userData, walletData, setWalletData, setSnackBarData } = appData();
   const [dropDownOpen, setDropDownOpen] = useState(false);
   const [balance, setBalance] = useState("");
@@ -83,7 +84,9 @@ const Dashboard = () => {
   const [userWallet, setUserWallet] = useState("");
   const [tokenDataList, setTokenDataList] = useState([]); // List of tokens from API
   const [selectedToken, setSelectedToken] = useState(null);
-  console.log("🚀 ~ Dashboard ~ selectedToken:", selectedToken);
+  const [profiledata, setProfileData] = useState({});
+  console.log("🚀 ~ Dashboard ~ profiledata:", profiledata)
+
   const [usdtData, setUSDTData] = useState("");
   const [usdcData, setUSDCData] = useState("");
 
@@ -143,10 +146,7 @@ const Dashboard = () => {
     setNetwork(data?.network_setting);
   };
 
-  // handling network change
-  const handleToggle = () => {
-    setNetwork((prev) => (prev === "testnet" ? "mainnet" : "testnet"));
-  };
+  
 
   // Function to handle the payment process (creating a transaction via CoinPayments API)
   const handlePay = async (e) => {
@@ -161,7 +161,7 @@ const Dashboard = () => {
       return;
     }
     const usernameRegex = /^[a-zA-Z0-9 ]+$/;
-    if (!usernameRegex.test(!userData?.username)) {
+    if (!usernameRegex.test(!profiledata?.username)) {
       setSnackBarData({
         visibility: true,
         error: "error",
@@ -169,7 +169,7 @@ const Dashboard = () => {
       });
       return;
     }
-    if (!userData?.username) {
+    if (!profiledata?.username) {
       setSnackBarData({
         visibility: true,
         error: "error",
@@ -241,10 +241,10 @@ const Dashboard = () => {
       token: selectedToken?.name,
       currency1: selectedCurrency,
       currency2: selectedCurrency,
-      buyer_email: userData?.email,
-      username: userData?.username,
+      buyer_email: profiledata?.email,
+      username: profiledata?.username,
       user_wallet_address: userWallet,
-      user_id: `${userData?.user_id}`,
+      user_id: `${profiledata?.id}`,
       network: network,
     };
 
@@ -451,65 +451,25 @@ const Dashboard = () => {
     getBnbAmount(convertAmount);
     setUserWallet(userWalletAddress);
   }, []);
-  // useEffect(() => {
-  //   if (!invoicesId) return;
-  //   // Function to periodically check the transaction status from CoinPayments API
-  //   const checkTransactionStatus = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         `${baseUrl}coinpayments/invoice/${invoicesId}/currency/${currencyId}/status`
-  //       );
-
-  //       if (response?.data?.status === "completed") {
-  //         setStatus("completed");
-  //         setAllStatusData(response?.data);
-  //         clearInterval(intervalId);
-  //       }
-  //     } catch (error) {
-  //       console.error("Error while checking transaction status:", error);
-  //     }
-  //   };
-  //   // If the transaction is completed (status == 100), stop checking
-  //   const intervalId = setInterval(checkTransactionStatus, 5000);
-
-  //   return () => clearInterval(intervalId);
-  // }, [invoicesId]);
-  // ✅ Trigger handlePin only when status is "completed"
-  //   useEffect(() => {
-  //     if (status !== "completed") return;
-
-  //     console.log("coinpayments/Tokenator");
-  // const recipentWalletAddress=JSON.parse(localStorage.getItem("recipentWalletAddress"));
-  //     const handlePin = async () => {
-  //       try {
-  //         await axios.post(`${baseUrl}coinpayments/Tokenator`, {
-  //           status: status,
-  //           txn_id: invoicesId,
-  //           amountusdt:
-  //             statusData?.payment?.expectedAmount?.breakdown?.[0]?.displayValue,
-  //           amounttoken: getBnbAmount(
-  //             statusData?.payment?.expectedAmount?.breakdown?.[0]?.displayValue
-  //           ),
-  //           currency: selectedToken?.name,
-  //           user_email: userData?.email,
-  //           user_wallet_address: recipentWalletAddress,
-  //           custom: 1,
-  //           token_contract_address: selectedToken?.token_contract_address,
-  //           network: network,
-  //         });
-
-  //         setStatus(null); // ✅ Reset status
-  //         setinvoicesId(null);
-  //         localStorage.removeItem("recipentWalletAddress");
-  //         localStorage.removeItem("userWalletAddress");
-  //       } catch (error) {
-  //         console.error("Error handling pin:", error);
-  //       }
-  //     };
-
-  //     handlePin();
-  //   }, [status]);
-
+    useEffect(() => {
+      getData(
+        {
+          url: "profile",
+          method: "GET",
+          sendHeaders: true,
+        },
+        {
+          onSuccess: (data) => {
+            setProfileData(data)
+            
+          },
+          onError: (error) => {
+            console.log(error);
+          },
+        }
+      );
+    }, []);
+  
   return (
     <SactionContainer container={false}>
       <div className="w-100 mt-5  mb-3 pt-5 pl-3">

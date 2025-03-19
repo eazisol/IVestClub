@@ -263,7 +263,6 @@ const MyAccount = () => {
       },
       {
         onSuccess: (data) => {
-          console.log(data);
           //  localStorage.setItem('userData', JSON.stringify(data));
           //  setUserData(data)
           setSnackBarData({
