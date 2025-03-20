@@ -13,6 +13,10 @@ import { baseUrl } from "../../apiConfig";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import LogoutIcon from "@mui/icons-material/Logout";
+import MaterialModal from "./Common/MaterialModal";
+import mataMaskImage from "../../public/assets/imgs/mataMask.png";
+import { Button, Box, Typography } from "@mui/material";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 const Header = ({ setShowSearchInput, showSearchInput }) => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -33,6 +37,7 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
   const [walletMenuOpen, setWalletMenuOpen] = useState(false);
   const [accountMenuOpen, setAccountMenuOpen] = useState(false);
   const [tokenHoldings, setTokenHoldings] = useState(null);
+  const [walletModalOpen, setWalletModalOpen] = useState(false);
 
   const formatAddress = (address) => {
     if (!address) return "";
@@ -46,44 +51,42 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
   // };
 
   // Function to fetch token balances
-const fetchTokenHoldings = async (provider, address) => {
-  try {
-    const tokenHoldings = [];
+  const fetchTokenHoldings = async (provider, address) => {
+    try {
+      const tokenHoldings = [];
 
-    // ERC-20 Token Contract Addresses on Sepolia Testnet
-    const tokens = [
-      { name: "iVT", address: "0xB34c841F79c2626260cd1657c9f5c10Be4339D1B" },
-      { name: "iSPX", address: "0x324d720f13764d6BE02ef1329D6a3e4dd8ec1e64" }
-    ];
+      // ERC-20 Token Contract Addresses on Sepolia Testnet
+      const tokens = [
+        { name: "iVT", address: "0xB34c841F79c2626260cd1657c9f5c10Be4339D1B" },
+        { name: "iSPX", address: "0x324d720f13764d6BE02ef1329D6a3e4dd8ec1e64" },
+      ];
 
-    const erc20Abi = [
-      "function balanceOf(address owner) view returns (uint256)",
-      "function decimals() view returns (uint8)"
-    ];
+      const erc20Abi = [
+        "function balanceOf(address owner) view returns (uint256)",
+        "function decimals() view returns (uint8)",
+      ];
 
-    for (const token of tokens) {
-      const contract = new ethers.Contract(token.address, erc20Abi, provider);
-      const balance = await contract.balanceOf(address);
-      const decimals = await contract.decimals();
-      
-      const formattedBalance = ethers.utils.formatUnits(balance, decimals);
+      for (const token of tokens) {
+        const contract = new ethers.Contract(token.address, erc20Abi, provider);
+        const balance = await contract.balanceOf(address);
+        const decimals = await contract.decimals();
 
-      tokenHoldings.push({
-        name: token.name,
-        balance: formattedBalance
-      });
+        const formattedBalance = ethers.utils.formatUnits(balance, decimals);
 
-      // console.log(`Token: ${token.name}, Balance: ${formattedBalance}`);
+        tokenHoldings.push({
+          name: token.name,
+          balance: formattedBalance,
+        });
+
+        // console.log(`Token: ${token.name}, Balance: ${formattedBalance}`);
+      }
+
+      setTokenHoldings(tokenHoldings); // Update state with token holdings
+      localStorage.setItem("tokenHoldings", JSON.stringify(tokenHoldings)); // Save to localStorage
+    } catch (error) {
+      console.error("Error fetching token holdings:", error);
     }
-
-    setTokenHoldings(tokenHoldings); // Update state with token holdings
-    localStorage.setItem("tokenHoldings", JSON.stringify(tokenHoldings)); // Save to localStorage
-
-  } catch (error) {
-    console.error("Error fetching token holdings:", error);
-  }
-};
-
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -108,7 +111,9 @@ const fetchTokenHoldings = async (provider, address) => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-
+  const handleWalletOpen = () => {
+    setWalletModalOpen(!walletModalOpen);
+  };
   const getBackgroundColor = () => {
     if (
       (location.pathname === "/" ||
@@ -120,7 +125,7 @@ const fetchTokenHoldings = async (provider, address) => {
     }
     return "";
   };
-  
+
   const handleConnectWallet = async () => {
     if (!window.ethereum) {
       setSnackBarData({
@@ -130,17 +135,17 @@ const fetchTokenHoldings = async (provider, address) => {
       });
       return;
     }
-    
+
     setLoading(true);
     setError("");
-  
+
     try {
       // Always ask user for confirmation
       let provider = new ethers.providers.Web3Provider(window.ethereum);
       await provider.send("eth_requestAccounts", []);
-  
+
       let network = await provider.getNetwork();
-  
+
       // Ensure user is on Sepolia Testnet
       if (network.chainId !== 11155111) {
         await window.ethereum.request({
@@ -153,79 +158,85 @@ const fetchTokenHoldings = async (provider, address) => {
         provider = new ethers.providers.Web3Provider(window.ethereum);
         network = await provider.getNetwork();
       }
-  
+
       if (network.chainId !== 11155111) {
         throw new Error(
           "Failed to switch to Sepolia Testnet. Please switch manually in MetaMask."
         );
       }
-  
+
       const signer = provider.getSigner();
       const address = await signer.getAddress();
       const balance = await provider.getBalance(address);
-      
+
       // Set ETH balance and wallet data
       setWalletData({ provider, signer, address });
-      
+
       // Fetch token holdings
       await fetchTokenHoldings(provider, address);
-      const savetokenHoldingsdWallet = JSON.parse(localStorage.getItem("tokenHoldings"));
+      const savetokenHoldingsdWallet = JSON.parse(
+        localStorage.getItem("tokenHoldings")
+      );
       setBalance(savetokenHoldingsdWallet);
+      setWalletModalOpen(false);
       // setBalance(tokenHoldings?.[0]?.balance);
-      
     } catch (err) {
       setError(err.message);
-      setSnackBarData({
-        visibility: true,
-        error: "error",
-        text: err.message,
-      });
+      // setSnackBarData({
+      //   visibility: true,
+      //   error: "error",
+      //   text: err.message,
+      // });
     } finally {
       setLoading(false);
     }
   };
-  
+
   const handleDisconnect = async () => {
     try {
       // Clear state values
       setWalletData({});
       setBalance("0.0");
       setTokenHoldings(null);
-  
+
       // Remove wallet data from localStorage
       localStorage.removeItem("walletData");
       localStorage.removeItem("tokenHoldings");
-  
+
       // MetaMask workaround: Reset provider (optional)
       if (window.ethereum && window.ethereum.removeListener) {
         window.ethereum.removeListener("accountsChanged", handleConnectWallet);
         window.ethereum.removeListener("chainChanged", handleConnectWallet);
       }
-  
+
       // Force MetaMask to require user confirmation next time
-      window.ethereum.request({ method: "wallet_revokePermissions", params: [{ eth_accounts: {} }] })
-        .catch(err => console.log("Ignore if MetaMask doesn't support this:", err));
-  
+      window.ethereum
+        .request({
+          method: "wallet_revokePermissions",
+          params: [{ eth_accounts: {} }],
+        })
+        .catch((err) =>
+          console.log("Ignore if MetaMask doesn't support this:", err)
+        );
+
       // Optionally reload to ensure clean state
       window.location.reload();
-      
     } catch (error) {
       console.error("Error disconnecting:", error);
     }
   };
-  
-  
-  // // useEffect to handle wallet connection updates when the account or chain changes
-  // useEffect(() => {
-  //   if (window.ethereum) {
-  //     window.ethereum.on("accountsChanged", () => {
-  //       handleConnectWallet();
-  //     });
-  //     window.ethereum.on("chainChanged", () => {
-  //       handleConnectWallet();
-  //     });
-  //   }
-  // }, []);
+
+  // useEffect to handle wallet connection updates when the account or chain changes
+  useEffect(() => {
+    if (window.ethereum) {
+      window.ethereum.on("accountsChanged", () => {
+        handleConnectWallet();
+      });
+      window.ethereum.on("chainChanged", () => {
+        handleConnectWallet();
+      });
+    }
+  }, []);
 
   useEffect(() => {
     if (window.ethereum) {
@@ -234,54 +245,135 @@ const fetchTokenHoldings = async (provider, address) => {
           const provider = new ethers.providers.Web3Provider(window.ethereum);
           const signer = provider.getSigner();
           const address = await signer.getAddress();
-  
+
           setWalletData({ provider, signer, address });
           localStorage.setItem("walletData", JSON.stringify({ address }));
-  
+
           // Fetch balance and token holdings
           const balance = await provider.getBalance(address);
           fetchTokenHoldings(provider, address);
           setBalance();
-
         } else {
           handleDisconnect();
         }
       };
-  
+
       const handleChainChange = async (chainId) => {
         console.log("Network changed to:", chainId);
-  
+
         if (walletData?.address) {
           handleDisconnect(); // Disconnect wallet to prevent issues
         }
-  
+
         // Instead of full reload, try reconnecting
         setTimeout(() => {
           handleConnectWallet();
         }, 1000);
       };
-  
+
       window.ethereum.on("accountsChanged", handleAccountChange);
       window.ethereum.on("chainChanged", handleChainChange);
-  
+
       // Restore wallet if already connected
       const savedWallet = localStorage.getItem("walletData");
       if (savedWallet) {
         const { address } = JSON.parse(savedWallet);
         handleAccountChange([address]);
       }
-  
+
       return () => {
         window.ethereum.removeListener("accountsChanged", handleAccountChange);
         window.ethereum.removeListener("chainChanged", handleChainChange);
       };
     }
   }, []);
-  
-  
-  
+
   return (
     <>
+      <MaterialModal
+        open={walletModalOpen}
+        onClose={() => setWalletModalOpen(false)}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+
+            textAlign: "center",
+          }}
+        >
+          <Typography
+            variant="h4"
+            sx={{
+              fontSize: "20px",
+              fontWeight: 600,
+              color: "rgb(0, 0, 0)",
+              lineHeight: "22px",
+              mb: 2,
+            }}
+          >
+            Connect Wallet
+          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              mb: 3,
+              cursor: "pointer",
+            }}
+            onClick={handleConnectWallet}
+          >
+            <img src={mataMaskImage} width="40%" alt="MetaMask" />
+            <Typography
+              variant="body1"
+              sx={{
+                fontSize: "12px",
+                fontWeight: 400,
+                color: "rgb(40, 13, 95)",
+                lineHeight: "18px",
+                mt: 1,
+              }}
+            >
+              MetaMask
+            </Typography>
+          </Box>
+          <Typography
+            sx={{
+              fontSize: "14px",
+              fontWeight: 400,
+              color: "rgb(122, 110, 170)",
+              lineHeight: "21px",
+              width: "85%",
+              mb: 3,
+            }}
+          >
+            Currently, we only support MetaMask for wallet connection. If you
+            don't have a MetaMask wallet, you can create one by clicking the
+            button below.
+          </Typography>
+          <Button
+            variant="contained"
+            sx={{
+              backgroundColor: "#C2B5E2",
+              color: "black",
+              textTransform: "none",
+              fontWeight: "bold",
+              borderRadius: "20px",
+              padding: "8px 16px",
+              "&:hover": {
+                backgroundColor: "#b5a5d2",
+              },
+            }}
+            endIcon={<OpenInNewIcon fontSize="small" />}
+            onClick={() => window.open("https://metamask.io/download/", "_blank")}
+          >
+            Learn How to Connect
+          </Button>
+        </Box>
+      </MaterialModal>
       <header className="main-header header-style-one">
         <div
           className="header-upper"
@@ -369,10 +461,12 @@ const fetchTokenHoldings = async (provider, address) => {
                             : "dropdown "
                         }
                       >
-                         <HeaderLink
+                        <HeaderLink
                           text="Shop"
                           onClick={() => {
-                            navigate(userData?.access_token?"/Dashboard":"/shop");
+                            navigate(
+                              userData?.access_token ? "/Dashboard" : "/shop"
+                            );
                           }}
                         />
                         {/* <HeaderLink
@@ -419,38 +513,38 @@ const fetchTokenHoldings = async (provider, address) => {
                         </ul>
                       </li> */}
 
-                        <li
-                          className={
-                            location.pathname == "/manifesto"
-                              ? "current dropdown "
-                              : "dropdown "
-                          }
-                        >
-                          <HeaderLink
-                            text="Blog"
-                            onClick={() => {
-                              navigate("/Blog");
-                            }}
-                          />
-                        </li>
-                        <li
-                          className={
-                            location.pathname == "/manifesto"
-                              ? "current dropdown "
-                              : "dropdown "
-                          }
-                        >
-                          <HeaderLink
-                            text="Contact Us"
-                            onClick={() => {
-                              navigate("/ContactUs");
-                            }}
-                          />
-                        </li>
-                      </ul>
-                    </div>
-                  </nav>
-                
+                      <li
+                        className={
+                          location.pathname == "/manifesto"
+                            ? "current dropdown "
+                            : "dropdown "
+                        }
+                      >
+                        <HeaderLink
+                          text="Blog"
+                          onClick={() => {
+                            navigate("/Blog");
+                          }}
+                        />
+                      </li>
+                      <li
+                        className={
+                          location.pathname == "/manifesto"
+                            ? "current dropdown "
+                            : "dropdown "
+                        }
+                      >
+                        <HeaderLink
+                          text="Contact Us"
+                          onClick={() => {
+                            navigate("/ContactUs");
+                          }}
+                        />
+                      </li>
+                    </ul>
+                  </div>
+                </nav>
+
                 <>
                   <div className="px-2 d-none d-xl-flex">
                     <span
@@ -509,7 +603,7 @@ const fetchTokenHoldings = async (provider, address) => {
                       <a
                         className="theme-btn btn-style-one"
                         onClick={() => {
-                          if (!walletData.address) handleConnectWallet(); // Call connect only if NOT connected
+                          if (!walletData.address) handleWalletOpen(); // Call connect only if NOT connected
                         }}
                         style={{
                           textDecoration: "none",
@@ -552,12 +646,17 @@ const fetchTokenHoldings = async (provider, address) => {
                               cursor: "pointer",
                             }}
                             onClick={() => {
-                              if (navigator.clipboard && navigator.clipboard.writeText) {
-                                navigator.clipboard.writeText(walletData.address).then(() => {
-                                });
+                              if (
+                                navigator.clipboard &&
+                                navigator.clipboard.writeText
+                              ) {
+                                navigator.clipboard
+                                  .writeText(walletData.address)
+                                  .then(() => {});
                               } else {
                                 // Fallback for older browsers
-                                const textArea = document.createElement("textarea");
+                                const textArea =
+                                  document.createElement("textarea");
                                 textArea.value = walletData.address;
                                 document.body.appendChild(textArea);
                                 textArea.select();
@@ -565,7 +664,6 @@ const fetchTokenHoldings = async (provider, address) => {
                                 document.body.removeChild(textArea);
                               }
                             }}
-                            
                           >
                             <ContentCopyIcon sx={{ fontSize: 18, mr: 1 }} />
                             Copy Address
@@ -604,7 +702,6 @@ const fetchTokenHoldings = async (provider, address) => {
                       onMouseLeave={() => {
                         setAccountMenuOpen(false);
                       }}
-                     
                     >
                       <AccountCircleOutlinedIcon sx={{ color: "#fff" }} />
                       {accountMenuOpen && (
@@ -631,7 +728,9 @@ const fetchTokenHoldings = async (provider, address) => {
                             }}
                             onClick={() => navigate("/Dashboard")}
                           >
-                            <AccountCircleOutlinedIcon sx={{ color: "#000",fontSize: 18, mr: 1 }} />
+                            <AccountCircleOutlinedIcon
+                              sx={{ color: "#000", fontSize: 18, mr: 1 }}
+                            />
                             Profile
                           </div>
                           <div
@@ -644,11 +743,11 @@ const fetchTokenHoldings = async (provider, address) => {
                             onClick={() => {
                               handleLogout();
                               handleDisconnect();
-                              setAccountMenuOpen(false)
+                              setAccountMenuOpen(false);
                             }}
                           >
                             <LogoutIcon sx={{ fontSize: 18, mr: 1 }} />
-                           Logout
+                            Logout
                           </div>
                         </div>
                       )}

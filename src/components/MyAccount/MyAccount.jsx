@@ -316,7 +316,7 @@ const MyAccount = () => {
                       <LargeButton
                         text={
                           isProfileSendLoading
-                            ? ""
+                            ? "Saving"
                             : editEnabled
                             ? "Edit"
                             : "Save"

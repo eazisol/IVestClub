@@ -71,7 +71,7 @@ const ERC20_ABI = [
   },
 ];
 const Dashboard = () => {
-    const { mutate: getData, isPending: isProfileLoading } = useApi();
+  const { mutate: getData, isPending: isProfileLoading } = useApi();
   const { userData, walletData, setWalletData, setSnackBarData } = appData();
   const [dropDownOpen, setDropDownOpen] = useState(false);
   const [balance, setBalance] = useState("");
@@ -85,7 +85,6 @@ const Dashboard = () => {
   const [tokenDataList, setTokenDataList] = useState([]); // List of tokens from API
   const [selectedToken, setSelectedToken] = useState(null);
   const [profiledata, setProfileData] = useState({});
-  console.log("🚀 ~ Dashboard ~ profiledata:", profiledata)
 
   const [usdtData, setUSDTData] = useState("");
   const [usdcData, setUSDCData] = useState("");
@@ -145,8 +144,6 @@ const Dashboard = () => {
     const { data } = await axios.get(`${baseUrl}network-status`);
     setNetwork(data?.network_setting);
   };
-
-  
 
   // Function to handle the payment process (creating a transaction via CoinPayments API)
   const handlePay = async (e) => {
@@ -261,6 +258,11 @@ const Dashboard = () => {
       setustdAmount(localStorage.removeItem("usdtAmount"));
       getBnbAmount(localStorage.removeItem("convertAmount"));
       const data = await response.json();
+      if (data?.error) {
+        console.error("🚀 ~ handlePay ~ data.error:", data.error);
+      } else {
+        console.log("Success:", data);
+      }
       const newCurrencyId =
         data?.response?.invoices[0]?.payment?.paymentCurrencies[0]?.currency
           ?.id;
@@ -451,25 +453,24 @@ const Dashboard = () => {
     getBnbAmount(convertAmount);
     setUserWallet(userWalletAddress);
   }, []);
-    useEffect(() => {
-      getData(
-        {
-          url: "profile",
-          method: "GET",
-          sendHeaders: true,
+  useEffect(() => {
+    getData(
+      {
+        url: "profile",
+        method: "GET",
+        sendHeaders: true,
+      },
+      {
+        onSuccess: (data) => {
+          setProfileData(data);
         },
-        {
-          onSuccess: (data) => {
-            setProfileData(data)
-            
-          },
-          onError: (error) => {
-            console.log(error);
-          },
-        }
-      );
-    }, []);
-  
+        onError: (error) => {
+          console.log(error);
+        },
+      }
+    );
+  }, []);
+
   return (
     <SactionContainer container={false}>
       <div className="w-100 mt-5  mb-3 pt-5 pl-3">
@@ -491,12 +492,14 @@ const Dashboard = () => {
                     <h4 className="mb-0 pl-2">
                       {" "}
                       <strong className="currDigit">
-                        {balance?.[0]?.balance}
+                        {balance?.[0]?.balance?balance?.[0]?.balance:0}
                       </strong>
                     </h4>
                     <p className="currDollar mt-2 LightText w-100 pl-3">
-                      {/* ${(usdcData?.Price || 0).toFixed(4)} */}$
-                      {(usdcData?.Price * balance?.[0]?.balance).toFixed(4)}
+                      $
+                      {isNaN(usdcData?.Price * balance?.[0]?.balance)
+                        ? "0.0000"
+                        : (usdcData?.Price * balance?.[0]?.balance).toFixed(4)}
                     </p>
                   </div>
                 </div>
@@ -1020,72 +1023,71 @@ const Dashboard = () => {
                           {dropDownOpen ? "Show less" : "Show more"}
                         </p>
                       )} */}
-                     {usdtAmount && (
-  <div
-    style={{
-      backgroundColor: "#fff",
-      borderRadius: "10px",
-      border: "1px solid rgba(92, 91, 92, 0.4)",
-      marginTop: "20px",
-      overflow: "hidden",
-      transition: "max-height 0.4s ease-in-out, padding 0.3s ease-in-out",
-      maxHeight: dropDownOpen ? "300px" : "35px", // Reduced collapsed height
-      padding: dropDownOpen ? "10px" : "3px", // Adjust padding for smoother closing
-    }}
-  >
-    <p
-      style={{
-        fontSize: "10px",
-        cursor: "pointer",
-        marginLeft: "16px",
-        padding: "4px",
-      }}
-      onClick={() => setDropDownOpen(!dropDownOpen)}
-    >
-      {dropDownOpen ? "Show less" : "Show more"}
-    </p>
+                      {usdtAmount && (
+                        <div
+                          style={{
+                            backgroundColor: "#fff",
+                            borderRadius: "10px",
+                            border: "1px solid rgba(92, 91, 92, 0.4)",
+                            marginTop: "20px",
+                            overflow: "hidden",
+                            transition:
+                              "max-height 0.4s ease-in-out, padding 0.3s ease-in-out",
+                            maxHeight: dropDownOpen ? "300px" : "35px", // Reduced collapsed height
+                            padding: dropDownOpen ? "10px" : "3px", // Adjust padding for smoother closing
+                          }}
+                        >
+                          <p
+                            style={{
+                              fontSize: "10px",
+                              cursor: "pointer",
+                              marginLeft: "16px",
+                              padding: "4px",
+                            }}
+                            onClick={() => setDropDownOpen(!dropDownOpen)}
+                          >
+                            {dropDownOpen ? "Show less" : "Show more"}
+                          </p>
 
-    <div
-      style={{
-        opacity: dropDownOpen ? 1 : 0, // Fade effect for smoother transition
-        transition: "opacity 0.3s ease-in-out",
-      }}
-    >
-    
-      
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              paddingRight: "10px",
-              paddingLeft: "6%",
-            }}
-          >
-            <p style={{ fontSize: "12px" }}>Transaction fee</p>
-            <p style={{ fontSize: "12px" }}>
-              {`${selectedToken.transaction_fee} %`}
-            </p>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              paddingRight: "10px",
-              paddingLeft: "6%",
-            }}
-          >
-            <p style={{ fontSize: "12px" }}>Conversion rate</p>
-            <p style={{ fontSize: "12px" }}>
-              {`${selectedToken.token_conversion_rate} USD`}
-            </p>
-          </div>
-       
-     
-    </div>
-  </div>
-)}
-
-                     
+                          <div
+                            style={{
+                              opacity: dropDownOpen ? 1 : 0, // Fade effect for smoother transition
+                              transition: "opacity 0.3s ease-in-out",
+                            }}
+                          >
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                paddingRight: "10px",
+                                paddingLeft: "6%",
+                              }}
+                            >
+                              <p style={{ fontSize: "12px" }}>
+                                Transaction fee
+                              </p>
+                              <p style={{ fontSize: "12px" }}>
+                                {`${selectedToken.transaction_fee} %`}
+                              </p>
+                            </div>
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                paddingRight: "10px",
+                                paddingLeft: "6%",
+                              }}
+                            >
+                              <p style={{ fontSize: "12px" }}>
+                                Conversion rate
+                              </p>
+                              <p style={{ fontSize: "12px" }}>
+                                {`${selectedToken.token_conversion_rate} USD`}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </div>
                     <div className="converter2 col-sm-12 col-lg-6 col-md-12">
                       {/* <div className="con-head mb-1"> You Get </div> */}

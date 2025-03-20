@@ -16,7 +16,7 @@ const style = {
   p: 4,
 };
 
-export default function MaterialModal({ children, open }) {
+export default function MaterialModal({ children, open,onClose }) {
   const isSmallScreen = useMediaQuery("(max-width: 422px)");
 
   return (
@@ -25,6 +25,7 @@ export default function MaterialModal({ children, open }) {
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         open={open}
+        onClose={onClose}
         style={{ zIndex: 99999 }} 
         closeAfterTransition
         slots={{ backdrop: Backdrop }}

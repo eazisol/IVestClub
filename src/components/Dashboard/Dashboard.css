@@ -80,13 +80,13 @@
     justify-content: space-between;
     height: 15%;
 }
-.currName
+/* .currName
 {
     font-weight: 500 !important;
     font-family: "Montserrat",sans-serif !important;
     font-size: 18px !important;
     color: #100F1F !important;
-}
+} */
 .currDetail
 {
     color: #100F1F;
@@ -142,6 +142,8 @@
 .tHead
 {
     border-bottom:2px solid #F1F4FA !important;
+    font-size: 12px;
+    font-weight: 600;
     
 
 }
