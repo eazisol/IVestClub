@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import logo from "../../src/assets/images/HeaderLogo.png";
 import { useNavigate, useLocation } from "react-router-dom";
 import MobileDrawer from "./MobileDrawer";
 import { appData } from "./Context/AppContext";
@@ -390,12 +389,6 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
                     }}
                     title="IVest Club"
                   >
-                    <img
-                      src={logo}
-                      alt="IVest Club"
-                      title=""
-                      className="header-logo-img"
-                    />
                   </a>
                 </div>
               </div>
