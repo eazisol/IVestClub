@@ -407,7 +407,7 @@ const StaticPublicMembership = () => {
               </figure>
               <h3 className="mt-4 pt-3">
                 {" "}
-                <strong className="bold-6">Dont Miss out on Your Tokens</strong>
+                <strong className="bold-6">Don't Miss out on Your Tokens</strong>
               </h3>
               <p className="DarkText mt-3" style={{ fontSize: "12.3px" }}>
                 Tokens are limited, so secure your access to current and future

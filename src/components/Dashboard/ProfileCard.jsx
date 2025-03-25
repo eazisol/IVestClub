@@ -7,8 +7,9 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { imgUrl } from "../../../apiConfig";
 import DriveFileRenameOutlineOutlinedIcon from "@mui/icons-material/DriveFileRenameOutlineOutlined";
-import { Chip } from "@mui/material";
+import { Chip, Tooltip } from "@mui/material";
 import useApi from "../Hooks/useApi";
+import CachedOutlinedIcon from "@mui/icons-material/CachedOutlined";
 const ProfileCard = ({ enableEdit, profilePic, setProfilePic, prevPic }) => {
   const {
     handleLogout,
@@ -18,9 +19,12 @@ const ProfileCard = ({ enableEdit, profilePic, setProfilePic, prevPic }) => {
     setSnackBarData,
   } = appData();
   const [profiledata, setProfileData] = useState({});
-  console.log("🚀 ~ ProfileCard ~ profiledata:", profiledata);
 
   const { mutate: getData, isPending: isProfileLoading } = useApi();
+  const {
+    mutate: sendVerificationMail,
+    isPending: isSendVerificationMailLoading,
+  } = useApi();
   const location = useLocation();
   const navigate = useNavigate();
   const handleFileChange = (event) => {
@@ -67,7 +71,27 @@ const ProfileCard = ({ enableEdit, profilePic, setProfilePic, prevPic }) => {
       }
     );
   }, []);
-
+  const handleVerifyMail = () => {
+    sendVerificationMail(
+      {
+        url: "send-verify-email",
+        method: "POST",
+        sendHeaders: true,
+      },
+      {
+        onSuccess: (data) => {
+          setSnackBarData({
+            visibility: true,
+            // error: "info",
+            text: "Sent Verification Mail Successfully",
+          });
+        },
+        onError: (error) => {
+          console.log(error);
+        },
+      }
+    );
+  };
   return (
     <div className="card card-border-c">
       <div className="w-100 d-flex flex-column align-items-center justify-content-center mt-5">
@@ -127,16 +151,26 @@ const ProfileCard = ({ enableEdit, profilePic, setProfilePic, prevPic }) => {
       <div className="w-100 text-center mt-2 d-flex justify-content-center align-items-center">
         <div className="profileName pop-font DarkText bold-5">{`${profiledata?.FirstName} ${profiledata?.LastName}`}</div>
         <Chip
-          label="unverified"
-          color="error"
-          size="small" 
+          label={profiledata?.email_verified_at ? "Verified" : "Unverified"}
+          color={profiledata?.email_verified_at ? "success" : "error"}
+          size="small"
           sx={{
-            fontSize: "10px", 
+            fontSize: "10px",
             height: "16px",
-            padding: "1px 1px", 
+            padding: "1px 1px",
             ml: 1,
+            mr: 1,
           }}
         />
+      {!profiledata?.email_verified_at && (
+  <Tooltip title="This is the email verification button" arrow>
+    <CachedOutlinedIcon
+      onClick={handleVerifyMail}
+      sx={{ cursor: "pointer" }}
+    />
+  </Tooltip>
+)}
+
       </div>
       <div className="w-100 mt-2 mb-5 text-center LightText">
         {userData.email}

@@ -11,19 +11,28 @@ import { validateFormData, validatePassword } from "../Common/Validations";
 import validator from "validator";
 import { CountryAutocomplete } from "../Common/AutoCompletes";
 import { CustomizedLoader } from "../Common/MiniComponents";
-
+import { Box, Button, Typography } from "@mui/material";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import image from "../../assets/images/HeaderLogo.png";
 const SignUpPage = () => {
-  const { setSnackBarData, setUserData } = appData();
+  const { setSnackBarData, setUserData, userData } = appData();
   const { mutate: signup, isPending: isSignupLoading, error } = useApi();
   const { mutate: sendUsMail, isPending: isSendUsMailLoading } = useApi();
-  const { mutate: sendVerificationMail, isPending: isSendVerificationMailLoading } = useApi();
+  const {
+    mutate: sendVerificationMail,
+    isPending: isSendVerificationMailLoading,
+  } = useApi();
+  const { mutate: getData, isPending: isProfileLoading } = useApi();
   const [submitclicked, setSubmitclicked] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [usCitizenModal, setUsCitizenModal] = useState(true);
   const [uSEmail, setUSEmail] = useState("");
   const [LoaderModal, setLoaderModal] = useState(false);
-
+  const [walletModalOpen, setWalletModalOpen] = useState(false);
   const [formData, setFormData] = useState({});
+  const [countdown, setCountdown] = useState(60); // Countdown timer (60s)
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [profileData, setProfileData] = useState({});
   const handleChange = (e) => {
     e.preventDefault();
     setSubmitclicked(false);
@@ -34,7 +43,44 @@ const SignUpPage = () => {
     }
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
+  // useEffect(() => {
+  //   if (profileData && !profileData.email_verified_at) {
+  //     setWalletModalOpen(true);
+  //   }
+  // }, [userData]);
 
+  useEffect(() => {
+    getData(
+      {
+        url: "profile",
+        method: "GET",
+        sendHeaders: true,
+      },
+      {
+        onSuccess: (data) => {
+          console.log("get data", data);
+          setProfileData(data);
+          // localStorage.setItem("userData", JSON.stringify(data));
+          // setUserData(data);
+          // navigate("/");
+        },
+        onError: (error) => {
+          console.log(error);
+        },
+      }
+    );
+  }, []);
+  useEffect(() => {
+    let timer;
+    if (walletModalOpen && countdown > 0) {
+      timer = setInterval(() => {
+        setCountdown((prev) => prev - 1);
+      }, 1000);
+    } else if (countdown === 0) {
+      setIsButtonDisabled(false); // Enable button when countdown reaches 0
+    }
+    return () => clearInterval(timer);
+  }, [walletModalOpen, countdown]);
   const navigate = useNavigate();
   const handleSignup = (e) => {
     e.preventDefault();
@@ -127,9 +173,9 @@ const SignUpPage = () => {
           setUserData(data);
 
           setTimeout(() => {
-            handleVerifyMail()
+            handleVerifyMail();
           }, 2000);
-         
+
           // setSnackBarData({
           //   visibility: true,
           //   // error: "info",
@@ -137,7 +183,7 @@ const SignUpPage = () => {
           // });
         },
         onError: (error) => {
-          console.log("🚀 ~ handleSignup ~ error:", error)
+          console.log("🚀 ~ handleSignup ~ error:", error);
           setSnackBarData({
             visibility: true,
             error: "error",
@@ -159,16 +205,17 @@ const SignUpPage = () => {
       },
       {
         onSuccess: (data) => {
-          navigate("/");
           console.log(data);
 
-         
+          setLoaderModal(false);
+          setWalletModalOpen(true);
+          setCountdown(60); // Reset countdown on resend
+          setIsButtonDisabled(true); // Disable button again
           setSnackBarData({
             visibility: true,
             // error: "info",
             text: "Sent Verification Mail Successfully",
           });
-          setLoaderModal(false);
         },
         onError: (error) => {
           console.log(error);
@@ -176,7 +223,6 @@ const SignUpPage = () => {
         },
       }
     );
-
   };
 
   const handleSendUsMail = (e) => {
@@ -201,7 +247,6 @@ const SignUpPage = () => {
         onSuccess: (data) => {
           console.log(data);
 
-          navigate("/");
           setSnackBarData({
             visibility: true,
             // error: "info",
@@ -297,8 +342,67 @@ const SignUpPage = () => {
         </div>
       </MaterialModal>
       <MaterialModal open={LoaderModal}>
-       <CustomizedLoader />
+        <CustomizedLoader />
       </MaterialModal>
+      <MaterialModal open={walletModalOpen}>
+        <Box
+          sx={{
+            textAlign: "center",
+          }}
+        >
+          {/* Image */}
+          <img
+            src={image} // Replace with your image path
+            alt="Email Verification"
+            style={{ width: "80px", marginBottom: "16px" }}
+          />
+
+          {/* Text */}
+          <Typography
+            sx={{
+              fontSize: "14px",
+              fontWeight: 400,
+              color: "rgb(42,42,42)",
+              lineHeight: "21px",
+              mb: 2,
+            }}
+          >
+            Thank you for registering. A verification email has been sent to
+            your inbox. Please follow the instructions in the email to activate
+            your account.
+          </Typography>
+
+          {/* Resend Button */}
+          <Button
+            variant="contained"
+            sx={{
+              backgroundColor: isButtonDisabled ? "#C2B5E2" : "#6A5ACD",
+              color: "#2c2c2c",
+              textTransform: "none",
+              fontWeight: "500",
+              borderRadius: "20px",
+              padding: "8px 16px",
+              "&:hover": {
+                backgroundColor: isButtonDisabled ? "#C2B5E2" : "#5A4ACD",
+              },
+            }}
+            onClick={handleVerifyMail}
+            disabled={isButtonDisabled}
+          >
+            Resend Email
+          </Button>
+          <Typography
+          sx={{
+            fontSize: "10px",
+            color: "rgb(42,42,42)",
+            mt: 1,
+          }}
+        >
+          {countdown > 0 ? `Resend in ${countdown}s` : "You can resend now"}
+        </Typography>
+        </Box>
+      </MaterialModal>
+      ;
       <div
         className="container-fluid row justify-content-center"
         style={{ backgroundColor: "#fff" }}
@@ -350,16 +454,16 @@ const SignUpPage = () => {
                 />
               </div>
               <div className="col-12 pl-0 pr-0">
-              <SimpleInput
-                lable="User Name"
-                name="username"
-                onChange={handleChange}
-                value={formData.username || ""}
-                error={submitclicked && !formData.username}
-                helperText={"Username is Required"}
-                required
-              />
-            </div>
+                <SimpleInput
+                  lable="User Name"
+                  name="username"
+                  onChange={handleChange}
+                  value={formData.username || ""}
+                  error={submitclicked && !formData.username}
+                  helperText={"Username is Required"}
+                  required
+                />
+              </div>
               <div className="col-12 pl-0 pr-0">
                 <SimpleInput
                   lable="Email address"

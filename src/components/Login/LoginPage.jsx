@@ -6,35 +6,41 @@ import { LargeButton } from "../Common/Buttons";
 import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 import { appData } from "../Context/AppContext";
 import useApi from "../Hooks/useApi";
-import { validateFormData ,validatePassword} from "../Common/Validations";
+import { validateFormData, validatePassword } from "../Common/Validations";
 import validator from "validator";
+import MaterialModal from "../Common/MaterialModal";
+import { Typography } from "@mui/material";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({});
-    const [usdtAmount, setustdAmount] = useState("");
-    const [userWallet, setUserWallet] = useState("");
+  const [usdtAmount, setustdAmount] = useState("");
+  const [userWallet, setUserWallet] = useState("");
   const [submitclicked, setSubmitclicked] = useState(false);
+
   const { setSnackBarData, setUserData } = appData();
   const { mutate: login, isPending: isLoginLoading, error } = useApi();
   const handleChange = (e) => {
     e.preventDefault();
-    setSubmitclicked(false)
+    setSubmitclicked(false);
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
   const onkeyEnter = (e) => {
-    if (e.key === "Enter" && (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA")) {
+    if (
+      e.key === "Enter" &&
+      (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA")
+    ) {
       e.preventDefault();
       handleLogin(e);
     }
   };
-  
+
   const handleLogin = (e) => {
     e.preventDefault();
-    setSubmitclicked(true)
+    setSubmitclicked(true);
     const keysToValidate = [
       { name: "email", errorMessage: "Please enter Email Address." },
-      {name : "password", errorMessage: "Please enter Password."}
+      { name: "password", errorMessage: "Please enter Password." },
     ];
 
     const validationResult = validateFormData({
@@ -42,7 +48,6 @@ const LoginPage = () => {
       keys: keysToValidate,
     });
     if (!validationResult.isValid) {
-      
       setSnackBarData({
         visibility: true,
         error: "error",
@@ -67,8 +72,6 @@ const LoginPage = () => {
       return;
     }
 
-    
-
     login(
       {
         url: "login",
@@ -80,7 +83,7 @@ const LoginPage = () => {
           console.log(data);
           localStorage.setItem("userData", JSON.stringify(data));
           setUserData(data);
-          navigate(userWallet||usdtAmount?'/Dashboard':"/");
+          navigate(userWallet || usdtAmount ? "/Dashboard" : "/");
           // setSnackBarData({
           //   visibility: true,
           //   // error: "info",
@@ -95,20 +98,24 @@ const LoginPage = () => {
   };
   const navigate = useNavigate();
 
-useEffect(()=>{
-  const usdtAmount = JSON.parse(localStorage.getItem('usdtAmount'));
-  const userWalletAddress = JSON.parse(localStorage.getItem('userWalletAddress'));
-  setustdAmount(usdtAmount)
-  setUserWallet(userWalletAddress)
-},[])
+  useEffect(() => {
+    const usdtAmount = JSON.parse(localStorage.getItem("usdtAmount"));
+    const userWalletAddress = JSON.parse(
+      localStorage.getItem("userWalletAddress")
+    );
+    setustdAmount(usdtAmount);
+    setUserWallet(userWalletAddress);
+  }, []);
 
   return (
-    <div
-      className="container-fluid row justify-content-center"
-      style={{ backgroundColor: "#fff" }}
-      onKeyDown={onkeyEnter}
-    >
-      {/* <div
+    <>
+  
+      <div
+        className="container-fluid row justify-content-center"
+        style={{ backgroundColor: "#fff" }}
+        onKeyDown={onkeyEnter}
+      >
+        {/* <div
         className="w-100 pl-xl-5 pl-0  d-flex login-mt"
         onClick={() => {
           // window.history.back();
@@ -119,65 +126,66 @@ useEffect(()=>{
         <p className="text-basic w-20 ml-1 cursor-pointer">Back</p>
       </div> */}
 
-      <div className="card login-container ">
-        <div className="bold-6 text-dark mont-font LoginHead">
-          Log In To iVestClub
-        </div>
-        <p className="LoginSubHead mt-2">Welcome Back</p>
-        <hr />
-        <FormControl variant="standard">
-          <SimpleInput
-            lable="Email address"
-            name="email"
-            onChange={handleChange}
-            value={formData.email || ""}
-            error={submitclicked && !formData.email}
-            helperText={"Email is Required"}
-            required
-          />
+        <div className="card login-container ">
+          <div className="bold-6 text-dark mont-font LoginHead">
+            Log In To iVestClub
+          </div>
+          <p className="LoginSubHead mt-2">Welcome Back</p>
+          <hr />
+          <FormControl variant="standard">
+            <SimpleInput
+              lable="Email address"
+              name="email"
+              onChange={handleChange}
+              value={formData.email || ""}
+              error={submitclicked && !formData.email}
+              helperText={"Email is Required"}
+              required
+            />
 
-          <PasswordInput
-            lable={"Password"}
-            onChange={handleChange}
-            name="password"
-            value={formData.password || ""}
-            error={submitclicked && !formData.password}
-            helperText={"Password is Required"}
-            required
-          />
-        </FormControl>
-        <p
-          className="mt-4 bold-4"
-          style={{ color: "#4E55FF", fontSize: "14px", cursor: "pointer" }}
-          onClick={() => {
-            navigate(`/Forget`);
-          }}
-        >
-          Forgot Your Password
-        </p>
-        <div className="mt-4">
-          <LargeButton
-            onClick={handleLogin}
-            text={isLoginLoading ? "Logging in..." : "Login"}
-          />
-        </div>
-
-        <div className="w-100 mt-2 align-items-center d-flex justify-content-center">
-          <p className="text-basic loginBottomDes">
-            Don't have an account?{" "}
-            <span
-              className="loginBottomDes"
-              style={{ fontWeight: "400", color: "#000", cursor: "pointer" }}
-              onClick={() => {
-                navigate(`/SignUp`);
-              }}
-            >
-              Register
-            </span>
+            <PasswordInput
+              lable={"Password"}
+              onChange={handleChange}
+              name="password"
+              value={formData.password || ""}
+              error={submitclicked && !formData.password}
+              helperText={"Password is Required"}
+              required
+            />
+          </FormControl>
+          <p
+            className="mt-4 bold-4"
+            style={{ color: "#4E55FF", fontSize: "14px", cursor: "pointer" }}
+            onClick={() => {
+              navigate(`/Forget`);
+            }}
+          >
+            Forgot Your Password
           </p>
+          <div className="mt-4">
+            <LargeButton
+              onClick={handleLogin}
+              text={isLoginLoading ? "Logging in..." : "Login"}
+            />
+          </div>
+
+          <div className="w-100 mt-2 align-items-center d-flex justify-content-center">
+            <p className="text-basic loginBottomDes">
+              Don't have an account?{" "}
+              <span
+                className="loginBottomDes"
+                style={{ fontWeight: "400", color: "#000", cursor: "pointer" }}
+                onClick={() => {
+                  navigate(`/SignUp`);
+                }}
+              >
+                Register
+              </span>
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

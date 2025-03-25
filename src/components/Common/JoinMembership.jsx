@@ -13,10 +13,17 @@ import { baseUrl } from "../../../apiConfig";
 const JoinMembership = () => {
   const queryParams = new URLSearchParams(window.location.search);
   const idParam = queryParams.get("id");
+  console.log("🚀 ~ JoinMembership ~ idParam:", idParam)
+ 
+
+
   const navigate = useNavigate();
   const { mutate: joinMembership, isPending: isJoinClubLoading } = useApi();
   const { mutate: sendDiscordId, isPending: sendingDiscordId } = useApi();
+  const { mutate: clubToken, isPending: sendingClubToken } = useApi();
+  const { mutate: getData } = useApi();
   const { userData, setShowHeader, setSnackBarData } = appData();
+  const [profiledata, setProfileData] = useState({});
   const [openModal1, setOpenModal1] = useState(false);
   const [openModal2, setOpenModal2] = useState(false);
   const [submitClicked, setSubmitClicked] = useState(false);
@@ -26,7 +33,24 @@ const JoinMembership = () => {
   const [adminWallet , setAdminWallet] = useState("")
   const [tokenContractAddress, setTokenContractAddress] = useState("")
   const [membershipClubAmount, setmembershipClubAmount] = useState("")
-
+  const memberShipClubidDycripted=decryptNumber(idParam)/1
+  useEffect(() => {
+    getData(
+      {
+        url: "profile",
+        method: "GET",
+        sendHeaders: true,
+      },
+      {
+        onSuccess: (data) => {
+          setProfileData(data);
+        },
+        onError: (error) => {
+          console.log(error);
+        },
+      }
+    );
+  }, []);
   const handleChange = (e) => {
     e.preventDefault();
     setSubmitClicked(false);
@@ -154,11 +178,12 @@ const JoinMembership = () => {
 
     sendDiscordId(
       {
-        url: `user/save-discord-username`,
+        url: `user-join-club`,
         method: "POST",
         sendHeaders: true,
-        data: { discord_userid: formData.userId },
+        data: { membership_club_id:memberShipClubidDycripted,discord_userid:formData.userId,user_id:profiledata?.id },
       },
+    
       {
         onSuccess: (data) => {
           console.log("Discord ID saved", data);
@@ -170,7 +195,38 @@ const JoinMembership = () => {
       }
     );
   };
-
+const handleClick=()=>{
+ console.log('data')
+  joinMembership(
+    {
+      url: `user-has-club-token`,
+      method: "POST",
+      sendHeaders: true,
+      data: { user_id: `${profiledata.id}`,membership_club_id: memberShipClubidDycripted },
+    },
+    {
+      onSuccess: (data) => {
+        if (data?.has_club_token) {
+          setOpenModal2(true);
+        } else {
+          if (userData?.access_token && !data?.has_club_token) {
+            setSnackBarData({
+              visibility: true,
+              error: "error",
+              text: "You don't have required tokens to join this membership club",
+            });
+          } else {
+            navigate(`/Dashboard`);
+          }
+        }
+        
+      },
+      onError: (error) => {
+        console.error("Membership joining error", error);
+      },
+    }
+  );
+}
   return (
     <>
       <OutlinedButtonDark
@@ -180,10 +236,14 @@ const JoinMembership = () => {
             : "Buy Membership Token & Join"
         }
         loading={isJoinClubLoading || sendingDiscordId}
-        onClick={() => {
-          // setShowHeader(false);
-          setOpenModal1(true);
-        }}
+        // onClick={() => {
+        //   // setShowHeader(false);
+        //   // setOpenModal1(true);
+        // }}
+        // onClick={() => {
+        //   navigate(userData?.access_token?`/Dashboard`:`/shop`);
+        // }}
+        onClick={handleClick}
       />
 
       {/* Discord Server Join Modal */}
@@ -281,7 +341,7 @@ const JoinMembership = () => {
               text={
                 sendingDiscordId || isJoinClubLoading
                   ? "Submitting..."
-                  : "Submit"
+                  : "Continue"
               }
               onClick={handleDiscordId}
               loading={sendingDiscordId || isJoinClubLoading}

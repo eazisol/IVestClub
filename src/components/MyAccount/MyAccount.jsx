@@ -11,11 +11,13 @@ import { validateFormData } from "../Common/Validations";
 import { CustomizedLoader } from "../Common/MiniComponents";
 import { imgUrl } from "../../../apiConfig";
 import { CountryAutocomplete } from "../Common/AutoCompletes";
+import { Box, Chip, CircularProgress, Typography } from "@mui/material";
 
 const MyAccount = () => {
   const { userData, setSnackBarData, showPassword, setShowPassword } =
     appData();
   const [formData, setFormData] = useState({});
+  console.log("🚀 ~ MyAccount ~ formData:", formData);
   const [submitClicked, setSubmitclicked] = useState(false);
   const [profilePic, setProfilePic] = useState(null);
   const [passport, setPassport] = useState(null);
@@ -278,9 +280,9 @@ const MyAccount = () => {
     );
   };
 
-  if (isProfileLoading) {
-    return <CustomizedLoader />;
-  } else {
+  // if (isProfileLoading) {
+  //   return <CustomizedLoader />;
+  // } else {
     return (
       <SactionContainer container={false}>
         <div className="w-100">
@@ -296,7 +298,6 @@ const MyAccount = () => {
           <div className="row mb-5">
             <div className="col-lg-3 col-md-12 p-2 col-sm-12">
               <ProfileCard
-               
                 profilePic={profilePic}
                 setProfilePic={setProfilePic}
                 prevPic={formData.profile}
@@ -308,7 +309,7 @@ const MyAccount = () => {
             <div className="col-lg-9 col-md-12 col-sm-12 p-2 row">
               {!showPassword ? (
                 <div className="card card-border-c w-100">
-                  <div className="row justify-content-between p-4">
+               {isProfileLoading?<Box sx={{display:"flex",justifyContent:"center",alignItems:"center",height:"300px"}}> <CircularProgress /></Box>:   <div className="row justify-content-between p-4">
                     <div className="col-6 ">
                       <h5>My Account</h5>
                     </div>
@@ -361,7 +362,7 @@ const MyAccount = () => {
                         disabled={editEnabled}
                       />
                     </div>
-                  </div>
+                  </div>}
                   <hr />
                   <div className="row p-4">
                     <div className="col-12 ">
@@ -442,19 +443,19 @@ const MyAccount = () => {
                         </div>
                       </div>
                       <div
-                        className="card verificarion-card-active mt-2 "
-                        style={{ cursor: "pointer" }}
+                        className="card verificarion-card-active mt-2 d-flex align-items-center justify-content-between"
+                        style={{ cursor: "pointer", padding: "10px" }}
                         onClick={() => {
                           setSelectedUploadId("passportUpload");
                         }}
                       >
-                        <div className="row">
+                        <div className="row w-100">
                           <div className="col-1 p-3">
                             <div className="icon-wrap">
                               <i className="fa-regular fa-address-card"></i>
                             </div>
                           </div>
-                          <div className="col-11 p-3">
+                          <div className="col-9 p-3">
                             <div className="mb-0 verificationHeadings">
                               Passport
                             </div>
@@ -462,8 +463,91 @@ const MyAccount = () => {
                               Create your account with Passport
                             </p>
                           </div>
+                          <div className="col-2 d-flex align-items-center justify-content-end">
+                            <Box
+                              sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "center",
+                              }}
+                            >
+                              <Chip
+                                label={
+                                  formData?.kyc_status === "Approved"
+                                    ? "Approved"
+                                    : "Approval pending"
+                                }
+                                color={
+                                  formData?.kyc_status === "Approved"
+                                    ? "success"
+                                    : "warning"
+                                }
+                                size="small"
+                                sx={{
+                                  fontSize: "12px",
+                                  height: "auto",
+                                  padding: "6px 12px",
+                                  ml: 1,
+                                  minWidth:
+                                    formData?.kyc_status === "Approved"
+                                      ? "125px"
+                                      : "135px",
+                                }}
+                              />
+
+                              {formData?.kyc_status === "Approved" &&
+                              formData?.kyc_approved_at ? (
+                                <Typography
+                                  sx={{
+                                    fontSize: "10px",
+                                    color: "#555",
+                                    mt: 0.5,
+                                    ml: 2,
+                                  }}
+                                >
+                                  Approval Date:{" "}
+                                  {isNaN(new Date(formData?.kyc_approved_at))
+                                    ? "Invalid Date"
+                                    : new Intl.DateTimeFormat("en-GB", {
+                                        day: "2-digit",
+                                        month: "2-digit",
+                                        year: "numeric",
+                                        hour: "2-digit",
+                                        minute: "2-digit",
+                                        hour12: true,
+                                      }).format(
+                                        new Date(formData?.kyc_approved_at)
+                                      )}
+                                </Typography>
+                              ) : formData?.kyc_submitted_at ? (
+                                <Typography
+                                  sx={{
+                                    fontSize: "10px",
+                                    color: "#555",
+                                    mt: 0.5,
+                                    ml: 2,
+                                  }}
+                                >
+                                  Submitted Date:{" "}
+                                  {isNaN(new Date(formData?.kyc_submitted_at))
+                                    ? "Invalid Date"
+                                    : new Intl.DateTimeFormat("en-GB", {
+                                        day: "2-digit",
+                                        month: "2-digit",
+                                        year: "numeric",
+                                        hour: "2-digit",
+                                        minute: "2-digit",
+                                        hour12: true,
+                                      }).format(
+                                        new Date(formData?.kyc_submitted_at)
+                                      )}
+                                </Typography>
+                              ) : null}
+                            </Box>
+                          </div>
                         </div>
                       </div>
+
                       <input
                         id="passportUpload"
                         type="file"
@@ -524,79 +608,77 @@ const MyAccount = () => {
                           )}
                         </div>
                       </div>
-                      {!editEnabled&&<div className=" row justify-content-center mt-2">
-                        <div className="col-lg-3 col-md-12 col-sm-12 mt-2">
-                          <OutlinedButtonDark
-                            text={"Upload Photo"}
-                            onClick={triggerPassportInput}
-                          />
+                      {!editEnabled && (
+                        <div className=" row justify-content-center mt-2">
+                          <div className="col-lg-3 col-md-12 col-sm-12 mt-2">
+                            <OutlinedButtonDark
+                              text={"Upload Photo"}
+                              onClick={triggerPassportInput}
+                            />
+                          </div>
+                          <div className="col-lg-3 col-md-12 col-sm-12 mt-2">
+                            <OutlinedButtonDark text={"Take Photo"} />
+                          </div>
                         </div>
-                        <div className="col-lg-3 col-md-12 col-sm-12 mt-2">
-                          <OutlinedButtonDark text={"Take Photo"} />
-                        </div>
-                      </div>}
+                      )}
                     </div>
-                   {!editEnabled&& <div className="w-10 d-flex justify-content-end mr-3 ml-auto">
-                 <LargeButton
-                   text={isProfileSendLoading ? "Saving" : "Save"}
-                   onClick={handleSignup}
-                 />
-               </div>}
+                    {!editEnabled && (
+                      <div className="w-10 d-flex justify-content-end mr-3 ml-auto">
+                        <LargeButton
+                          text={isProfileSendLoading ? "Saving" : "Save"}
+                          onClick={handleSignup}
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
               ) : (
                 <>
-                <div className="card card-border-c w-100">
-                  <div className="row justify-content-between px-4 mt-4">
-                    <div className="col-6 ">
-                      <h5>Change Password</h5>
-                    </div>
+                  <div className="card card-border-c w-100">
+                    <div className="row justify-content-between px-4 mt-4">
+                      <div className="col-6 ">
+                        <h5>Change Password</h5>
+                      </div>
 
-                    <div className="col-lg-2 col-4">
-                      <LargeButton
-                        text={isPasswordSending ? "" : "Save"}
-                        onClick={handlePasswordChange}
-                        loading={isPasswordSending}
-                      />
+                      <div className="col-lg-2 col-4">
+                        <LargeButton
+                          text={isPasswordSending ? "" : "Save"}
+                          onClick={handlePasswordChange}
+                          loading={isPasswordSending}
+                        />
+                      </div>
+                    </div>
+                    <div className="row px-4 ">
+                      <div className="col-lg-6 col-md-12 col-sm-12">
+                        <PasswordInput
+                          lable={"Current Password"}
+                          onChange={handleChange}
+                          name="currentpassword"
+                          value={formData.currentpassword || ""}
+                        />
+                        <PasswordInput
+                          lable={"New Password"}
+                          onChange={handleChange}
+                          name="password"
+                          value={formData.password || ""}
+                        />
+                        <PasswordInput
+                          lable={"Confirm Password"}
+                          onChange={handleChange}
+                          name="password_confirmation"
+                          value={formData.password_confirmation || ""}
+                        />
+                      </div>
                     </div>
                   </div>
-                  <div className="row px-4 ">
-                    <div className="col-lg-6 col-md-12 col-sm-12">
-                      <PasswordInput
-                        lable={"Current Password"}
-                        onChange={handleChange}
-                        name="currentpassword"
-                        value={formData.currentpassword || ""}
-                      />
-                      <PasswordInput
-                        lable={"New Password"}
-                        onChange={handleChange}
-                        name="password"
-                        value={formData.password || ""}
-                      />
-                       <PasswordInput
-                        lable={"Confirm Password"}
-                        onChange={handleChange}
-                        name="password_confirmation"
-                        value={formData.password_confirmation || ""}
-                      />
-                    </div>
-
-                   
-                  </div>
-                  
-                </div>
-                
-               </>
+                </>
               )}
-              
             </div>
-           
           </div>
         </div>
       </SactionContainer>
     );
   }
-};
+// };
 
 export default MyAccount;

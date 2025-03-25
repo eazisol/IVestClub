@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import landingimg from "../../assets/image/landingimg.png";
 import landingbg2 from "../../assets/image/landingbg2.png";
@@ -42,9 +42,10 @@ import MemberShipClubSaction from "./MemberShipClubSaction";
 import { TextUnderWrap } from "../Common/MiniComponents";
 import HeroSaction from "./HeroSaction";
 import { Height, Margin, Opacity, Padding } from "@mui/icons-material";
-import { colors } from "@mui/material";
+import { Button, colors, Typography } from "@mui/material";
 import { appData } from "../Context/AppContext";
 import CreateAccountModal from "../Common/CreateAccountModal";
+import MaterialModal from "../Common/MaterialModal";
 
 
 const Home = () => {
@@ -52,7 +53,12 @@ const Home = () => {
   const { showLandingSaction, setSnackBarData, setOpenModal } = appData();
   const queryParams = new URLSearchParams(window.location.search);
   const idParam = queryParams.get("verification-status");
-
+// const [walletModalOpen, setWalletModalOpen] = useState(false);
+//   useEffect(() => {
+//     if (userData && !userData.access_token) {
+//       setWalletModalOpen(true);
+//     }
+//   }, [userData]);
   useEffect(() => {
     console.log("idparam", idParam)
     if (idParam) {
@@ -77,6 +83,45 @@ const Home = () => {
 
   return (
     <>
+        {/* <MaterialModal
+            open={walletModalOpen}
+            onClose={() => setWalletModalOpen(false)}
+          >
+            
+            <Typography
+              sx={{
+                fontSize: "14px",
+                fontWeight: 400,
+                color: "rgb(122, 110, 170)",
+                lineHeight: "21px",
+                width: "85%",
+                mb: 3,
+              }}
+            >
+             We have Send you a verfication Email please verify your self to Continue
+    
+            </Typography>
+             <Button
+                        variant="contained"
+                        sx={{
+                          backgroundColor: "#C2B5E2",
+                          color: "black",
+                          textTransform: "none",
+                          fontWeight: "bold",
+                          borderRadius: "20px",
+                          padding: "8px 16px",
+                          "&:hover": {
+                            backgroundColor: "#b5a5d2",
+                          },
+                        }}
+                        endIcon={<OpenInNewIcon fontSize="small" />}
+                        // onClick={() =>
+                        //   window.open("https://metamask.io/download/", "_blank")
+                        // }
+                      >
+                     Resent email
+                      </Button>
+          </MaterialModal> */}
       <HeroSaction />
       {showLandingSaction && (
         <>

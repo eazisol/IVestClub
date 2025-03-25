@@ -319,27 +319,64 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
           <Box
             sx={{
               display: "flex",
-              flexDirection: "column",
+              justifyContent: "space-between",
               alignItems: "center",
               mb: 3,
-              cursor: "pointer",
+              width: "80%",
+              border: "1px solid lightgray", // Light gray border
+              borderRadius: "12px", // Rounded corners
+              padding: "8px 12px", // Optional padding for better spacing
             }}
-            onClick={handleConnectWallet}
           >
-            <img src={mataMaskImage} width="40%" alt="MetaMask" />
-            <Typography
-              variant="body1"
+            <Box
               sx={{
-                fontSize: "12px",
-                fontWeight: 400,
-                color: "rgb(40, 13, 95)",
-                lineHeight: "18px",
-                mt: 1,
+                display: "flex",
+                alignItems: "center",
               }}
             >
-              MetaMask
-            </Typography>
+              {" "}
+              <img
+                src={mataMaskImage}
+                width="20%"
+                alt="MetaMask"
+                style={{
+                  transition: "opacity 0.3s ease",
+                }}
+              />
+              <Typography
+                variant="body1"
+                sx={{
+                  fontSize: "12px",
+                  fontWeight: 800,
+                  color: "rgb(40, 13, 95)",
+                  lineHeight: "18px",
+                  ml: 1,
+                }}
+              >
+                MetaMask
+              </Typography>
+            </Box>
+
+            <Button
+              variant="contained"
+              sx={{
+                backgroundColor: "#C2B5E2",
+                color: "black",
+                textTransform: "none",
+                borderRadius: "20px",
+                fontSize: "10px", // Smaller font size
+                padding: "4px 10px", // Reduced padding
+                minWidth: "auto", // Prevents unnecessary width expansion
+                "&:hover": {
+                  backgroundColor: "#b5a5d2",
+                },
+              }}
+              onClick={handleConnectWallet}
+            >
+              Connect
+            </Button>
           </Box>
+
           <Typography
             sx={{
               fontSize: "14px",
@@ -368,7 +405,9 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
               },
             }}
             endIcon={<OpenInNewIcon fontSize="small" />}
-            onClick={() => window.open("https://metamask.io/download/", "_blank")}
+            onClick={() =>
+              window.open("https://metamask.io/download/", "_blank")
+            }
           >
             Learn How to Connect
           </Button>
@@ -390,12 +429,12 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
                     }}
                     title="IVest Club"
                   >
-                      <img
-                       src={logo}
-                       alt="IVest Club"
-                       title=""
-                       className="header-logo-img"
-                     />
+                    <img
+                      src={logo}
+                      alt="IVest Club"
+                      title=""
+                      className="header-logo-img"
+                    />
                   </a>
                 </div>
               </div>
@@ -850,7 +889,10 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
           </nav>
         </div>
       </header>
-      <section></section>
+
+      <section>
+     
+      </section>
     </>
   );
 };
