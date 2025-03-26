@@ -213,7 +213,7 @@ const handleClick=()=>{
             setSnackBarData({
               visibility: true,
               error: "error",
-              text: "You don't have required tokens to join this membership club",
+              text: "You don't have required token transactions to join this membership club",
             });
           } else {
             navigate(`/Dashboard`);

@@ -10,6 +10,7 @@ import { validateFormData, validatePassword } from "../Common/Validations";
 import validator from "validator";
 import MaterialModal from "../Common/MaterialModal";
 import { Typography } from "@mui/material";
+import { baseUrl } from "../../../apiConfig";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({});
@@ -35,6 +36,68 @@ const LoginPage = () => {
     }
   };
 
+  // const handleLogin = (e) => {
+  //   e.preventDefault();
+  //   setSubmitclicked(true);
+  //   const keysToValidate = [
+  //     { name: "email", errorMessage: "Please enter Email Address." },
+  //     { name: "password", errorMessage: "Please enter Password." },
+  //   ];
+
+  //   const validationResult = validateFormData({
+  //     formData,
+  //     keys: keysToValidate,
+  //   });
+  //   if (!validationResult.isValid) {
+  //     setSnackBarData({
+  //       visibility: true,
+  //       error: "error",
+  //       text: validationResult.errorMessage,
+  //     });
+  //     return;
+  //   }
+  //   if (!validator.isEmail(formData.email)) {
+  //     setSnackBarData({
+  //       visibility: true,
+  //       error: "error",
+  //       text: "Please enter a valid email",
+  //     });
+  //     return;
+  //   }
+  //   if (!validatePassword(formData.password)) {
+  //     setSnackBarData({
+  //       visibility: true,
+  //       error: "error",
+  //       text: "Please enter a valid Password",
+  //     });
+  //     return;
+  //   }
+
+  //   login(
+  //     {
+  //       url: "login",
+  //       method: "POST",
+  //       data: formData,
+  //     },
+  //     {
+  //       onSuccess: (data) => {
+  //         console.log(data);
+  //         localStorage.setItem("userData", JSON.stringify(data));
+  //         setUserData(data);
+  //         navigate(userWallet || usdtAmount ? "/Dashboard" : "/");
+  //         // setSnackBarData({
+  //         //   visibility: true,
+  //         //   // error: "info",
+  //         //   text: "Successfully logged in",
+  //         // });
+  //       },
+  //       onError: (error) => {
+  //         console.log(error);
+  //       },
+  //     }
+  //   );
+  // };
+  
   const handleLogin = (e) => {
     e.preventDefault();
     setSubmitclicked(true);
@@ -42,7 +105,7 @@ const LoginPage = () => {
       { name: "email", errorMessage: "Please enter Email Address." },
       { name: "password", errorMessage: "Please enter Password." },
     ];
-
+  
     const validationResult = validateFormData({
       formData,
       keys: keysToValidate,
@@ -71,7 +134,7 @@ const LoginPage = () => {
       });
       return;
     }
-
+  
     login(
       {
         url: "login",
@@ -79,23 +142,33 @@ const LoginPage = () => {
         data: formData,
       },
       {
-        onSuccess: (data) => {
-          console.log(data);
+        onSuccess: async (data) => {
+          console.log("Login Success:", data);
           localStorage.setItem("userData", JSON.stringify(data));
           setUserData(data);
+  
+          try {
+            const response = await fetch(`${baseUrl}token/getAllTokenData`);
+            if (!response.ok) {
+              throw new Error("Failed to fetch token data");
+            }
+            const tokenData = await response.json();
+            localStorage.setItem("tokenData", JSON.stringify(tokenData));
+            console.log("Token Data Saved:", tokenData);
+          } catch (err) {
+            console.error("Error fetching token data:", err);
+          }
+  
           navigate(userWallet || usdtAmount ? "/Dashboard" : "/");
-          // setSnackBarData({
-          //   visibility: true,
-          //   // error: "info",
-          //   text: "Successfully logged in",
-          // });
         },
         onError: (error) => {
-          console.log(error);
+          console.log("Login Error:", error);
         },
       }
     );
   };
+  
+
   const navigate = useNavigate();
 
   useEffect(() => {

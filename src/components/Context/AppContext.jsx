@@ -46,6 +46,8 @@ const handleLogout = () => {
   localStorage.removeItem("tokenHoldings")
   localStorage.removeItem("walletData")
   localStorage.removeItem("userData")
+  localStorage.removeItem("tokenData")
+
 
 };
 
