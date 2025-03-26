@@ -1,19 +1,18 @@
 import React from "react";
-import ivctoken from "../../assets/image/ivctoken.png";
-import logo from "../../assets/image/icons/cardicon.png";
+import { useNavigate } from "react-router-dom";
+import { imgUrl } from "../../../apiConfig";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
-import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
-import CurrencyBitcoinOutlinedIcon from "@mui/icons-material/CurrencyBitcoinOutlined";
-import { useNavigate, NavLink } from "react-router-dom";
-import { imgUrl } from "../../../apiConfig";
-import ImageOutlinedIcon from "@mui/icons-material/ImageOutlined";
 import VectorIcon from "../../assets/image/icons/vector.png";
+import useApi from "../Hooks/useApi";
+import { appData } from "../Context/AppContext";
+import { decryptNumber } from "../Common/Utills";
+
 const MemberShipClubCards = ({
   text,
   heading,
-  to,
+  id, 
   image,
   col = 4,
   price,
@@ -24,15 +23,88 @@ const MemberShipClubCards = ({
   viewStyle = "grid",
 }) => {
   const navigate = useNavigate();
-  if (viewStyle == "grid") {
+  const { mutate: joinMembership } = useApi();
+  const { mutate: checkTokens } = useApi();
+  const { userData, setSnackBarData } = appData();
+
+  const handleMembershipJoin = () => {
+    // If user is not logged in, navigate to dashboard or login
+    if (!userData?.access_token) {
+      navigate('/Dashboard');
+      return;
+    }
+
+    // First, check if user has required tokens
+    checkTokens(
+      {
+        url: `user-has-club-token`,
+        method: "POST",
+        sendHeaders: true,
+        data: { 
+          user_id: userData.user_id, 
+          membership_club_id: (decryptNumber(id)/1)
+        },
+      },
+      {
+        onSuccess: (tokenData) => {
+          if (tokenData?.has_club_token) {
+            // If user has tokens, proceed to join the membership
+            joinMembership(
+              {
+                url: `membershipclub/joining/${(decryptNumber(id)/1)}`,
+                method: "GET",
+                sendHeaders: true,
+              },
+              {
+                onSuccess: (joinData) => {
+                  // Successfully joined the membership
+                  setSnackBarData({
+                    visibility: true,
+                    error: "success",
+                    text: "Successfully joined the membership club",
+                  });
+                  
+                  // Navigate to private membership page
+                  navigate(`/Membership/Private?id=${id}`);
+                },
+                onError: (joinError) => {
+                  console.error("Membership joining error", joinError);
+                  setSnackBarData({
+                    visibility: true,
+                    error: "error",
+                    text: "Failed to join membership club",
+                  });
+                }
+              }
+            );
+          } else {
+            // If user doesn't have tokens, show error snackbar
+            setSnackBarData({
+              visibility: true,
+              error: "error",
+              text: "You don't have required tokens to join this membership club",
+            });
+          }
+        },
+        onError: (tokenError) => {
+          console.error("Token check error", tokenError);
+          setSnackBarData({
+            visibility: true,
+            error: "error",
+            text: "An error occurred while checking membership eligibility",
+          });
+        }
+      }
+    );
+  };
+
+  if (viewStyle === "grid") {
     return (
       <div
-        className={`col-lg-${col} col-md-12 mb-4 col-sm-12 px-3 cursor-pointer `}
-        onClick={() => {
-          navigate(to);
-        }}
+        className={`col-lg-${col} col-md-12 mb-4 col-sm-12 px-3 cursor-pointer`}
+        onClick={handleMembershipJoin}
       >
-        <div className="card pb-1 p-3 " style={{ height: "30em" }}>
+        <div className="card pb-1 p-3" style={{ height: "30em" }}>
           {staticImg ? (
             <img
               src={image}
@@ -73,7 +145,7 @@ const MemberShipClubCards = ({
                 <PeopleAltOutlinedIcon sx={{ color: "#ccc", fontSize: 19 }} />
                 <span className="iconText pop-font"> {members}</span>
               </div>
-              <div className="d-flex align-items-center">
+              {/* <div className="d-flex align-items-center">
                 <Rating
                   name="text-feedback"
                   value={rating}
@@ -88,7 +160,7 @@ const MemberShipClubCards = ({
                   {" "}
                   <span className="iconText pop-font"> ({rating?.toFixed(2)})</span>
                 </p>
-              </div>
+              </div> */}
             </div>
 
             <div
@@ -104,10 +176,7 @@ const MemberShipClubCards = ({
                     borderRadius: "30px",
                   }}
                 >
-                  {/* <CurrencyBitcoinOutlinedIcon
-                    sx={{ color: "#fff", fontSize: 12 }}
-                  /> */}
-                  <img src={VectorIcon} alt="IVT Icon" style={{ width: 12, height: 12 }} />
+                <img src={VectorIcon} alt="IVT Icon" style={{ width: 12, height: 12 }} />
                 </div>
                 <h6 className="mb-0 text-basic text-dark">
                   {" "}
@@ -116,8 +185,7 @@ const MemberShipClubCards = ({
                   </div>{" "}
                 </h6>
               </div>
-              <NavLink
-                to={to}
+              <div
                 style={{
                   textDecoration: "underline",
                   fontSize: "14px",
@@ -125,21 +193,19 @@ const MemberShipClubCards = ({
                 }}
               >
                 <span className="bold-5 pop-font">
-                  {joined ? "Joined" : "Join Now"}{" "}
+                      {joined ? "Joined" : "Join Now"}{" "}
                 </span>
-              </NavLink>
+              </div>
             </div>
           </div>
         </div>
       </div>
     );
-  } else if (viewStyle == "list") {
+  } else if (viewStyle === "list") {
     return (
       <div
-        className={`col-lg-12 col-md-12 mb-4 col-sm-12 px-3 cursor-pointer `}
-        onClick={() => {
-          navigate(to);
-        }}
+        className={`col-lg-12 col-md-12 mb-4 col-sm-12 px-3 cursor-pointer`}
+        onClick={handleMembershipJoin}
       >
         <div className="card pb-1 p-3 " style={{ height: "15em" }}>
           <div className="row">
@@ -149,7 +215,7 @@ const MemberShipClubCards = ({
                   src={image}
                   className=""
                   alt="..."
-                  style={{ height: "200px", objectFit: "cover",width: "100%", }}
+                  style={{ height: "200px", objectFit: "cover", width: "100%" }}
                 />
               ) : (
                 <>
@@ -158,13 +224,11 @@ const MemberShipClubCards = ({
                       src={imgUrl + image}
                       className=""
                       alt="..."
-                      style={{ height: "200px", objectFit: "cover",width: "100%", }}
+                      style={{ height: "200px", objectFit: "cover", width: "100%" }}
                     />
                   ) : (
                     <div className="text-center">
-                      <ImageOutlinedIcon
-                        sx={{ fontSize: 200, color: "#ccc" }}
-                      />
+                      <ImageOutlinedIcon sx={{ fontSize: 200, color: "#ccc" }} />
                     </div>
                   )}
                 </>
@@ -182,9 +246,7 @@ const MemberShipClubCards = ({
               <div className="">
                 <div className="w-100 d-flex justify-content-between align-items-center">
                   <div className="">
-                    <PeopleAltOutlinedIcon
-                      sx={{ color: "#ccc", fontSize: 19 }}
-                    />
+                    <PeopleAltOutlinedIcon sx={{ color: "#ccc", fontSize: 19 }} />
                     <span className="iconText pop-font"> {members}</span>
                   </div>
                   <div className="d-flex align-items-center">
@@ -218,9 +280,7 @@ const MemberShipClubCards = ({
                         borderRadius: "30px",
                       }}
                     >
-                      <CurrencyBitcoinOutlinedIcon
-                        sx={{ color: "#fff", fontSize: 12 }}
-                      />
+                      <img src={VectorIcon} alt="IVT Icon" style={{ width: 12, height: 12 }} />
                     </div>
                     <h6 className="mb-0 text-basic text-dark">
                       {" "}
@@ -229,8 +289,7 @@ const MemberShipClubCards = ({
                       </div>{" "}
                     </h6>
                   </div>
-                  <NavLink
-                    to={to}
+                  <div
                     style={{
                       textDecoration: "underline",
                       fontSize: "14px",
@@ -240,7 +299,7 @@ const MemberShipClubCards = ({
                     <span className="bold-5 pop-font">
                       {joined ? "Joined" : "Join Now"}{" "}
                     </span>
-                  </NavLink>
+                  </div>
                 </div>
               </div>
             </div>

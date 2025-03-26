@@ -143,24 +143,20 @@ const MemberShipClubSaction = () => {
         ) : (
           <div className="row justify-content-sm-center justify-content-md-start" >
             {membershipList?.map((data, index) => (
-              <React.Fragment key={data.id}>
-                <MemberShipClubCards
-                  image={data.img}
-                  heading={data.title}
-                  text={data.overview}
-                  price={data.price}
-                  to={
-                    data.joined
-                      ? `/Membership/Private?id=${encryptNumber(data.id)}`
-                      : `/Membership/Public?id=${encryptNumber(data.id)}`
-                  }
-                  joined={data.joined}
-                  members={data.members}
-                  rating={data.totalrating}
-                  viewStyle={viewStyle}
-                />
-              </React.Fragment>
-            ))}
+            <React.Fragment key={data.id}>
+              <MemberShipClubCards
+                id={encryptNumber(data.id)} // Add this line
+                image={data.img}
+                heading={data.title}
+                text={data.overview}
+                price={data.price}
+                joined={data.joined}
+                members={data.members}
+                rating={data.totalrating}
+                viewStyle={viewStyle}
+              />
+            </React.Fragment>
+          ))}
 
          
             {/* <MemberShipClubCards
