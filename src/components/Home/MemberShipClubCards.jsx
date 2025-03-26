@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { imgUrl } from "../../../apiConfig";
+import { baseUrl, imgUrl } from "../../../apiConfig";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
@@ -21,6 +21,7 @@ const MemberShipClubCards = ({
   rating = 0,
   staticImg = false,
   viewStyle = "grid",
+  symbol,
 }) => {
   const navigate = useNavigate();
   const { mutate: joinMembership } = useApi();
@@ -31,6 +32,11 @@ const MemberShipClubCards = ({
     // If user is not logged in, navigate to dashboard or login
     if (!userData?.access_token) {
       navigate('/Dashboard');
+      return;
+    }
+
+    if (joined) {
+      navigate(`/Membership/Private?id=${id}`);
       return;
     }
 
@@ -181,7 +187,7 @@ const MemberShipClubCards = ({
                 <h6 className="mb-0 text-basic text-dark">
                   {" "}
                   <div className="bitCoinText  LightText">
-                    {price ? price : "Price vs IVC"}
+                    {price ? price + " Price vs IVT" : "Price vs IVT"}
                   </div>{" "}
                 </h6>
               </div>
