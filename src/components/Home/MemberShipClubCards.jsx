@@ -117,6 +117,9 @@ const MemberShipClubCards = ({
               error: "error",
               text: "You don't have required token transactions to join this membership club",
             });
+            setTimeout(() => {
+              navigate(`/Membership/Public?id=${id}`);
+            }, 1500);
           }
         },
         onError: () => {
