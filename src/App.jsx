@@ -47,6 +47,7 @@ import ContactUs from "./components/Contact/ContactUs.jsx";
 import ErrorPage from "./components/ErrorPage.jsx";
 import { TransactionHistory } from "./components/TransactionHistory/TransactionHistory.jsx";
 import Shop from "./components/Shop/Shop.jsx";
+import Tokens from "./components/Tokens/index.jsx";
 
 
 function App() {
@@ -71,6 +72,7 @@ function App() {
               <Route path="Forget" element={<ForgetPassword />} />
               <Route path="About" element={<About />} />
               <Route path="shop" element={<Shop />} />
+              <Route path="token" element={<Tokens />} />
                 <Route
                   path="Membership/Public"
                   element={<PublicMemberShip />}

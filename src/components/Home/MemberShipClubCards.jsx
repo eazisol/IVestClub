@@ -86,6 +86,7 @@ useEffect(()=>{
     }
 
 
+   
     if (!userData?.access_token) {
       navigate(`/Membership/Public?id=${id}`);
       return;
@@ -224,7 +225,7 @@ useEffect(()=>{
                   <img src={VectorIcon} alt="IVT Icon" style={{ width: 12, height: 12 }} />
                 </div>
                 <h6 className="mb-0 text-basic text-dark bitCoinText LightText">
-                  {price ? price + " IVT" : "Price vs IVT"}
+                  {price ? price + `  ${symbol?symbol:''}` : "Price vs IVT"}
                 </h6>
               </div>
               <div

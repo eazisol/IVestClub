@@ -8,7 +8,7 @@ const FutureClubs = () => {
   return (
     <>
       <SactionContainer container={false}>
-        <div className="col-12 p-3 mt-5 pt-5">
+        <div className="col-12 p-3 mt-5 pt-5  pb-5">
           <h3>
             <strong>Suggested Membership <TextUnderWrap padding={10} >Clubs</TextUnderWrap></strong>
           </h3>
@@ -68,14 +68,14 @@ const FutureClubs = () => {
           ))}
         </div>
       </SactionContainer>
-      <SactionContainer bgColor="#F5F8FF" container={false}>
+      {/* <SactionContainer bgColor="#F5F8FF" container={false}>
         <div className="col-12 mt-5 pt-3">
           <h3 className="mb-5">
             <strong>Ask AI questions about potential companies</strong>
           </h3>
           <img src={futureclubimg} alt="" className="img-fluid mt-2 mb-5 pb-5" />
         </div>
-      </SactionContainer>
+      </SactionContainer> */}
     </>
   );
 };

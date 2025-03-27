@@ -7,7 +7,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { CustomizedTooltips, HeaderLink } from "./Common/MiniComponents";
-import { TextField } from "@mui/material";
+import { TextField, Tooltip } from "@mui/material";
 import { ethers } from "ethers";
 import { baseUrl } from "../../apiConfig";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -38,7 +38,11 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
   const [accountMenuOpen, setAccountMenuOpen] = useState(false);
   const [tokenHoldings, setTokenHoldings] = useState(null);
   const [walletModalOpen, setWalletModalOpen] = useState(false);
-
+  const [showTooltip, setShowTooltip] = useState(false);
+  const handleClick = () => {
+    setShowTooltip(true);
+    setTimeout(() => setShowTooltip(false), 2000); // Close after 2 seconds
+  };
   const formatAddress = (address) => {
     if (!address) return "";
     return `${address.slice(0, 2)}...${address.slice(-4)}`;
@@ -130,7 +134,7 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
     if (Object.keys(walletData).length > 0) {
       return;
     }
-  
+
     // Check if MetaMask is installed
     if (!window.ethereum) {
       setSnackBarData({
@@ -140,83 +144,92 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
       });
       return;
     }
-  
+
     setLoading(true);
     setError("");
-  
+
     try {
       // Disconnect any existing connections first
       await disconnectWallet();
-  
+
       // Give a small delay to ensure clean state
-      await new Promise(resolve => setTimeout(resolve, 500));
-  
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
       // Create provider and request accounts
       let provider = new ethers.providers.Web3Provider(window.ethereum);
       await provider.send("eth_requestAccounts", []);
-  
+
       // Check and switch network
       let network = await provider.getNetwork();
       const SEPOLIA_CHAIN_ID = 11155111;
       const SEPOLIA_CHAIN_HEX = "0xaa36a7";
-  
+
       if (network.chainId !== SEPOLIA_CHAIN_ID) {
         try {
           await window.ethereum.request({
             method: "wallet_switchEthereumChain",
             params: [{ chainId: SEPOLIA_CHAIN_HEX }],
           });
-  
+
           // Wait for chain change
           await new Promise((resolve, reject) => {
             const handleChainChanged = () => {
-              window.ethereum.removeListener('chainChanged', handleChainChanged);
+              window.ethereum.removeListener(
+                "chainChanged",
+                handleChainChanged
+              );
               resolve();
             };
-            window.ethereum.on('chainChanged', handleChainChanged);
-            
+            window.ethereum.on("chainChanged", handleChainChanged);
+
             // Fallback timeout
             setTimeout(() => {
-              window.ethereum.removeListener('chainChanged', handleChainChanged);
+              window.ethereum.removeListener(
+                "chainChanged",
+                handleChainChanged
+              );
               reject(new Error("Network switch timeout"));
             }, 10000);
           });
-  
+
           // Recreate provider after network switch
           provider = new ethers.providers.Web3Provider(window.ethereum);
           network = await provider.getNetwork();
         } catch (switchError) {
           console.error("Network switch failed", switchError);
-          throw new Error("Failed to switch to Sepolia Testnet. Please switch manually in MetaMask.");
+          throw new Error(
+            "Failed to switch to Sepolia Testnet. Please switch manually in MetaMask."
+          );
         }
       }
-  
+
       // Verify network one last time
       if (network.chainId !== SEPOLIA_CHAIN_ID) {
         throw new Error("Not on Sepolia Testnet");
       }
-  
+
       // Get signer and address
       const signer = provider.getSigner();
       const address = await signer.getAddress();
-  
+
       // Fetch balance and token holdings
       const balance = await provider.getBalance(address);
       await fetchTokenHoldings(provider, address);
-  
+
       // Update state
-      const savedTokenHoldings = JSON.parse(localStorage.getItem("tokenHoldings"));
+      const savedTokenHoldings = JSON.parse(
+        localStorage.getItem("tokenHoldings")
+      );
       setWalletData({ provider, signer, address });
       setBalance(savedTokenHoldings);
       setWalletModalOpen(false);
-  
+
       // Add event listeners for future changes
-      window.ethereum.on('accountsChanged', handleAccountsChanged);
-      window.ethereum.on('chainChanged', handleChainChanged);
-  
+      window.ethereum.on("accountsChanged", handleAccountsChanged);
+      window.ethereum.on("chainChanged", handleChainChanged);
+
       // Reload the window after successful connection
       window.location.reload();
-  
     } catch (err) {
       console.error("Wallet connection error:", err);
       setError(err.message);
@@ -229,7 +242,7 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
       setLoading(false);
     }
   };
-  
+
   const handleDisconnect = async () => {
     try {
       // Revoke permissions
@@ -237,35 +250,35 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
         method: "wallet_revokePermissions",
         params: [{ eth_accounts: {} }],
       });
-  
+
       // Clear state and local storage
       await disconnectWallet();
-  
+
       // Optional: Soft reload to reset state completely
       window.location.reload();
     } catch (error) {
       console.error("Error disconnecting:", error);
     }
   };
-  
+
   // Helper function to fully disconnect
   const disconnectWallet = async () => {
     // Remove event listeners
     if (window.ethereum && window.ethereum.removeListener) {
-      window.ethereum.removeListener('accountsChanged', handleAccountsChanged);
-      window.ethereum.removeListener('chainChanged', handleChainChanged);
+      window.ethereum.removeListener("accountsChanged", handleAccountsChanged);
+      window.ethereum.removeListener("chainChanged", handleChainChanged);
     }
-  
+
     // Clear state values
     setWalletData({});
     setBalance("0.0");
     setTokenHoldings(null);
-  
+
     // Remove wallet data from localStorage
     localStorage.removeItem("walletData");
     localStorage.removeItem("tokenHoldings");
   };
-  
+
   // Event handlers for future changes
   const handleAccountsChanged = (accounts) => {
     if (accounts.length === 0) {
@@ -276,7 +289,7 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
       handleConnectWallet();
     }
   };
-  
+
   const handleChainChanged = () => {
     // Reload to reset the app state
     window.location.reload();
@@ -537,6 +550,20 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
                       </li>
                       <li
                         className={
+                          location.pathname == "/token"
+                            ? "current dropdown "
+                            : "dropdown "
+                        }
+                      >
+                        <HeaderLink
+                          text="Tokens"
+                          onClick={() => {
+                            navigate("/token");
+                          }}
+                        />
+                      </li>
+                      <li
+                        className={
                           location.pathname == "/Membership"
                             ? "current dropdown "
                             : "dropdown "
@@ -641,7 +668,7 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
                 </nav>
 
                 <>
-                  <div className="px-2 d-none d-xl-flex">
+                  {/* <div className="px-2 d-none d-xl-flex">
                     <span
                       data-toggle="tooltip"
                       data-placement="top"
@@ -678,6 +705,21 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
                         }}
                       />
                     </span>
+                  </div> */}
+                  <div className="px-2 d-none d-xl-flex">
+                    <Tooltip
+                      title="Search will be available soon"
+                      open={showTooltip}
+                      onClose={() => setShowTooltip(false)}
+                      disableHoverListener
+                    >
+                      <span>
+                        <SearchIcon
+                          sx={{ color: "#fff", cursor: "pointer" }}
+                          onClick={handleClick}
+                        />
+                      </span>
+                    </Tooltip>
                   </div>
                 </>
 
@@ -946,9 +988,7 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
         </div>
       </header>
 
-      <section>
-     
-      </section>
+      <section></section>
     </>
   );
 };

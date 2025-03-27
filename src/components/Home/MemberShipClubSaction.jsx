@@ -154,6 +154,7 @@ const MemberShipClubSaction = () => {
                 members={data.members}
                 rating={data.totalrating}
                 viewStyle={viewStyle}
+                symbol={data?.token_symbol}
               />
             </React.Fragment>
           ))}

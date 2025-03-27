@@ -143,7 +143,13 @@ const LoginPage = () => {
       },
       {
         onSuccess: async (data) => {
-          console.log("Login Success:", data);
+          const userData = {
+            firstname: data.firstname ,
+            lastname: data.lastname ,
+          };
+   
+        
+          localStorage.setItem("name", JSON.stringify(userData));
           localStorage.setItem("userData", JSON.stringify(data));
           setUserData(data);
   

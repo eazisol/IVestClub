@@ -10,7 +10,14 @@ import DriveFileRenameOutlineOutlinedIcon from "@mui/icons-material/DriveFileRen
 import { Chip, Tooltip } from "@mui/material";
 import useApi from "../Hooks/useApi";
 import CachedOutlinedIcon from "@mui/icons-material/CachedOutlined";
-const ProfileCard = ({ enableEdit, profilePic, setProfilePic, prevPic }) => {
+import VerifiedIcon from "@mui/icons-material/Verified";
+import NewReleasesIcon from "@mui/icons-material/NewReleases";
+const ProfileCard = ({
+  enableEdit = true,
+  profilePic,
+  setProfilePic,
+  prevPic,
+}) => {
   const {
     handleLogout,
     userData,
@@ -47,6 +54,8 @@ const ProfileCard = ({ enableEdit, profilePic, setProfilePic, prevPic }) => {
     }
   };
   const fileInputRef = useRef(null);
+  const storedUser = JSON.parse(localStorage.getItem("name"));
+  const verify = JSON.parse(localStorage.getItem("verify"));
 
   // Function to handle button click and trigger file input click
   const handleButtonClick = () => {
@@ -148,29 +157,46 @@ const ProfileCard = ({ enableEdit, profilePic, setProfilePic, prevPic }) => {
           onChange={handleFileChange} // Handle file selection
         />
       </div>
-      <div className="w-100 text-center mt-2 d-flex justify-content-center align-items-center">
-        <div className="profileName pop-font DarkText bold-5">{`${profiledata?.FirstName} ${profiledata?.LastName}`}</div>
-        <Chip
-          label={profiledata?.email_verified_at ? "Verified" : "Unverified"}
-          color={profiledata?.email_verified_at ? "success" : "error"}
-          size="small"
-          sx={{
-            fontSize: "10px",
-            height: "16px",
-            padding: "1px 1px",
-            ml: 1,
-            mr: 1,
-          }}
-        />
-      {!profiledata?.email_verified_at && (
-  <Tooltip title="This is the email verification button" arrow>
-    <CachedOutlinedIcon
-      onClick={handleVerifyMail}
-      sx={{ cursor: "pointer" }}
-    />
-  </Tooltip>
-)}
+      <div
+        style={{
+          minWidth: "60px",
+          height: "16px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "5px",
+          marginTop: "5px",
+        }}
+      >
+        {!verify && (
+          <Chip
+            label={"Unverified"}
+            color={"error"}
+            size="small"
+            sx={{
+              fontSize: "10px",
+              height: "16px",
+              padding: "1px 1px",
+            }}
+          />
+        )}
+        {!verify && (
+          <Tooltip title="This is the email verification button" arrow>
+            <CachedOutlinedIcon
+              onClick={handleVerifyMail}
+              sx={{ cursor: "pointer" }}
+            />
+          </Tooltip>
+        )}
+      </div>
 
+      <div className="w-100 text-center mt-2 d-flex align-items-center justify-content-center">
+        <div className="profileName pop-font DarkText bold-5">
+          {`${storedUser?.firstname} ${storedUser?.lastname}`}
+        </div>
+        <div className="ml-1">
+          {verify && <VerifiedIcon sx={{ color: "#F7B138" }} />}
+        </div>
       </div>
       <div className="w-100 mt-2 mb-5 text-center LightText">
         {userData.email}

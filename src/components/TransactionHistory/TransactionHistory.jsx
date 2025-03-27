@@ -296,7 +296,7 @@ export const TransactionHistory = () => {
                               </TableCell>
                               <TableCell align="center">
                                 <span className="tableHeadText">
-                                  {row?.token}
+                                  {row?.token_name}
                                 </span>
                               </TableCell>
                               <TableCell align="center">

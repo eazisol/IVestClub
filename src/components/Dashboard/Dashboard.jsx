@@ -82,6 +82,7 @@ const ERC20_ABI = [
 ];
 const Dashboard = () => {
   const { mutate: getData, isPending: isProfileLoading } = useApi();
+  const [profiledata, setProfileData] = useState({});
   const { userData, walletData, setWalletData, setSnackBarData } = appData();
   const [dropDownOpen, setDropDownOpen] = useState(false);
   const [balance, setBalance] = useState("");
@@ -94,7 +95,6 @@ const Dashboard = () => {
   const [userWallet, setUserWallet] = useState("");
   const [tokenDataList, setTokenDataList] = useState([]); // List of tokens from API
   const [selectedToken, setSelectedToken] = useState(null);
-  const [profiledata, setProfileData] = useState({});
 
   const [usdtData, setUSDTData] = useState("");
   const [usdcData, setUSDCData] = useState("");
@@ -478,6 +478,8 @@ const Dashboard = () => {
       },
       {
         onSuccess: (data) => {
+          let verify=data?.email_verified_at
+          localStorage.setItem("verify", JSON.stringify(verify));
           setProfileData(data);
         },
         onError: (error) => {
@@ -498,7 +500,7 @@ const Dashboard = () => {
         <div className="w-100 mb-5 pb-5">
           <div className="row mb-5">
             <div className="col-lg-3 col-sm-12 col-md-12 mb-4 p-3 p-xl-0">
-              <ProfileCard />
+              <ProfileCard  />
             </div>
             <div className="col-lg-9 col-sm-12 col-md-12">
               <div className="card card-border-c p-3">

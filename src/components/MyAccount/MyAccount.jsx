@@ -17,7 +17,6 @@ const MyAccount = () => {
   const { userData, setSnackBarData, showPassword, setShowPassword } =
     appData();
   const [formData, setFormData] = useState({});
-  console.log("🚀 ~ MyAccount ~ formData:", formData);
   const [submitClicked, setSubmitclicked] = useState(false);
   const [profilePic, setProfilePic] = useState(null);
   const [passport, setPassport] = useState(null);
@@ -54,11 +53,9 @@ const MyAccount = () => {
       },
       {
         onSuccess: (data) => {
-          console.log("get data", data);
+        
           setFormData(data);
-          // localStorage.setItem("userData", JSON.stringify(data));
-          // setUserData(data);
-          // navigate("/");
+      
         },
         onError: (error) => {
           console.log(error);
@@ -198,7 +195,7 @@ const MyAccount = () => {
       postData.append("passport", passport);
     }
 
-    // postData.append("formData", formData);
+    // postData.append("formData", for mData);
 
     // console.log("formDataformData",formData);
     postUserData(
@@ -210,7 +207,12 @@ const MyAccount = () => {
       },
       {
         onSuccess: (data) => {
-          console.log(data);
+          const userData = {
+            firstname: data?.user?.FirstName ,
+            lastname: data?.user?.LastName ,
+          };
+        
+          localStorage.setItem("name", JSON.stringify(userData));
           //  localStorage.setItem('userData', JSON.stringify(data));
           //  setUserData(data)
           setSnackBarData({

@@ -9,7 +9,7 @@ import spaceximg2 from "../../assets/image/spaceximg2.png";
 import openaiimg3 from "../../assets/image/openaiimg3.png";
 import { Quotations, Ratings, RatingsTotal } from "../Common/Feedbacks";
 import { NavLink } from "react-router-dom";
-import Rating from '@mui/material/Rating';
+import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorder from "@mui/icons-material/StarBorder";
 import { OutlinedButtonDark } from "../Common/Buttons";
@@ -18,7 +18,10 @@ import { decryptNumber, formatdateHeading } from "../Common/Utills";
 import { imgUrl } from "../../../apiConfig";
 import { CustomizedLoader } from "../Common/MiniComponents";
 import { appData } from "../Context/AppContext";
-import WidgetBot from '@widgetbot/react-embed'
+import WidgetBot from "@widgetbot/react-embed";
+import Tooltip from "@mui/material/Tooltip";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import { TextField, Button } from "@mui/material";
 const PrivateMembership = () => {
   const queryParams = new URLSearchParams(window.location.search);
   const idParam = queryParams.get("id");
@@ -26,8 +29,14 @@ const PrivateMembership = () => {
   const { mutate: getData, isPending: isMembershipLoading, error } = useApi();
   const { mutate: sendReview, isPending: isSendingReview } = useApi();
   const [data, setData] = useState({});
-  const [ratingData, setRatingData] = useState({comment:""});
+  const [ratingData, setRatingData] = useState({ comment: "" });
   const [commentLimit, setCommentLimit] = useState(3);
+  const { mutate: getProfileData, isPending: isProfileLoading } = useApi();
+  const { mutate: discordJoin, isPending: isdiscordLoading } = useApi();
+    const [profiledata, setProfileData] = useState({});
+    const [discordId, setDiscordId] = useState("");
+   
+
   const getMembershipData = () => {
     getData(
       {
@@ -48,36 +57,80 @@ const PrivateMembership = () => {
   };
   useEffect(() => {
     getMembershipData();
-    console.log("import.meta.env.VITE_APP_API_IMG_URL",import.meta.env.VITE_APP_DISCORD_SERVER_ID)
+    console.log(
+      "import.meta.env.VITE_APP_API_IMG_URL",
+      import.meta.env.VITE_APP_DISCORD_SERVER_ID
+    );
   }, []);
-
-
+  const handleJoin = () => {
+    window.open("https://discord.gg/MfXhJasq4W", "_blank"); // Open link immediately
   
+    const postData = {
+      discord_userid: profiledata?.discord_userid?profiledata?.discord_userid:discordId,
+      user_id: profiledata?.id,
+      membership_club_id: decryptNumber(idParam),
+    };
+  
+    discordJoin(
+      {
+        url: "add-user-discord-id",
+        method: "POST",
+        data: postData,
+        sendHeaders: true,
+      },
+      {
+        onSuccess: (data) => {
+          console.log("🚀 ~ handleJoin ~ data:", data);
+          setEditEnabled(true);
+        },
+        onError: (error) => {
+          console.log(error);
+        },
+      }
+    );
+  };
+  
+ useEffect(() => {
+  getProfileData(
+      {
+        url: "profile",
+        method: "GET",
+        sendHeaders: true,
+      },
+      {
+        onSuccess: (data) => {
+          setProfileData(data);
+        },
+        onError: (error) => {
+          console.log(error);
+        },
+      }
+    );
+  }, []);
   // useEffect(() => {
   //   console.log("ratingData",ratingData);
 
   // }, [ratingData])
 
-  const [commentSubmitted, setCommentSubmitted] = useState(false)
+  const [commentSubmitted, setCommentSubmitted] = useState(false);
 
   const hanadleSendReview = () => {
-    setCommentSubmitted(true)
-    console.log("ratingData",ratingData)
-    if (!ratingData.comment ) {
+    setCommentSubmitted(true);
+    if (!ratingData.comment) {
       setSnackBarData({
         visibility: true,
         error: "error",
         text: "Please enter comment",
       });
-      return
+      return;
     }
-    if (ratingData.comment=="" ) {
+    if (ratingData.comment == "") {
       setSnackBarData({
         visibility: true,
         error: "error",
         text: "Please enter comment",
       });
-      return
+      return;
     }
     sendReview(
       {
@@ -96,7 +149,7 @@ const PrivateMembership = () => {
             // error: "info",
             text: "Successfully Sent Review",
           });
-          setCommentSubmitted(false)
+          setCommentSubmitted(false);
           getMembershipData();
         },
         onError: (error) => {
@@ -144,7 +197,12 @@ const PrivateMembership = () => {
               </div>
 
               <img
-                style={{ objectFit: "cover", width: "100%", height: "auto", borderRadius : "15px" }}
+                style={{
+                  objectFit: "cover",
+                  width: "100%",
+                  height: "auto",
+                  borderRadius: "15px",
+                }}
                 src={imgUrl + data.img}
                 alt=""
                 className=" mt-2 mb-3"
@@ -192,16 +250,94 @@ const PrivateMembership = () => {
           </div>
           <div className="card card-border-c mt-3">
             <div className="card-body p-2 p-xl-5">
-              <h5 className=" text-dark mont-font">
-                <strong>{data.title} Discussion Channel</strong>
-              </h5>
+              <div className="d-flex align-items-center justify-content-between pb-2">
+                <h5 className="text-dark mont-font mb-0">
+                  <strong>{data.title} Discussion Channel</strong>
+                </h5>
+
+              
+                <div className="d-flex align-items-center">
+                 {!profiledata?.discord_userid&&<> <Tooltip
+                    title={
+                      <div style={{ fontSize: "12px", padding: "5px" }}>
+                        • Go to User Settings (gear icon near your username).{" "}
+                        <br />
+                        • Scroll to Advanced under App Settings. <br />
+                        • Enable Developer Mode. <br />
+                        • Click on your username. <br />
+                        • Click on Copy User ID. <br />• Paste the User ID
+                        below.
+                      </div>
+                    }
+                    arrow
+                  >
+                    <InfoOutlinedIcon
+                      sx={{ color: "gray", cursor: "pointer", fontSize: 20 }}
+                    />
+                  </Tooltip>
+
+                  <TextField
+                    variant="outlined"
+                    placeholder="Enter your Discord user ID"
+                    size="small"
+                    onChange={(e)=>setDiscordId(e.target.value)}
+                    sx={{
+                      width: "200px",
+                      height: "36px",
+                      marginRight: "5px",
+                      marginLeft: "5px",
+                      borderRadius: "50px", // Rounded corners
+                      backgroundColor: "white", // Match Bootstrap input
+                      "& .MuiOutlinedInput-root": {
+                        borderRadius: "50px", // Rounded corners
+                        height: "36px",
+                        paddingLeft: "12px", // Inner left padding
+                        "& fieldset": {
+                          border: "1px solid #ccc", // Border color
+                        },
+                        "&:hover fieldset": {
+                          borderColor: "#aaa", // Slightly darker on hover
+                        },
+                        "&.Mui-focused fieldset": {
+                          borderColor: "#007bff", // Focus color
+                        },
+                      },
+                      "& input": {
+                        fontSize: "14px", // Input text size
+                        paddingLeft: "12px", // Ensure text starts from left
+                        textAlign: "left",
+                      },
+                      "& input::placeholder": {
+                        fontSize: "12px", // Placeholder text size
+                      },
+                    }}
+                  /></>
+}
+<Button
+//  disabled={!profiledata?.discord_userid||!discordId }
+  onClick={handleJoin}
+  variant="contained"
+  sx={{
+    borderRadius: "50px",
+    padding: "6px 20px",
+    textTransform: "none",
+    fontSize: "14px",
+    backgroundColor: "#3A407B",
+   
+   
+  }}
+>
+  Join
+</Button>
+
+                </div>
+              </div>
               {/* <div dangerouslySetInnerHTML={{ __html: data.discordwidget }} /> */}
               <WidgetBot
-    server={import.meta.env.VITE_APP_DISCORD_SERVER_ID}
-    width={"100%"}  // Set the width (default: 100%)
-    height={500}  // Set the height (default: 500px)
-
-  />
+                server={import.meta.env.VITE_APP_DISCORD_SERVER_ID}
+                width={"100%"} // Set the width (default: 100%)
+                height={500} // Set the height (default: 500px)
+              />
             </div>
           </div>
           <div className="card card-border-c mt-3 ">
@@ -220,10 +356,16 @@ const PrivateMembership = () => {
                           heading={comment.user.username}
                           text={[comment.comment]}
                           value={comment.rating}
-                          profilePic={comment.user.profileimg?imgUrl+comment.user.profileimg:null}
+                          profilePic={
+                            comment.user.profileimg
+                              ? imgUrl + comment.user.profileimg
+                              : null
+                          }
                           date={formatdateHeading(data.updated_at)}
                         />
-                        {index !== data.commentlist.slice(0, commentLimit).length - 1 && <hr />}
+                        {index !==
+                          data.commentlist.slice(0, commentLimit).length -
+                            1 && <hr />}
                       </React.Fragment>
                     ))}
                   {/* <Ratings
@@ -260,7 +402,6 @@ const PrivateMembership = () => {
                       >
                         Load More
                       </NavLink>
-                     
                     </div>
                   ) : null}
                 </div>
@@ -289,17 +430,25 @@ const PrivateMembership = () => {
               <p className="mb-0 text-basic  mt-3 ">Your Feed Back</p>
               <textarea
                 value={ratingData.comment || ""}
-                className={ commentSubmitted &&ratingData.comment=="" ?"form-control border-danger":"form-control "}
+                className={
+                  commentSubmitted && ratingData.comment == ""
+                    ? "form-control border-danger"
+                    : "form-control "
+                }
                 style={{ height: "150px" }}
                 onChange={(e) => {
                   setRatingData((prevData) => ({
                     ...prevData,
                     comment: e.target.value,
                   }));
-                  setCommentSubmitted(false)
+                  setCommentSubmitted(false);
                 }}
               ></textarea>
-             {commentSubmitted &&ratingData.comment ==""&& <span className="text-danger text-basic-sm">Please write comments</span>}
+              {commentSubmitted && ratingData.comment == "" && (
+                <span className="text-danger text-basic-sm">
+                  Please write comments
+                </span>
+              )}
               <div className="my-5">
                 <OutlinedButtonDark
                   text={isSendingReview ? "Submitting..." : "Submit"}
