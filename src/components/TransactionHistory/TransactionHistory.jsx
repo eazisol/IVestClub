@@ -19,19 +19,21 @@ import { baseUrl } from "../../../apiConfig";
 const getStatusColor = (status) => {
   switch (status?.toLowerCase()) {
     case "token-sent":
-      return "#9C27B0"; // Green
+      return "#198754"; // Bootstrap Green
     case "completed":
-      return "#4CAF50"; // Parrot
+      return "#FFC107"; // Bootstrap Yellow
     case "created":
-      return "#2196F3"; // Yellow
-    case "payment-received":
-      return "#2E7D32"; // Blue
-    case "Paid":
-      return "#4CAF50";
+      return "#FFC107"; // Bootstrap Yellow
+    case "unpaid":
+      return "#6C757D"; // Bootstrap Gray
+    case "paid":
+      return "#198754"; // Bootstrap Green
     default:
-      return "#FF9800"; // Red (Default for unknown statuses)
+      return "#DC3545"; // Bootstrap Red (Default for unknown statuses)
   }
 };
+
+
 
 // Function to format status text to Title Case
 const formatStatus = (status) => {
@@ -280,7 +282,7 @@ export const TransactionHistory = () => {
                                   {formatStatus(row?.status)}
                                 </Box>
                                 {row?.status !== "Token-Sent" && (
-                                  <Tooltip title="Token transfer process could take upto 1 hour.">
+                                  <Tooltip title="Token transfer process could take upto 1 hour.Once the token is sent, the status will be updated to 'Sent'">
                                     <InfoOutlinedIcon
                                       sx={{ fontSize: 14, cursor: "pointer" }}
                                     />
