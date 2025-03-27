@@ -32,6 +32,8 @@ const MemberShipClubCards = ({
   staticImg = false,
   viewStyle = "grid",
   symbol,
+  to, // 👈 optional prop for custom route
+  isSuggestCard = false, // 👈 identifies this is the special card
 }) => {
   const navigate = useNavigate();
   const { mutate: joinMembership } = useApi();
@@ -64,7 +66,8 @@ const isAutoJoined = (clubId) => {
 
   return false;
 };
-  const autoJoined = isAutoJoined(id);
+  // const autoJoined = isAutoJoined(id);
+  const autoJoined = !isSuggestCard && isAutoJoined(id);
  // Fetch token data and set the first token as the selected token
  const handleTokenApi = async () => {
   const { data } = await axios.get(`${baseUrl}token/getAllTokenData`);
@@ -76,6 +79,13 @@ useEffect(()=>{
   handleTokenApi()
 },[])
   const handleMembershipJoin = () => {
+
+    if (isSuggestCard) {
+      navigate(to); // `to` is the route passed (e.g. /Membership/FutureClubs)
+      return;
+    }
+
+
     if (!userData?.access_token) {
       navigate(`/Membership/Public?id=${id}`);
       return;

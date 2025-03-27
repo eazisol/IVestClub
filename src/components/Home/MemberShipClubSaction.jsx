@@ -157,18 +157,22 @@ const MemberShipClubSaction = () => {
               />
             </React.Fragment>
           ))}
-
-         
-            {/* <MemberShipClubCards
-              image={membershipimg4}
-              heading={"Suggest a membership club!"}
-              text={
-                "Have a membership club idea? Share your proposal with others for consideration and collaboration."
-              }
-              to={`/Membership/FutureClubs`}
-              staticImg
-              viewStyle={viewStyle}
-            /> */}
+          {
+            localStorage.getItem("userData") &&
+            JSON.parse(localStorage.getItem("userData"))?.access_token && (
+              <MemberShipClubCards
+                image={membershipimg4}
+                heading={"Suggest a membership club!"}
+                text={
+                  "Have a membership club idea? Share your proposal with others for consideration and collaboration."
+                }
+                to={`/Membership/FutureClubs`}
+                staticImg
+                viewStyle={viewStyle}
+                isSuggestCard={true} 
+              />
+            )
+          }
           </div>
         )}
       </div>
