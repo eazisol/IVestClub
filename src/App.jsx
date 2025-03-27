@@ -79,8 +79,8 @@ function App() {
                   path="Membership/FutureClubs"
                   element={<FutureClubs />}
                 />
-              <Route element={<PrivateRoute />}>
                 <Route path="Membership" element={<Membership />} />
+              <Route element={<PrivateRoute />}>
                 <Route path="Articals" element={<Articals />} />
                 <Route path="News" element={<News />} />
                 <Route

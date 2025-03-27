@@ -9,6 +9,8 @@ import useApi from "../Hooks/useApi";
 import { appData } from "../Context/AppContext";
 import { decryptNumber } from "../Common/Utills";
 import ImageOutlinedIcon from "@mui/icons-material/ImageOutlined";
+import { use } from "react";
+import { useEffect } from "react";
 
 // 🔑 Auto Join Logic
 const walletData = JSON.parse(localStorage.getItem("walletData"));
@@ -65,77 +67,80 @@ const MemberShipClubCards = ({
 
   const handleMembershipJoin = () => {
     if (!userData?.access_token) {
-      navigate('/Dashboard');
+      navigate(`/Membership/Public?id=${id}`);
       return;
     }
 
     if (joined || autoJoined) {
       navigate(`/Membership/Private?id=${id}`);
       return;
+    } else {
+      navigate(`/Membership/Public?id=${id}`);
+      return;
     }
 
-    checkTokens(
-      {
-        url: `user-has-club-token`,
-        method: "POST",
-        sendHeaders: true,
-        data: {
-          user_id: userData.user_id,
-          membership_club_id: decryptNumber(id) / 1
-        },
-      },
-      {
-        onSuccess: (tokenData) => {
-          if (tokenData?.has_club_token) {
-            joinMembership(
-              {
-                url: `membershipclub/joining/${decryptNumber(id) / 1}`,
-                method: "GET",
-                sendHeaders: true,
-              },
-              {
-                onSuccess: () => {
-                  setSnackBarData({
-                    visibility: true,
-                    error: "success",
-                    text: "Successfully joined the membership club",
-                  });
-                  navigate(`/Membership/Private?id=${id}`);
-                },
-                onError: () => {
-                  setSnackBarData({
-                    visibility: true,
-                    error: "error",
-                    text: "Failed to join membership club",
-                  });
-                },
-              }
-            );
-          } else {
-            setSnackBarData({
-              visibility: true,
-              error: "error",
-              text: "You don't have required token transactions to join this membership club",
-            });
-            setTimeout(() => {
-              navigate(`/Membership/Public?id=${id}`);
-            }, 1500);
-          }
-        },
-        onError: () => {
-          setSnackBarData({
-            visibility: true,
-            error: "error",
-            text: "Cant check membership eligibility of club with no token associated",
-          });
-          setTimeout(() => {
-            navigate(`/Membership/Public?id=${id}`);
-          }, 1500);
-        },
-      }
-    );
+  //   checkTokens(
+  //     {
+  //       url: `user-has-club-token`,
+  //       method: "POST",
+  //       sendHeaders: true,
+  //       data: {
+  //         user_id: userData.user_id,
+  //         membership_club_id: decryptNumber(id) / 1
+  //       },
+  //     },
+  //     {
+  //       onSuccess: (tokenData) => {
+  //         if (tokenData?.has_club_token) {
+  //           joinMembership(
+  //             {
+  //               url: `membershipclub/joining/${decryptNumber(id) / 1}`,
+  //               method: "GET",
+  //               sendHeaders: true,
+  //             },
+  //             {
+  //               onSuccess: () => {
+  //                 setSnackBarData({
+  //                   visibility: true,
+  //                   error: "success",
+  //                   text: "Successfully joined the membership club",
+  //                 });
+  //                 navigate(`/Membership/Private?id=${id}`);
+  //               },
+  //               onError: () => {
+  //                 setSnackBarData({
+  //                   visibility: true,
+  //                   error: "error",
+  //                   text: "Failed to join membership club",
+  //                 });
+  //               },
+  //             }
+  //           );
+  //         } else {
+  //           setSnackBarData({
+  //             visibility: true,
+  //             error: "error",
+  //             text: "You don't have required token transactions to join this membership club",
+  //           });
+  //           setTimeout(() => {
+  //             navigate(`/Membership/Public?id=${id}`);
+  //           }, 1500);
+  //         }
+  //       },
+  //       onError: () => {
+  //         setSnackBarData({
+  //           visibility: true,
+  //           error: "error",
+  //           text: "Cant check membership eligibility of club with no token associated",
+  //         });
+  //         setTimeout(() => {
+  //           navigate(`/Membership/Public?id=${id}`);
+  //         }, 1500);
+  //       },
+  //     }
+  //   );
   };
-
+  
   const displayJoinStatus = joined || autoJoined ? "Joined" : "Join Now";
 
   // 🔳 Grid View

@@ -196,36 +196,37 @@ const JoinMembership = () => {
     );
   };
 const handleClick=()=>{
- console.log('data')
-  joinMembership(
-    {
-      url: `user-has-club-token`,
-      method: "POST",
-      sendHeaders: true,
-      data: { user_id: `${profiledata.id}`,membership_club_id: memberShipClubidDycripted },
-    },
-    {
-      onSuccess: (data) => {
-        if (data?.has_club_token) {
-          setOpenModal2(true);
-        } else {
-          if (userData?.access_token && !data?.has_club_token) {
-            setSnackBarData({
-              visibility: true,
-              error: "error",
-              text: "You don't have required token transactions to join this membership club",
-            });
-          } else {
-            navigate(`/Dashboard`);
-          }
-        }
+  navigate(userData?.access_token?`/Dashboard`:`/shop`);
+//  console.log('data')
+//   joinMembership(
+//     {
+//       url: `user-has-club-token`,
+//       method: "POST",
+//       sendHeaders: true,
+//       data: { user_id: `${profiledata.id}`,membership_club_id: memberShipClubidDycripted },
+//     },
+//     {
+//       onSuccess: (data) => {
+//         if (data?.has_club_token) {
+//           setOpenModal2(true);
+//         } else {
+//           if (userData?.access_token && !data?.has_club_token) {
+//             setSnackBarData({
+//               visibility: true,
+//               error: "error",
+//               text: "You don't have required token transactions to join this membership club",
+//             });
+//           } else {
+//             navigate(`/Dashboard`);
+//           }
+//         }
         
-      },
-      onError: (error) => {
-        console.error("Membership joining error", error);
-      },
-    }
-  );
+//       },
+//       onError: (error) => {
+//         console.error("Membership joining error", error);
+//       },
+//     }
+//   );
 }
   return (
     <>
