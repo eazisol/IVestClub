@@ -10,13 +10,34 @@ import { appData } from "../Context/AppContext";
 import { decryptNumber } from "../Common/Utills";
 import ImageOutlinedIcon from "@mui/icons-material/ImageOutlined";
 import { use } from "react";
-import { useEffect } from "react";
-
+import { useEffect,useState } from "react";
+import axios from "axios";
 // 🔑 Auto Join Logic
 const walletData = JSON.parse(localStorage.getItem("walletData"));
-const tokenDataObj = JSON.parse(localStorage.getItem("tokenData"));
+// const tokenDataObj = JSON.parse(localStorage.getItem("tokenData"));
 const tokenHoldings = JSON.parse(localStorage.getItem("tokenHoldings"));
+// const tokenDataObj=selectToken
 
+
+const MemberShipClubCards = ({
+  text,
+  heading,
+  id,
+  image,
+  col = 4,
+  price,
+  joined,
+  members = 0,
+  rating = 0,
+  staticImg = false,
+  viewStyle = "grid",
+  symbol,
+}) => {
+  const navigate = useNavigate();
+  const { mutate: joinMembership } = useApi();
+  const { mutate: checkTokens } = useApi();
+  const { userData, setSnackBarData } = appData();
+const [tokenDataObj,setTokenDataList]=useState('')
 const isAutoJoined = (clubId) => {
   if (
     !walletData ||
@@ -43,28 +64,17 @@ const isAutoJoined = (clubId) => {
 
   return false;
 };
-
-const MemberShipClubCards = ({
-  text,
-  heading,
-  id,
-  image,
-  col = 4,
-  price,
-  joined,
-  members = 0,
-  rating = 0,
-  staticImg = false,
-  viewStyle = "grid",
-  symbol,
-}) => {
-  const navigate = useNavigate();
-  const { mutate: joinMembership } = useApi();
-  const { mutate: checkTokens } = useApi();
-  const { userData, setSnackBarData } = appData();
-
   const autoJoined = isAutoJoined(id);
+ // Fetch token data and set the first token as the selected token
+ const handleTokenApi = async () => {
+  const { data } = await axios.get(`${baseUrl}token/getAllTokenData`);
+  setTokenDataList(data);
 
+
+};
+useEffect(()=>{
+  handleTokenApi()
+},[])
   const handleMembershipJoin = () => {
     if (!userData?.access_token) {
       navigate(`/Membership/Public?id=${id}`);
@@ -140,7 +150,7 @@ const MemberShipClubCards = ({
   //     }
   //   );
   };
-  
+ 
   const displayJoinStatus = joined || autoJoined ? "Joined" : "Join Now";
 
   // 🔳 Grid View
