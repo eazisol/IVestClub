@@ -203,40 +203,61 @@ useEffect(()=>{
 
           <div className="card-footer border-0 bg-white px-0">
             <div className="w-100 d-flex justify-content-between align-items-center">
-              <div>
+              {!isSuggestCard && (
+                <div>
                 <PeopleAltOutlinedIcon sx={{ color: "#ccc", fontSize: 19 }} />
                 <span className="iconText pop-font"> {members}</span>
               </div>
+              )}
+              
             </div>
 
             <div
               className="w-100 d-flex justify-content-between align-items-center mt-2 pt-2"
               style={{ borderTop: "1px solid #ccc" }}
             >
-              <div className="d-flex align-items-center">
-                <div
-                  className="d-flex align-items-center mr-2"
-                  style={{
-                    padding: 3,
-                    backgroundColor: "rgba(72,72,72)",
-                    borderRadius: "30px",
-                  }}
-                >
-                  <img src={VectorIcon} alt="IVT Icon" style={{ width: 12, height: 12 }} />
-                </div>
-                <h6 className="mb-0 text-basic text-dark bitCoinText LightText">
-                  {price ? price + `  ${symbol?symbol:''}` : "Price vs IVT"}
-                </h6>
-              </div>
-              <div
-                style={{
-                  textDecoration: "underline",
-                  fontSize: "14px",
-                  color: "#150D30",
-                }}
-              >
-                <span className="bold-5 pop-font">{displayJoinStatus}</span>
-              </div>
+              {!isSuggestCard && (
+                  <div className="d-flex align-items-center">
+                    <div
+                      className="d-flex align-items-center mr-2"
+                      style={{
+                        padding: 3,
+                        backgroundColor: "rgba(72,72,72)",
+                        borderRadius: "30px",
+                      }}
+                    >
+                      <img src={VectorIcon} alt="IVT Icon" style={{ width: 12, height: 12 }} />
+                    </div>
+                    <h6 className="mb-0 text-basic text-dark bitCoinText LightText">
+                      {price ? price + `  ${symbol ? symbol : ''}` : "Price vs IVT"}
+                    </h6>
+                  </div>
+                )}
+
+              {isSuggestCard ? (
+                  <div className="w-100 d-flex justify-content-center align-items-center mt-3">
+                    <span
+                      style={{
+                        fontSize: "16px",
+                        fontWeight: "bold",
+                        color: "#150D30",
+                        textDecoration: "underline",
+                      }}
+                    >
+                      Suggest Now
+                    </span>
+                  </div>
+                ) : (
+                  <div
+                    style={{
+                      textDecoration: "underline",
+                      fontSize: "14px",
+                      color: "#150D30",
+                    }}
+                  >
+                    <span className="bold-5 pop-font">{displayJoinStatus}</span>
+                  </div>
+                )}
             </div>
           </div>
         </div>
@@ -304,30 +325,49 @@ useEffect(()=>{
                   className="w-100 d-flex justify-content-between align-items-center mt-2 pt-2"
                   style={{ borderTop: "1px solid #ccc" }}
                 >
-                  <div className="d-flex align-items-center">
+                  {!isSuggestCard && (
+                      <div className="d-flex align-items-center">
+                        <div
+                          className="d-flex align-items-center mr-2"
+                          style={{
+                            padding: 3,
+                            backgroundColor: "rgba(72,72,72)",
+                            borderRadius: "30px",
+                          }}
+                        >
+                          <img src={VectorIcon} alt="IVT Icon" style={{ width: 12, height: 12 }} />
+                        </div>
+                        <h6 className="mb-0 text-basic text-dark bitCoinText LightText">
+                          {price ? price + `  ${symbol ? symbol : ''}` : "Price vs IVT"}
+                        </h6>
+                      </div>
+                    )}
+
+                  {isSuggestCard ? (
+                    <div className="w-100 d-flex justify-content-center align-items-center mt-3">
+                      <span
+                        style={{
+                          fontSize: "16px",
+                          fontWeight: "bold",
+                          color: "#150D30",
+                          textDecoration: "underline",
+                        }}
+                      >
+                        Suggest Now
+                      </span>
+                    </div>
+                  ) : (
                     <div
-                      className="d-flex align-items-center mr-2"
                       style={{
-                        padding: 3,
-                        backgroundColor: "rgba(72,72,72)",
-                        borderRadius: "30px",
+                        textDecoration: "underline",
+                        fontSize: "14px",
+                        color: "#150D30",
                       }}
                     >
-                      <img src={VectorIcon} alt="IVT Icon" style={{ width: 12, height: 12 }} />
+                      <span className="bold-5 pop-font">{displayJoinStatus}</span>
                     </div>
-                    <h6 className="mb-0 text-basic text-dark bitCoinText LightText">
-                      {price ? price : "Price vs IVC"}
-                    </h6>
-                  </div>
-                  <div
-                    style={{
-                      textDecoration: "underline",
-                      fontSize: "14px",
-                      color: "#150D30",
-                    }}
-                  >
-                    <span className="bold-5 pop-font">{displayJoinStatus}</span>
-                  </div>
+                  )}
+
                 </div>
               </div>
             </div>

@@ -18,6 +18,7 @@ import { decryptNumber, formatdateHeading } from "../Common/Utills";
 import { imgUrl } from "../../../apiConfig";
 import { CustomizedLoader } from "../Common/MiniComponents";
 import { appData } from "../Context/AppContext";
+import { InputAdornment } from "@mui/material";
 import WidgetBot from "@widgetbot/react-embed";
 import Tooltip from "@mui/material/Tooltip";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
@@ -80,8 +81,7 @@ const PrivateMembership = () => {
       },
       {
         onSuccess: (data) => {
-          console.log("🚀 ~ handleJoin ~ data:", data);
-          setEditEnabled(true);
+        setDiscordId("");
         },
         onError: (error) => {
           console.log(error);
@@ -255,80 +255,82 @@ const PrivateMembership = () => {
                   <strong>{data.title} Discussion Channel</strong>
                 </h5>
 
-              
-                <div className="d-flex align-items-center">
-                 {!profiledata?.discord_userid&&<> <Tooltip
-                    title={
-                      <div style={{ fontSize: "12px", padding: "5px" }}>
-                        • Go to User Settings (gear icon near your username).{" "}
-                        <br />
-                        • Scroll to Advanced under App Settings. <br />
-                        • Enable Developer Mode. <br />
-                        • Click on your username. <br />
-                        • Click on Copy User ID. <br />• Paste the User ID
-                        below.
-                      </div>
-                    }
-                    arrow
-                  >
-                    <InfoOutlinedIcon
-                      sx={{ color: "gray", cursor: "pointer", fontSize: 20 }}
-                    />
-                  </Tooltip>
-
-                  <TextField
-                    variant="outlined"
-                    placeholder="Enter your Discord user ID"
-                    size="small"
-                    onChange={(e)=>setDiscordId(e.target.value)}
+              <div className="d-flex align-items-center">
+  {/* !profiledata?.discord_userid && */}
+  {( 
+    <TextField
+      variant="outlined"
+      size="small"
+      onChange={(e) => setDiscordId(e.target.value)}
+      sx={{
+        width: "200px",
+        height: "36px",
+        marginRight: "5px",
+        marginLeft: "5px",
+        borderRadius: "50px", // Rounded corners
+        backgroundColor: "white", // Match Bootstrap input
+        "& .MuiOutlinedInput-root": {
+          borderRadius: "50px", // Rounded corners
+          height: "36px",
+          paddingLeft: "12px", // Inner left padding
+          "& fieldset": {
+            border: "1px solid #ccc", // Border color
+          },
+          "&:hover fieldset": {
+            borderColor: "#aaa", // Slightly darker on hover
+          },
+          "&.Mui-focused fieldset": {
+            borderColor: "#007bff", // Focus color
+          },
+        },
+        "& input": {
+          fontSize: "14px", // Input text size
+          paddingLeft: "2px", // Ensure text starts from left
+          textAlign: "left",
+        },
+      }}
+      InputProps={{
+        startAdornment: (
+          <InputAdornment position="start">
+            <Tooltip
+              title={
+                <div style={{ fontSize: "12px", padding: "1px" }}>
+                  • Go to User Settings (gear icon near your username). <br />
+                  • Scroll to Advanced under App Settings. <br />
+                  • Enable Developer Mode. <br />
+                  • Click on your username. <br />
+                  • Click on Copy User ID. <br />
+                  • Paste the User ID below.
+                </div>
+              }
+              arrow
+            >
+              <InfoOutlinedIcon
+                sx={{ color: "gray", cursor: "pointer", fontSize: 20 }}
+              />
+            </Tooltip>
+          </InputAdornment>
+        ),
+      }}
+      placeholder="Enter your Discord ID"
+    />
+  )}
+                  <Button
+                    disabled={!discordId }
+                    onClick={handleJoin}
+                    variant="contained"
                     sx={{
-                      width: "200px",
-                      height: "36px",
-                      marginRight: "5px",
-                      marginLeft: "5px",
-                      borderRadius: "50px", // Rounded corners
-                      backgroundColor: "white", // Match Bootstrap input
-                      "& .MuiOutlinedInput-root": {
-                        borderRadius: "50px", // Rounded corners
-                        height: "36px",
-                        paddingLeft: "12px", // Inner left padding
-                        "& fieldset": {
-                          border: "1px solid #ccc", // Border color
-                        },
-                        "&:hover fieldset": {
-                          borderColor: "#aaa", // Slightly darker on hover
-                        },
-                        "&.Mui-focused fieldset": {
-                          borderColor: "#007bff", // Focus color
-                        },
-                      },
-                      "& input": {
-                        fontSize: "14px", // Input text size
-                        paddingLeft: "12px", // Ensure text starts from left
-                        textAlign: "left",
-                      },
-                      "& input::placeholder": {
-                        fontSize: "12px", // Placeholder text size
-                      },
+                      borderRadius: "50px",
+                      padding: "6px 20px",
+                      textTransform: "none",
+                      fontSize: "14px",
+                      backgroundColor: "#3A407B",
+                    
+                    
                     }}
-                  /></>
-}
-<Button
-//  disabled={!profiledata?.discord_userid||!discordId }
-  onClick={handleJoin}
-  variant="contained"
-  sx={{
-    borderRadius: "50px",
-    padding: "6px 20px",
-    textTransform: "none",
-    fontSize: "14px",
-    backgroundColor: "#3A407B",
-   
-   
-  }}
->
-  Join
-</Button>
+                  >
+                    Join
+                  </Button>
 
                 </div>
               </div>
@@ -408,7 +410,7 @@ const PrivateMembership = () => {
               </div>
             </div>
           </div>
-          <div className="card card-border-c mt-3">
+          {/* <div className="card card-border-c mt-3">
             <div className="card-body p-2 p-xl-5">
               <div className="feedbackHeading">
                 Ask For Information About IVestClub Technologies
@@ -456,7 +458,7 @@ const PrivateMembership = () => {
                 />
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
 
         <div className="col-md-4 col-sm-12 extraMg px-1 pt-5 mb-5">
