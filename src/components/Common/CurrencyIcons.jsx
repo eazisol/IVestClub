@@ -39,7 +39,7 @@ export const Bitcoin = ({size=20}) => {
       <img src={usdt} style={{height : `${size}px` , width : `${size}px`}} />
     )
   }
-  export const IVC = ({size=20}) => {
+  export const IVT = ({size=20}) => {
     return (
       <img src={vector} style={{height : `${size}px` , width : `${size}px`}} />
     )

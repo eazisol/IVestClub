@@ -271,7 +271,7 @@ const Tokens = () => {
           </div>
           <div className="ml-3">
             <p className="sec-offer-des">
-              Don't miss out on this chance to explore Pre-IPo companies in a
+              Don't miss out on this chance to explore Pre-IPO companies in a
               new way. Join IVestClub today and start a journey that will expand
               your investment knowledge and open up new possibilities. Discover
               innovative companies, connect with a supportive community, and

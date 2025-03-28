@@ -382,7 +382,7 @@ if (isResendDisabled) {
               <div className="col-12">
                 <div className="text-dark modalHeading">
                   {" "}
-                  Great - Lets get you started on Your Journey!
+                  Great - Let's get you started on Your Journey!
                 </div>
               </div>
 
@@ -390,7 +390,7 @@ if (isResendDisabled) {
                 <div className="col-12 modal-des" style={{ marginTop: "10px" }}>
                   <p className="text-basic">
                     Please let us know a little bit more about yourself, so that
-                    we can start creating your Free Acount:
+                    we can start creating your Free Account:
                   </p>
                 </div>
 
@@ -598,7 +598,7 @@ if (isResendDisabled) {
               <div className="col-12">
                 <div className="text-dark modalHeading">
                   {" "}
-                  Please Set your Password
+                  Please set your password
                 </div>
               </div>
 
@@ -606,7 +606,7 @@ if (isResendDisabled) {
                 {/* <div className="col-12 modal-des" style={{ marginTop: "10px" }}>
                   <p className="text-basic">
                     Please let us know a little bit more about yourself, so that
-                    we can start creating your Free Acount:
+                    we can start creating your Free Account:
                   </p>
                 </div> */}
 
@@ -663,14 +663,14 @@ if (isResendDisabled) {
               <div className="col-12">
                 <div className="text-dark modalHeading">
                   {" "}
-                  Now tell us about your current Financial knowedge!
+                  Now tell us about your current Financial knowledge!
                 </div>
               </div>
 
               <div className="modalSection">
                 <div className="col-12 modal-des" style={{ marginTop: "10px" }}>
                   <p className="text-basic">
-                    Do you currently own any Cyrptocurrencies, Stocks, bonds,
+                    Do you currently own any cryptocurrencies, stocks, bonds,
                     real estate or any other investments?
                   </p>
                 </div>

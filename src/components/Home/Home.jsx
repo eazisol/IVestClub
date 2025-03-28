@@ -34,7 +34,7 @@ import {
   SactionContainer,
 } from "../Common/Containers";
 import ExclusiveAccessCard from "./ExclusiveAccessCard";
-import ivctoken from "../../assets/image/ivctoken.png";
+import ivttoken from "../../assets/image/ivttoken.png";
 import cardimg2 from "../../assets/image/cardimg2.png";
 import cardimg3 from "../../assets/image/cardimg3.png";
 import MemberShip from "../About/MemberShip";
@@ -165,7 +165,7 @@ const Home = () => {
                     <p className="text-basic text-dark">
                       By joining the IVestClub community, you can collaborate
                       with like-minded dynamic individuals to expand your
-                      knowledge of pre-IPO companies and explore the world of
+                      knowledge of Pre-IPO companies and explore the world of
                       privately owned companies, just like the ultra wealthy.
                       The platform empowers everyday people to share their
                       learnings, and engage with these companies driving
@@ -257,7 +257,7 @@ const Home = () => {
                   }
                 />
                 <ExclusiveAccess
-                  heading="Pre-IPo access "
+                  heading="Pre-IPO access "
                   text1={
                     <span className="">
                       Our dedicated space empowers you to get access to Pre-IPO
@@ -641,11 +641,11 @@ const Home = () => {
 
               <div className="row w-100 text-dark exclusiveCardClass justify-content-sm-center justify-content-md-start mx-2 ">
                 <ExclusiveAccessCard
-                  image={ivctoken}
+                  image={ivttoken}
                   linkText={"View List of Membership Clubs"}
-                  heading={"IVC Token"}
+                  heading={"IVT Token"}
                   text={
-                    "As a verified  member, you can utilize IVC tokens to join any Membership Club aligned with your interests."
+                    "As a verified  member, you can utilize IVT tokens to join any Membership Club aligned with your interests."
                   }
                   to={`/Membership`}
                 />
@@ -749,7 +749,7 @@ const Home = () => {
                   custom={true}
                   icon={goldicon7}
                   col={4}
-                  heading="IVestClubToken (IVC)"
+                  heading="IVestClubToken (IVT)"
                   text1={
                     <span
                       className="pop-font"
@@ -764,7 +764,7 @@ const Home = () => {
                       className="pop-font"
                       style={{ fontSize: "11px", color: "#FFFF" }}
                     >
-                      Click here for more information and to purchase your IVC
+                      Click here for more information and to purchase your IVT
                     </span>
                   }
                 />
@@ -780,7 +780,7 @@ const Home = () => {
                       style={{ fontSize: "11px", color: "#FFFF" }}
                     >
                       Each club has its own token, which is exclusive to the
-                      platform and can only be exchanged for IVC tokens. A
+                      platform and can only be exchanged for IVT tokens. A
                       higher token count results in increased rewards.
                     </span>
                   }

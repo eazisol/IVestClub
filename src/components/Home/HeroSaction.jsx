@@ -156,7 +156,7 @@ const HeroSaction = () => {
                 </p>
                 <p className="text-basic text-light-c w-65">
                   Would You like to learn more about these companies? <br />
-                  Do you want to get rewarded for your interest in these Pre-IPo
+                  Do you want to get rewarded for your interest in these Pre-IPO
                   companies?
                 </p>
 
@@ -172,7 +172,7 @@ const HeroSaction = () => {
                     <div className="col-lg-9 col-sm-6 mb-4 p-0">
                       <CreateAccountModal
                         text={
-                          "Yes, I'm ready to start my Pre-IPo journey by joining IVest Club for Free!"
+                          "Yes, I'm ready to start my Pre-IPO journey by joining IVest Club for Free!"
                         }
                       />
                     </div>
@@ -345,7 +345,7 @@ const HeroSaction = () => {
                   style={{ lineHeight: "1.7em" }}
                 >
                   Did you know some of the best returns are from knowing
-                  comanies before they IPO?
+                  companies before they IPO?
                 </p>
 
                 <p
@@ -353,7 +353,7 @@ const HeroSaction = () => {
                   className="text-basic text-light-c w-60"
                 >
                   Do you own these stocks and wish you had known about them
-                  before they did their IPO - Join us at IVest Club to lget
+                  before they did their IPO - Join us at IVest Club to get
                   access to these companies?
                 </p>
 
@@ -441,7 +441,7 @@ const HeroSaction = () => {
                   className="text-basic text-light-c  mb-0"
                   style={{ lineHeight: "1.7em" }}
                 >
-                  Ae you ready to get access to Pre-IPO companies like SpaceX,
+                  Are you ready to get access to Pre-IPO companies like SpaceX,
                   OpenAI and many more?
                 </p>
                 <p className="text-basic text-light-c ">

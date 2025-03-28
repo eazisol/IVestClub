@@ -240,7 +240,7 @@ const PublicMemberShip = () => {
                     Our exclusive membership clubs are supported by a limited
                     issuance of membership club tokens on the blockchain,
                     serving as the club's currency. These tokens, purchasable
-                    with the IVestClub Token (IVC), represent your membership
+                    with the IVestClub Token (IVT), represent your membership
                     stake and can be acquired through our platform. They play a
                     crucial role in club development, aligning with your
                     collective objectives. The quantity of tokens you possess
@@ -359,8 +359,8 @@ const PublicMemberShip = () => {
               <div className=" mt-4  ">
                 <h6 className=" mb-0 mont-font membership-text-head">
                   <strong className="text-black text-bold">Connect:</strong>{" "}
-                  Ensure that you have IVC tokens to enter the club. Need to buy
-                  IVC tokens - click here!
+                  Ensure that you have IVT tokens to enter the club. Need to buy
+                  IVT tokens - click here!
                 </h6>
               </div>
               <div className=" mt-4  ">
@@ -578,8 +578,8 @@ const PublicMemberShip = () => {
             </div>
             <div className="col-12 d-flex justify-content-center text-center">
               <p className="exText WhiteText mt-2  w-40">
-                You decide to exchange USD 100 for 100 IVC tokens You decides to
-                get exclusive access to SpaceX You exchange yur IVC tokens for
+                You decide to exchange USD 100 for 100 IVT tokens You decides to
+                get exclusive access to SpaceX You exchange yur IVT tokens for
                 100 SpaceX tokens
               </p>
             </div>
@@ -590,7 +590,7 @@ const PublicMemberShip = () => {
                 col={4}
                 heading={
                   <span className="bold-5">
-                    Example Events during yor membership
+                    Example Events during your membership
                   </span>
                 }
                 text1="SpaceX launches a new rocket - you get an airdrop of 10 tokens You get rewarded for collaborating - reward of 2 tokens You enter SpaceX competition - you pay 10 tokens You win SpaceX competition - you visit the company  You participate in a SpaceX call - you get 2 token SpaceX IPOs - you get 40 tokens Total number of SpaceX tokens you now hold is 144 tokens"
@@ -604,7 +604,7 @@ const PublicMemberShip = () => {
                     Other uses of your membership tokens
                   </span>
                 }
-                text1="Exchange your SpaceX membership token for another membership token Exchange your membership token for IVC tokens"
+                text1="Exchange your SpaceX membership token for another membership token Exchange your membership token for IVT tokens"
               />
               <ExclusiveAccess
                 icon={goldicon9}

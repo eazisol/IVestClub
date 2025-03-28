@@ -21,7 +21,7 @@ const IvestMembership = () => {
         <div className="card card-border-c">
           <div className="p-5">
             <h2 className="text-dark">
-              <strong>iVestClub Technologies (IVCT Token)</strong>
+              <strong>iVestClub Technologies (IVT Token)</strong>
             </h2>
             <div className="d-flex align-items-center ">
               <p className="text-basic mb-0 ml-1">

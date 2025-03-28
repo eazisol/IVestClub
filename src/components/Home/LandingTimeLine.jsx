@@ -51,7 +51,7 @@ function LandingTimeLine() {
           icon={icon2}
           heading={"Unlocking Exclusive Access to Pre-IPO Companies"}
           text={
-            "iVest Club grants you access to exclusive insights about your chosen  company to enhance your understanding and allows for the exchange of ideas with interested peers./Gain exclusive access to Pre-IPo Companies!"
+            "iVest Club grants you access to exclusive insights about your chosen  company to enhance your understanding and allows for the exchange of ideas with interested peers./Gain exclusive access to Pre-IPO Companies!"
           }
           num={"03"}
         />

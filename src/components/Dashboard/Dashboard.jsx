@@ -27,7 +27,7 @@ import { SparkLineChart } from "@mui/x-charts/SparkLineChart";
 import { LineChart } from "@mui/x-charts/LineChart";
 import { Avatar, VectorIcon } from "../Common/Icons";
 import { SactionContainer } from "../Common/Containers";
-import { Ethereum, Bitcoin, Usdt, IVC, spaceX } from "../Common/CurrencyIcons";
+import { Ethereum, Bitcoin, Usdt, IVT, spaceX } from "../Common/CurrencyIcons";
 import { MiniGraph, LargeGraph } from "../Common/CurrencyIcons";
 import ProfileCard from "./ProfileCard";
 import { FilledButtonLight } from "../Common/Buttons";
@@ -55,7 +55,7 @@ function createData(currObj, avail, amount, action) {
       Icon = spaceX;
       break;
     case "IVT":
-      Icon = IVC;
+      Icon = IVT;
       break;
     default:
       Icon = null;

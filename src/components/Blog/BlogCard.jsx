@@ -1,5 +1,5 @@
 import React from "react";
-import ivctoken from "../../assets/image/ivctoken.png";
+import ivttoken from "../../assets/image/ivttoken.png";
 import logo from "../../assets/image/icons/cardicon.png";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import Box from "@mui/material/Box";

@@ -152,7 +152,7 @@ const About = () => {
                   <div className=" mt-3 pt-1">
                     <p className="exclusiveContentText ">
                       <span className="boldContent">Access: </span> Get involved
-                      in your targeted company and get rewarded for yor
+                      in your targeted company and get rewarded for your
                       participation.
                     </p>
                     <p className="exclusiveContentText ">
@@ -219,7 +219,7 @@ const About = () => {
           </div>
           <div className="ml-3">
             <p className="sec-offer-des">
-              Don't miss out on this chance to explore Pre-IPo companies in a
+              Don't miss out on this chance to explore Pre-IPO companies in a
               new way. Join IVestClub today and start a journey that will expand
               your investment knowledge and open up new possibilities. Discover
               innovative companies, connect with a supportive community, and

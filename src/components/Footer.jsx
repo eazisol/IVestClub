@@ -96,7 +96,7 @@ const Footer = () => {
                           className=" text-light-c linkList"
                           onClick={() => {navigate("/Blog")}}
                         >
-                          Blog news
+                          Blog News
                         </a>
                       </li>
                       {/* <li><a className=" text-light-c "onClick={()=>{navigate("/manifesto")}}>Manifesto</a></li> */}
@@ -162,7 +162,7 @@ const Footer = () => {
                             navigate("/");
                           }}
                         >
-                          Exchanging Markets
+                          Exchange Markets
                         </a>
                       </li>
                     </ul>
@@ -186,7 +186,7 @@ const Footer = () => {
                       </li>
                       <li>
                         <a className=" text-light-c linkList" target="_blank" style={{ textDecoration: "none" }}>
-                          Helps
+                          Help
                         </a>
                       </li>
                       <li>
@@ -210,7 +210,7 @@ const Footer = () => {
                       </li>
                       <li>
                         <a className=" text-light-c linkList" target="_blank" style={{ textDecoration: "none" }}>
-                          Carrers
+                          Careers
                         </a>
                       </li>
                       <li>

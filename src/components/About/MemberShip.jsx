@@ -64,7 +64,7 @@ const MemberShip = () => {
             <div className="sec-title">
               <h3>
                 <div className="about-head-text">
-                  IVC Platform Tokens & Membership Club <TextUnderWrap padding={10}>Tokens</TextUnderWrap> available
+                  IVT Platform Tokens & Membership Club <TextUnderWrap padding={10}>Tokens</TextUnderWrap> available
                 </div>
               </h3>
               <div className="d-flex mt-5">
@@ -105,15 +105,15 @@ const MemberShip = () => {
               }
             />
             <MembershipTokenCards
-              header={"IVestClub (IVC) Token"}
+              header={"IVestClub (IVT) Token"}
               text={
-                "IVC is the token that powers the platform that provides your membership club. Exchangeable for your chosen members."
+                "IVT is the token that powers the platform that provides your membership club. Exchangeable for your chosen members."
               }
             />
             <MembershipTokenCards
-              header={"IVestClub (IVC) Token"}
+              header={"IVestClub (IVT) Token"}
               text={
-                "IVC is the token that powers the platform that provides your membership club. Exchangeable for your chosen members."
+                "IVT is the token that powers the platform that provides your membership club. Exchangeable for your chosen members."
               }
             />
           </div>

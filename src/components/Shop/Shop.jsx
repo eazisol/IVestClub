@@ -5,7 +5,7 @@ import { TokenInput } from "../Common/Inputs";
 import { LargeButton } from "../Common/Buttons";
 import { appData } from "../Context/AppContext";
 import { baseUrl, imgUrl } from "../../../apiConfig";
-import { Ethereum, Bitcoin, Usdt, IVC } from "../Common/CurrencyIcons";
+import { Ethereum, Bitcoin, Usdt, IVT } from "../Common/CurrencyIcons";
 import Tooltip from "@mui/material/Tooltip";
 import axios from "axios";
 const EXCHANGE_RATE = 0.02;
