@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Membership = () => {
   const navigate=useNavigate()
+  
   return (
     <>
         <section className="page-banner">

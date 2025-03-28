@@ -149,7 +149,7 @@ export const encryptNumber = (number) => {
 // Function to decrypt an encrypted number
 export const decryptNumber = (encryptedNumber) => {
   console.log("number to decrypt",encryptedNumber);
-  if (encryptedNumber.length !== 8) {
+  if (encryptedNumber?.length !== 8) {
     throw new Error("Encrypted number must be exactly 8 characters long.");
   }
 
@@ -159,7 +159,7 @@ export const decryptNumber = (encryptedNumber) => {
   const shuffledAlphabet = shuffleWithSeed(seed); // Shuffle alphabet using seed
 
   let decrypted = '';
-  for (let i = 0; i < encryptedDigits.length; i++) {
+  for (let i = 0; i < encryptedDigits?.length; i++) {
     const encryptedDigit = encryptedDigits[i];
     const index = shuffledAlphabet.indexOf(encryptedDigit); // Find the index in the shuffled alphabet
     if (index === -1) {

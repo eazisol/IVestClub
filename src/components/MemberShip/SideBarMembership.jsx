@@ -40,7 +40,24 @@ const SideBarMembership = ({
   const navigate = useNavigate();
   // Keep track of the previous holdings to avoid unnecessary updates
   const prevHoldingsRef = useRef(null);
+  const [tokenDataList, setTokenDataList] = useState([]);
+  const [totalMemberShipClub,setTotalMemberShipClub]=useState('')
+    const handleTokenApi = async () => {
+      try {
+        const { data } = await axios.get(`${baseUrl}token/getAllTokenData`);
+        setTotalMemberShipClub(data?.total_membershipclubs)
+        // Filter data for tokenId 6
+        const filteredData = data?.data.filter((token) => token.tokenId === 6);
   
+        setTokenDataList(filteredData[0]); // Set the filtered data to the state
+      } catch (error) {
+        console.error("Error fetching token data:", error);
+      }
+    };
+  
+    useEffect(() => {
+      handleTokenApi();
+    }, []);
   
   const { mutate: getData, isPending: isMembershipLoading, error } = useApi();
   const getMembershipData = () => {
@@ -214,63 +231,64 @@ const SideBarMembership = ({
             </div>
             <div className="">
               <p className="mb-0 text-basic" style={{ fontSize: "11px" }}>
-                Joined on
+                Joined
               </p>
-              <p
+              {/* <p
                 style={{ fontSize: "11px", textAlign: "center" }}
                 className="text-light bold-2"
               >
                 {membershipData?.memberorlist[0]?.created_at}
-                {/* {membershipData?.memberorlist[0].created_at} */}
-              </p>
+              </p> */}
             </div>
           </div>
           <div className="w-100 mb-2 pb-1 mt-3">
             <OutlinedButtonWarning text={"Buy More OpenAI Membership Tokens"} onClick={() => {navigate(`/Dashboard`)}}/>
           </div>
         </div>
-      <div  className=" p-2">
+      <div  className=" p-4">
             <h6 className="text-dark mb-3 sideHeadText ">Your Current Holdings</h6>
             {tokens.length > 0 ? (
                 tokens.map((token, index) => {
-                    // Find holding using token name
                     const holding = tokenHoldings.find(h =>  h.name.toUpperCase() === token.symbol);
                     const balance = holding ? holding.balance : "0.0000"; 
                     return (
-                        <div className="d-flex align-items-center mt-2" key={token.name}>
-                            <div className="col-1 p-0">
-                                <p className="text-secondary text-xs mb-0">{index + 1}</p>
-                            </div>
-                            <div className="col-7 pl-0 d-flex pr-0 align-items-center">
-                                <img src={`${imgUrl}${token.logo}`} alt={token.symbol} width={20} height={20} />
-                                <p className="text-dark mb-0 mt-1 pl-1">
-                                    <strong className="text-sm bold-6">{token.symbol}</strong>
-                                    <small className="text-xs text-grey"> {token.name}</small>
-                                </p>
-                            </div>
-                            <div className="col-4 px-0 pr-1 text-right">
-                                <p className="text-dark mb-0 mt-1">
-                                    <span className="text-sm bold-6">{balance}</span>
-                                </p>
-                            </div>
+                     
+                        <div className="d-flex align-items-center mt-2"  key={token.name}>
+                        <div className="col-1 p-0">
+                          <p className="text-secondary text-xs mb-0">{index + 1}</p>
                         </div>
+                        <div className="col-7 pl-0 d-flex pr-0 align-items-center">
+                        <img src={`${imgUrl}${token.logo}`} alt={token.symbol} width={20} height={20} style={{borderRadius:50,marginTop:"2px"}}/>
+                          <p className="text-dark mb-0  pl-2">
+                            <strong className="text-sm bold-6">{token.symbol}</strong>
+                            <small className="text-xs text-grey "> {token.name}</small>
+                          </p>
+                        </div>
+                        <div className="col-4 px-0 pr-1 text-right">
+                          <p className="text-dark mb-0 mt-1">
+                            <span className="text-sm bold6">{`$${balance}`}</span>
+                          </p>
+                        </div>
+                      </div>
                     );
                 })
             ) : (
                 <p className="text-secondary">No tokens available.</p>
             )}
         </div>
-      </div>
+        
+          </div>
+    
       <div className="card card-border-c mt-3">
-        <div className="p-4">
+        <div className="p-3">
           <h6 className="text-dark mb-0 sideHeadText">
             <>Your Fellow Members</>
           </h6>
         </div>
         {memberorlist?.slice(0, memberLimit)?.map((data, index) => (
           <React.Fragment key={index}>
-            <div className="d-flex align-items-center mt-2">
-              <div className="col-3 p-0 text-right">
+            <div className="d-flex align-items-center pb-3 ">
+              <div className="col-1 p-0 text-right pl-3">
                 {data.user.profileimg? 
                 
                 <img
@@ -287,7 +305,7 @@ const SideBarMembership = ({
                 />
               }
               </div>
-              <div className="col-8  ">
+              <div className="col-10  ml-4">
                 <div>
                   <h6 className="mb-0 text-dark text-basic-h7">
                     <strong className="bold-5">
@@ -380,7 +398,8 @@ const SideBarMembership = ({
             <>Latest Articles</>
           </h6>
         </div>
-        {bloglist?.slice(0, articalsLimit)?.map((data, index) => (
+        {bloglist?.slice(0, articalsLimit)?.map((data, index) => {
+          return(
           <React.Fragment key={index}>
             <div className="d-flex align-items-center mt-2">
               <div className="w-auto p-0 text-right ">
@@ -426,7 +445,7 @@ const SideBarMembership = ({
             </div>
             {index !== bloglist?.slice(0, articalsLimit).length - 1 && <hr />}
           </React.Fragment>
-        ))}
+        )})}
 
         {articalsLimit < bloglist?.length ? (
           <>
@@ -597,41 +616,41 @@ const SideBarMembership = ({
       </div>
       <div className="container mt-4 mb-5">
       <div className="share mont-font bold-7 text-dark">Share</div>
-      <div className="iconContainer d-flex justify-content-between mt-3">
+      <div className="iconContainer d-flex  mt-3">
         <a
           href={`https://www.facebook.com/sharer/sharer.php?u=${encodedShareUrl}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="sideBaricon fab fa-facebook-f"
+          className="sideBaricon fab fa-facebook-f mr-3"
         ></a>
 
         <a
           href={`https://twitter.com/intent/tweet?url=${encodedShareUrl}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="sideBaricon fab fa-twitter"
+          className="sideBaricon fab fa-twitter  mr-3"
         ></a>
 
         <a
           href={`https://api.whatsapp.com/send?text=${encodedShareUrl}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="sideBaricon fab fa-whatsapp"
+          className="sideBaricon fab fa-whatsapp  mr-3"
         ></a>
 
         <a
           href={`https://www.instagram.com/?url=${encodedShareUrl}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="sideBaricon fab fa-instagram"
+          className="sideBaricon fab fa-instagram  mr-3"
         ></a>
 
-        {/* <a
+        <a
           href={`https://www.youtube.com/share?url=${encodedShareUrl}`}
           target="_blank"
           rel="noopener noreferrer"
           className="sideBaricon fab fa-youtube"
-        ></a> */}
+        ></a>
       </div>
     </div>
     </>

@@ -35,8 +35,8 @@ const PublicMemberShip = () => {
   const navigate = useNavigate();
   const { mutate: getData, isPending: isMembershipLoading, error } = useApi();
   const [data, setData] = useState({});
+ 
   useEffect(() => {
-   
     getData(
       {
         url: `membershipclub/public-view/${decryptNumber(idParam)}`,

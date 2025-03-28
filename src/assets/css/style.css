@@ -2340,7 +2340,28 @@ img.lazy-image.loaded {
 	height: 2px;
 	margin: 0px 0px 15px;
 }
-
+/* Apply left and right padding of 15px for large screens */
+/* @media (min-width: 1650px) {
+	.responsiveSectionContainer.about-section-one {
+	  display: flex;
+	  justify-content: center;
+	  padding-left: 1%;
+	  padding-right: 13%;
+	}
+  } */
+  .responsive-container {
+	margin-left: 6.5em !important;
+	margin-right: 6.5em !important;
+}
+  @media (min-width: 1650px) {
+	.responsive-container{
+	  display: flex;
+	  justify-content: center;
+	  padding-left: 13%;
+	  padding-right: 13%;
+	}
+  }
+  
 .banner-section .owl-dots .owl-dot span {
 	position: absolute;
 	right: 0;
@@ -11006,6 +11027,9 @@ body {
 .btn-py {
 	padding: 12px 20px !important;
 }
+.home-btn-py {
+	padding: 12px 35px !important;
+}
 
 .btn {
 	font-size: 10px !important;
@@ -11559,6 +11583,88 @@ body {
 	color: #000 !important;
 	font-weight: 400 !important;
 	font-family: "Montserrat", sans-serif !important;
+}
+.section5-head-text-token {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px !important;
+    font-weight: 400; /* Regular */
+    line-height: auto;
+    letter-spacing: 0%;
+    text-align: center;
+    width: 20rem; /* 80 in Tailwind is 20rem */
+}
+.section1-light-text {
+	font-family: "Poppins", sans-serif;
+	font-size: 16px;
+	font-weight: 400; /* Regular */
+	line-height: 30px;
+	color: #333333;
+	letter-spacing: 0%;
+  }
+  .section1-light-point-text{
+	font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: auto;
+    color: #000000;
+  }
+  .section1-light-point-heading{
+	font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+    font-weight:bold;
+    color: #000000;
+  }
+  .responsive-height {
+	margin-top:3rem !important;
+
+  }
+  
+  /* On larger screens (greater than 1200px), set margin-top to 5 */
+  /* @media (min-width: 1201px) {
+	.responsive-margin {
+	  margin-top: 3rem !important;
+	  font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+    font-weight:bold;
+    color: #000000;
+	}
+  } */
+.section2-token {
+	font-family: "Poppins", sans-serif;
+	font-size: 24px;
+	font-weight: 400;
+	color: #555555;
+	margin-left: 36px;
+	line-height: 1.5; /* Slightly increased for better readability */
+  }
+  .section2-token-num-heading {
+	font-family: "Poppins", sans-serif;
+	font-size: 30px;
+	font-weight: bold;
+	color: #F7B138;
+  }
+ 
+  
+  .section2-light-text {
+	font-family: "Poppins", sans-serif;
+	font-size: 18px;
+	font-weight: 400; 
+	color: #333333;
+  }
+  .sec2-heading {
+	font-size: 30px;
+	font-weight: bold;
+	font-style: italic;
+	color: #333333;
+  }
+	
+.sec-title h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 40px;
+    font-weight: bold;
+    line-height: 108.8%;
+    letter-spacing: 4%;
+    color: #100F1F;
 }
 
 .section5-sub-head {

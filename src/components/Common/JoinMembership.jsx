@@ -10,7 +10,7 @@ import { decryptNumber } from "../Common/Utills";
 import { CustomizedLoader } from "./MiniComponents";
 import { baseUrl } from "../../../apiConfig";
 
-const JoinMembership = () => {
+const JoinMembership = ({isSuggestCard=false}) => {
   const queryParams = new URLSearchParams(window.location.search);
   const idParam = queryParams.get("id");
   console.log("🚀 ~ JoinMembership ~ idParam:", idParam)
@@ -33,7 +33,7 @@ const JoinMembership = () => {
   const [adminWallet , setAdminWallet] = useState("")
   const [tokenContractAddress, setTokenContractAddress] = useState("")
   const [membershipClubAmount, setmembershipClubAmount] = useState("")
-  const memberShipClubidDycripted=decryptNumber(idParam)/1
+  const memberShipClubidDycripted=!isSuggestCard&&decryptNumber(idParam)/1
   useEffect(() => {
     getData(
       {
@@ -234,7 +234,7 @@ const handleClick=()=>{
         text={
           isJoinClubLoading || sendingDiscordId
             ? "Processing..."
-            : "Buy Membership Token & Join"
+            : isSuggestCard?"Buy your selected memership club token":"Buy Membership Token & Join"
         }
         loading={isJoinClubLoading || sendingDiscordId}
         // onClick={() => {

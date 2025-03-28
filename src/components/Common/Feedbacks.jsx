@@ -64,6 +64,39 @@ export const Ratings = ({ text, heading,value,profilePic, date }) => {
     </div>
   );
 };
+export const Privaterating = ({ text, heading,value,profilePic,date,index}) => {
+  return (
+    <div className="d-flex pl-0">
+      <div className={`col-0  p-0 `}>
+        {profilePic ? 
+        <img
+          src={profilePic}
+          alt=""
+          className=""
+          style={{ borderRadius: "500px", height : "50px", width : "50px" }}
+        />:<>
+         <AccountCircleOutlinedIcon
+                sx={{ color: "#ccc", fontSize: 50 }}
+              /></>}
+      </div>
+      <div className={`${'col-11'}`}>
+      
+        <p className=" text-basic text-dark mb-0">
+          <strong className="bold-5">{heading}</strong>
+        </p>
+       
+          <p style={{fontSize:"11px"}}  className="mb-0 LightText Opacity" key={index}>
+            {value}
+          </p>
+      
+        <p style={{fontSize:"10px"}}  className="mb-0 LightText Opacity" >
+            {date}
+          </p>
+      </div>
+    </div>
+  );
+};
+
 export const RatingsTotal = ({ text, heading }) => {
   return (
     <div

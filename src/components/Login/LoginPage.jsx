@@ -153,17 +153,17 @@ const LoginPage = () => {
           localStorage.setItem("userData", JSON.stringify(data));
           setUserData(data);
   
-          try {
-            const response = await fetch(`${baseUrl}token/getAllTokenData`);
-            if (!response.ok) {
-              throw new Error("Failed to fetch token data");
-            }
-            const tokenData = await response.json();
-            localStorage.setItem("tokenData", JSON.stringify(tokenData));
-            console.log("Token Data Saved:", tokenData);
-          } catch (err) {
-            console.error("Error fetching token data:", err);
-          }
+          // try {
+          //   const response = await fetch(`${baseUrl}token/getAllTokenData`);
+          //   if (!response.ok) {
+          //     throw new Error("Failed to fetch token data");
+          //   }
+          //   const tokenData = await response.json();
+          //   localStorage.setItem("tokenData", JSON.stringify(tokenData));
+          //   console.log("Token Data Saved:", tokenData);
+          // } catch (err) {
+          //   console.error("Error fetching token data:", err);
+          // }
   
           navigate(userWallet || usdtAmount ? "/Dashboard" : "/");
         },

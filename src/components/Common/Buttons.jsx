@@ -5,11 +5,12 @@ export function LargeButton({
   sx = {},
   mode = "primary",
   disabled = false,
+  home = false,
 }) {
   return (
     <button
       style={sx}
-      className={`btn btn-${mode} btn-rounded w-100 d-flex justify-content-center align-items-center btn-py ${
+      className={`btn btn-${mode} btn-rounded w-100 d-flex justify-content-center align-items-center ${home?'home-btn-py':'btn-py'} ${
         disabled ? "cursor-not-allowed" : "cursor-pointer"
       }`}
       disabled={disabled}

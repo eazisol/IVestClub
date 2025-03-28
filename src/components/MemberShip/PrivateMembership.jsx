@@ -7,7 +7,7 @@ import avatar from "../../assets/image/avatar.png";
 import spaceximg1 from "../../assets/image/spaceximg1.png";
 import spaceximg2 from "../../assets/image/spaceximg2.png";
 import openaiimg3 from "../../assets/image/openaiimg3.png";
-import { Quotations, Ratings, RatingsTotal } from "../Common/Feedbacks";
+import { Privaterating, Quotations, Ratings, RatingsTotal } from "../Common/Feedbacks";
 import { NavLink } from "react-router-dom";
 import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
@@ -32,12 +32,18 @@ const PrivateMembership = () => {
   const [data, setData] = useState({});
   const [ratingData, setRatingData] = useState({ comment: "" });
   const [commentLimit, setCommentLimit] = useState(3);
+  const [feedBackdata, setFeedBackData] = useState([]);
+  console.log("🚀 ~ PrivateMembership ~ feedBackdata:", feedBackdata)
   const { mutate: getProfileData, isPending: isProfileLoading } = useApi();
   const { mutate: discordJoin, isPending: isdiscordLoading } = useApi();
+  const { mutate: getFeedback, isPending: isdgetFeedbackDataLoading } = useApi();
     const [profiledata, setProfileData] = useState({});
     const [discordId, setDiscordId] = useState("");
-   
 
+    const handleLoadMore = (e) => {
+      e.preventDefault();
+      setCommentLimit((prevLimit) => prevLimit + 3); // Increase the limit by 3 on each click
+    };
   const getMembershipData = () => {
     getData(
       {
@@ -56,7 +62,25 @@ const PrivateMembership = () => {
       }
     );
   };
+  const getFeedbackData = () => {
+    getFeedback(
+      {
+        url: `instructions/${decryptNumber(idParam)}`,
+        method: "GET",
+        sendHeaders: true,
+      },
+      {
+        onSuccess: ({data}) => {
+      setFeedBackData(data)
+        },
+        onError: (error) => {
+          console.log(error);
+        },
+      }
+    );
+  };
   useEffect(() => {
+    getFeedbackData()
     getMembershipData();
     console.log(
       "import.meta.env.VITE_APP_API_IMG_URL",
@@ -350,26 +374,23 @@ const PrivateMembership = () => {
               <div className="">
                 {/* <RatingsTotal /> */}
                 <div className="mt-3">
-                  {data?.commentlist
-                    ?.slice(0, commentLimit)
-                    ?.map((comment, index) => (
-                      <React.Fragment key={{ index }}>
-                        <Ratings
-                          heading={comment.user.username}
-                          text={[comment.comment]}
-                          value={comment.rating}
-                          profilePic={
-                            comment.user.profileimg
-                              ? imgUrl + comment.user.profileimg
-                              : null
-                          }
-                          date={formatdateHeading(data.updated_at)}
-                        />
-                        {index !==
-                          data.commentlist.slice(0, commentLimit).length -
-                            1 && <hr />}
-                      </React.Fragment>
-                    ))}
+
+                  
+                {feedBackdata?.slice(0, commentLimit).map((comment, index) => {
+
+        return (
+          <React.Fragment key={index}>
+            <Privaterating
+              heading={comment.title}
+              value={comment.description}
+              index={index}
+              date={formatdateHeading(comment.updated_at)}
+            />
+            {/* Add a horizontal line between comments, but not after the last one */}
+            {index !== feedBackdata?.slice(0, commentLimit).length - 1 && <hr />}
+          </React.Fragment>
+        );
+      })}
                   {/* <Ratings
                     heading={"Shareholders / Investors"}
                     text={[
@@ -390,22 +411,19 @@ const PrivateMembership = () => {
                       "Create another section here for Competitors",
                     ]}
                   /> */}
-                  {commentLimit < data.commentlist?.length ? (
-                    <div className="text-center">
-                      <hr />
-                      <NavLink
-                        to={"/"}
-                        style={{ textDecoration: "underline" }}
-                        className="pt-0  mb-3 mt-3"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setCommentLimit(commentLimit + 3);
-                        }}
-                      >
-                        Load More
-                      </NavLink>
-                    </div>
-                  ) : null}
+                  {feedBackdata?.length ? (
+        <div className="text-center">
+          <hr />
+          <NavLink
+            to={"/"}
+            style={{ textDecoration: "underline" }}
+            className="pt-0 mb-3 mt-3"
+            onClick={handleLoadMore} // Handle the Load More click
+          >
+            Load More
+          </NavLink>
+        </div>
+      ) : null}
                 </div>
               </div>
             </div>
@@ -469,7 +487,7 @@ const PrivateMembership = () => {
             newslist={data.newslist}
             membershipData={{
               title: data.title,
-              username: data.username,
+              username: data?.username,
               img: data.img,
               members: data.members,
               updated_at: data.updated_at,

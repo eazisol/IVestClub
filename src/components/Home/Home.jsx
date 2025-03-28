@@ -205,7 +205,8 @@ const Home = () => {
             </div>
             <div className="mt-4 pt-2 d-flex row pb-5 ">
               <div className="col-lg-7 col-sm-12 mb-3 mb-lg-0  ">
-                <LargeButton text="Learn More about the membership clubs" onClick={() => { navigate(`/Membership`) }} />
+                
+                <LargeButton home text="Learn More about the membership clubs " onClick={() => { navigate(`/Membership`) }} />
               </div>
               <div className="col-lg-5 col-sm-12  ">
 
@@ -730,7 +731,7 @@ const Home = () => {
                       style={{ fontSize: "11px", color: "#FFFF" }}
                     >
                       Engaging with fellow members within each club creates an
-                      active and knowledgeable focus group. Active knowldege
+                      active and knowledgeable focus group. Active knowledge
                       contributions are ewarded wih airdrops of tokens.
                     </span>
                   }

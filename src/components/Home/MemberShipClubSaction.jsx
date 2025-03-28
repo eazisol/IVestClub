@@ -142,7 +142,7 @@ const MemberShipClubSaction = () => {
           <CustomizedLoader />
         ) : (
           <div className="row justify-content-sm-center justify-content-md-start" >
-            {membershipList?.map((data, index) => (
+            {membershipList?.filter((i)=>i.status==1)?.map((data, index) => (
             <React.Fragment key={data.id}>
               <MemberShipClubCards
                 id={encryptNumber(data.id)} // Add this line

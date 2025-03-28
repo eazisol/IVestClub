@@ -99,7 +99,7 @@ const MyMemberShipClubs = () => {
                 }
                 to={`/Membership/SpaceXMembership`}
               /> */}
-                {membershipList
+                {/* {membershipList
                   ?.filter((data) => data.joined)
                   ?.map((data, index) => (
                     <React.Fragment key={data.id}>
@@ -120,17 +120,41 @@ const MyMemberShipClubs = () => {
                         rating={data.totalrating}
                       />
                     </React.Fragment>
-                  ))}
-                <MemberShipClubCards
-                col={6}
-                image={membershipimg4}
-                heading={"Suggest a membership club!"}
-                text={
-                  "Have a membership club idea? Share your proposal with others for consideration and collaboration."
+                  ))} */}
+                  <div className="row justify-content-sm-center justify-content-md-start" >
+                  {membershipList?.filter((i)=>i.status==1)?.map((data, index) => (
+                  <React.Fragment key={data.id}>
+                    <MemberShipClubCards
+                      id={encryptNumber(data.id)} // Add this line
+                      image={data.img}
+                      heading={data.title}
+                      text={data.overview}
+                      price={data.price}
+                      joined={data.joined}
+                      members={data.members}
+                      rating={data.totalrating}
+                      // viewStyle={viewStyle}
+                      symbol={data?.token_symbol}
+                    />
+                  </React.Fragment>
+                ))}
+                {
+                  localStorage.getItem("userData") &&
+                  JSON.parse(localStorage.getItem("userData"))?.access_token && (
+                    <MemberShipClubCards
+                      image={membershipimg4}
+                      heading={"Suggest a membership club!"}
+                      text={
+                        "Have a membership club idea? Share your proposal with others for consideration and collaboration."
+                      }
+                      to={`/Membership/FutureClubs`}
+                      staticImg
+                      // viewStyle={viewStyle}
+                      isSuggestCard={true} 
+                    />
+                  )
                 }
-                to={`/Membership/PublicMemberShip`}
-                staticImg
-              />
+                </div>
               </div>
             </div>
 
@@ -180,43 +204,41 @@ const MyMemberShipClubs = () => {
                     <CircularProgress />
                   </Box>
                 ) : (
-                  membershipList
-                    ?.filter((data) => !data.joined)
-                    ?.map((data, index) => (
-                      <React.Fragment key={data.id}>
-                        <MemberShipClubCards
-                          image={data.img}
-                          col={6}
-                          heading={data.title}
-                          text={data.overview}
-                          price={data.price}
-                          symbol={data?.token_symbol}
-                          to={
-                            data.joined
-                              ? `/Membership/Private?id=${encryptNumber(
-                                  data.id
-                                )}`
-                              : `/Membership/Public?id=${encryptNumber(
-                                  data.id
-                                )}`
-                          }
-                          joined={data.joined}
-                          members={data.members}
-                          rating={data.totalrating}
-                        />
-                      </React.Fragment>
-                    ))
-                )}
-                {/* <MemberShipClubCards
-                col={6}
-                image={membershipimg4}
-                heading={"Suggest a membership club!"}
-                text={
-                  "Have a membership club idea? Share your proposal with others for consideration and collaboration."
+                  <div className="row justify-content-sm-center justify-content-md-start" >
+                  {membershipList?.filter((data) =>!data.joined&&data.status == 1)?.map((data, index) => (
+                  <React.Fragment key={data.id}>
+                    <MemberShipClubCards
+                      id={encryptNumber(data.id)} // Add this line
+                      image={data.img}
+                      heading={data.title}
+                      text={data.overview}
+                      price={data.price}
+                      joined={data.joined}
+                      members={data.members}
+                      rating={data.totalrating}
+                      // viewStyle={viewStyle}
+                      symbol={data?.token_symbol}
+                    />
+                  </React.Fragment>
+                ))}
+                {
+                  localStorage.getItem("userData") &&
+                  JSON.parse(localStorage.getItem("userData"))?.access_token && (
+                    <MemberShipClubCards
+                      image={membershipimg4}
+                      heading={"Suggest a membership club!"}
+                      text={
+                        "Have a membership club idea? Share your proposal with others for consideration and collaboration."
+                      }
+                      to={`/Membership/FutureClubs`}
+                      staticImg
+                      // viewStyle={viewStyle}
+                      isSuggestCard={true} 
+                    />
+                  )
                 }
-                // to={`/Membership/FutureClubs`}
-                staticImg
-              /> */}
+                </div>
+                )}
               </div>
             </div>
           </div>
