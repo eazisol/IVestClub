@@ -29,6 +29,7 @@ const SideBarMembership = ({
   const [filesLimit, setFilesLimit] = useState(3);
   const [articalsLimit, setArticalsLimit] = useState(1);
   const [tokens, setTokens] = useState([]);
+  const [tokomics, setTokomics] = useState([]);
   const [membershipData, setMembershipData] = useState();
   const queryParams = new URLSearchParams(window.location.search);
   const idParam = queryParams.get("id");
@@ -194,11 +195,20 @@ const SideBarMembership = ({
     axios.get(`${baseUrl}token/getAllTokenData`)
       .then(response => {
         if (response.data.success) {
-          setTokens(response.data.data);
+          console.log("🚀 ~ useEffect ~ response:",  response.data.data)
+          const filteredTokens = response.data.data.filter((i) => {
+            return i.membershipclub_id == decryptNumber(idParam)/1;
+          });
+  
+          console.log("🚀 ~ useEffect ~ filteredTokens:", filteredTokens); // Log filtered results
+  
+          setTokomics(filteredTokens); // Update state with filtered data
+          setTokens(response.data.data); 
         }
       })
       .catch(error => console.error("Error fetching token data:", error));
   }, []);
+      
 
   return (
     <>
@@ -540,7 +550,7 @@ const SideBarMembership = ({
       <div className="card card-border-c mt-3 p-4">
         <div className="">
           <h6 className="text-dark mb-3 sideHeadText">
-            <>OpenAI Tokenomics</>
+            <>{`${membershipData?.title=='SpaceX'?membershipData?.title:"OpenAI"} Tokenomics`}</>
           </h6>
           <div
             style={{ fontSize: "13px" }}
@@ -549,40 +559,48 @@ const SideBarMembership = ({
             <strong>Number of Tokens</strong>
           </div>
         </div>
-        <div className="d-flex align-items-center mt-1 font-italic">
-          <div className="col-9 p-0">
-            <div className=" openAiText DarkText">
-              Maximum Number of Tokens Available
+        <div className="d-flex align-items-center font-italic mt-2 justify-content-between sideBarTokenomics">
+          
+            <div className=" openAiText DarkText p-0">
+              Maximum no. of Tokens Available:
             </div>
-          </div>
-          <div className="col-3 text-right">
-            <p className="mb-0 openAiText text-warning ">{tokens.find(token => token.symbol === "IVT")?.totalsupply || "N/A"}</p>
-          </div>
-        </div>
-        <div className="d-flex align-items-center mt-2 font-italic">
-          <div className="col-9 p-0">
-            <div className=" openAiText DarkText">Tokens in Circulation:</div>
-          </div>
-          <div className="col-3 text-right">
-            <p className="mb-0 openAiText text-warning">{tokens.find(token => token.symbol === "IVT")?.circulation || "N/A"}</p>
+          
+          <div className=" text-right">
+            <p className="mb-0 openAiText text-warning "><div>
+ 
+  {tokomics[0]?.totalsupply !== undefined
+    ? new Intl.NumberFormat().format(tokomics[0].totalsupply)
+    : "N/A"}
+</div></p>
           </div>
         </div>
-        <div className="d-flex align-items-center mt-2 font-italic">
-          <div className="col-9 p-0">
-            <div className=" openAiText DarkText">
+        <div className="d-flex align-items-center font-italic justify-content-between sideBarTokenomics2">
+        
+            <div className=" openAiText DarkText  p-0">Tokens in Circulation:</div>
+       
+          <div className=" text-right">
+            <p className="mb-0 openAiText text-warning">{
+  tokomics[0]?.circulation !== undefined ? new Intl.NumberFormat().format(tokomics[0].circulation)
+    : "N/A"
+}</p>
+          </div>
+        </div>
+        <div className="d-flex align-items-centerfont-italic justify-content-between sideBarTokenomics">
+        
+            <div className=" openAiText DarkText  p-0">
               Subscription Price of a token:
             </div>
-          </div>
-          <div className="col-3 text-right">
+         
+          <div className=" text-right ">
             <p className="mb-0 openAiText text-warning">{membershipData?.price} IVT</p>
           </div>
         </div>
-        <div className="d-flex align-items-center mt-2 font-italic">
-          <div className="col-9 p-0">
-            <div className=" openAiText DarkText">Price of IVT currently:</div>
-          </div>
-          <div className="col-3 text-right">
-            <p className="mb-0 openAiText text-warning">{tokens.find(token => token.symbol === "IVT")?.token_conversion_rate || "N/A"} USD</p>
+        <div className="d-flex align-items-center font-italic justify-content-between ">
+      
+            <div className=" openAiText DarkText  p-0">Price of IVT currently:</div>
+       
+          <div className=" text-right">
+            <p className="mb-0 openAiText text-warning">{tokomics[0]?.token_conversion_rate || "N/A"} USD</p>
           </div>
         </div>
         <hr />

@@ -33,8 +33,6 @@ const getStatusColor = (status) => {
   }
 };
 
-
-
 // Function to format status text to Title Case
 const formatStatus = (status) => {
   if (!status) return "Unknown";
@@ -141,13 +139,13 @@ export const TransactionHistory = () => {
           </div>
           <div className="col-lg-9 col-md-12 col-sm-12">
             <div className="card card-border-c p-3">
-             
-                
-                  <div className=" mb-3 " style={{fontWeight: "bold", fontSize: "20px"}}>
-                    Transaction History
-                  </div>
-              
-          
+              <div
+                className=" mb-3 "
+                style={{ fontWeight: "bold", fontSize: "20px" }}
+              >
+                Transaction History
+              </div>
+
               <div className="section2">
                 <TableContainer
                   className="tableContainer"
@@ -174,7 +172,7 @@ export const TransactionHistory = () => {
                               position: "sticky",
                               top: 0,
                               backgroundColor: "#fff",
-                              fontSize:"14px !important"
+                              fontSize: "14px !important",
                             }}
                           >
                             {header}
@@ -217,8 +215,7 @@ export const TransactionHistory = () => {
                                       display: "flex",
                                       alignItems: "center",
                                       justifyContent: "center",
-                                      flexWrap: "nowrap"
-
+                                      flexWrap: "nowrap",
                                     }}
                                   >
                                     <Tooltip
@@ -229,8 +226,7 @@ export const TransactionHistory = () => {
                                         {shortenText(row.transaction_id)}
                                       </span>
                                     </Tooltip>
-
-                                    <Tooltip title="Copy Transaction ID">
+                                    {/* <Tooltip title="Copy Transaction ID">
                                       <IconButton
                                         size="small"
                                         onClick={() =>
@@ -250,13 +246,41 @@ export const TransactionHistory = () => {
                                           <ContentCopyIcon fontSize="small" />
                                         )}
                                       </IconButton>
+                                    </Tooltip> */}
+                                    <Tooltip title="Copy Transaction ID">
+                                      <div
+                                        onClick={() =>
+                                          copyToClipboard(
+                                            row.transaction_id,
+                                            `txid-${index}`
+                                          )
+                                        }
+                                        style={{
+                                          display: "inline-flex",
+                                          alignItems: "center",
+                                          marginLeft: "8px",
+                                          cursor: "pointer",
+                                        }} // Added inline styles for similar appearance
+                                      >
+                                        {copied[`txid-${index}`] ? (
+                                          <CheckCircleIcon
+                                            color="success"
+                                            fontSize="small"
+                                          />
+                                        ) : (
+                                          <ContentCopyIcon
+                                            fontSize="small"
+                                            color="#555555 !important"
+                                          />
+                                        )}
+                                      </div>
                                     </Tooltip>
                                   </Box>
                                 ) : (
                                   <span className="tableHeadText"> N/A</span>
                                 )}
                               </TableCell>
-                            
+
                               <TableCell
                                 align="center"
                                 sx={{
@@ -323,17 +347,20 @@ export const TransactionHistory = () => {
                                         {shortenText(row.user_wallet_address)}
                                       </span>
                                     </Tooltip>
-
                                     <Tooltip title="Copy Wallet Address">
-                                      <IconButton
-                                        size="small"
+                                      <div
                                         onClick={() =>
                                           copyToClipboard(
                                             row.user_wallet_address,
                                             `walletAddress-${index}`
                                           )
                                         }
-                                        sx={{ ml: 1 }}
+                                        style={{
+                                          display: "inline-flex",
+                                          alignItems: "center",
+                                          marginLeft: "8px",
+                                          cursor: "pointer",
+                                        }} // Added inline styles for similar appearance
                                       >
                                         {copied[`walletAddress-${index}`] ? (
                                           <CheckCircleIcon
@@ -343,8 +370,9 @@ export const TransactionHistory = () => {
                                         ) : (
                                           <ContentCopyIcon fontSize="small" />
                                         )}
-                                      </IconButton>
+                                      </div>
                                     </Tooltip>
+                                   
                                   </Box>
                                 ) : (
                                   <span className="tableHeadText"> N/A</span>
@@ -379,17 +407,20 @@ export const TransactionHistory = () => {
                                         {shortenText(row.tx_hash)}
                                       </Link>
                                     </Tooltip>
-
                                     <Tooltip title="Copy TX Hash">
-                                      <IconButton
-                                        size="small"
-                                        onClick={() =>
+                                      <div
+                                         onClick={() =>
                                           copyToClipboard(
                                             row.tx_hash,
                                             `txhash-${index}`
                                           )
                                         }
-                                        sx={{ ml: 1 }}
+                                        style={{
+                                          display: "inline-flex",
+                                          alignItems: "center",
+                                          marginLeft: "8px",
+                                          cursor: "pointer",
+                                        }} // Added inline styles for similar appearance
                                       >
                                         {copied[`txhash-${index}`] ? (
                                           <CheckCircleIcon
@@ -399,8 +430,9 @@ export const TransactionHistory = () => {
                                         ) : (
                                           <ContentCopyIcon fontSize="small" />
                                         )}
-                                      </IconButton>
+                                      </div>
                                     </Tooltip>
+                                    
                                   </Box>
                                 ) : (
                                   <span className="tableHeadText">N/A</span>

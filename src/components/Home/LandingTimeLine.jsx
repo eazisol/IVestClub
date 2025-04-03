@@ -41,7 +41,7 @@ function LandingTimeLine() {
         />
         <TLItem
           icon={icon1}
-          heading={"Rewarding your membership"}
+          heading={"Rewarding Your Membership"}
           text={
             "Earn rewards as you and the club achieves key milestones to celebrate significant company events.//Additional rewards for continuous learning and strengthening the community's collective knowledge.//Get rewarded that increases the value of your membership!"
           }

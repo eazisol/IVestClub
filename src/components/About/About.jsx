@@ -56,7 +56,7 @@ const About = () => {
                     {" "}
                     <strong className="bold-sec-title-l bold8">
                       We Are{" "}
-                      <TextUnderWrap padding={7}>IVestClub</TextUnderWrap>
+                      <TextUnderWrap padding={7}>iVestClub</TextUnderWrap>
                     </strong>
                   </h3>
                 </div>
@@ -233,7 +233,7 @@ const About = () => {
           </div>
         </div>
       </section>
-      <section className="page-banner bottom-banner ">
+      {/* <section className="page-banner bottom-banner ">
         <div
           className="image-layer "
           style={{
@@ -280,7 +280,7 @@ const About = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
       <MemberShip />
     </>
   );

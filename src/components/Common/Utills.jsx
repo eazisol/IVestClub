@@ -142,13 +142,11 @@ export const encryptNumber = (number) => {
     encrypted += encryptedDigit;
   }
 
-  console.log("Encrypted:", encrypted);
   return encrypted;
 };
 
 // Function to decrypt an encrypted number
 export const decryptNumber = (encryptedNumber) => {
-  console.log("number to decrypt",encryptedNumber);
   if (encryptedNumber?.length !== 8) {
     throw new Error("Encrypted number must be exactly 8 characters long.");
   }
@@ -168,7 +166,6 @@ export const decryptNumber = (encryptedNumber) => {
     decrypted += index.toString(); // Convert index back to a string digit
   }
 
-  console.log("Decrypted:", decrypted);
   return decrypted;
 };
 

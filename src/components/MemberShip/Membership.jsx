@@ -19,7 +19,7 @@ const Membership = () => {
         ></div>
 
        <div >
-          <h2 className="bannerHead">IVest Membership Clubs</h2>
+          <h2 className="bannerHead">iVest Membership Clubs</h2>
           
         </div>
 

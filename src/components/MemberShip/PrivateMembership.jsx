@@ -7,7 +7,12 @@ import avatar from "../../assets/image/avatar.png";
 import spaceximg1 from "../../assets/image/spaceximg1.png";
 import spaceximg2 from "../../assets/image/spaceximg2.png";
 import openaiimg3 from "../../assets/image/openaiimg3.png";
-import { Privaterating, Quotations, Ratings, RatingsTotal } from "../Common/Feedbacks";
+import {
+  Privaterating,
+  Quotations,
+  Ratings,
+  RatingsTotal,
+} from "../Common/Feedbacks";
 import { NavLink } from "react-router-dom";
 import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
@@ -33,17 +38,17 @@ const PrivateMembership = () => {
   const [ratingData, setRatingData] = useState({ comment: "" });
   const [commentLimit, setCommentLimit] = useState(3);
   const [feedBackdata, setFeedBackData] = useState([]);
-  console.log("🚀 ~ PrivateMembership ~ feedBackdata:", feedBackdata)
   const { mutate: getProfileData, isPending: isProfileLoading } = useApi();
   const { mutate: discordJoin, isPending: isdiscordLoading } = useApi();
-  const { mutate: getFeedback, isPending: isdgetFeedbackDataLoading } = useApi();
-    const [profiledata, setProfileData] = useState({});
-    const [discordId, setDiscordId] = useState("");
+  const { mutate: getFeedback, isPending: isdgetFeedbackDataLoading } =
+    useApi();
+  const [profiledata, setProfileData] = useState({});
+  const [discordId, setDiscordId] = useState("");
 
-    const handleLoadMore = (e) => {
-      e.preventDefault();
-      setCommentLimit((prevLimit) => prevLimit + 3); // Increase the limit by 3 on each click
-    };
+  const handleLoadMore = (e) => {
+    e.preventDefault();
+    setCommentLimit((prevLimit) => prevLimit + 3); // Increase the limit by 3 on each click
+  };
   const getMembershipData = () => {
     getData(
       {
@@ -70,8 +75,8 @@ const PrivateMembership = () => {
         sendHeaders: true,
       },
       {
-        onSuccess: ({data}) => {
-      setFeedBackData(data)
+        onSuccess: ({ data }) => {
+          setFeedBackData(data);
         },
         onError: (error) => {
           console.log(error);
@@ -80,7 +85,7 @@ const PrivateMembership = () => {
     );
   };
   useEffect(() => {
-    getFeedbackData()
+    getFeedbackData();
     getMembershipData();
     console.log(
       "import.meta.env.VITE_APP_API_IMG_URL",
@@ -89,13 +94,15 @@ const PrivateMembership = () => {
   }, []);
   const handleJoin = () => {
     window.open("https://discord.gg/MfXhJasq4W", "_blank"); // Open link immediately
-  
+
     const postData = {
-      discord_userid: profiledata?.discord_userid?profiledata?.discord_userid:discordId,
+      discord_userid: profiledata?.discord_userid
+        ? profiledata?.discord_userid
+        : discordId,
       user_id: profiledata?.id,
       membership_club_id: decryptNumber(idParam),
     };
-  
+
     discordJoin(
       {
         url: "add-user-discord-id",
@@ -105,7 +112,7 @@ const PrivateMembership = () => {
       },
       {
         onSuccess: (data) => {
-        setDiscordId("");
+          setDiscordId("");
         },
         onError: (error) => {
           console.log(error);
@@ -113,9 +120,9 @@ const PrivateMembership = () => {
       }
     );
   };
-  
- useEffect(() => {
-  getProfileData(
+
+  useEffect(() => {
+    getProfileData(
       {
         url: "profile",
         method: "GET",
@@ -231,17 +238,118 @@ const PrivateMembership = () => {
                 alt=""
                 className=" mt-2 mb-3"
               />
-              <div dangerouslySetInnerHTML={{ __html: data.content }} />
+              {decryptNumber(idParam) / 1 == 7 && (
+                <>
+                  {" "}
+                  <h5 className="mt-4 text-dark mont-font">
+                    <strong>Who are SpaceX?</strong>
+                  </h5>
+                  <p className=" LightText" style={{ fontSize: "12px" }}>
+                    SpaceX, founded by Elon Musk in 2002, is a trailblazing
+                    aerospace manufacturer and space transportation company that
+                    has transformed the space industry with its cutting-edge
+                    technology and ambitious missions. Its development of
+                    reusable rockets, notably the Falcon 9, has significantly
+                    lowered the cost of accessing space, facilitating a wide
+                    array of missions including satellite deployments,
+                    International Space Station resupply, and the ambitious goal
+                    of interplanetary exploration with the Starship project.
+                    SpaceX’s vision extends beyond Earth's orbit, aiming to make
+                    life multiplanetary by establishing a human presence on
+                    Mars.
+                  </p>
+                  <p className=" LightText" style={{ fontSize: "12px" }}>
+                    Starlink, a subsidiary project of SpaceX, aims to provide
+                    global high-speed internet coverage through a constellation
+                    of low Earth orbit (LEO) satellites. Launched in 2015,
+                    Starlink addresses the challenge of providing internet
+                    access to remote and underserved areas around the world. By
+                    deploying thousands of small satellites, Starlink creates a
+                    network that can deliver fast and reliable internet services
+                    with low latency, which is particularly beneficial for
+                    regions with poor terrestrial infrastructure. This
+                    initiative not only enhances global connectivity but also
+                    generates substantial revenue to support SpaceX’s broader
+                    space exploration goals.
+                  </p>
+                  <hr />
+                  <div className="p-0 p-xl-3">
+                    <h5 className="mt-4 text-dark mont-font">
+                      <strong>Elon Musk presentation on SPaceX</strong>
+                    </h5>
+                    {/* <img src={spaceximg2} alt="" className=" mt-2" /> */}
+                    <iframe
+                      width="100%"
+                      height="315"
+                      src="https://www.youtube.com/embed/6xLmBLWDSHo?si=m1jg2sZO8gLC2IrB"
+                      title="YouTube video player"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                      style={{ borderRadius: "10px" }} // Add border radius here
+                    ></iframe>
+                    <p className="text-basic text-dark mt-3 bold-5">
+                      Space travel is crucial for advancing scientific
+                      knowledge, fostering technological innovation, and
+                      ensuring the long-term survival and expansion of humanity
+                      beyond Earth.
+                    </p>
+                    <div className="">
+                      <Quotations
+                        text={
+                          <span
+                            className="bold-5"
+                            style={{
+                              fontFamily: "Poppins, sans-serif", // Ensure Poppins is available
+                              fontWeight: 500, // Medium weight
+                              fontSize: "12px",
+                              color: "#202327",
+                              lineHeight: "0",
+                              letterSpacing: "0%",
+                            }}
+                          >
+                            SpaceX is a once-in-a-lifetime company because it’s
+                            fundamentally changing humanity’s destiny.
+                          </span>
+                        }
+                        by={"Chamath Palihapitiya"}
+                      />
+                      <Quotations
+                        text={
+                          <span
+                            className="bold-5"
+                            style={{
+                              fontFamily: "Poppins, sans-serif", // Ensure Poppins is available
+                              fontWeight: 500, // Medium weight
+                              fontSize: "12px",
+                              color: "#202327",
+                              lineHeight: "0",
+                              letterSpacing: "0%",
+                            }}
+                          >
+                            I think space is our only hope, and we are on the
+                            verge of commercializing it.
+                          </span>
+                        }
+                        by={"Jeff Bezos"}
+                      />
+                    </div>
+                  </div>
+                </>
+              )}
+              {decryptNumber(idParam) / 1 != 7 && (
+                <div dangerouslySetInnerHTML={{ __html: data.content }} />
+              )}
             </div>
           </div>
-          <div className="card card-border-c mt-4">
+          {/* <div className="card card-border-c mt-4">
             <div className="card-body p-2 p-xl-5">
               <h5 className="text-dark mont-font">
                 <strong>{data.VideoTitle}</strong>
               </h5>
               <div dangerouslySetInnerHTML={{ __html: data.privateYTembed }} />
             </div>
-          </div>
+          </div> */}
           <div className="card card-border-c mt-4">
             <div className="card-body p-2 p-xl-5">
               <h5 className="text-dark mont-font">
@@ -279,68 +387,75 @@ const PrivateMembership = () => {
                   <strong>{data.title} Discussion Channel</strong>
                 </h5>
 
-              <div className="d-flex align-items-center">
-  {/* !profiledata?.discord_userid && */}
-  {( 
-    <TextField
-      variant="outlined"
-      size="small"
-      onChange={(e) => setDiscordId(e.target.value)}
-      sx={{
-        width: "200px",
-        height: "36px",
-        marginRight: "5px",
-        marginLeft: "5px",
-        borderRadius: "50px", // Rounded corners
-        backgroundColor: "white", // Match Bootstrap input
-        "& .MuiOutlinedInput-root": {
-          borderRadius: "50px", // Rounded corners
-          height: "36px",
-          paddingLeft: "12px", // Inner left padding
-          "& fieldset": {
-            border: "1px solid #ccc", // Border color
-          },
-          "&:hover fieldset": {
-            borderColor: "#aaa", // Slightly darker on hover
-          },
-          "&.Mui-focused fieldset": {
-            borderColor: "#007bff", // Focus color
-          },
-        },
-        "& input": {
-          fontSize: "14px", // Input text size
-          paddingLeft: "2px", // Ensure text starts from left
-          textAlign: "left",
-        },
-      }}
-      InputProps={{
-        startAdornment: (
-          <InputAdornment position="start">
-            <Tooltip
-              title={
-                <div style={{ fontSize: "12px", padding: "1px" }}>
-                  • Go to User Settings (gear icon near your username). <br />
-                  • Scroll to Advanced under App Settings. <br />
-                  • Enable Developer Mode. <br />
-                  • Click on your username. <br />
-                  • Click on Copy User ID. <br />
-                  • Paste the User ID below.
-                </div>
-              }
-              arrow
-            >
-              <InfoOutlinedIcon
-                sx={{ color: "gray", cursor: "pointer", fontSize: 20 }}
-              />
-            </Tooltip>
-          </InputAdornment>
-        ),
-      }}
-      placeholder="Enter your Discord ID"
-    />
-  )}
+                <div className="d-flex align-items-center">
+                  {/* !profiledata?.discord_userid && */}
+                  {
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      onChange={(e) => setDiscordId(e.target.value)}
+                      sx={{
+                        width: "200px",
+                        height: "36px",
+                        marginRight: "5px",
+                        marginLeft: "5px",
+                        borderRadius: "50px", // Rounded corners
+                        backgroundColor: "white", // Match Bootstrap input
+                        "& .MuiOutlinedInput-root": {
+                          borderRadius: "50px", // Rounded corners
+                          height: "36px",
+                          paddingLeft: "12px", // Inner left padding
+                          "& fieldset": {
+                            border: "1px solid #ccc", // Border color
+                          },
+                          "&:hover fieldset": {
+                            borderColor: "#aaa", // Slightly darker on hover
+                          },
+                          "&.Mui-focused fieldset": {
+                            borderColor: "#007bff", // Focus color
+                          },
+                        },
+                        "& input": {
+                          fontSize: "14px", // Input text size
+                          paddingLeft: "2px", // Ensure text starts from left
+                          textAlign: "left",
+                        },
+                      }}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <Tooltip
+                              title={
+                                <div
+                                  style={{ fontSize: "12px", padding: "1px" }}
+                                >
+                                  • Go to User Settings (gear icon near your
+                                  username). <br />• Scroll to Advanced under
+                                  App Settings. <br />
+                                  • Enable Developer Mode. <br />
+                                  • Click on your username. <br />
+                                  • Click on Copy User ID. <br />• Paste the
+                                  User ID below.
+                                </div>
+                              }
+                              arrow
+                            >
+                              <InfoOutlinedIcon
+                                sx={{
+                                  color: "gray",
+                                  cursor: "pointer",
+                                  fontSize: 20,
+                                }}
+                              />
+                            </Tooltip>
+                          </InputAdornment>
+                        ),
+                      }}
+                      placeholder="Enter your Discord ID"
+                    />
+                  }
                   <Button
-                    disabled={!discordId }
+                    disabled={!discordId}
                     onClick={handleJoin}
                     variant="contained"
                     sx={{
@@ -349,13 +464,10 @@ const PrivateMembership = () => {
                       textTransform: "none",
                       fontSize: "14px",
                       backgroundColor: "#3A407B",
-                    
-                    
                     }}
                   >
                     Join
                   </Button>
-
                 </div>
               </div>
               {/* <div dangerouslySetInnerHTML={{ __html: data.discordwidget }} /> */}
@@ -374,23 +486,25 @@ const PrivateMembership = () => {
               <div className="">
                 {/* <RatingsTotal /> */}
                 <div className="mt-3">
-
-                  
-                {feedBackdata?.slice(0, commentLimit).map((comment, index) => {
-
-        return (
-          <React.Fragment key={index}>
-            <Privaterating
-              heading={comment.title}
-              value={comment.description}
-              index={index}
-              date={formatdateHeading(comment.updated_at)}
-            />
-            {/* Add a horizontal line between comments, but not after the last one */}
-            {index !== feedBackdata?.slice(0, commentLimit).length - 1 && <hr />}
-          </React.Fragment>
-        );
-      })}
+                  {feedBackdata
+                    ?.slice(0, commentLimit)
+                    .map((comment, index) => {
+                      return (
+                        <React.Fragment key={index}>
+                          <Privaterating
+                            heading={comment.title}
+                            value={comment.description}
+                            index={index}
+                            date={formatdateHeading(comment.updated_at)}
+                          />
+                          {/* Add a horizontal line between comments, but not after the last one */}
+                          {index !==
+                            feedBackdata?.slice(0, commentLimit).length - 1 && (
+                            <hr />
+                          )}
+                        </React.Fragment>
+                      );
+                    })}
                   {/* <Ratings
                     heading={"Shareholders / Investors"}
                     text={[
@@ -412,18 +526,18 @@ const PrivateMembership = () => {
                     ]}
                   /> */}
                   {feedBackdata?.length ? (
-        <div className="text-center">
-          <hr />
-          <NavLink
-            to={"/"}
-            style={{ textDecoration: "underline" }}
-            className="pt-0 mb-3 mt-3"
-            onClick={handleLoadMore} // Handle the Load More click
-          >
-            Load More
-          </NavLink>
-        </div>
-      ) : null}
+                    <div className="text-center">
+                      <hr />
+                      <NavLink
+                        to={"/"}
+                        style={{ textDecoration: "underline" }}
+                        className="pt-0 mb-3 mt-3"
+                        onClick={handleLoadMore} // Handle the Load More click
+                      >
+                        Load More
+                      </NavLink>
+                    </div>
+                  ) : null}
                 </div>
               </div>
             </div>

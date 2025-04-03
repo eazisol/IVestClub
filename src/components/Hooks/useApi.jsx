@@ -5,7 +5,6 @@ import { appData } from "../Context/AppContext";
 import { baseUrl } from "../../../apiConfig";
 
 const apiCall = async ({ url, method = "POST", data, headers }) => {
-  console.log("Making API request:", { url, method, data, headers });
 
   const response = await axios({
     url: `${baseUrl}${url}`,
@@ -13,7 +12,6 @@ const apiCall = async ({ url, method = "POST", data, headers }) => {
     data,
     headers,
   });
-  console.log("Response received:", response);
   return response.data;
 };
 
@@ -44,7 +42,6 @@ const useApi = (showError = false) => {
       return responseData;
     },
     onSuccess: (data) => {
-      console.log("API request successful:", data);
     },
     onError: (error) => {
       if (!showError) {

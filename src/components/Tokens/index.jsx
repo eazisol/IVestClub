@@ -202,7 +202,7 @@ const [totalMemberShipClub,setTotalMemberShipClub]=useState('')
               </div>
               <div className="mt-4 pt-2 mb-4 pb-2 d-flex row ">
                 <div className="col-lg-4 col-sm-12 mt-1 ">
-                  <LargeButton text="Buy your IVT tokens"    onClick={() => {
+                  <LargeButton text="Buy your IVT tokens"  home  onClick={() => {
                   const userData = localStorage.getItem("userData");
 
                   if (!userData) {
@@ -320,7 +320,8 @@ const [totalMemberShipClub,setTotalMemberShipClub]=useState('')
                         fontWeight: "bold",
                         fontStyle: "italic",
                         color: "#333333",
-                        marginTop:"-5px"
+                        marginTop:"-5px",
+                            whiteSpace:"nowrap"
                       }}
                     >
                       Membership Club Tokenomics

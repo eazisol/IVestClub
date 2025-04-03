@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import about from "../../assets/image/about.png";
 import about1 from "../../assets/image/about1.png";
 import about2 from "../../assets/image/about2.png";
@@ -25,7 +25,7 @@ import useApi from "../Hooks/useApi";
 import { decryptNumber, formatdateHeading } from "../Common/Utills";
 import { imgUrl } from "../../../apiConfig";
 import { CustomizedLoader } from "../Common/MiniComponents";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { appData } from "../Context/AppContext";
 import JoinMembership from "../Common/JoinMembership";
 
@@ -35,7 +35,10 @@ const PublicMemberShip = () => {
   const navigate = useNavigate();
   const { mutate: getData, isPending: isMembershipLoading, error } = useApi();
   const [data, setData] = useState({});
- 
+//   useEffect(() => {
+//     const element = document.getElementById('rewardSaction');
+//     element.scrollIntoView();
+//  }, []);
   useEffect(() => {
     getData(
       {
@@ -394,8 +397,9 @@ const PublicMemberShip = () => {
             </figure>
           </div>
         </SactionContainer>
-        <SactionContainer container={false}>
-          <div className="image-column col-lg-6 col-md-12 col-sm-12 mb-5 mt-5">
+        <SactionContainer container={false} >
+          <div className="image-column col-lg-6 col-md-12 col-sm-12 mb-5 mt-5"  >
+        {/* <div  id="rewardSaction"/> */}
             <figure
               className="image wow d-flex justify-content-center slideInLeft animated"
               data-wow-delay="0ms"
@@ -435,7 +439,9 @@ const PublicMemberShip = () => {
               </div>
             </div>
           </div>
-          <div className="text-column col-lg-6 col-md-12 col-sm-12 mb-5 pl-5 mt-5">
+         
+          <div className="text-column col-lg-6 col-md-12 col-sm-12 mb-5 pl-5 mt-5" >
+         
             <div className="inner">
               <div className="">
                 <h4 className="DarkText">
@@ -456,7 +462,7 @@ const PublicMemberShip = () => {
                   Payment of Membership Fee Automatically
                 </h5>
               </div>
-
+            
               <div className="d-flex mt-2">
                 <h5 className="col-1 text-center p-0">
                   <strong className="text-warning warning-bullet warningDig text-bold">
@@ -478,7 +484,7 @@ const PublicMemberShip = () => {
                   Entry into company specific competitions
                 </h5>
               </div>
-
+           
               <div className="d-flex mt-2">
                 <h5 className="col-1 text-center p-0">
                   <strong className="text-warning warning-bullet warningDig text-bold">
@@ -502,7 +508,7 @@ const PublicMemberShip = () => {
               </div>
             </div>
 
-            <div className="inner">
+            <div className="inner" >
               <div className="">
                 <h4 className="DarkText">
                   {" "}
@@ -510,13 +516,14 @@ const PublicMemberShip = () => {
                     Getting rewarded as a member
                   </strong>
                 </h4>
+              
               </div>
               <p className="text-basic text-black mt-3">
                 During the course of your membership, you may get rewarded with
                 more tokens (or NFTs) via airdrops for the following events
               </p>
 
-              <div className="d-flex mt-4">
+              <div className="d-flex mt-4" >
                 <h5 className="col-1 text-center p-0">
                   <strong className="text-warning warning-bullet warningDig text-bold">
                     01
@@ -524,7 +531,7 @@ const PublicMemberShip = () => {
                 </h5>{" "}
                 <h5 className="text-dig  col-11">
                   Celebrate a milestone / event from the company (i.e. a launch
-                  of a new product by your chosen company
+                  of a new product by your chosen company)
                 </h5>
               </div>
 
@@ -549,7 +556,7 @@ const PublicMemberShip = () => {
                   Entering competitions and or quizzes related to the company
                 </h5>
               </div>
-
+ 
               <p className="text-basic DarkText mt-3">
                 Additionally, if the company does decide to go Public, the
                 membership club is positioned to assist you in the IPO process
@@ -566,9 +573,10 @@ const PublicMemberShip = () => {
               </p>
             </div>
           </div>
+         
         </SactionContainer>
 
-        <ImgBgSactionContainer bgImage={landingbg2} showPadding={false}>
+        <ImgBgSactionContainer bgImage={landingbg2} showPadding={false} >
           <div className="row  justify-content-center mx-2">
             <div className="text-center mb-3 d-flex justify-content-center">
               <h3 className="col-12 ">
@@ -619,6 +627,7 @@ const PublicMemberShip = () => {
               />
             </div>
           </div>
+     
         </ImgBgSactionContainer>
 
         <MemberShipClubSaction />

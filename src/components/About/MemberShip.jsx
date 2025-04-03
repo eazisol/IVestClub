@@ -64,7 +64,7 @@ const MemberShip = () => {
             <div className="sec-title">
               <h3>
                 <div className="about-head-text">
-                  IVT Platform Tokens & Membership Club <TextUnderWrap padding={10}>Tokens</TextUnderWrap> available
+                  IVT Platform Tokens & Membership Club <TextUnderWrap padding={10}>Tokens</TextUnderWrap> Available
                 </div>
               </h3>
               <div className="d-flex mt-5">

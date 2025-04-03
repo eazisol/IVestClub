@@ -43,7 +43,7 @@ const HeroSaction = () => {
             <div className="row mt-5">
               <div className="col-xl-11 mt-2 pl-xl-3">
                 <h1 className="mb-4 mt-5">
-                  <TextUnderWrap>IVest C</TextUnderWrap>lub.
+                  <TextUnderWrap>iVest C</TextUnderWrap>lub.
                 </h1>
                 <div className="mt-4 heroHead pt-1">
                   Your Gateway to Pre-IPO Companies

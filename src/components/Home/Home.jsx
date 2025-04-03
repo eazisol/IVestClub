@@ -47,20 +47,19 @@ import { appData } from "../Context/AppContext";
 import CreateAccountModal from "../Common/CreateAccountModal";
 import MaterialModal from "../Common/MaterialModal";
 
-
 const Home = () => {
   const navigate = useNavigate();
   const { showLandingSaction, setSnackBarData, setOpenModal } = appData();
   const queryParams = new URLSearchParams(window.location.search);
   const idParam = queryParams.get("verification-status");
-// const [walletModalOpen, setWalletModalOpen] = useState(false);
-//   useEffect(() => {
-//     if (userData && !userData.access_token) {
-//       setWalletModalOpen(true);
-//     }
-//   }, [userData]);
+  // const [walletModalOpen, setWalletModalOpen] = useState(false);
+  //   useEffect(() => {
+  //     if (userData && !userData.access_token) {
+  //       setWalletModalOpen(true);
+  //     }
+  //   }, [userData]);
   useEffect(() => {
-    console.log("idparam", idParam)
+    console.log("idparam", idParam);
     if (idParam) {
       if (idParam == "verified") {
         setSnackBarData({
@@ -76,14 +75,11 @@ const Home = () => {
         });
       }
     }
-
-
-  }, [])
-
+  }, []);
 
   return (
     <>
-        {/* <MaterialModal
+      {/* <MaterialModal
             open={walletModalOpen}
             onClose={() => setWalletModalOpen(false)}
           >
@@ -140,25 +136,24 @@ const Home = () => {
                 </div>
                 <div className="  px-3 ">
                   <div className="lower-text px-3">
-                    <div>
-                      Many of today's most exciting, transformative companies
-                      are owned by the founders and small group of individuals,
-                      making it challenging for you to get access.
+                    <div style={{ letterSpacing: "0%" }}>
+                      Many Of Today's Most Exciting, Transformative Companies
+                      Are Owned By The Founders And Small Group Of Individuals,
+                      Making It Challenging For You To Get Access.
                       <br />
                       <br />
-                      Join IVestClub now to get Exclusive access to these
-                      companies that are already shaping the future.
+                      Join IVest Club Now To Get Exclusive Access To These
+                      Companies That Are Already Shaping The Future.
                     </div>
                   </div>
                   <div className=" mt-4">
                     <p className="text-basic text-dark">
-                      IVestClub Platform addresses this by providing you with
-                      an unique space to collectively research and share
-                      insights about these innovative privately owned companies
-                      with other members. Our interactive hub fosters a
-                      community of learning and education, where active
-                      participation in uncovering essential information is
-                      rewarded.
+                      IVestClub Platform addresses this by providing you with an
+                      unique space to collectively research and share insights
+                      about these innovative privately owned companies with
+                      other members. Our interactive hub fosters a community of
+                      learning and education, where active participation in
+                      uncovering essential information is rewarded.
                     </p>
                   </div>
                   <div className=" mt-3">
@@ -184,7 +179,6 @@ const Home = () => {
                       gaining access to the IPO of your chosen company!
                     </p>
                   </div>
-
                 </div>
               </div>
             </div>
@@ -205,13 +199,19 @@ const Home = () => {
             </div>
             <div className="mt-4 pt-2 d-flex row pb-5 ">
               <div className="col-lg-7 col-sm-12 mb-3 mb-lg-0  ">
-                
-                <LargeButton home text="Learn More about the membership clubs " onClick={() => { navigate(`/Membership`) }} />
+                <LargeButton
+                  home
+                  text="Learn More about the membership clubs "
+                  onClick={() => {
+                    navigate(`/Membership`);
+                  }}
+                />
               </div>
               <div className="col-lg-5 col-sm-12  ">
-
-
-                <CreateAccountModal Component={OutlinedButtonDark} text={"Join Here for Free!"} />
+                <CreateAccountModal
+                  Component={OutlinedButtonDark}
+                  text={"Join Here for Free!"}
+                />
               </div>
             </div>
           </SactionContainer>
@@ -221,8 +221,8 @@ const Home = () => {
               <div className="col-lg-12 col-sm-12 text-center mb-4 pb-3 d-flex   justify-content-center">
                 <h2 className="col-12 col-xl-6 bold-sec-title">
                   Exclusive Acce
-                  <TextUnderWrap padding={10}>ss to Pre-</TextUnderWrap>IPO for
-                  A Limited Number of Members
+                  <TextUnderWrap padding={10}>ss To Pre-</TextUnderWrap>IPO For
+                  A Limited Number Of Members
                 </h2>
               </div>
               <div className="row w-100 justify-content-center mb-3">
@@ -258,7 +258,7 @@ const Home = () => {
                   }
                 />
                 <ExclusiveAccess
-                  heading="Pre-IPO access "
+                  heading="Pre-IPO Access "
                   text1={
                     <span className="">
                       Our dedicated space empowers you to get access to Pre-IPO
@@ -268,7 +268,7 @@ const Home = () => {
                   }
                   text2={
                     <span className="">
-                      Get rewarded for your choice of pre-IPO company.
+                      Get rewarded for your choice of pre-IPO company!
                     </span>
                   }
                 />
@@ -284,7 +284,7 @@ const Home = () => {
                   text2={
                     <span className="">
                       Rewards for your commitment to expanding your knowledge
-                      and understanding of your chosen company.
+                      and understanding of your chosen company!
                     </span>
                   }
                 />
@@ -310,7 +310,7 @@ const Home = () => {
               <div className="col-12 mt-5 pt-4">
                 <h3>
                   <div className="bold-sec-title">
-                    IVest <TextUnderWrap padding={10}> Club AIR </TextUnderWrap>{" "}
+                    iVest <TextUnderWrap padding={10}> Club AIR </TextUnderWrap>{" "}
                     Mission - our promise to you
                   </div>
                 </h3>
@@ -324,7 +324,7 @@ const Home = () => {
                       <>Access</>
                     </p>
                     <p className="text-black mt-1 text-basic-sm">
-                      To Pre-IPO companies
+                      To Pre-IPO Companies
                     </p>
                   </div>
                   <div className="col-4 mt-1 px-0">
@@ -343,7 +343,7 @@ const Home = () => {
 
                 <div className="lower-text pr-0 mt-3 mb-5">
                   <div className="section3-text pl-2">
-                    Empowering you with Exclusive access to Pre-IPO companies
+                    Empowering You With Exclusive Access To Pre-IPO Companies
                   </div>
                 </div>
                 <figure
@@ -376,9 +376,9 @@ const Home = () => {
               <div className="text-column col-lg-6 col-md-12 col-sm-12">
                 <div className="inner">
                   <div className="sec-title mb-4  ">
-                    <h3 className="bold-sec-title">
+                    <h3 className="bold-sec-title text-white">
                       <div>
-                        <TextUnderWrap>IVest Club</TextUnderWrap> Membership
+                        <TextUnderWrap>iVest Club</TextUnderWrap> Membership
                         clubs
                       </div>
                     </h3>
@@ -465,13 +465,13 @@ const Home = () => {
               <div className="col-12 text-center mb-3">
                 <div className="  section5-heading mont-font">
                   {" "}
-                  <TextUnderWrap padding={10}>IVest Club</TextUnderWrap>
+                  <TextUnderWrap padding={10}>iVest Club</TextUnderWrap>
                 </div>
               </div>
               <div className="col-12 text-center mb-3 d-flex justify-content-center ">
                 <div className="w-80  text-center section5-head-text">
-                  Aims To democratize access to emerging technologies and
-                  companies more accessible and inclusive for everyone
+                  Aims To Democratize Dccess To Emerging Technologies And
+                  Companies More Accessible And Inclusive For Everyone
                 </div>
               </div>
               <div className="col-12 text-center mb-3 ">
@@ -486,7 +486,7 @@ const Home = () => {
                   text2={
                     <span className="section5-sub-text">
                       {" "}
-                      Few avenues for You to obtain access and information
+                      Few Avenues For You To Obtain Access And Information
                     </span>
                   }
                   size={70}
@@ -496,8 +496,8 @@ const Home = () => {
                   icon={goldicon2}
                   text2={
                     <span className="section5-sub-text">
-                      Privately owned Companies are Not obligated to disclose
-                      information to you
+                      Privately Owned Companies Are Not Obligated To Disclose
+                      Information To You
                     </span>
                   }
                   size={70}
@@ -507,8 +507,8 @@ const Home = () => {
                   icon={goldicon3}
                   text2={
                     <span className="section5-sub-text">
-                      Opportunities are Restricted to a select group of
-                      individuals and not you
+                      Opportunities Are Restricted To A Select Group Of
+                      Individuals And Not You
                     </span>
                   }
                   size={70}
@@ -518,7 +518,7 @@ const Home = () => {
                   icon={goldicon4}
                   text2={
                     <span className="section5-sub-text">
-                      IPO access is not available to You
+                      IPO Access Is Not Available To You
                     </span>
                   }
                   size={70}
@@ -528,7 +528,10 @@ const Home = () => {
               <div className="col-12 d-flex justify-content-center mb-5">
                 <div className="col-md-4 col-sm-12 mt-5">
                   {/* <LargeButton text="Join Here for Free!" /> */}
-                  <CreateAccountModal Component={LargeButton} text={"Join Here for Free!"} />
+                  <CreateAccountModal
+                    Component={LargeButton}
+                    text={"Join Here for Free!"}
+                  />
                 </div>
               </div>
             </div>
@@ -658,7 +661,7 @@ const Home = () => {
                   text={
                     "Your membership offers the following benefits: engaging with peers and receiving airdrop rewards."
                   }
-                  to={`/Membership`}
+                  to={`/Membership/PublicMemberShip`}
                 />
                 <ExclusiveAccessCard
                   image={cardimg3}
@@ -674,7 +677,10 @@ const Home = () => {
               <div className="col-12 d-flex justify-content-center">
                 <div className=" mt-2 pt-1 mb-4 px-0">
                   {/* <LargeButton text="Join Here for Free!" /> */}
-                  <CreateAccountModal Component={LargeButton} text={"Join Here for Free!"} />
+                  <CreateAccountModal
+                    Component={LargeButton}
+                    text={"Join Here for Free!"}
+                  />
                 </div>
               </div>
             </div>
@@ -698,7 +704,7 @@ const Home = () => {
                   custom={true}
                   icon={goldicon5}
                   col={4}
-                  heading="Membership in the IVestClub Ecosystem"
+                  heading="Membership in The iVestClub Ecosystem"
                   text1={
                     <span
                       className="pop-font"
