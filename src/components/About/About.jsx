@@ -65,12 +65,12 @@ const About = () => {
                     Connecting Members Worldwide And Empowering You <br /> With
                     Access to Pre-IPO Companies.
                     <br />
-                    Revolutionize Your Pre-IPO Journey with IVestClub
+                    Revolutionize Your Pre-IPO Journey with iVestClub
                   </p>
                 </div>
                 <div className=" mt-1">
                   <p className="compact-sub-text LightText">
-                    At IVestClub, we are on a mission to transform the way you
+                    At iVestClub, we are on a mission to transform the way you
                     access and engage with the world of Pre-IPO companies. Our
                     platform is designed to provide you with valuable insights
                     into these innovative firms, offering you a gateway to
@@ -79,7 +79,7 @@ const About = () => {
                 </div>
                 <div className=" mt-3">
                   <p className="compact-sub-text">
-                    Through the IVestClub Platform, you gain access to the
+                    Through the iVestClub Platform, you gain access to the
                     Pre-IPO company and a wealth of exclusive information and
                     resources, empowering you to make informed decisions and
                     stay ahead in the ever-evolving landscape of Pre-IPOs.{" "}
@@ -145,7 +145,7 @@ const About = () => {
               <div className="inner pl-3 pl-xl-0">
                 <div className="sec-title">
                   <h4 className="sec-text">
-                    Exclusive Benefits for IVestClub Members
+                    Exclusive Benefits for iVestClub Members
                   </h4>
                 </div>
                 <div className="sec-content">
@@ -179,7 +179,7 @@ const About = () => {
                         Personalized Educational Resources: 
                       </span>
                       Whether you're new to the Pre-IPO market or an experienced
-                      investor, IVestClub is your go-to educational hub. Access
+                      investor, iVestClub is your go-to educational hub. Access
                       content tailored to your needs, learn from industry
                       leaders, and stay updated on the latest trends and
                       strategies.
@@ -188,14 +188,14 @@ const About = () => {
                       <span className="boldContent">
                         Rewarding Participation: 
                       </span>
-                      At IVestClub, every interaction is an opportunity for
+                      At iVestClub, every interaction is an opportunity for
                       growth and recognition. Actively participate in community
                       discussions, share your knowledge, and be rewarded for
                       your contributions with exclusive perks and opportunities.
                       Empower Your Investment Journey.
                     </p>
                     <p className="exclusiveContentText ">
-                      With IVestClub, you're not just joining a platform; you're
+                      With iVestClub, you're not just joining a platform; you're
                       becoming part of a community that's exploring the future
                       of industries and economies worldwide. Our mission is to
                       provide you with the tools, knowledge, and network to
@@ -220,7 +220,7 @@ const About = () => {
           <div className="ml-3">
             <p className="sec-offer-des">
               Don't miss out on this chance to explore Pre-IPO companies in a
-              new way. Join IVestClub today and start a journey that will expand
+              new way. Join iVestClub today and start a journey that will expand
               your investment knowledge and open up new possibilities. Discover
               innovative companies, connect with a supportive community, and
               learn how to engage with the Pre-IPO sector on your own terms.
@@ -229,7 +229,7 @@ const About = () => {
           </div>
           <div className="mt-4 pt-3 ml-3  mb-3 pb-2 pr-5 col-12 col-xl-3">
             {/* <LargeButton text={"Start Your Free journey"} /> */}
-            <CreateAccountModal Component={LargeButton} text={"Start Your Free journey!"} />
+            <CreateAccountModal Component={LargeButton} text={"Start Your Free journey"} />
           </div>
         </div>
       </section>
@@ -245,7 +245,7 @@ const About = () => {
         <div className="row  justify-content-center px-5 mx-3 my-4 pt-3">
           <div className="col-12 text-center mb-3">
             <h2 className="bold-sec-title">
-              IVestClub Members
+              iVestClub Members
               <TextUnderWrap padding={7}>hip Sta</TextUnderWrap>ts
             </h2>
             <p className="statsSubHead Opacity  mt-4 mb-5">

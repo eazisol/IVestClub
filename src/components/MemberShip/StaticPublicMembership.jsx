@@ -37,7 +37,7 @@ const StaticPublicMembership = () => {
     
             <div className="bannerHead mb-0 ">
               {" "}
-              <h2 className="bold-7">IVest Membership Clubs</h2>{" "}
+              <h2 className="bold-7">iVest Membership Clubs</h2>{" "}
             </div>
     
             <div className="">
@@ -94,7 +94,7 @@ const StaticPublicMembership = () => {
                     How does the membership club operate?
                   </strong>
                 </h3>
-                <p className="text-basic text-dark">
+                <p className="text-basic text-dark ">
                   Each exclusive membership club is designed to empower you with
                   access to your chosen Pre-IPO company in a fun and innovative way,
                   while also rewarding your participation through:
@@ -165,7 +165,17 @@ const StaticPublicMembership = () => {
                           animationName: "slideInLeft",
                         }}
                       >
-                        <img src={membershipvideo1} alt="" className="" />
+                        {/* <img src={membershipvideo1} alt="" className="" /> */}
+                        <iframe
+                      width="100%"
+                      height="315"
+                      src="https://www.youtube.com/embed/Y1vDgtMz7cg?si=hfO5dRBh_BgEHnQh"
+                      title="YouTube video player"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                      style={{ borderRadius: "10px" }} // Add border radius here
+                    ></iframe>
                       </figure>
                       <div className="mt-5 ">
                         <Quotations

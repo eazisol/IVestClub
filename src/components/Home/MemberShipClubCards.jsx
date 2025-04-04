@@ -235,17 +235,15 @@ useEffect(()=>{
                 )}
 
               {isSuggestCard ? (
-                  <div className="w-100 d-flex justify-content-center align-items-center mt-3">
-                    <span
-                      style={{
-                        fontSize: "16px",
-                        fontWeight: "bold",
-                        color: "#150D30",
-                        textDecoration: "underline",
-                      }}
-                    >
+                  <div className="w-100 d-flex justify-content-center align-items-center bold-5 pop-font"   style={{
+                    fontSize: "16px",
+                    fontWeight: "bold",
+                    color: "#150D30",
+                    textDecoration: "underline",
+                  }}>
+                  
                       Suggest Now
-                    </span>
+                   
                   </div>
                 ) : (
                   <div

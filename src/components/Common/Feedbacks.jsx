@@ -9,7 +9,7 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 
 export const Quotations = ({ text, by }) => {
   return (
-    <div className="d-flex p-2 mt-1" style={{ backgroundColor: "#F5F8FF" }}>
+    <div className="d-flex p-2 mt-3" style={{ backgroundColor: "#F5F8FF" }}>
       <div className="col-2 mt-2">
         <img src={quotationimg} alt="" className="" />
       </div>

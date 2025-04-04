@@ -7654,6 +7654,11 @@ label {
 	color: #6d6c6c !important;
 	line-height: 22px !important;
 }
+.text-basic-ivt {
+	font-size: 14px !important;
+	color: #333333 !important;
+	line-height: 22px !important;
+}
 
 .membership-clubs-checks {
 	margin-bottom: 2rem;
@@ -11594,6 +11599,7 @@ body {
     letter-spacing: 0%;
     text-align: center;
     width: 20rem; /* 80 in Tailwind is 20rem */
+	margin-bottom: 5px;
 }
 .section1-light-text {
 	font-family: "Poppins", sans-serif;

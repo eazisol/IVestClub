@@ -244,7 +244,7 @@ const PrivateMembership = () => {
                   <h5 className="mt-4 text-dark mont-font">
                     <strong>Who are SpaceX?</strong>
                   </h5>
-                  <p className=" LightText" style={{ fontSize: "12px" }}>
+                  <p className=" LightText mt-3" style={{ fontSize: "12px" }}>
                     SpaceX, founded by Elon Musk in 2002, is a trailblazing
                     aerospace manufacturer and space transportation company that
                     has transformed the space industry with its cutting-edge
@@ -274,7 +274,7 @@ const PrivateMembership = () => {
                   </p>
                   <hr />
                   <div className="p-0 p-xl-3">
-                    <h5 className="mt-4 text-dark mont-font">
+                    <h5 className="mt-4 text-dark mont-font ">
                       <strong>Elon Musk presentation on SPaceX</strong>
                     </h5>
                     {/* <img src={spaceximg2} alt="" className=" mt-2" /> */}
@@ -286,7 +286,7 @@ const PrivateMembership = () => {
                       frameBorder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                       allowFullScreen
-                      style={{ borderRadius: "10px" }} // Add border radius here
+                      style={{ borderRadius: "10px",marginTop:"5px" }} // Add border radius here
                     ></iframe>
                     <p className="text-basic text-dark mt-3 bold-5">
                       Space travel is crucial for advancing scientific
@@ -338,7 +338,102 @@ const PrivateMembership = () => {
                 </>
               )}
               {decryptNumber(idParam) / 1 != 7 && (
-                <div dangerouslySetInnerHTML={{ __html: data.content }} />
+                <>
+                  {/* <div dangerouslySetInnerHTML={{ __html: data.content }} /> */}
+
+                  <h3 className="mt-4">
+                    <strong>What is iVestClub Technologies?</strong>
+                  </h3>
+                  <p className="text-basic mt-4" style={{color:"#555555"}}>
+                    ivestClub technologies aims to be the premier membership
+                    club service. By utilising the latest blockchain technology,
+                    the platform seeks to revolutionize membership clubs by
+                    enhancing security, transparency, and efficiency. IvestClub
+                    Technlogies seeks to put the members in control of their
+                    club whilst reducing the administrative burden required to
+                    run any club.
+                  </p>
+                  <p className="text-basic  mt-4" style={{color:"#555555"}}>
+                    The platform promotes the following for each club:
+                  </p>
+                  {[
+                    "Immutable Records: Blockchain's immutable ledger ensures that membership records cannot be altered or tampered with, providing a high level of security.",
+                    "Smart Contracts: Membership agreements and renewals are automated through smart contracts ensures that terms are enforced transparently and without bias.",
+                    "Automated Processes: Membership renewals, event registrations, and reward distributions are automated, reducing administrative burdens and operational costs.",
+                    "Tokenization: Members use tokens to access services of the clubs and pay their fees as well as representing voting rights on club matters.",
+                    "Loyalty Programs: Blockchain supports robust loyalty programs where you can earn tokens for participation.",
+                    "Equal Access: The decentralized nature of blockchain ensures that all members have equal access to information and decision-making processes, fostering a more inclusive environment.",
+                  ].map((text, index) => (
+                    <div className="d-flex mt-3" key={index}>
+                     
+                        <h4 className="warning-bullet text-warning">{">"}</h4>
+                      
+                    
+                        <h6
+                          style={{
+                            fontFamily: "'Montserrat', sans-serif",
+                            fontWeight: 500, // Medium weight
+                            fontStyle: "italic",
+                            color:"#333333",
+                            marginLeft:"20px",
+                            lineHeight:"auto"
+                          }}
+                        >
+                          {text}
+                        </h6>
+                      
+                    </div>
+                  ))}
+                  <hr />
+                  <div className="p-3">
+                    <h3 className="mt-4">
+                      <strong>
+                        What is the Blockchain that drives the membership club?{" "}
+                      </strong>
+                    </h3>
+                    <iframe
+                      width="100%"
+                      height="315"
+                      src="https://www.youtube.com/embed/QJn28fFKUR0?si=J7Vw_jvPVkUjJ-4y"
+                      title="YouTube video player"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                      style={{ borderRadius: "10px" }} // Add border radius here
+                    ></iframe>
+                    {/* <img src={openaiimg1} alt="" className="img-fluid mt-2" /> */}
+                    <p className="text-basic-ivt mt-3">
+                      The transformative potential of blockchain technology in
+                      creating more efficient and innovative systems, which
+                      could greatly benefit membership clubs by enhancing
+                      transparency, security, and overall member engagement..
+                    </p>
+                    <div className="">
+                      <Quotations
+                        text={
+                          "You Could Imagine Something Like A Completely Automated System For Renting Bikes That’s Just Done Completely Over Blockchain Crypto-Payments. And Theoretically Just Sort Of Start It Up, And It Works Completely Autonomously"
+                        }
+                        by={"Vitalik Buterin, co-founder of Ethereum"}
+                      />
+                    </div>
+                    <p className="mt-3 text-basic-ivt">
+                      Blockchain is a decentralized, digital ledger technology
+                      that records transactions across multiple computers in a
+                      way that ensures the data's security, transparency, and
+                      immutability. Each transaction is grouped into a "block"
+                      and linked to the previous one, forming a "chain" of
+                      blocks. This structure prevents alterations once a
+                      transaction is recorded, as changing any block would
+                      require altering all subsequent blocks on all networked
+                      computers simultaneously. Blockchain's decentralized
+                      nature eliminates the need for intermediaries, enhances
+                      trust through transparent verification processes, and has
+                      applications ranging from financial services and supply
+                      chain management to voting systems and membership
+                      organizations.
+                    </p>
+                  </div>
+                </>
               )}
             </div>
           </div>
@@ -481,7 +576,7 @@ const PrivateMembership = () => {
           <div className="card card-border-c mt-3 ">
             <div className="card-body p-2 p-xl-4">
               <h5 className=" text-dark mont-font mt-4">
-                <>Learn About Different Aspects Of IVestClub Technologies</>
+                <>{`Learn About Different Aspects Of ${decryptNumber(idParam) / 1==7?'SpaceX':"iVestClub Technologies"}`}</>
               </h5>
               <div className="">
                 {/* <RatingsTotal /> */}
@@ -525,7 +620,7 @@ const PrivateMembership = () => {
                       "Create another section here for Competitors",
                     ]}
                   /> */}
-                  {feedBackdata?.length ? (
+                  {feedBackdata?.length>3 ? (
                     <div className="text-center">
                       <hr />
                       <NavLink

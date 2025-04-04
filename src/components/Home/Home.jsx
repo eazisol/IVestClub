@@ -122,20 +122,22 @@ const Home = () => {
       {showLandingSaction && (
         <>
           <SactionContainer container={false} pt={"3"}>
-            <div className="text-column col-lg-6 col-md-12  col-sm-12 ">
+            <div className=" col-lg-6 col-md-12  col-sm-12 ">
               <div className="inner  px-0 ml-0">
                 <div className="sec-title">
                   <h3>
-                    {" "}
                     <div className="bold-sec-title">
-                      {" "}
-                      Pre-IPO Companies: Limited Access to Exciting
-                      Opportunities{" "}
+                      <strong className="bold-sec-title-l bold8">
+                        Pre-IPO Com
+                        <TextUnderWrap padding={7}>
+                          panies:Lim
+                        </TextUnderWrap>ited Access To Exciting Opportunities
+                      </strong>
                     </div>
                   </h3>
                 </div>
                 <div className="  px-3 ">
-                  <div className="lower-text px-3">
+                  <div className="lower-text px-3 text-column">
                     <div style={{ letterSpacing: "0%" }}>
                       Many Of Today's Most Exciting, Transformative Companies
                       Are Owned By The Founders And Small Group Of Individuals,
@@ -147,8 +149,8 @@ const Home = () => {
                     </div>
                   </div>
                   <div className=" mt-4">
-                    <p className="text-basic text-dark">
-                      IVestClub Platform addresses this by providing you with an
+                    <p className="text-basic text-dark text-column">
+                      iVestClub Platform addresses this by providing you with an
                       unique space to collectively research and share insights
                       about these innovative privately owned companies with
                       other members. Our interactive hub fosters a community of
@@ -157,7 +159,7 @@ const Home = () => {
                     </p>
                   </div>
                   <div className=" mt-3">
-                    <p className="text-basic text-dark">
+                    <p className="text-basic text-dark text-column">
                       By joining the IVestClub community, you can collaborate
                       with like-minded dynamic individuals to expand your
                       knowledge of Pre-IPO companies and explore the world of
@@ -168,13 +170,13 @@ const Home = () => {
                     </p>
                   </div>
                   <div className=" mt-3">
-                    <p className="text-basic text-dark">
+                    <p className="text-basic text-dark text-column">
                       Get rewarded with more membership tokens to celebrate the
                       company milestones!
                     </p>
                   </div>
                   <div className=" mt-3">
-                    <p className="text-basic text-dark">
+                    <p className="text-basic text-dark text-column">
                       Longer-term, your membership club can assist you with
                       gaining access to the IPO of your chosen company!
                     </p>

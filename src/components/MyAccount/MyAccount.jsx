@@ -644,7 +644,7 @@ const MyAccount = () => {
 
                       <div className="col-lg-2 col-4">
                         <LargeButton
-                          text={isPasswordSending ? "" : "Save"}
+                          text={isPasswordSending ? "Saving" : "Save"}
                           onClick={handlePasswordChange}
                           loading={isPasswordSending}
                         />
