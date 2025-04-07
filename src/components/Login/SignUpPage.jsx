@@ -160,6 +160,15 @@ const SignUpPage = () => {
       return;
     }
     setLoaderModal(true);
+    // const keysToClear = [
+    //   "name",
+    //   "recipentWalletAddress",
+    //   "userData",
+    //   "verify",
+    //   "walletData",
+    // ];
+
+    // keysToClear.forEach((key) => localStorage.removeItem(key));
     signup(
       {
         url: "register",
@@ -168,6 +177,13 @@ const SignUpPage = () => {
       },
       {
         onSuccess: (data) => {
+          const userData = {
+            firstname: data.firstname ,
+            lastname: data.lastname ,
+          };
+   
+        
+          localStorage.setItem("name", JSON.stringify(userData));
           console.log(data);
           localStorage.setItem("userData", JSON.stringify(data));
           setUserData(data);

@@ -32,6 +32,7 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
     setWalletData,
     walletData, setUserHoldings,userHoldings
   } = appData();
+
   const [isScrolled, setIsScrolled] = useState(false);
   const { setShowLandingSaction } = appData();
   const [headerStyles, setHeaderStyles] = useState({});
@@ -131,19 +132,13 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
     };
   
     // Only call fetchTokenHoldings if tokenDataList is populated
-    if (tokenDataList.length > 0) {
+    if (tokenDataList.length > 0&&walletData?.address) {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
       const address = signer.getAddress();
       fetchTokenHoldings(provider, address);
     }
   }, [tokenDataList]); 
-  
-  
-
-
-    
-  
 useEffect(()=>{
   const handleTokenApi = async () => {
     const { data } = await axios.get(`${baseUrl}token/getAllTokenData`);
@@ -284,6 +279,7 @@ useEffect(()=>{
         localStorage.getItem("tokenHoldings")
       );
       setWalletData({ provider, signer, address });
+      localStorage.setItem("walletData", JSON.stringify({ address }));
       setBalance(savedTokenHoldings);
       setWalletModalOpen(false);
 
