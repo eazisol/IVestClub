@@ -83,7 +83,9 @@ const ERC20_ABI = [
 const Dashboard = () => {
   const { mutate: getData, isPending: isProfileLoading } = useApi();
   const [profiledata, setProfileData] = useState({});
-  const { userData, walletData, setWalletData, setSnackBarData } = appData();
+  const { userData, walletData, setWalletData, setSnackBarData,userHoldings } = appData();
+  const ivtToken = userHoldings?.find((token) => token.symbol === "IVT");
+
   const [dropDownOpen, setDropDownOpen] = useState(false);
   const [balance, setBalance] = useState("");
   const navigate = useNavigate();
@@ -112,27 +114,27 @@ const Dashboard = () => {
   // let usdtAmountCalculate = usdtAmount * usdtData?.Price;
   let myWalletAmount = usdcData?.Price * usdtBalance; //caluculate USDT which is write in input with today USDT price
   //SHOW USERS TOKEN ON IN THE TABLE
-  const rows = [
-    createData(
-      { name: "USDT", des: "TetherUS" },
-      0,
-      `${myWalletAmount}`,
-      "Convert"
-    ),
+  // const rows = [
+  //   createData(
+  //     { name: "USDT", des: "TetherUS" },
+  //     0,
+  //     `${myWalletAmount}`,
+  //     "Convert"
+  //   ),
 
-    createData(
-      { name: "IVT", des: "IVT" },
-      balance?.[0]?.balance,
-      `${myWalletAmount}`,
-      "Convert"
-    ),
-    createData(
-      { name: "ISPX", des: "Spacextoken" },
-      balance?.[1]?.balance,
-      `${myWalletAmount}`,
-      "Convert"
-    ),
-  ];
+  //   createData(
+  //     { name: "IVT", des: "IVT" },
+  //     balance?.[0]?.balance,
+  //     `${myWalletAmount}`,
+  //     "Convert"
+  //   ),
+  //   createData(
+  //     { name: "ISPX", des: "Spacextoken" },
+  //     balance?.[1]?.balance,
+  //     `${myWalletAmount}`,
+  //     "Convert"
+  //   ),
+  // ];
   // Function to calculate the equivalent BNB amount for a given USDT amount
   const getBnbAmount = (usdtAmount) => {
     if (!usdtAmount || !selectedToken) return ""; // Ensure selected token is available
@@ -277,7 +279,6 @@ const Dashboard = () => {
       if (data?.error) {
         console.error("🚀 ~ handlePay ~ data.error:", data.error);
       } else {
-        console.log("Success:", data);
       }
       const newCurrencyId =
         data?.response?.invoices[0]?.payment?.paymentCurrencies[0]?.currency
@@ -382,7 +383,6 @@ const Dashboard = () => {
 
       // Fetch token holdings
       const holdings = await fetchTokenHoldings(provider, address);
-      console.log("holdings", holdings);
       setBalance(holdings["iVT"] || "0"); // Set IVT balance
       await getUSDTBalance(provider, address);
 
@@ -458,7 +458,7 @@ const Dashboard = () => {
       localStorage.getItem("tokenHoldings")
     );
     setBalance(savetokenHoldingsdWallet);
-  }, [balance]);
+  }, [userHoldings]);
   useEffect(() => {
     const usdtAmount = JSON.parse(localStorage.getItem("usdtAmount"));
     const userWalletAddress = JSON.parse(
@@ -507,19 +507,29 @@ const Dashboard = () => {
                 <div className="row justify-content-between mx-0 p-3">
                   <div className="currency">
                     <div className="currName mb-3">My IVT Token Balance</div>
-                    <div className="currDetail row align-items-center">
-                      <VectorIcon size={40} rounded={true} />
+                  
+                      <div className="currDetail row align-items-center">
+                    {ivtToken?.logo ?  <img
+                                      src={`${imgUrl}/${ivtToken?.logo}`}
+                                      alt="Logo"
+                                      style={{
+                                        width: "45px",
+                                        height: "45px",
+                                        borderRadius: "50px",
+                                        marginRight: "8px",
+                                      }}
+                                    />:  <VectorIcon size={40} rounded={true} />}
                       <h4 className="mb-0 pl-2">
                         {" "}
                         <strong className="currDigit">
-                          {balance?.[0]?.balance ? balance?.[0]?.balance : 0}
+                          {ivtToken?.balance?? 0}
                         </strong>
                       </h4>
                       <p className="currDollar mt-2 LightText w-100 pl-3">
                         $
-                        {isNaN(usdcData?.Price * balance?.[0]?.balance)
+                        {isNaN(usdcData?.Price * ivtToken?.balance)
                           ? "0.0000"
-                          : (usdcData?.Price * balance?.[0]?.balance).toFixed(
+                          : (usdcData?.Price * ivtToken?.balance).toFixed(
                               4
                             )}
                       </p>
@@ -570,8 +580,9 @@ const Dashboard = () => {
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {rows.map((row, index) => {
-                          const Icon = row.Icon;
+                        {userHoldings?.map((row, index) => {
+                       
+                         
                           return (
                             <TableRow
                               key={index}
@@ -579,21 +590,30 @@ const Dashboard = () => {
                               className="tableRow"
                             >
                               <TableCell component="th" scope="row">
-                                {Icon && <Icon size={25} />}
+                                {row?.logo &&  <img
+                                      src={`${imgUrl}/${row?.logo}`}
+                                      alt="Logo"
+                                      style={{
+                                        width: "21px",
+                                        height: "21px",
+                                        borderRadius: "50px",
+                                        marginRight: "8px",
+                                      }}
+                                    />}
                                 &nbsp;
                                 <span className="tableCellText pop-font LightText bold-5">
                                   {" "}
-                                  {row.currObj.name}
+                                  {row?.symbol}
                                 </span>
-                                <span className="tableDes">
+                                {/* <span className="tableDes">
                                   {" "}
                                   {row.currObj.des}{" "}
-                                </span>
+                                </span> */}
                               </TableCell>
                               <TableCell align="right">
                                 <span className="availNum">
                                   {" "}
-                                  {row.avail || "0"}{" "}
+                                  {row?.balance || "0"}{" "}
                                 </span>
                               </TableCell>
                               {/* <TableCell align="right">
@@ -603,7 +623,7 @@ const Dashboard = () => {
                               <TableCell align="right">
                                 {" "}
                                 <u className="LightText actionText">
-                                  {row.action}
+                                  {'Convert'}
                                 </u>
                               </TableCell>
                             </TableRow>

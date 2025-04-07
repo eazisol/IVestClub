@@ -195,12 +195,10 @@ const SideBarMembership = ({
     axios.get(`${baseUrl}token/getAllTokenData`)
       .then(response => {
         if (response.data.success) {
-          console.log("🚀 ~ useEffect ~ response:",  response.data.data)
           const filteredTokens = response.data.data.filter((i) => {
             return i.membershipclub_id == decryptNumber(idParam)/1;
           });
   
-          console.log("🚀 ~ useEffect ~ filteredTokens:", filteredTokens); // Log filtered results
   
           setTokomics(filteredTokens); // Update state with filtered data
           setTokens(response.data.data); 

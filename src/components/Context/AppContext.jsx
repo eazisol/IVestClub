@@ -16,6 +16,7 @@ export const DataProvider = ({ children }) => {
   const [userData, setUserData] = useState(localuserdata)
   const [newsData, setNewsData] = useState({})
   const [articalData, setArticalData] = useState({})
+  const [userHoldings, setUserHoldings] = useState([])
 
 const [mainLoader, setmainLoader] = useState(true)
 const [showLandingSaction, setShowLandingSaction] = useState(true)
@@ -47,6 +48,7 @@ const handleLogout = () => {
   localStorage.removeItem("walletData")
   localStorage.removeItem("userData")
   localStorage.removeItem("tokenData")
+  localStorage.removeItem("name")
 
 
 };
@@ -67,7 +69,8 @@ const handleLogout = () => {
         articalData, setArticalData,
         showHeader, setShowHeader,
         showPassword, setShowPassword,
-        walletData, setWalletData
+        walletData, setWalletData,
+        userHoldings, setUserHoldings
       }}
     >
       {children}

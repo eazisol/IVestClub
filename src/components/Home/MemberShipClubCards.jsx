@@ -14,6 +14,7 @@ import { useEffect,useState } from "react";
 import axios from "axios";
 // 🔑 Auto Join Logic
 const walletData = JSON.parse(localStorage.getItem("walletData"));
+
 // const tokenDataObj = JSON.parse(localStorage.getItem("tokenData"));
 const tokenHoldings = JSON.parse(localStorage.getItem("tokenHoldings"));
 // const tokenDataObj=selectToken
@@ -38,14 +39,14 @@ const MemberShipClubCards = ({
   const navigate = useNavigate();
   const { mutate: joinMembership } = useApi();
   const { mutate: checkTokens } = useApi();
-  const { userData, setSnackBarData } = appData();
+  const { userData, setSnackBarData,userHoldings } = appData();
 const [tokenDataObj,setTokenDataList]=useState('')
 const isAutoJoined = (clubId) => {
   if (
-    !walletData ||
+    !walletData?.address  ||
     !tokenDataObj?.data ||
     !Array.isArray(tokenDataObj.data) ||
-    !Array.isArray(tokenHoldings)
+    userHoldings.length<=0
   ) {
     return false;
   }
@@ -55,8 +56,8 @@ const isAutoJoined = (clubId) => {
   );
 
   for (const token of tokensForClub) {
-    const holding = tokenHoldings.find(
-      (h) => h.name.toLowerCase() === token.symbol.toLowerCase()
+    const holding = userHoldings.find(
+      (h) => h.symbol.toLowerCase() === token.symbol.toLowerCase()
     );
 
     if (holding && parseFloat(holding.balance) > 0) {
@@ -161,7 +162,6 @@ useEffect(()=>{
   //     }
   //   );
   };
- 
   const displayJoinStatus = joined || autoJoined ? "Joined" : "Join Now";
 
   // 🔳 Grid View

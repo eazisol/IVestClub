@@ -183,7 +183,6 @@ const SignUpPage = () => {
           // });
         },
         onError: (error) => {
-          console.log("🚀 ~ handleSignup ~ error:", error);
           setSnackBarData({
             visibility: true,
             error: "error",

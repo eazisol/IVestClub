@@ -32,6 +32,7 @@ import JoinMembership from "../Common/JoinMembership";
 const PublicMemberShip = () => {
   const queryParams = new URLSearchParams(window.location.search);
   const idParam = queryParams.get("id");
+  console.log("🚀 ~ PublicMemberShip ~ idParam:", decryptNumber(idParam)/1)
   const navigate = useNavigate();
   const { mutate: getData, isPending: isMembershipLoading, error } = useApi();
   const [data, setData] = useState({});
@@ -135,7 +136,106 @@ const PublicMemberShip = () => {
                 alt=""
                 className="mb-3"
               />
-              <div dangerouslySetInnerHTML={{ __html: data.content }} />
+               {decryptNumber(idParam) / 1 == 7 && (
+                              <>
+                                {" "}
+                                <h5 className="mt-4 text-dark mont-font">
+                                  <strong>Who are SpaceX?</strong>
+                                </h5>
+                                <p className=" LightText mt-3" style={{ fontSize: "12px" }}>
+                                  SpaceX, founded by Elon Musk in 2002, is a trailblazing
+                                  aerospace manufacturer and space transportation company that
+                                  has transformed the space industry with its cutting-edge
+                                  technology and ambitious missions. Its development of
+                                  reusable rockets, notably the Falcon 9, has significantly
+                                  lowered the cost of accessing space, facilitating a wide
+                                  array of missions including satellite deployments,
+                                  International Space Station resupply, and the ambitious goal
+                                  of interplanetary exploration with the Starship project.
+                                  SpaceX’s vision extends beyond Earth's orbit, aiming to make
+                                  life multiplanetary by establishing a human presence on
+                                  Mars.
+                                </p>
+                                <p className=" LightText" style={{ fontSize: "12px" }}>
+                                  Starlink, a subsidiary project of SpaceX, aims to provide
+                                  global high-speed internet coverage through a constellation
+                                  of low Earth orbit (LEO) satellites. Launched in 2015,
+                                  Starlink addresses the challenge of providing internet
+                                  access to remote and underserved areas around the world. By
+                                  deploying thousands of small satellites, Starlink creates a
+                                  network that can deliver fast and reliable internet services
+                                  with low latency, which is particularly beneficial for
+                                  regions with poor terrestrial infrastructure. This
+                                  initiative not only enhances global connectivity but also
+                                  generates substantial revenue to support SpaceX’s broader
+                                  space exploration goals.
+                                </p>
+                                <hr />
+                                <div className="p-0 p-xl-3">
+                                  <h5 className="mt-4 text-dark mont-font ">
+                                    <strong>Elon Musk presentation on SPaceX</strong>
+                                  </h5>
+                                  {/* <img src={spaceximg2} alt="" className=" mt-2" /> */}
+                                  <iframe
+                                    width="100%"
+                                    height="315"
+                                    src="https://www.youtube.com/embed/6xLmBLWDSHo?si=m1jg2sZO8gLC2IrB"
+                                    title="YouTube video player"
+                                    frameBorder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    allowFullScreen
+                                    style={{ borderRadius: "10px",marginTop:"5px" }} // Add border radius here
+                                  ></iframe>
+                                  <p className="text-basic text-dark mt-3 bold-5">
+                                    Space travel is crucial for advancing scientific
+                                    knowledge, fostering technological innovation, and
+                                    ensuring the long-term survival and expansion of humanity
+                                    beyond Earth.
+                                  </p>
+                                  <div className="">
+                                    <Quotations
+                                      text={
+                                        <span
+                                          className="bold-5"
+                                          style={{
+                                            fontFamily: "Poppins, sans-serif", // Ensure Poppins is available
+                                            fontWeight: 500, // Medium weight
+                                            fontSize: "12px",
+                                            color: "#202327",
+                                            lineHeight: "0",
+                                            letterSpacing: "0%",
+                                          }}
+                                        >
+                                          SpaceX is a once-in-a-lifetime company because it’s
+                                          fundamentally changing humanity’s destiny.
+                                        </span>
+                                      }
+                                      by={"Chamath Palihapitiya"}
+                                    />
+                                    <Quotations
+                                      text={
+                                        <span
+                                          className="bold-5"
+                                          style={{
+                                            fontFamily: "Poppins, sans-serif", // Ensure Poppins is available
+                                            fontWeight: 500, // Medium weight
+                                            fontSize: "12px",
+                                            color: "#202327",
+                                            lineHeight: "0",
+                                            letterSpacing: "0%",
+                                          }}
+                                        >
+                                          I think space is our only hope, and we are on the
+                                          verge of commercializing it.
+                                        </span>
+                                      }
+                                      by={"Jeff Bezos"}
+                                    />
+                                  </div>
+                                </div>
+                              </>
+                            )}
+            {decryptNumber(idParam) / 1 != 7&&  <div dangerouslySetInnerHTML={{ __html: data.content }} />}
             </div>
             <hr />
             <div className="mt-4 mx-4">

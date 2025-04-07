@@ -13,7 +13,6 @@ import { baseUrl } from "../../../apiConfig";
 const JoinMembership = ({isSuggestCard=false}) => {
   const queryParams = new URLSearchParams(window.location.search);
   const idParam = queryParams.get("id");
-  console.log("🚀 ~ JoinMembership ~ idParam:", idParam)
  
 
 
@@ -46,7 +45,6 @@ const JoinMembership = ({isSuggestCard=false}) => {
           setProfileData(data);
         },
         onError: (error) => {
-          console.log(error);
         },
       }
     );
@@ -80,7 +78,6 @@ const JoinMembership = ({isSuggestCard=false}) => {
         setAdminWallet(data.data.token.admin_wallet_address);
         setTokenContractAddress(data.data.token.token_contract_address);
         setmembershipClubAmount(data.data.price);
-        console.log("Membership Club Charge Info:", data.data);
       } else {
         console.error("Error fetching membership charge info:", data);
       }
@@ -157,7 +154,6 @@ const JoinMembership = ({isSuggestCard=false}) => {
       },
       {
         onSuccess: (data) => {
-          console.log("Membership joined", data);
           setShowHeader(true);
           setOpenModal2(false);
           navigate(`/Membership/Private?id=${idParam}`);
@@ -186,7 +182,6 @@ const JoinMembership = ({isSuggestCard=false}) => {
     
       {
         onSuccess: (data) => {
-          console.log("Discord ID saved", data);
           joinClub();
         },
         onError: (error) => {
@@ -197,7 +192,7 @@ const JoinMembership = ({isSuggestCard=false}) => {
   };
 const handleClick=()=>{
   navigate(userData?.access_token?`/Dashboard`:`/shop`);
-//  console.log('data')
+
 //   joinMembership(
 //     {
 //       url: `user-has-club-token`,

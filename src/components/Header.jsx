@@ -17,6 +17,7 @@ import MaterialModal from "./Common/MaterialModal";
 import mataMaskImage from "../../src/assets/images/MataMask.png";
 import { Button, Box, Typography } from "@mui/material";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import axios from "axios";
 const Header = ({ setShowSearchInput, showSearchInput }) => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -29,7 +30,7 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
     handleLogout,
     setSnackBarData,
     setWalletData,
-    walletData,
+    walletData, setUserHoldings,userHoldings
   } = appData();
   const [isScrolled, setIsScrolled] = useState(false);
   const { setShowLandingSaction } = appData();
@@ -39,6 +40,7 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
   const [tokenHoldings, setTokenHoldings] = useState(null);
   const [walletModalOpen, setWalletModalOpen] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
+    const [tokenDataList, setTokenDataList] = useState([]); 
   const handleClick = () => {
     setShowTooltip(true);
     setTimeout(() => setShowTooltip(false), 2000); // Close after 2 seconds
@@ -55,42 +57,102 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
   // };
 
   // Function to fetch token balances
-  const fetchTokenHoldings = async (provider, address) => {
-    try {
-      const tokenHoldings = [];
+  // const fetchTokenHoldings = async (provider, address) => {
+  //   try {
+  //     const tokenHoldings = [];
 
-      // ERC-20 Token Contract Addresses on Sepolia Testnet
-      const tokens = [
-        { name: "iVT", address: "0xB34c841F79c2626260cd1657c9f5c10Be4339D1B" },
-        { name: "iSPX", address: "0x324d720f13764d6BE02ef1329D6a3e4dd8ec1e64" },
-      ];
+  //     // ERC-20 Token Contract Addresses on Sepolia Testnet
+  //     const tokens = [
+  //       { name: "iVT", address: "0xB34c841F79c2626260cd1657c9f5c10Be4339D1B" },
+  //       { name: "iSPX", address: "0x324d720f13764d6BE02ef1329D6a3e4dd8ec1e64" },
+  //     ];
 
+  //     const erc20Abi = [
+  //       "function balanceOf(address owner) view returns (uint256)",
+  //       "function decimals() view returns (uint8)",
+  //     ];
+
+  //     for (const token of tokens) {
+  //       const contract = new ethers.Contract(token.address, erc20Abi, provider);
+  //       const balance = await contract.balanceOf(address);
+  //       const decimals = await contract.decimals();
+
+  //       const formattedBalance = ethers.utils.formatUnits(balance, decimals);
+
+  //       tokenHoldings.push({
+  //         name: token.name,
+  //         balance: formattedBalance,
+  //       });
+
+  //       // console.log(`Token: ${token.name}, Balance: ${formattedBalance}`);
+  //     }
+
+  //     setTokenHoldings(tokenHoldings); // Update state with token holdings
+  //     localStorage.setItem("tokenHoldings", JSON.stringify(tokenHoldings)); // Save to localStorage
+  //   } catch (error) {
+  //     console.error("Error fetching token holdings:", error);
+  //   }
+  // };
+  useEffect(() => {
+    // This effect runs whenever tokenDataList changes
+    const fetchTokenHoldings = async (provider, address) => {
+      
+      if (!tokenDataList || tokenDataList.length === 0) {
+        console.error("No token data available");
+        return [];
+      }
+  
       const erc20Abi = [
         "function balanceOf(address owner) view returns (uint256)",
         "function decimals() view returns (uint8)",
       ];
-
-      for (const token of tokens) {
-        const contract = new ethers.Contract(token.address, erc20Abi, provider);
-        const balance = await contract.balanceOf(address);
-        const decimals = await contract.decimals();
-
-        const formattedBalance = ethers.utils.formatUnits(balance, decimals);
-
-        tokenHoldings.push({
-          name: token.name,
-          balance: formattedBalance,
-        });
-
-        // console.log(`Token: ${token.name}, Balance: ${formattedBalance}`);
+  
+      let tokenHoldings = [];
+  
+      for (const token of tokenDataList) {
+        try {
+          const contract = new ethers.Contract(token.token_contract_address, erc20Abi, provider);
+          const balance = await contract.balanceOf(address);
+          const decimals = await contract.decimals();
+          const formattedBalance = ethers.utils.formatUnits(balance, decimals);
+  
+          tokenHoldings.push({
+            symbol: token.symbol,
+            logo: token.logo,
+            name: token.name,
+            balance: formattedBalance,
+          });
+        } catch (error) {
+          
+        }
       }
-
-      setTokenHoldings(tokenHoldings); // Update state with token holdings
-      localStorage.setItem("tokenHoldings", JSON.stringify(tokenHoldings)); // Save to localStorage
-    } catch (error) {
-      console.error("Error fetching token holdings:", error);
+  
+      setUserHoldings(tokenHoldings); // Save the token holdings in state
+    };
+  
+    // Only call fetchTokenHoldings if tokenDataList is populated
+    if (tokenDataList.length > 0) {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      const address = signer.getAddress();
+      fetchTokenHoldings(provider, address);
     }
+  }, [tokenDataList]); 
+  
+  
+
+
+    
+  
+useEffect(()=>{
+  const handleTokenApi = async () => {
+    const { data } = await axios.get(`${baseUrl}token/getAllTokenData`);
+    setTokenDataList(data?.data);
+  
+   
   };
+  handleTokenApi()
+},[])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -214,7 +276,8 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
 
       // Fetch balance and token holdings
       const balance = await provider.getBalance(address);
-      await fetchTokenHoldings(provider, address);
+    //  const tokenRecevied= await fetchTokenHoldings(provider, address);
+    // setUserHoldings(tokenRecevied)
 
       // Update state
       const savedTokenHoldings = JSON.parse(
@@ -243,6 +306,7 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
     }
   };
 
+  
   const handleDisconnect = async () => {
     try {
       // Revoke permissions
@@ -297,6 +361,7 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
 
   // useEffect to handle wallet connection updates when the account or chain changes
   useEffect(() => {
+   
     if (window.ethereum) {
       window.ethereum.on("accountsChanged", () => {
         handleConnectWallet();
@@ -314,25 +379,25 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
           const provider = new ethers.providers.Web3Provider(window.ethereum);
           const signer = provider.getSigner();
           const address = await signer.getAddress();
-
+          // const tokenRecevied= await fetchTokenHoldings(provider, address);
+          // setUserHoldings(tokenRecevied)
+          const balance = await provider.getBalance(address);
+          setBalance();
           setWalletData({ provider, signer, address });
           localStorage.setItem("walletData", JSON.stringify({ address }));
 
           // Fetch balance and token holdings
-          const balance = await provider.getBalance(address);
-          fetchTokenHoldings(provider, address);
-          setBalance();
+        
         } else {
           handleDisconnect();
         }
       };
 
       const handleChainChange = async (chainId) => {
-        console.log("Network changed to:", chainId);
 
-        if (walletData?.address) {
-          handleDisconnect(); // Disconnect wallet to prevent issues
-        }
+        // if (walletData?.address) {
+        //   handleDisconnect(); // Disconnect wallet to prevent issues
+        // }
 
         // Instead of full reload, try reconnecting
         setTimeout(() => {
@@ -751,7 +816,7 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
                         }}
                       >
                         <span className="btn-title">
-                          {walletData.address
+                          {walletData?.address
                             ? formatAddress(walletData.address)
                             : "Connect Wallet"}
                           {walletData.address && (

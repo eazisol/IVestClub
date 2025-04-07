@@ -21,17 +21,15 @@ const BlogView = () => {
   useEffect(() => {
     getData(
       {
-        url: `blog/${decryptNumber(idParam)}`,
+        url: `blog/${decryptNumber(idParam)/1}`,
         method: "GET",
-        sendHeaders: false,
+        sendHeaders: true,
       },
       {
         onSuccess: (data) => {
-          console.log("this blog data", data);
           setData(data)
         },
         onError: (error) => {
-          console.log("blog error", error);
         },
       }
     );

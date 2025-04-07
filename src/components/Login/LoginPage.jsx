@@ -18,7 +18,7 @@ const LoginPage = () => {
   const [userWallet, setUserWallet] = useState("");
   const [submitclicked, setSubmitclicked] = useState(false);
 
-  const { setSnackBarData, setUserData } = appData();
+  const { setSnackBarData, setUserData ,userData} = appData();
   const { mutate: login, isPending: isLoginLoading, error } = useApi();
   const handleChange = (e) => {
     e.preventDefault();
@@ -35,7 +35,12 @@ const LoginPage = () => {
       handleLogin(e);
     }
   };
+  useEffect(() => {
 
+    if (userData?.access_token) {
+      navigate("/");
+    }
+  }, []);
   // const handleLogin = (e) => {
   //   e.preventDefault();
   //   setSubmitclicked(true);
@@ -134,7 +139,15 @@ const LoginPage = () => {
       });
       return;
     }
-  
+    const keysToClear = [
+      "name",
+      "recipentWalletAddress",
+      "userData",
+      "verify",
+      "walletData",
+    ];
+
+    keysToClear.forEach((key) => localStorage.removeItem(key));
     login(
       {
         url: "login",

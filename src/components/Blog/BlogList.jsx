@@ -9,6 +9,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 const BlogList = () => {
   const { handleLogout } = appData();
   const { mutate: getData, isPending: isBlogsLoading, error } = useApi();
+ 
   const [blogList, setBlogList] = useState([]);
  const navigate = useNavigate();
   useEffect(() => {
@@ -20,11 +21,9 @@ const BlogList = () => {
       },
       {
         onSuccess: (data) => {
-          console.log("blog data", data);
           setBlogList(data);
         },
         onError: (error) => {
-          console.log("mempership error", error);
           if (error.status == 401) {
             handleLogout();
           }
@@ -79,7 +78,9 @@ const BlogList = () => {
               </div>
             ) : (
               <>
-                {blogList.map((blog, index) => (
+                {blogList.map((blog, index) => {
+                  
+                  return(
                   <BlogCard
                     key={index}
                     text={blog.excerpt}
@@ -88,7 +89,7 @@ const BlogList = () => {
                     to={`/Blog/View?id=${encryptNumber(blog.id)}`}
                     time={blog.updated_at}
                   />
-                ))}
+                )})}
               </>
             )}
           </div>
