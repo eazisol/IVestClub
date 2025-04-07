@@ -32,7 +32,6 @@ import JoinMembership from "../Common/JoinMembership";
 const PublicMemberShip = () => {
   const queryParams = new URLSearchParams(window.location.search);
   const idParam = queryParams.get("id");
-  console.log("🚀 ~ PublicMemberShip ~ idParam:", decryptNumber(idParam)/1)
   const navigate = useNavigate();
   const { mutate: getData, isPending: isMembershipLoading, error } = useApi();
   const [data, setData] = useState({});
@@ -49,7 +48,6 @@ const PublicMemberShip = () => {
       },
       {
         onSuccess: (data) => {
-          console.log("get data", data);
           setData(data);
         },
         onError: (error) => {
