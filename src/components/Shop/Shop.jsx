@@ -289,7 +289,7 @@ const recipentWalletAddress=JSON.parse(localStorage.getItem("recipentWalletAddre
     <div className="min-vh-100  text-white p-4 d-flex justify-content-center align-items-center">
       <div
         className="container-fluid  rounded p-4 border "
-        style={{ maxWidth: "600px", width: "100%" }}
+        style={{ maxWidth: "650px", width: "100%" }}
       >
         <div className="section4-head text-dark text-center">Buy Tokens</div>
         <div className="row">

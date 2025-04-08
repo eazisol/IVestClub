@@ -259,10 +259,11 @@ width: 110%;
 }
 
 
-.input-group {
+.input-group-shop {
     border: 1px solid rgba(92, 91, 92, 0.4) !important;
     border-radius: 10px !important;
     padding: 2px !important;
+    width: 100%;
 }
 
 
@@ -273,6 +274,7 @@ width: 110%;
     border-radius: 10px !important;
     padding: 2px !important;
     transition: box-shadow 0.3s, border-color 0.3s;
+    width: 100%;
 }
 
 .shop-form:focus-within {
