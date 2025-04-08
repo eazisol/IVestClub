@@ -3,7 +3,7 @@ import { SactionContainer } from "../Common/Containers";
 import CurrencyBitcoinOutlinedIcon from "@mui/icons-material/CurrencyBitcoinOutlined";
 import { OutlinedButtonDark, OutlinedButtonWarning } from "../Common/Buttons";
 import { Ethereum, Bitcoin, Usdt } from "../Common/CurrencyIcons";
-import { Avatar, PdfIcon, DocIcon, SidebarImg } from "../Common/Icons";
+import { Avatar, PdfIcon, DocIcon, SidebarImg, VectorIcon } from "../Common/Icons";
 import { NavLink } from "react-bootstrap";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 import { baseUrl, imgUrl } from "../../../apiConfig";

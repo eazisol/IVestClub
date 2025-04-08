@@ -680,7 +680,7 @@ const Dashboard = () => {
      Please <strong>verify your identity</strong> before purchasing tokens.
       </Alert>
     </Stack> */}
-                    <div className="section4-head mt-3">Buy Token</div>
+                    <div className="section4-head mt-3">Purchase Tokens</div>
                     <div>
                       {network === "Testnet" && (
                         <div className="text-warning">Network : Testnet.</div>
@@ -689,7 +689,7 @@ const Dashboard = () => {
                         <div className="text-warning">You are on Mainnet.</div>
                       )}
                       <div className="text-warning">
-                        Token transfer process could take upto 1 hour.
+                       Token transfers may take up to 1 hour to complete.
                       </div>
                     </div>
                   </div>
@@ -768,7 +768,7 @@ const Dashboard = () => {
                           <input
                             value={usdtAmount}
                             onChange={(e) => setustdAmount(e.target.value)}
-                            placeholder="Enter USDT amount"
+                            placeholder="Enter the amount in USDT"
                             type="number"
                             className="form-control con-input"
                             aria-label="Text input with checkbox"
@@ -891,7 +891,7 @@ const Dashboard = () => {
                             type="number"
                             className="form-control"
                             aria-label="Text input with checkbox"
-                            placeholder="You will receive"
+                            placeholder="Amount you will receive"
                           />
                         </div>
                         <div className="mb-1 con-head">
@@ -918,7 +918,7 @@ const Dashboard = () => {
                             type="text"
                             className="form-control"
                             aria-label="Text input with checkbox"
-                            placeholder="You will receive"
+                            placeholder="Enter your wallet address"
                           />
                         </div>
                         {/* {usdtAmount && (
@@ -1119,7 +1119,7 @@ const Dashboard = () => {
                     </div>
                   </div>
                   <div className="convDes LightText z-3" align="center">
-                    The price will be recalculated in 4.5s
+                    The price will refresh in 4.5 seconds
                   </div>
                   {/* <div className="text-center mb-3">
                   <FormControlLabel
@@ -1136,7 +1136,7 @@ const Dashboard = () => {
                   <div className="largeButtonContainer   pt-3 mb-5 col-lg-4 col-md-4 col-sm-2">
                     <LargeButton
                       disabled={!userWallet || !usdtAmount||profiledata?.kyc_status!== "Approved"}
-                      text={loading ? "Processing..." : "Buy Now"}
+                      text={loading ? "Processing..." : "proceed to purchase"}
                       onClick={handlePay}
                       // onClick={handlePin}
                     />

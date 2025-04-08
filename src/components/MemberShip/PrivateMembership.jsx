@@ -238,7 +238,8 @@ const PrivateMembership = () => {
                 alt=""
                 className=" mt-2 mb-3"
               />
-              {decryptNumber(idParam) / 1 == 7 && (
+               <div dangerouslySetInnerHTML={{ __html: data.content }} />
+              {/* {decryptNumber(idParam) / 1 == 7 && (
                 <>
                   {" "}
                   <h5 className="mt-4 text-dark mont-font">
@@ -277,7 +278,7 @@ const PrivateMembership = () => {
                     <h5 className="mt-4 text-dark mont-font ">
                       <strong>Elon Musk presentation on SPaceX</strong>
                     </h5>
-                    {/* <img src={spaceximg2} alt="" className=" mt-2" /> */}
+                  
                     <iframe
                       width="100%"
                       height="315"
@@ -286,7 +287,7 @@ const PrivateMembership = () => {
                       frameBorder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                       allowFullScreen
-                      style={{ borderRadius: "10px",marginTop:"5px" }} // Add border radius here
+                      style={{ borderRadius: "10px",marginTop:"5px" }} 
                     ></iframe>
                     <p className="text-basic text-dark mt-3 bold-5">
                       Space travel is crucial for advancing scientific
@@ -300,8 +301,8 @@ const PrivateMembership = () => {
                           <span
                             className="bold-5"
                             style={{
-                              fontFamily: "Poppins, sans-serif", // Ensure Poppins is available
-                              fontWeight: 500, // Medium weight
+                              fontFamily: "Poppins, sans-serif",
+                              fontWeight: 500,
                               fontSize: "12px",
                               color: "#202327",
                               lineHeight: "0",
@@ -319,8 +320,8 @@ const PrivateMembership = () => {
                           <span
                             className="bold-5"
                             style={{
-                              fontFamily: "Poppins, sans-serif", // Ensure Poppins is available
-                              fontWeight: 500, // Medium weight
+                              fontFamily: "Poppins, sans-serif", 
+                              fontWeight: 500,
                               fontSize: "12px",
                               color: "#202327",
                               lineHeight: "0",
@@ -336,12 +337,12 @@ const PrivateMembership = () => {
                     </div>
                   </div>
                 </>
-              )}
-              {decryptNumber(idParam) / 1 != 7 && (
+              )} */}
+              {/* {decryptNumber(idParam) / 1 != 7 && ( */}
                 <>
                   {/* <div dangerouslySetInnerHTML={{ __html: data.content }} /> */}
 
-                  <h3 className="mt-4">
+                  {/* <h3 className="mt-4">
                     <strong>What is iVestClub Technologies?</strong>
                   </h3>
                   <p className="text-basic mt-4" style={{color:"#555555"}}>
@@ -400,9 +401,9 @@ const PrivateMembership = () => {
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                       allowFullScreen
                       style={{ borderRadius: "10px" }} // Add border radius here
-                    ></iframe>
+                    ></iframe> */}
                     {/* <img src={openaiimg1} alt="" className="img-fluid mt-2" /> */}
-                    <p className="text-basic-ivt mt-3">
+                    {/* <p className="text-basic-ivt mt-3">
                       The transformative potential of blockchain technology in
                       creating more efficient and innovative systems, which
                       could greatly benefit membership clubs by enhancing
@@ -432,9 +433,9 @@ const PrivateMembership = () => {
                       chain management to voting systems and membership
                       organizations.
                     </p>
-                  </div>
+                  </div> */}
                 </>
-              )}
+              {/* )} */}
             </div>
           </div>
           {/* <div className="card card-border-c mt-4">

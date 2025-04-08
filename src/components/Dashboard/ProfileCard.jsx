@@ -92,7 +92,7 @@ const ProfileCard = ({
           setSnackBarData({
             visibility: true,
             // error: "info",
-            text: "Sent Verification Mail Successfully",
+            text: "Verification Email Sent Successfully",
           });
         },
         onError: (error) => {

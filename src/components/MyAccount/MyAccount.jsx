@@ -12,11 +12,12 @@ import { CustomizedLoader } from "../Common/MiniComponents";
 import { imgUrl } from "../../../apiConfig";
 import { CountryAutocomplete } from "../Common/AutoCompletes";
 import { Box, Chip, CircularProgress, Typography } from "@mui/material";
-
+import CloseIcon from "@mui/icons-material/Close";
 const MyAccount = () => {
   const { userData, setSnackBarData, showPassword, setShowPassword } =
     appData();
   const [formData, setFormData] = useState({});
+  console.log("🚀 ~ MyAccount ~ formData:", formData);
   const [submitClicked, setSubmitclicked] = useState(false);
   const [profilePic, setProfilePic] = useState(null);
   const [passport, setPassport] = useState(null);
@@ -53,9 +54,7 @@ const MyAccount = () => {
       },
       {
         onSuccess: (data) => {
-        
           setFormData(data);
-      
         },
         onError: (error) => {
           console.log(error);
@@ -110,6 +109,23 @@ const MyAccount = () => {
       setEditEnabled(false);
       return;
     }
+    if(formData?.kyc_status=='pending'){
+      setSnackBarData({
+        visibility: true,
+        error: "error",
+        text: 'Your verification request has been sent. Please wait for verification',
+      });
+      return;
+    }
+    if (formData?.kyc_status === 'Approved') {
+      setSnackBarData({
+        visibility: true,
+        error: "success",
+        text: 'Your KYC has already been approved. No further action is needed.',
+      });
+      return;
+    }
+    
     const postData = new FormData();
     setSubmitclicked(true);
     const keysToValidate = [
@@ -178,7 +194,7 @@ const MyAccount = () => {
         setSnackBarData({
           visibility: true,
           error: "error",
-          text: "Password and Confirm Password do not match",
+          text: "Password and confirm password do not match!",
         });
         return;
       }
@@ -208,17 +224,17 @@ const MyAccount = () => {
       {
         onSuccess: (data) => {
           const userData = {
-            firstname: data?.user?.FirstName ,
-            lastname: data?.user?.LastName ,
+            firstname: data?.user?.FirstName,
+            lastname: data?.user?.LastName,
           };
-        
+
           localStorage.setItem("name", JSON.stringify(userData));
           //  localStorage.setItem('userData', JSON.stringify(data));
           //  setUserData(data)
           setSnackBarData({
             visibility: true,
             // error: "info",
-            text: "Successfully updated profile",
+            text: "Profile updated successfully.",
           });
           setEditEnabled(true);
         },
@@ -230,6 +246,7 @@ const MyAccount = () => {
   };
   const handlePasswordChange = (e) => {
     e.preventDefault();
+    console.log("🚀 ~ handlePasswordChange ~ formData:", formData);
     if (!formData.password) {
       setSnackBarData({
         visibility: true,
@@ -250,7 +267,7 @@ const MyAccount = () => {
       setSnackBarData({
         visibility: true,
         error: "error",
-        text: "Password and Confirm Password do not match",
+        text: "Password and Confirm Password do not match!",
       });
       return;
     }
@@ -272,7 +289,7 @@ const MyAccount = () => {
           setSnackBarData({
             visibility: true,
             // error: "info",
-            text: "Successfully Changed Password",
+            text: "Password changed successfully.",
           });
         },
         onError: (error) => {
@@ -285,33 +302,46 @@ const MyAccount = () => {
   // if (isProfileLoading) {
   //   return <CustomizedLoader />;
   // } else {
-    return (
-      <SactionContainer container={false}>
-        <div className="w-100">
-          <div className="row justify-content-between mt-5 mb-3">
-            <div className="col-6 mt-5  mb-3 pt-2 pl-3">
-              <h3 className="dashHead">Dashboard</h3>
-            </div>
-            <div className="col-2 justify-content-end mr-4 mt-5"></div>
+  return (
+    <SactionContainer container={false}>
+      <div className="w-100">
+        <div className="row justify-content-between mt-5 mb-3">
+          <div className="col-6 mt-5  mb-3 pt-2 pl-3">
+            <h3 className="dashHead">Dashboard</h3>
           </div>
+          <div className="col-2 justify-content-end mr-4 mt-5"></div>
         </div>
+      </div>
 
-        <div className="w-100  mb-5 pb-5">
-          <div className="row mb-5">
-            <div className="col-lg-3 col-md-12 p-2 col-sm-12">
-              <ProfileCard
-                profilePic={profilePic}
-                setProfilePic={setProfilePic}
-                prevPic={formData.profile}
-                showPassword={showPassword}
-                setShowPassword={setShowPassword}
-                enableEdit={editEnabled}
-              />
-            </div>
-            <div className="col-lg-9 col-md-12 col-sm-12 p-2 row">
-              {!showPassword ? (
-                <div className="card card-border-c w-100">
-               {isProfileLoading?<Box sx={{display:"flex",justifyContent:"center",alignItems:"center",height:"300px"}}> <CircularProgress /></Box>:   <div className="row justify-content-between p-4">
+      <div className="w-100  mb-5 pb-5">
+        <div className="row mb-5">
+          <div className="col-lg-3 col-md-12 p-2 col-sm-12">
+            <ProfileCard
+              profilePic={profilePic}
+              setProfilePic={setProfilePic}
+              prevPic={formData.profile}
+              showPassword={showPassword}
+              setShowPassword={setShowPassword}
+              enableEdit={editEnabled}
+            />
+          </div>
+          <div className="col-lg-9 col-md-12 col-sm-12 p-2 row">
+            {!showPassword ? (
+              <div className="card card-border-c w-100">
+                {isProfileLoading ? (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: "300px",
+                    }}
+                  >
+                    {" "}
+                    <CircularProgress />
+                  </Box>
+                ) : (
+                  <div className="row justify-content-between p-4">
                     <div className="col-6 ">
                       <h5>My Account</h5>
                     </div>
@@ -364,216 +394,223 @@ const MyAccount = () => {
                         disabled={editEnabled}
                       />
                     </div>
-                  </div>}
-                  <hr />
-                  <div className="row p-4">
-                    <div className="col-12 ">
-                      <h5>Home Address</h5>
-                    </div>
-                    <div className="col-lg-6 col-md-12 col-sm-12 mt-2">
-                      {/* <SimpleInput
+                  </div>
+                )}
+                <hr />
+                <div className="row p-4">
+                  <div className="col-12 ">
+                    <h5>Home Address</h5>
+                  </div>
+                  <div className="col-lg-6 col-md-12 col-sm-12 mt-2">
+                    {/* <SimpleInput
                         lable="Country"
                         name="country"
                         onChange={handleChange}
                         value={formData.country || ""}
                         disabled={editEnabled}
                       /> */}
-                      <CountryAutocomplete
-                        selectedCountry={formData}
-                        setSelectedCountry={setFormData}
-                        disabled={editEnabled}
-                      />
-                    </div>
-                    <div className="col-lg-6 col-md-12 col-sm-12 mt-2">
-                      <SimpleInput
-                        lable="City"
-                        name="city"
-                        onChange={handleChange}
-                        value={formData.city || ""}
-                        disabled={editEnabled}
-                      />
-                    </div>
-                    <div className="col-lg-6 col-md-12 col-sm-12 mt-2">
-                      <SimpleInput
-                        lable="Address"
-                        name="address"
-                        onChange={handleChange}
-                        value={formData.address || ""}
-                        disabled={editEnabled}
-                      />
-                    </div>
+                    <CountryAutocomplete
+                      selectedCountry={formData}
+                      setSelectedCountry={setFormData}
+                      disabled={editEnabled}
+                    />
                   </div>
-                  <hr />
-                  <div className="row m-2  p-4 ">
-                    <div className="col-lg-12 col-md-12 ">
-                      <h5>ID Verification</h5>
-                      <p className="text-basic mt-4 doc-color mb-2">
-                        Document Type
-                      </p>
-                      <div className="card verificarion-card op-3">
-                        <div className="row">
-                          <div className="col-1 p-3">
-                            <div className="icon-wrap">
-                              <i className="fa-regular fa-address-card"></i>
-                            </div>
-                          </div>
-                          <div className="col-11 col-sm-11 p-3">
-                            <div className=" verificationHeadings  mb-0">
-                              ID Card
-                            </div>
-                            <p className="text-basic verifyText mb-0">
-                              Create your account with ID card
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="card verificarion-card mt-2 op-3">
-                        <div className="row">
-                          <div className="col-1  p-3">
-                            <div className="icon-wrap">
-                              <i className="fa-regular fa-address-card"></i>
-                            </div>
-                          </div>
-                          <div className="col-11 p-3">
-                            <div className="mb-0 verificationHeadings">
-                              Driving License
-                            </div>
-                            <p className="text-basic verifyText mb-0">
-                              Create your account with Driving License
-                            </p>
+                  <div className="col-lg-6 col-md-12 col-sm-12 mt-2">
+                    <SimpleInput
+                      lable="City"
+                      name="city"
+                      onChange={handleChange}
+                      value={formData.city || ""}
+                      disabled={editEnabled}
+                    />
+                  </div>
+                  <div className="col-lg-6 col-md-12 col-sm-12 mt-2">
+                    <SimpleInput
+                      lable="Address"
+                      name="address"
+                      onChange={handleChange}
+                      value={formData.address || ""}
+                      disabled={editEnabled}
+                    />
+                  </div>
+                </div>
+                <hr />
+                <div className="row m-2  p-4 ">
+                  <div className="col-lg-12 col-md-12 ">
+                    <h5>ID Verification</h5>
+                    <p className="text-basic mt-4 doc-color mb-2">
+                      Document Type
+                    </p>
+                    <div className="card verificarion-card op-3">
+                      <div className="row">
+                        <div className="col-1 p-3">
+                          <div className="icon-wrap">
+                            <i className="fa-regular fa-address-card"></i>
                           </div>
                         </div>
-                      </div>
-                      <div
-                        className="card verificarion-card-active mt-2 d-flex align-items-center justify-content-between"
-                        style={{ cursor: "pointer", padding: "10px" }}
-                        onClick={() => {
-                          setSelectedUploadId("passportUpload");
-                        }}
-                      >
-                        <div className="row w-100">
-                          <div className="col-1 p-3">
-                            <div className="icon-wrap">
-                              <i className="fa-regular fa-address-card"></i>
-                            </div>
+                        <div className="col-11 col-sm-11 p-3">
+                          <div className=" verificationHeadings  mb-0">
+                            ID Card
                           </div>
-                          <div className="col-9 p-3">
-                            <div className="mb-0 verificationHeadings">
-                              Passport
-                            </div>
-                            <p className="text-basic verifyText mb-0">
-                              Create your account with Passport
-                            </p>
-                          </div>
-                          <div className="col-2 d-flex align-items-center justify-content-end">
-                            <Box
-                              sx={{
-                                display: "flex",
-                                flexDirection: "column",
-                                alignItems: "center",
-                              }}
-                            >
-                              <Chip
-                                label={
-                                  formData?.kyc_status === "Approved"
-                                    ? "Approved"
-                                    : "Approval pending"
-                                }
-                                color={
-                                  formData?.kyc_status === "Approved"
-                                    ? "success"
-                                    : "warning"
-                                }
-                                size="small"
-                                sx={{
-                                  fontSize: "12px",
-                                  height: "auto",
-                                  padding: "6px 12px",
-                                  ml: 1,
-                                  minWidth:
-                                    formData?.kyc_status === "Approved"
-                                      ? "125px"
-                                      : "135px",
-                                }}
-                              />
-
-                              {formData?.kyc_status === "Approved" &&
-                              formData?.kyc_approved_at ? (
-                                <Typography
-                                  sx={{
-                                    fontSize: "10px",
-                                    color: "#555",
-                                    mt: 0.5,
-                                    ml: 2,
-                                  }}
-                                >
-                                  Approval Date:{" "}
-                                  {isNaN(new Date(formData?.kyc_approved_at))
-                                    ? "Invalid Date"
-                                    : new Intl.DateTimeFormat("en-GB", {
-                                        day: "2-digit",
-                                        month: "2-digit",
-                                        year: "numeric",
-                                        hour: "2-digit",
-                                        minute: "2-digit",
-                                        hour12: true,
-                                      }).format(
-                                        new Date(formData?.kyc_approved_at)
-                                      )}
-                                </Typography>
-                              ) : formData?.kyc_submitted_at ? (
-                                <Typography
-                                  sx={{
-                                    fontSize: "10px",
-                                    color: "#555",
-                                    mt: 0.5,
-                                    ml: 2,
-                                  }}
-                                >
-                                  Submitted Date:{" "}
-                                  {isNaN(new Date(formData?.kyc_submitted_at))
-                                    ? "Invalid Date"
-                                    : new Intl.DateTimeFormat("en-GB", {
-                                        day: "2-digit",
-                                        month: "2-digit",
-                                        year: "numeric",
-                                        hour: "2-digit",
-                                        minute: "2-digit",
-                                        hour12: true,
-                                      }).format(
-                                        new Date(formData?.kyc_submitted_at)
-                                      )}
-                                </Typography>
-                              ) : null}
-                            </Box>
-                          </div>
+                          <p className="text-basic verifyText mb-0">
+                            Create your account with ID card
+                          </p>
                         </div>
                       </div>
-
-                      <input
-                        id="passportUpload"
-                        type="file"
-                        accept="image/*"
-                        style={{ display: "none" }}
-                        onChange={handlePassportUpload}
-                      />
                     </div>
-
+                    <div className="card verificarion-card mt-2 op-3">
+                      <div className="row">
+                        <div className="col-1  p-3">
+                          <div className="icon-wrap">
+                            <i className="fa-regular fa-address-card"></i>
+                          </div>
+                        </div>
+                        <div className="col-11 p-3">
+                          <div className="mb-0 verificationHeadings">
+                            Driving License
+                          </div>
+                          <p className="text-basic verifyText mb-0">
+                            Create your account with Driving License
+                          </p>
+                        </div>
+                      </div>
+                    </div>
                     <div
-                      className="p-3 w-100 mt-3 mx-3 my-4"
-                      style={{
-                        borderRadius: "10px",
-                        backgroundColor: "#F5F8FF",
+                      className="card verificarion-card-active mt-2 d-flex align-items-center justify-content-between"
+                      style={{ cursor: "pointer", padding: "10px" }}
+                      onClick={() => {
+                        setSelectedUploadId("passportUpload");
                       }}
                     >
-                      <div
-                        className="row bg-white"
-                        style={{ borderRadius: "10px" }}
-                      >
-                        <div className="col-12 d-flex justify-content-center align-items-center py-5">
-                          {passport ? (
-                            <div>
-                              {passport ? (
+                      <div className="row w-100">
+                        <div className="col-1 p-3">
+                          <div className="icon-wrap">
+                            <i className="fa-regular fa-address-card"></i>
+                          </div>
+                        </div>
+                        <div className="col-9 p-3">
+                          <div className="mb-0 verificationHeadings">
+                            Passport
+                          </div>
+                          <p className="text-basic verifyText mb-0">
+                            Create your account with Passport
+                          </p>
+                        </div>
+                        <div className="col-2 d-flex align-items-center justify-content-end">
+                          <Box
+                            sx={{
+                              display: "flex",
+                              flexDirection: "column",
+                              alignItems: "center",
+                            }}
+                          >
+                            <Chip
+                              label={
+                                formData?.kyc_status === "Approved"
+                                  ? "Approved"
+                                  : "Approval pending"
+                              }
+                              color={
+                                formData?.kyc_status === "Approved"
+                                  ? "success"
+                                  : "warning"
+                              }
+                              size="small"
+                              sx={{
+                                fontSize: "12px",
+                                height: "auto",
+                                padding: "6px 12px",
+                                ml: 1,
+                                minWidth:
+                                  formData?.kyc_status === "Approved"
+                                    ? "125px"
+                                    : "135px",
+                              }}
+                            />
+
+                            {formData?.kyc_status === "Approved" &&
+                            formData?.kyc_approved_at ? (
+                              <Typography
+                                sx={{
+                                  fontSize: "10px",
+                                  color: "#555",
+                                  mt: 0.5,
+                                  ml: 2,
+                                }}
+                              >
+                                Approval Date:{" "}
+                                {isNaN(new Date(formData?.kyc_approved_at))
+                                  ? "Invalid Date"
+                                  : new Intl.DateTimeFormat("en-GB", {
+                                      day: "2-digit",
+                                      month: "2-digit",
+                                      year: "numeric",
+                                      hour: "2-digit",
+                                      minute: "2-digit",
+                                      hour12: true,
+                                    }).format(
+                                      new Date(formData?.kyc_approved_at)
+                                    )}
+                              </Typography>
+                            ) : formData?.kyc_submitted_at ? (
+                              <Typography
+                                sx={{
+                                  fontSize: "10px",
+                                  color: "#555",
+                                  mt: 0.5,
+                                  ml: 2,
+                                }}
+                              >
+                                Submitted Date:{" "}
+                                {isNaN(new Date(formData?.kyc_submitted_at))
+                                  ? "Invalid Date"
+                                  : new Intl.DateTimeFormat("en-GB", {
+                                      day: "2-digit",
+                                      month: "2-digit",
+                                      year: "numeric",
+                                      hour: "2-digit",
+                                      minute: "2-digit",
+                                      hour12: true,
+                                    }).format(
+                                      new Date(formData?.kyc_submitted_at)
+                                    )}
+                              </Typography>
+                            ) : null}
+                          </Box>
+                        </div>
+                      </div>
+                    </div>
+
+                    <input
+                      id="passportUpload"
+                      type="file"
+                      accept="image/*"
+                      style={{ display: "none" }}
+                      onChange={handlePassportUpload}
+                    />
+                  </div>
+
+                  <div
+                    className="p-3 w-100 mt-3 mx-3 my-4"
+                    style={{
+                      borderRadius: "10px",
+                      backgroundColor: "#F5F8FF",
+                    }}
+                  >
+                    <div
+                      className="row bg-white"
+                      style={{ borderRadius: "10px" }}
+                    >
+                      <div className="col-12 d-flex justify-content-center align-items-center py-5">
+                        {passport ? (
+                          <div>
+                            {passport ? (
+                              <div
+                                style={{
+                                  position: "relative",
+                                  display: "inline-block",
+                                }}
+                              >
                                 <img
                                   src={URL.createObjectURL(passport)}
                                   alt="Profile Preview"
@@ -583,104 +620,127 @@ const MyAccount = () => {
                                     borderRadius: 10,
                                   }}
                                 />
-                              ) : (
-                                <AccountCircleOutlinedIcon
-                                  sx={{ color: "#ccc", fontSize: 120 }}
-                                />
-                              )}
-                            </div>
-                          ) : (
-                            <>
-                              {formData.passport ? (
-                                <img
-                                  src={imgUrl + formData.passport}
-                                  alt="Profile Preview"
+                                <button
+                                  onClick={() => setPassport(null)}
                                   style={{
-                                    width: 300,
-                                    height: 200,
-                                    borderRadius: 10,
+                                    position: "absolute",
+                                    top: -10,
+                                    right: -15,
+                                    backgroundColor: "rgba(128, 128, 128, 0.2)",
+                                    // light red with opacity
+                                    // color: "red",
+                                    border: "none",
+                                    borderRadius: "10%",
+                                    width: 30,
+                                    height: 30,
+                                    cursor: "pointer",
+                                    fontWeight: "600",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
                                   }}
-                                />
-                              ) : (
-                                <AccountCircleOutlinedIcon
-                                  sx={{ color: "#ccc", fontSize: 120 }}
-                                />
-                              )}
-                            </>
-                          )}
-                        </div>
+                                >
+                                  <CloseIcon />
+                                </button>
+                              </div>
+                            ) : (
+                              <AccountCircleOutlinedIcon
+                                sx={{ color: "#ccc", fontSize: 120 }}
+                              />
+                            )}
+                          </div>
+                        ) : (
+                          <>
+                            {formData.passport ? (
+                              <img
+                                src={imgUrl + formData.passport}
+                                alt="Profile Preview"
+                                style={{
+                                  width: 300,
+                                  height: 200,
+                                  borderRadius: 10,
+                                }}
+                              />
+                            ) : (
+                              <AccountCircleOutlinedIcon
+                                sx={{ color: "#ccc", fontSize: 120 }}
+                              />
+                            )}
+                          </>
+                        )}
                       </div>
-                      {!editEnabled && (
-                        <div className=" row justify-content-center mt-2">
-                          <div className="col-lg-3 col-md-12 col-sm-12 mt-2">
-                            <OutlinedButtonDark
-                              text={"Upload Photo"}
-                              onClick={triggerPassportInput}
-                            />
-                          </div>
-                          <div className="col-lg-3 col-md-12 col-sm-12 mt-2">
-                            <OutlinedButtonDark text={"Take Photo"} />
-                          </div>
-                        </div>
-                      )}
                     </div>
                     {!editEnabled && (
-                      <div className="w-10 d-flex justify-content-end mr-3 ml-auto">
-                        <LargeButton
-                          text={isProfileSendLoading ? "Saving" : "Save"}
-                          onClick={handleSignup}
-                        />
+                      <div className=" row justify-content-center mt-2">
+                        <div className="col-lg-3 col-md-12 col-sm-12 mt-2">
+                          <OutlinedButtonDark
+                            text={"Upload Photo"}
+                            onClick={triggerPassportInput}
+                          />
+                        </div>
+                        {/* <div className="col-lg-3 col-md-12 col-sm-12 mt-2">
+                            <OutlinedButtonDark text={"Take Photo"} />
+                          </div> */}
                       </div>
                     )}
                   </div>
-                </div>
-              ) : (
-                <>
-                  <div className="card card-border-c w-100">
-                    <div className="row justify-content-between px-4 mt-4">
-                      <div className="col-6 ">
-                        <h5>Change Password</h5>
-                      </div>
-
-                      <div className="col-lg-2 col-4">
-                        <LargeButton
-                          text={isPasswordSending ? "Saving" : "Save"}
-                          onClick={handlePasswordChange}
-                          loading={isPasswordSending}
-                        />
-                      </div>
+                  {!editEnabled && (
+                    <div className="w-10 d-flex justify-content-end mr-3 ml-auto">
+                      <LargeButton
+                        text={isProfileSendLoading ? "Saving" : "Save"}
+                        onClick={handleSignup}
+                      />
                     </div>
-                    <div className="row px-4 ">
-                      <div className="col-lg-6 col-md-12 col-sm-12">
-                        <PasswordInput
-                          lable={"Current Password"}
-                          onChange={handleChange}
-                          name="currentpassword"
-                          value={formData.currentpassword || ""}
-                        />
-                        <PasswordInput
-                          lable={"New Password"}
-                          onChange={handleChange}
-                          name="password"
-                          value={formData.password || ""}
-                        />
-                        <PasswordInput
-                          lable={"Confirm Password"}
-                          onChange={handleChange}
-                          name="password_confirmation"
-                          value={formData.password_confirmation || ""}
-                        />
-                      </div>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <>
+                <div className="card card-border-c w-100">
+                  <div className="row justify-content-between px-4 mt-4">
+                    <div className="col-6 ">
+                      <h5>Change Password</h5>
+                    </div>
+
+                    <div className="col-lg-2 col-4">
+                      <LargeButton
+                        text={isPasswordSending ? "Saving" : "Save"}
+                        onClick={handlePasswordChange}
+                        loading={isPasswordSending}
+                      />
                     </div>
                   </div>
-                </>
-              )}
-            </div>
+                  <div className="row px-4 ">
+                    <div className="col-lg-6 col-md-12 col-sm-12">
+                      <PasswordInput
+                        lable={"Current Password"}
+                        onChange={handleChange}
+                        name="currentpassword"
+                        value={formData.currentpassword || ""}
+                      />
+                      <PasswordInput
+                        lable={"New Password"}
+                        onChange={handleChange}
+                        name="password"
+                        value={formData.password || ""}
+                      />
+                      <PasswordInput
+                        lable={"Confirm Password"}
+                        onChange={handleChange}
+                        name="password_confirmation"
+                        value={formData.password_confirmation || ""}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
-      </SactionContainer>
-    );
-  }
+      </div>
+    </SactionContainer>
+  );
+};
 // };
 
 export default MyAccount;

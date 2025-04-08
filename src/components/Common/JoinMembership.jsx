@@ -139,7 +139,7 @@ const JoinMembership = ({isSuggestCard=false}) => {
       setSnackBarData({
         visibility: true,
         error: "error",
-        text: "Please Connect to Wallet First!",
+        text: "Please connect your wallet first!",
       });
       return;
     }

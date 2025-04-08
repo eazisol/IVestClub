@@ -134,7 +134,8 @@ const PublicMemberShip = () => {
                 alt=""
                 className="mb-3"
               />
-               {decryptNumber(idParam) / 1 == 7 && (
+              <div dangerouslySetInnerHTML={{ __html: data.content }} />
+               {/* {decryptNumber(idParam) / 1 == 7 && (
                               <>
                                 {" "}
                                 <h5 className="mt-4 text-dark mont-font">
@@ -173,7 +174,6 @@ const PublicMemberShip = () => {
                                   <h5 className="mt-4 text-dark mont-font ">
                                     <strong>Elon Musk presentation on SPaceX</strong>
                                   </h5>
-                                  {/* <img src={spaceximg2} alt="" className=" mt-2" /> */}
                                   <iframe
                                     width="100%"
                                     height="315"
@@ -182,7 +182,7 @@ const PublicMemberShip = () => {
                                     frameBorder="0"
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                     allowFullScreen
-                                    style={{ borderRadius: "10px",marginTop:"5px" }} // Add border radius here
+                                    style={{ borderRadius: "10px",marginTop:"5px" }} 
                                   ></iframe>
                                   <p className="text-basic text-dark mt-3 bold-5">
                                     Space travel is crucial for advancing scientific
@@ -196,8 +196,8 @@ const PublicMemberShip = () => {
                                         <span
                                           className="bold-5"
                                           style={{
-                                            fontFamily: "Poppins, sans-serif", // Ensure Poppins is available
-                                            fontWeight: 500, // Medium weight
+                                            fontFamily: "Poppins, sans-serif", 
+                                            fontWeight: 500, 
                                             fontSize: "12px",
                                             color: "#202327",
                                             lineHeight: "0",
@@ -215,8 +215,8 @@ const PublicMemberShip = () => {
                                         <span
                                           className="bold-5"
                                           style={{
-                                            fontFamily: "Poppins, sans-serif", // Ensure Poppins is available
-                                            fontWeight: 500, // Medium weight
+                                            fontFamily: "Poppins, sans-serif",
+                                            fontWeight: 500, 
                                             fontSize: "12px",
                                             color: "#202327",
                                             lineHeight: "0",
@@ -232,8 +232,8 @@ const PublicMemberShip = () => {
                                   </div>
                                 </div>
                               </>
-                            )}
-            {decryptNumber(idParam) / 1 != 7&&  <div dangerouslySetInnerHTML={{ __html: data.content }} />}
+                            )} */}
+            {/* {decryptNumber(idParam) / 1 != 7&&  <div dangerouslySetInnerHTML={{ __html: data.content }} />} */}
             </div>
             <hr />
             <div className="mt-4 mx-4">

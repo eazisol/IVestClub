@@ -156,11 +156,12 @@ const LoginPage = () => {
       },
       {
         onSuccess: async (data) => {
+          console.log("🚀 ~ onSuccess: ~ data:", data)
           const userData = {
             firstname: data.firstname ,
             lastname: data.lastname ,
           };
-   
+        
         
           localStorage.setItem("name", JSON.stringify(userData));
           localStorage.setItem("userData", JSON.stringify(data));
@@ -178,10 +179,15 @@ const LoginPage = () => {
           //   console.error("Error fetching token data:", err);
           // }
   
-          navigate(userWallet || usdtAmount ? "/Dashboard" : "/");
+          navigate("/Dashboard" );
         },
         onError: (error) => {
-          console.log("Login Error:", error);
+          console.log("Login Error:", error?.response?.data?.message);
+          setSnackBarData({
+            visibility: true,
+            error: "error",
+            text: error?.response?.data?.message
+          });
         },
       }
     );
@@ -220,7 +226,7 @@ const LoginPage = () => {
 
         <div className="card login-container ">
           <div className="bold-6 text-dark mont-font LoginHead">
-            Log In To iVestClub
+            Login To iVest Club
           </div>
           <p className="LoginSubHead mt-2">Welcome Back</p>
           <hr />
@@ -246,8 +252,8 @@ const LoginPage = () => {
             />
           </FormControl>
           <p
-            className="mt-4 bold-4"
-            style={{ color: "#4E55FF", fontSize: "14px", cursor: "pointer" }}
+            className="mt-2 bold-4"
+            style={{ color: "#4E55FF", fontSize: "14px", cursor: "pointer" ,textAlign:"right",color:"#150D30"}}
             onClick={() => {
               navigate(`/Forget`);
             }}

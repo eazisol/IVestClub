@@ -21,6 +21,16 @@ const ResetPassword = () => {
   
     const handleLogin = (e) => {
       e.preventDefault(); 
+      // value={formData.password || ""}
+      // value={formData.password_confirmation || ""}
+      if (formData.password !== formData.password_confirmation) {
+        setSnackBarData({
+          visibility: true,
+          error: "error",
+          text: "Password and Confirm Password does not match",
+        });
+        return;
+      }
       login({
         url: 'reset-password',
         method: 'POST',
@@ -79,9 +89,13 @@ const ResetPassword = () => {
                 value={formData.password_confirmation || ""}
               />
             </FormControl>
-            
+            <p className="mt-2 mb-1 LoginSubHead">
+            &#8226; At least 8 characters
+          </p>
+          <p className="mb-1 LoginSubHead">&#8226; At least 1 number</p>
+          <p className=" LoginSubHead">&#8226; At least 1 upper case letter</p>
             <div className="mt-4">
-            <LargeButton onClick={handleLogin} loading={isLoginLoading}   text={isLoginLoading ? 'Resetting in...' : 'Reset'} /></div>
+            <LargeButton onClick={handleLogin} loading={isLoginLoading} disabled={!formData.password || !formData.password_confirmation}   text={isLoginLoading ? 'Resetting in...' : 'Reset'} /></div>
     
            
           </div>

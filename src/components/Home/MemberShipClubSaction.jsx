@@ -142,7 +142,7 @@ const MemberShipClubSaction = () => {
           <CustomizedLoader />
         ) : (
           <div className="row justify-content-sm-center justify-content-md-start" >
-            {userData.access_token?membershipList?.filter((i)=>i.status==1)?.map((data, index) => (
+            {userData.access_token?membershipList?.filter((i) => i.status !== 0)?.map((data, index) => (
             <React.Fragment key={data.id}>
               <MemberShipClubCards
                 id={encryptNumber(data.id)} // Add this line
@@ -155,6 +155,7 @@ const MemberShipClubSaction = () => {
                 rating={data.totalrating}
                 viewStyle={viewStyle}
                 symbol={data?.token_symbol}
+                status={data?.status}
               />
             </React.Fragment>
           )):membershipList?.map((data, index) => (
@@ -170,6 +171,7 @@ const MemberShipClubSaction = () => {
                 rating={data.totalrating}
                 viewStyle={viewStyle}
                 symbol={data?.token_symbol}
+                status={data?.status}
               />
             </React.Fragment>
           ))}

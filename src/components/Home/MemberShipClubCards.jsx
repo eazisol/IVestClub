@@ -35,7 +35,10 @@ const MemberShipClubCards = ({
   symbol,
   to, // 👈 optional prop for custom route
   isSuggestCard = false, // 👈 identifies this is the special card
+  status
 }) => {
+
+  
   const navigate = useNavigate();
   const { mutate: joinMembership } = useApi();
   const { mutate: checkTokens } = useApi();
@@ -169,7 +172,7 @@ useEffect(()=>{
     return (
       <div
         className={`col-lg-${col} col-md-12 mb-4 col-sm-12 px-3 cursor-pointer`}
-        onClick={handleMembershipJoin}
+        onClick={status==2?()=>{}:handleMembershipJoin}
       >
         <div className="card pb-1 p-3" style={{ height: "30em" }}>
           {staticImg ? (
@@ -218,7 +221,7 @@ useEffect(()=>{
             >
               {!isSuggestCard && (
                   <div className="d-flex align-items-center">
-                    <div
+                   { status==2?"" :  <div
                       className="d-flex align-items-center mr-2"
                       style={{
                         padding: 3,
@@ -226,11 +229,11 @@ useEffect(()=>{
                         borderRadius: "30px",
                       }}
                     >
-                      <img src={VectorIcon} alt="IVT Icon" style={{ width: 12, height: 12 }} />
-                    </div>
-                    <h6 className="mb-0 text-basic text-dark bitCoinText LightText">
+                   <img src={VectorIcon} alt="IVT Icon" style={{ width: 12, height: 12 }} />
+                    </div>}
+                    {status==2?"":<h6 className="mb-0 text-basic text-dark bitCoinText LightText">
                       {price ? price + `  ${symbol ? symbol : ''}` : "Price vs IVT"}
-                    </h6>
+                    </h6>}
                   </div>
                 )}
 
@@ -253,7 +256,7 @@ useEffect(()=>{
                       color: "#150D30",
                     }}
                   >
-                    <span className="bold-5 pop-font">{displayJoinStatus}</span>
+               <span className="bold-5 pop-font">{status==2? "Coming Soon...": displayJoinStatus}</span>
                   </div>
                 )}
             </div>
@@ -268,7 +271,7 @@ useEffect(()=>{
     return (
       <div
         className={`col-lg-12 col-md-12 mb-4 col-sm-12 px-3 cursor-pointer`}
-        onClick={handleMembershipJoin}
+        onClick={status==2?()=>{}:handleMembershipJoin}
       >
         <div className="card pb-1 p-3" style={{ height: "15em" }}>
           <div className="row">
@@ -325,7 +328,7 @@ useEffect(()=>{
                 >
                   {!isSuggestCard && (
                       <div className="d-flex align-items-center">
-                        <div
+                    {status==2? "":   <div
                           className="d-flex align-items-center mr-2"
                           style={{
                             padding: 3,
@@ -334,10 +337,10 @@ useEffect(()=>{
                           }}
                         >
                           <img src={VectorIcon} alt="IVT Icon" style={{ width: 12, height: 12 }} />
-                        </div>
-                        <h6 className="mb-0 text-basic text-dark bitCoinText LightText">
+                        </div>}
+                       {status==2? "":  <h6 className="mb-0 text-basic text-dark bitCoinText LightText">
                           {price ? price + `  ${symbol ? symbol : ''}` : "Price vs IVT"}
-                        </h6>
+                        </h6>}
                       </div>
                     )}
 
@@ -362,7 +365,7 @@ useEffect(()=>{
                         color: "#150D30",
                       }}
                     >
-                      <span className="bold-5 pop-font">{displayJoinStatus}</span>
+                      <span className="bold-5 pop-font">{status==2?"Coming Soon...":displayJoinStatus}</span>
                     </div>
                   )}
 

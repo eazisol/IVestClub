@@ -17,6 +17,7 @@ import MaterialModal from "./Common/MaterialModal";
 import mataMaskImage from "../../src/assets/images/MataMask.png";
 import { Button, Box, Typography } from "@mui/material";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import axios from "axios";
 const Header = ({ setShowSearchInput, showSearchInput }) => {
   const navigate = useNavigate();
@@ -30,9 +31,11 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
     handleLogout,
     setSnackBarData,
     setWalletData,
-    walletData, setUserHoldings,userHoldings
+    walletData,
+    setUserHoldings,
+    userHoldings,
   } = appData();
-
+  const [copied, setCopied] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { setShowLandingSaction } = appData();
   const [headerStyles, setHeaderStyles] = useState({});
@@ -41,10 +44,30 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
   const [tokenHoldings, setTokenHoldings] = useState(null);
   const [walletModalOpen, setWalletModalOpen] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
-    const [tokenDataList, setTokenDataList] = useState([]); 
+  const [tokenDataList, setTokenDataList] = useState([]);
   const handleClick = () => {
     setShowTooltip(true);
     setTimeout(() => setShowTooltip(false), 2000); // Close after 2 seconds
+  };
+  const handleCopy = () => {
+    const textToCopy = walletData.address;
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 1000); // Reset after 2 sec
+      });
+    } else {
+      // Fallback for older browsers
+      const textArea = document.createElement("textarea");
+      textArea.value = textToCopy;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textArea);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1000);
+    }
   };
   const formatAddress = (address) => {
     if (!address) return "";
@@ -97,57 +120,56 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
   useEffect(() => {
     // This effect runs whenever tokenDataList changes
     const fetchTokenHoldings = async (provider, address) => {
-      
       if (!tokenDataList || tokenDataList.length === 0) {
         console.error("No token data available");
         return [];
       }
-  
+
       const erc20Abi = [
         "function balanceOf(address owner) view returns (uint256)",
         "function decimals() view returns (uint8)",
       ];
-  
+
       let tokenHoldings = [];
-  
+
       for (const token of tokenDataList) {
         try {
-          const contract = new ethers.Contract(token.token_contract_address, erc20Abi, provider);
+          const contract = new ethers.Contract(
+            token.token_contract_address,
+            erc20Abi,
+            provider
+          );
           const balance = await contract.balanceOf(address);
           const decimals = await contract.decimals();
           const formattedBalance = ethers.utils.formatUnits(balance, decimals);
-  
+
           tokenHoldings.push({
             symbol: token.symbol,
             logo: token.logo,
             name: token.name,
             balance: formattedBalance,
           });
-        } catch (error) {
-          
-        }
+        } catch (error) {}
       }
-  
+
       setUserHoldings(tokenHoldings); // Save the token holdings in state
     };
-  
+
     // Only call fetchTokenHoldings if tokenDataList is populated
-    if (tokenDataList.length > 0&&walletData?.address) {
+    if (tokenDataList.length > 0 && walletData?.address) {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
       const address = signer.getAddress();
       fetchTokenHoldings(provider, address);
     }
-  }, [tokenDataList]); 
-useEffect(()=>{
-  const handleTokenApi = async () => {
-    const { data } = await axios.get(`${baseUrl}token/getAllTokenData`);
-    setTokenDataList(data?.data);
-  
-   
-  };
-  handleTokenApi()
-},[])
+  }, [tokenDataList]);
+  useEffect(() => {
+    const handleTokenApi = async () => {
+      const { data } = await axios.get(`${baseUrl}token/getAllTokenData`);
+      setTokenDataList(data?.data);
+    };
+    handleTokenApi();
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -271,8 +293,8 @@ useEffect(()=>{
 
       // Fetch balance and token holdings
       const balance = await provider.getBalance(address);
-    //  const tokenRecevied= await fetchTokenHoldings(provider, address);
-    // setUserHoldings(tokenRecevied)
+      //  const tokenRecevied= await fetchTokenHoldings(provider, address);
+      // setUserHoldings(tokenRecevied)
 
       // Update state
       const savedTokenHoldings = JSON.parse(
@@ -302,7 +324,6 @@ useEffect(()=>{
     }
   };
 
-  
   const handleDisconnect = async () => {
     try {
       // Revoke permissions
@@ -357,7 +378,6 @@ useEffect(()=>{
 
   // useEffect to handle wallet connection updates when the account or chain changes
   useEffect(() => {
-   
     if (window.ethereum) {
       window.ethereum.on("accountsChanged", () => {
         handleConnectWallet();
@@ -383,14 +403,12 @@ useEffect(()=>{
           localStorage.setItem("walletData", JSON.stringify({ address }));
 
           // Fetch balance and token holdings
-        
         } else {
           handleDisconnect();
         }
       };
 
       const handleChainChange = async (chainId) => {
-
         // if (walletData?.address) {
         //   handleDisconnect(); // Disconnect wallet to prevent issues
         // }
@@ -842,29 +860,19 @@ useEffect(()=>{
                               borderBottom: "1px solid #eee",
                               fontSize: "14px",
                               cursor: "pointer",
+                              display: "flex",
+                              alignItems: "center",
                             }}
-                            onClick={() => {
-                              if (
-                                navigator.clipboard &&
-                                navigator.clipboard.writeText
-                              ) {
-                                navigator.clipboard
-                                  .writeText(walletData.address)
-                                  .then(() => {});
-                              } else {
-                                // Fallback for older browsers
-                                const textArea =
-                                  document.createElement("textarea");
-                                textArea.value = walletData.address;
-                                document.body.appendChild(textArea);
-                                textArea.select();
-                                document.execCommand("copy");
-                                document.body.removeChild(textArea);
-                              }
-                            }}
+                            onClick={handleCopy}
                           >
-                            <ContentCopyIcon sx={{ fontSize: 18, mr: 1 }} />
-                            Copy Address
+                            {copied ? (
+                              <CheckCircleIcon
+                                sx={{ fontSize: 18, mr: 1, color: "green" }}
+                              />
+                            ) : (
+                              <ContentCopyIcon sx={{ fontSize: 18, mr: 1 }} />
+                            )}
+                            {copied ? "Copied!" : "Copy Address"}
                           </div>
                           <div
                             style={{

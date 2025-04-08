@@ -452,9 +452,10 @@ export const CountryAutocomplete = ({selectedCountry,setSelectedCountry,disabled
         htmlFor={`country-select-demo`}
         className="text-basic-lable mt-2 pop-font LoginSubHead"
       >
-       Country
+       Country <span className="text-danger">*</span>
       </label>
       <Autocomplete
+      
       id="country-select-demo"
       options={countries}
       autoHighlight
@@ -484,7 +485,7 @@ export const CountryAutocomplete = ({selectedCountry,setSelectedCountry,disabled
         );
       }}
       renderInput={(params) => (
-        <TextField
+        <TextField 
           {...params}
           size="small"
           slotProps={{

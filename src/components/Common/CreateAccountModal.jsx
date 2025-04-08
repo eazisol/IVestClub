@@ -670,7 +670,8 @@ if (isResendDisabled) {
               <div className="modalSection">
                 <div className="col-12 modal-des" style={{ marginTop: "10px" }}>
                   <p className="text-basic">
-                    Do you currently own any cryptocurrencies, stocks, bonds,
+                  
+                    Do you currently own any Cryptocurrencies, stocks, bonds,
                     real estate or any other investments?
                   </p>
                 </div>

@@ -122,7 +122,7 @@ const MyMemberShipClubs = () => {
                     </React.Fragment>
                   ))} */}
                   <div className="row justify-content-sm-center justify-content-md-start" >
-                  {membershipList?.filter((i)=>i.status==1)?.map((data, index) => (
+                  {membershipList?.filter((i)=>i.status !== 0)?.map((data, index) => (
                   <React.Fragment key={data.id}>
                     <MemberShipClubCards
                       id={encryptNumber(data.id)} // Add this line
@@ -135,6 +135,7 @@ const MyMemberShipClubs = () => {
                       rating={data.totalrating}
                       // viewStyle={viewStyle}
                       symbol={data?.token_symbol}
+                      status={data?.status}
                     />
                   </React.Fragment>
                 ))}
@@ -205,7 +206,7 @@ const MyMemberShipClubs = () => {
                   </Box>
                 ) : (
                   <div className="row justify-content-sm-center justify-content-md-start" >
-                  {membershipList?.filter((data) =>!data.joined&&data.status == 1)?.map((data, index) => (
+                  {membershipList?.filter((data) =>!data.joined&&data.status !== 0)?.map((data, index) => (
                   <React.Fragment key={data.id}>
                     <MemberShipClubCards
                       id={encryptNumber(data.id)} // Add this line
@@ -218,6 +219,7 @@ const MyMemberShipClubs = () => {
                       rating={data.totalrating}
                       // viewStyle={viewStyle}
                       symbol={data?.token_symbol}
+                      status={data?.status}
                     />
                   </React.Fragment>
                 ))}

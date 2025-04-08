@@ -178,8 +178,8 @@ const SignUpPage = () => {
       {
         onSuccess: (data) => {
           const userData = {
-            firstname: data.firstname ,
-            lastname: data.lastname ,
+            firstname: data.FirstName ,
+            lastname: data.LastName ,
           };
    
         
@@ -229,7 +229,7 @@ const SignUpPage = () => {
           setSnackBarData({
             visibility: true,
             // error: "info",
-            text: "Sent Verification Mail Successfully",
+            text: "Verification Email Sent Successfully",
           });
         },
         onError: (error) => {
@@ -504,6 +504,7 @@ const SignUpPage = () => {
               </div>
               <div className="col-6 pr-0">
                 <SimpleInput
+                required
                   lable="City"
                   name="city"
                   onChange={handleChange}
