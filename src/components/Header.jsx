@@ -19,8 +19,20 @@ import { Button, Box, Typography } from "@mui/material";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import axios from "axios";
-const Header = ({ setShowSearchInput, showSearchInput }) => {
-  const navigate = useNavigate();
+import { ConnectWallet,   useAddress,
+  useDisconnect,
+  useBalance,
+  useContract,
+  useTokenBalance} from "@thirdweb-dev/react";
+  
+  const Header = ({ setShowSearchInput, showSearchInput }) => {
+    
+    // const userBalance=useBalance()
+    const { data: userBalance } = useBalance();
+    const contract=useContract()
+    const tokenBalance=useTokenBalance()
+    const address=useAddress()
+    const navigate = useNavigate();
   const location = useLocation();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -32,8 +44,7 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
     setSnackBarData,
     setWalletData,
     walletData,
-    setUserHoldings,
-    userHoldings,
+   setTokenHolding,
   } = appData();
   const [copied, setCopied] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -41,10 +52,138 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
   const [headerStyles, setHeaderStyles] = useState({});
   const [walletMenuOpen, setWalletMenuOpen] = useState(false);
   const [accountMenuOpen, setAccountMenuOpen] = useState(false);
-  const [tokenHoldings, setTokenHoldings] = useState(null);
   const [walletModalOpen, setWalletModalOpen] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
   const [tokenDataList, setTokenDataList] = useState([]);
+  // console.log("🚀 ~ Header ~ tokenDataList:", tokenDataList)
+  // const [tokenAddressConstants, setTokenAddressConstants] = useState([]);
+  // console.log("🚀 ~ Header ~ tokenAddressConstants:", tokenAddressConstants)
+
+  // useEffect(() => {
+  //   if (!tokenDataList || tokenDataList.length === 0) return;
+  
+  //   const formattedList = tokenDataList.map(token => ({
+  //     symbol: token.symbol,
+  //     address: token.token_contract_address,
+  //   }));
+  
+  //   setTokenAddressConstants(formattedList);
+  // }, [tokenDataList]);
+ 
+   
+    // const { balances} = TokenBalances({
+    //   tokenAddresses,
+    //   address
+    // });
+  const ERC20_ABI = [
+    {
+      "constant": true,
+      "inputs": [{"name": "owner", "type": "address"}],
+      "name": "balanceOf",
+      "outputs": [{"name": "", "type": "uint256"}],
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "decimals",
+      "outputs": [{"name": "", "type": "uint8"}],
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "symbol",
+      "outputs": [{"name": "", "type": "string"}],
+      "type": "function"
+    }
+  ];
+  
+    useEffect(() => {
+      if(!address){
+        setTokenHolding([])
+      }
+      if (!tokenDataList || !tokenDataList.length || !address) return;
+      const fetchBalances = async () => {
+        setLoading(true);
+        setError(null);
+        try {
+          // Get provider - either from window.ethereum or use a default provider
+          const provider = new ethers.providers.Web3Provider(window.ethereum) ||
+                           ethers.getDefaultProvider();
+          // Get balances for all tokens
+          const balancePromises = tokenDataList.map(async (tokenInfo) => {
+            try {
+              // Create a contract instance without hooks
+              const tokenContract = new ethers.Contract(
+                tokenInfo.token_contract_address
+                ,
+                ERC20_ABI,
+                provider
+              );
+              // Get balance and decimals
+              const balance = await tokenContract.balanceOf(address);
+              const decimals = await tokenContract.decimals();
+              // Get token symbol if not provided
+              let symbol = tokenInfo.token_contract_address
+              ;
+              if (!symbol) {
+                symbol = await tokenContract.symbol();
+              }
+              // Format balance with correct decimals
+              const formattedBalance = ethers.utils.formatUnits(balance, decimals);
+              return {
+                ...tokenInfo,
+              
+                balance: formattedBalance,
+               
+              };
+            } catch (err) {
+              console.error(`Error fetching balance for token ${tokenInfo.token_contract_address
+              }:`, err);
+              // return {
+              //   symbol: tokenInfo.symbol || "Unknown",
+              //   address: tokenInfo.address,
+              //   balance: "Error",
+              //   error: err.message
+              // };
+            }
+          });
+          const results = await Promise.all(balancePromises);
+          setTokenHolding(results);
+        } catch (err) {
+          setError(`Failed to fetch balances: ${err.message}`);
+          console.error("Error fetching balances:", err);
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchBalances();
+    }, [tokenDataList, address]);
+    
+  
+  // Usage example
+  
+    
+  // const [testState,setTestState]=useState('')
+  // console.log("🚀 ~ Header ~ testState:", testState)
+  // for(let test of tokenAddressConstants){
+  //   console.log("🚀 ~ Header ~ test:", test)
+  //   setTestState(test?.address)
+  //   // const { contract: iVTContract } = useContract(test?.address);
+  // }
+  // const getContract=tokenAddressConstants?.map((item)=>{
+  //   console.log("🚀 ~ getContract ~ item:", item)
+  //   // const { contract: iVTContract } = useContract(item?.address);
+  //   // console.log("🚀 ~ getContract ~ iVTContract:", iVTContract)
+  
+     
+  //   })
+
+
+
+
+
   const handleClick = () => {
     setShowTooltip(true);
     setTimeout(() => setShowTooltip(false), 2000); // Close after 2 seconds
@@ -81,7 +220,7 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
   // };
 
   // Function to fetch token balances
-  // const fetchTokenHoldings = async (provider, address) => {
+  // const fetchTokenHoldings = async () => {
   //   try {
   //     const tokenHoldings = [];
 
@@ -97,72 +236,74 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
   //     ];
 
   //     for (const token of tokens) {
-  //       const contract = new ethers.Contract(token.address, erc20Abi, provider);
-  //       const balance = await contract.balanceOf(address);
-  //       const decimals = await contract.decimals();
+  //       console.log("🚀 ~ fetchTokenHoldings ~ token:", token)
+        
+  //       // const contract = new ethers.Contract(token.address, erc20Abi, provider);
+  //       // const balance = await contract.balanceOf(address);
+  //       // const decimals = await contract.decimals();
 
-  //       const formattedBalance = ethers.utils.formatUnits(balance, decimals);
+  //       // const formattedBalance = ethers.utils.formatUnits(balance, decimals);
 
-  //       tokenHoldings.push({
-  //         name: token.name,
-  //         balance: formattedBalance,
-  //       });
+  //       // tokenHoldings.push({
+  //       //   name: token.name,
+  //       //   balance: formattedBalance,
+  //       // });
 
   //       // console.log(`Token: ${token.name}, Balance: ${formattedBalance}`);
   //     }
 
-  //     setTokenHoldings(tokenHoldings); // Update state with token holdings
-  //     localStorage.setItem("tokenHoldings", JSON.stringify(tokenHoldings)); // Save to localStorage
+  //     // setTokenHoldings(tokenHoldings); // Update state with token holdings
+  //     // localStorage.setItem("tokenHoldings", JSON.stringify(tokenHoldings)); // Save to localStorage
   //   } catch (error) {
   //     console.error("Error fetching token holdings:", error);
   //   }
   // };
-  useEffect(() => {
-    // This effect runs whenever tokenDataList changes
-    const fetchTokenHoldings = async (provider, address) => {
-      if (!tokenDataList || tokenDataList.length === 0) {
-        console.error("No token data available");
-        return [];
-      }
+  // useEffect(() => {
+  //   // This effect runs whenever tokenDataList changes
+  //   const fetchTokenHoldings = async (provider, address) => {
+  //     if (!tokenDataList || tokenDataList.length === 0) {
+  //       console.error("No token data available");
+  //       return [];
+  //     }
 
-      const erc20Abi = [
-        "function balanceOf(address owner) view returns (uint256)",
-        "function decimals() view returns (uint8)",
-      ];
+  //     const erc20Abi = [
+  //       "function balanceOf(address owner) view returns (uint256)",
+  //       "function decimals() view returns (uint8)",
+  //     ];
 
-      let tokenHoldings = [];
+  //     let tokenHoldings = [];
 
-      for (const token of tokenDataList) {
-        try {
-          const contract = new ethers.Contract(
-            token.token_contract_address,
-            erc20Abi,
-            provider
-          );
-          const balance = await contract.balanceOf(address);
-          const decimals = await contract.decimals();
-          const formattedBalance = ethers.utils.formatUnits(balance, decimals);
+  //     for (const token of tokenDataList) {
+  //       try {
+  //         const contract = new ethers.Contract(
+  //           token.token_contract_address,
+  //           erc20Abi,
+  //           provider
+  //         );
+  //         const balance = await contract.balanceOf(address);
+  //         const decimals = await contract.decimals();
+  //         const formattedBalance = ethers.utils.formatUnits(balance, decimals);
 
-          tokenHoldings.push({
-            symbol: token.symbol,
-            logo: token.logo,
-            name: token.name,
-            balance: formattedBalance,
-          });
-        } catch (error) {}
-      }
+  //         tokenHoldings.push({
+  //           symbol: token.symbol,
+  //           logo: token.logo,
+  //           name: token.name,
+  //           balance: formattedBalance,
+  //         });
+  //       } catch (error) {}
+  //     }
 
-      setUserHoldings(tokenHoldings); // Save the token holdings in state
-    };
+  //     setUserHoldings(tokenHoldings); // Save the token holdings in state
+  //   };
 
-    // Only call fetchTokenHoldings if tokenDataList is populated
-    if (tokenDataList.length > 0 && walletData?.address) {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-      const address = signer.getAddress();
-      fetchTokenHoldings(provider, address);
-    }
-  }, [tokenDataList]);
+  //   // Only call fetchTokenHoldings if tokenDataList is populated
+  //   if (tokenDataList.length > 0 && walletData?.address) {
+  //     const provider = new ethers.providers.Web3Provider(window.ethereum);
+  //     const signer = provider.getSigner();
+  //     const address = signer.getAddress();
+  //     fetchTokenHoldings(provider, address);
+  //   }
+  // }, [tokenDataList]);
   useEffect(() => {
     const handleTokenApi = async () => {
       const { data } = await axios.get(`${baseUrl}token/getAllTokenData`);
@@ -208,233 +349,236 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
     }
     return "";
   };
-  const handleConnectWallet = async () => {
-    // Prevent reconnection if already connected
-    if (Object.keys(walletData).length > 0) {
-      return;
-    }
+ 
 
-    // Check if MetaMask is installed
-    if (!window.ethereum) {
-      setSnackBarData({
-        visibility: true,
-        error: "error",
-        text: "Please install MetaMask!",
-      });
-      return;
-    }
+ 
+  // const handleConnectWallet = async () => {
+  //   // Prevent reconnection if already connected
+  //   if (Object.keys(walletData).length > 0) {
+  //     return;
+  //   }
 
-    setLoading(true);
-    setError("");
+  //   // Check if MetaMask is installed
+  //   if (!window.ethereum) {
+  //     setSnackBarData({
+  //       visibility: true,
+  //       error: "error",
+  //       text: "Please install MetaMask!",
+  //     });
+  //     return;
+  //   }
 
-    try {
-      // Disconnect any existing connections first
-      await disconnectWallet();
+  //   setLoading(true);
+  //   setError("");
 
-      // Give a small delay to ensure clean state
-      await new Promise((resolve) => setTimeout(resolve, 500));
+  //   try {
+  //     // Disconnect any existing connections first
+  //     await disconnectWallet();
 
-      // Create provider and request accounts
-      let provider = new ethers.providers.Web3Provider(window.ethereum);
-      await provider.send("eth_requestAccounts", []);
+  //     // Give a small delay to ensure clean state
+  //     await new Promise((resolve) => setTimeout(resolve, 500));
 
-      // Check and switch network
-      let network = await provider.getNetwork();
-      const SEPOLIA_CHAIN_ID = 11155111;
-      const SEPOLIA_CHAIN_HEX = "0xaa36a7";
+  //     // Create provider and request accounts
+  //     let provider = new ethers.providers.Web3Provider(window.ethereum);
+  //     await provider.send("eth_requestAccounts", []);
 
-      if (network.chainId !== SEPOLIA_CHAIN_ID) {
-        try {
-          await window.ethereum.request({
-            method: "wallet_switchEthereumChain",
-            params: [{ chainId: SEPOLIA_CHAIN_HEX }],
-          });
+  //     // Check and switch network
+  //     let network = await provider.getNetwork();
+  //     const SEPOLIA_CHAIN_ID = 11155111;
+  //     const SEPOLIA_CHAIN_HEX = "0xaa36a7";
 
-          // Wait for chain change
-          await new Promise((resolve, reject) => {
-            const handleChainChanged = () => {
-              window.ethereum.removeListener(
-                "chainChanged",
-                handleChainChanged
-              );
-              resolve();
-            };
-            window.ethereum.on("chainChanged", handleChainChanged);
+  //     if (network.chainId !== SEPOLIA_CHAIN_ID) {
+  //       try {
+  //         await window.ethereum.request({
+  //           method: "wallet_switchEthereumChain",
+  //           params: [{ chainId: SEPOLIA_CHAIN_HEX }],
+  //         });
 
-            // Fallback timeout
-            setTimeout(() => {
-              window.ethereum.removeListener(
-                "chainChanged",
-                handleChainChanged
-              );
-              reject(new Error("Network switch timeout"));
-            }, 10000);
-          });
+  //         // Wait for chain change
+  //         await new Promise((resolve, reject) => {
+  //           const handleChainChanged = () => {
+  //             window.ethereum.removeListener(
+  //               "chainChanged",
+  //               handleChainChanged
+  //             );
+  //             resolve();
+  //           };
+  //           window.ethereum.on("chainChanged", handleChainChanged);
 
-          // Recreate provider after network switch
-          provider = new ethers.providers.Web3Provider(window.ethereum);
-          network = await provider.getNetwork();
-        } catch (switchError) {
-          console.error("Network switch failed", switchError);
-          throw new Error(
-            "Failed to switch to Sepolia Testnet. Please switch manually in MetaMask."
-          );
-        }
-      }
+  //           // Fallback timeout
+  //           setTimeout(() => {
+  //             window.ethereum.removeListener(
+  //               "chainChanged",
+  //               handleChainChanged
+  //             );
+  //             reject(new Error("Network switch timeout"));
+  //           }, 10000);
+  //         });
 
-      // Verify network one last time
-      if (network.chainId !== SEPOLIA_CHAIN_ID) {
-        throw new Error("Not on Sepolia Testnet");
-      }
+  //         // Recreate provider after network switch
+  //         provider = new ethers.providers.Web3Provider(window.ethereum);
+  //         network = await provider.getNetwork();
+  //       } catch (switchError) {
+  //         console.error("Network switch failed", switchError);
+  //         throw new Error(
+  //           "Failed to switch to Sepolia Testnet. Please switch manually in MetaMask."
+  //         );
+  //       }
+  //     }
 
-      // Get signer and address
-      const signer = provider.getSigner();
-      const address = await signer.getAddress();
+  //     // Verify network one last time
+  //     if (network.chainId !== SEPOLIA_CHAIN_ID) {
+  //       throw new Error("Not on Sepolia Testnet");
+  //     }
 
-      // Fetch balance and token holdings
-      const balance = await provider.getBalance(address);
-      //  const tokenRecevied= await fetchTokenHoldings(provider, address);
-      // setUserHoldings(tokenRecevied)
+  //     // Get signer and address
+  //     const signer = provider.getSigner();
+  //     const address = await signer.getAddress();
 
-      // Update state
-      const savedTokenHoldings = JSON.parse(
-        localStorage.getItem("tokenHoldings")
-      );
-      setWalletData({ provider, signer, address });
-      localStorage.setItem("walletData", JSON.stringify({ address }));
-      setBalance(savedTokenHoldings);
-      setWalletModalOpen(false);
+  //     // Fetch balance and token holdings
+  //     const balance = await provider.getBalance(address);
+  //     //  const tokenRecevied= await fetchTokenHoldings(provider, address);
+  //     // setUserHoldings(tokenRecevied)
 
-      // Add event listeners for future changes
-      window.ethereum.on("accountsChanged", handleAccountsChanged);
-      window.ethereum.on("chainChanged", handleChainChanged);
+  //     // Update state
+  //     const savedTokenHoldings = JSON.parse(
+  //       localStorage.getItem("tokenHoldings")
+  //     );
+  //     setWalletData({ provider, signer, address });
+  //     localStorage.setItem("walletData", JSON.stringify({ address }));
+  //     setBalance(savedTokenHoldings);
+  //     setWalletModalOpen(false);
 
-      // Reload the window after successful connection
-      window.location.reload();
-    } catch (err) {
-      console.error("Wallet connection error:", err);
-      setError(err.message);
-      setSnackBarData({
-        visibility: true,
-        error: "error",
-        text: err.message,
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     // Add event listeners for future changes
+  //     window.ethereum.on("accountsChanged", handleAccountsChanged);
+  //     window.ethereum.on("chainChanged", handleChainChanged);
 
-  const handleDisconnect = async () => {
-    try {
-      // Revoke permissions
-      await window.ethereum.request({
-        method: "wallet_revokePermissions",
-        params: [{ eth_accounts: {} }],
-      });
+  //     // Reload the window after successful connection
+  //     window.location.reload();
+  //   } catch (err) {
+  //     console.error("Wallet connection error:", err);
+  //     setError(err.message);
+  //     setSnackBarData({
+  //       visibility: true,
+  //       error: "error",
+  //       text: err.message,
+  //     });
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
-      // Clear state and local storage
-      await disconnectWallet();
+  // const handleDisconnect = async () => {
+  //   try {
+  //     // Revoke permissions
+  //     await window.ethereum.request({
+  //       method: "wallet_revokePermissions",
+  //       params: [{ eth_accounts: {} }],
+  //     });
 
-      // Optional: Soft reload to reset state completely
-      window.location.reload();
-    } catch (error) {
-      console.error("Error disconnecting:", error);
-    }
-  };
+  //     // Clear state and local storage
+  //     await disconnectWallet();
+
+  //     // Optional: Soft reload to reset state completely
+  //     window.location.reload();
+  //   } catch (error) {
+  //     console.error("Error disconnecting:", error);
+  //   }
+  // };
 
   // Helper function to fully disconnect
-  const disconnectWallet = async () => {
-    // Remove event listeners
-    if (window.ethereum && window.ethereum.removeListener) {
-      window.ethereum.removeListener("accountsChanged", handleAccountsChanged);
-      window.ethereum.removeListener("chainChanged", handleChainChanged);
-    }
+  // const disconnectWallet = async () => {
+  //   // Remove event listeners
+  //   if (window.ethereum && window.ethereum.removeListener) {
+  //     window.ethereum.removeListener("accountsChanged", handleAccountsChanged);
+  //     window.ethereum.removeListener("chainChanged", handleChainChanged);
+  //   }
 
-    // Clear state values
-    setWalletData({});
-    setBalance("0.0");
-    setTokenHoldings(null);
+  //   // Clear state values
+  //   setWalletData({});
+  //   setBalance("0.0");
+  //   setTokenHoldings(null);
 
-    // Remove wallet data from localStorage
-    localStorage.removeItem("walletData");
-    localStorage.removeItem("tokenHoldings");
-  };
+  //   // Remove wallet data from localStorage
+  //   localStorage.removeItem("walletData");
+  //   localStorage.removeItem("tokenHoldings");
+  // };
 
   // Event handlers for future changes
-  const handleAccountsChanged = (accounts) => {
-    if (accounts.length === 0) {
-      // No accounts, disconnect
-      disconnectWallet();
-    } else {
-      // Reconnect with new account
-      handleConnectWallet();
-    }
-  };
+  // const handleAccountsChanged = (accounts) => {
+  //   if (accounts.length === 0) {
+  //     // No accounts, disconnect
+  //     disconnectWallet();
+  //   } else {
+  //     // Reconnect with new account
+  //     handleConnectWallet();
+  //   }
+  // };
 
-  const handleChainChanged = () => {
-    // Reload to reset the app state
-    window.location.reload();
-  };
+  // const handleChainChanged = () => {
+  //   // Reload to reset the app state
+  //   window.location.reload();
+  // };
 
   // useEffect to handle wallet connection updates when the account or chain changes
-  useEffect(() => {
-    if (window.ethereum) {
-      window.ethereum.on("accountsChanged", () => {
-        handleConnectWallet();
-      });
-      window.ethereum.on("chainChanged", () => {
-        handleConnectWallet();
-      });
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (window.ethereum) {
+  //     window.ethereum.on("accountsChanged", () => {
+  //       handleConnectWallet();
+  //     });
+  //     window.ethereum.on("chainChanged", () => {
+  //       handleConnectWallet();
+  //     });
+  //   }
+  // }, []);
 
-  useEffect(() => {
-    if (window.ethereum) {
-      const handleAccountChange = async (accounts) => {
-        if (accounts.length > 0) {
-          const provider = new ethers.providers.Web3Provider(window.ethereum);
-          const signer = provider.getSigner();
-          const address = await signer.getAddress();
-          // const tokenRecevied= await fetchTokenHoldings(provider, address);
-          // setUserHoldings(tokenRecevied)
-          const balance = await provider.getBalance(address);
-          setBalance();
-          setWalletData({ provider, signer, address });
-          localStorage.setItem("walletData", JSON.stringify({ address }));
+  // useEffect(() => {
+  //   if (window.ethereum) {
+  //     const handleAccountChange = async (accounts) => {
+  //       if (accounts.length > 0) {
+  //         const provider = new ethers.providers.Web3Provider(window.ethereum);
+  //         const signer = provider.getSigner();
+  //         const address = await signer.getAddress();
+  //         // const tokenRecevied= await fetchTokenHoldings(provider, address);
+  //         // setUserHoldings(tokenRecevied)
+  //         const balance = await provider.getBalance(address);
+  //         setBalance();
+  //         setWalletData({ provider, signer, address });
+  //         localStorage.setItem("walletData", JSON.stringify({ address }));
 
-          // Fetch balance and token holdings
-        } else {
-          handleDisconnect();
-        }
-      };
+  //         // Fetch balance and token holdings
+  //       } else {
+  //         handleDisconnect();
+  //       }
+  //     };
 
-      const handleChainChange = async (chainId) => {
-        // if (walletData?.address) {
-        //   handleDisconnect(); // Disconnect wallet to prevent issues
-        // }
+  //     const handleChainChange = async (chainId) => {
+  //       // if (walletData?.address) {
+  //       //   handleDisconnect(); // Disconnect wallet to prevent issues
+  //       // }
 
-        // Instead of full reload, try reconnecting
-        setTimeout(() => {
-          handleConnectWallet();
-        }, 1000);
-      };
+  //       // Instead of full reload, try reconnecting
+  //       setTimeout(() => {
+  //         handleConnectWallet();
+  //       }, 1000);
+  //     };
 
-      window.ethereum.on("accountsChanged", handleAccountChange);
-      window.ethereum.on("chainChanged", handleChainChange);
+  //     window.ethereum.on("accountsChanged", handleAccountChange);
+  //     window.ethereum.on("chainChanged", handleChainChange);
 
-      // Restore wallet if already connected
-      const savedWallet = localStorage.getItem("walletData");
-      if (savedWallet) {
-        const { address } = JSON.parse(savedWallet);
-        handleAccountChange([address]);
-      }
+  //     // Restore wallet if already connected
+  //     const savedWallet = localStorage.getItem("walletData");
+  //     if (savedWallet) {
+  //       const { address } = JSON.parse(savedWallet);
+  //       handleAccountChange([address]);
+  //     }
 
-      return () => {
-        window.ethereum.removeListener("accountsChanged", handleAccountChange);
-        window.ethereum.removeListener("chainChanged", handleChainChange);
-      };
-    }
-  }, []);
+  //     return () => {
+  //       window.ethereum.removeListener("accountsChanged", handleAccountChange);
+  //       window.ethereum.removeListener("chainChanged", handleChainChange);
+  //     };
+  //   }
+  // }, []);
 
   return (
     <>
@@ -519,7 +663,7 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
                   backgroundColor: "#b5a5d2",
                 },
               }}
-              onClick={handleConnectWallet}
+              // onClick={handleConnectWallet}
             >
               Connect
             </Button>
@@ -806,7 +950,21 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
 
                 {userData?.access_token ? (
                   <>
-                    <div
+                  
+                    {/* <CustomConnectWallet />  */}
+                 
+                  <ConnectWallet
+                    detailsBtn={false}
+                    hideBalance={true}
+                    style={{
+                      minWidth: '140px',
+                      borderRadius: '50px',
+                      fontSize: '12px',
+                      backgroundColor: '#F7B138'
+                    }}
+                  />
+                
+                    {/* <div
                       className="donate-link"
                       style={{ position: "relative", display: "inline-block" }}
                       onMouseEnter={() => {
@@ -890,7 +1048,7 @@ const Header = ({ setShowSearchInput, showSearchInput }) => {
                           </div>
                         </div>
                       )}
-                    </div>
+                    </div> */}
                     <div className="px-2">
                       <NotificationsOutlinedIcon sx={{ color: "#fff" }} />
                     </div>

@@ -121,7 +121,58 @@ const MyMemberShipClubs = () => {
                       />
                     </React.Fragment>
                   ))} */}
+                      {membershipList?.length<=0 ? (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: "300px",
+                      width:"100%"
+                    }}
+                  >
+                    {" "}
+                    <CircularProgress />
+                  </Box>
+                ) : (
                   <div className="row justify-content-sm-center justify-content-md-start" >
+                  {membershipList?.filter((data) =>!data.joined&&data.status !== 0)?.map((data, index) => (
+                  <React.Fragment key={data.id}>
+                    <MemberShipClubCards
+                      id={encryptNumber(data.id)} // Add this line
+                      image={data.img}
+                      heading={data.title}
+                      text={data.overview}
+                      price={data.price}
+                      joined={data.joined}
+                      members={data.members}
+                      rating={data.totalrating}
+                      // viewStyle={viewStyle}
+                      symbol={data?.token_symbol}
+                      status={data?.status}
+                      isMembershipLoading={isMembershipLoading}
+                    />
+                  </React.Fragment>
+                ))}
+                {
+                  localStorage.getItem("userData") &&
+                  JSON.parse(localStorage.getItem("userData"))?.access_token && (
+                    <MemberShipClubCards
+                      image={membershipimg4}
+                      heading={"Suggest a membership club!"}
+                      text={
+                        "Have a membership club idea? Share your proposal with others for consideration and collaboration."
+                      }
+                      to={`/Membership/FutureClubs`}
+                      staticImg
+                      // viewStyle={viewStyle}
+                      isSuggestCard={true} 
+                    />
+                  )
+                }
+                </div>
+                )}
+                  {/* <div className="row justify-content-sm-center justify-content-md-start" >
                   {membershipList?.filter((i)=>i.status !== 0)?.map((data, index) => (
                   <React.Fragment key={data.id}>
                     <MemberShipClubCards
@@ -155,7 +206,7 @@ const MyMemberShipClubs = () => {
                     />
                   )
                 }
-                </div>
+                </div> */}
               </div>
             </div>
 
@@ -191,7 +242,7 @@ const MyMemberShipClubs = () => {
                 }
                 to={`/Membership/SpaceXMembership`}
               /> */}
-                {isMembershipLoading ? (
+                {membershipList?.length<=0 ? (
                   <Box
                     sx={{
                       display: "flex",
@@ -220,6 +271,7 @@ const MyMemberShipClubs = () => {
                       // viewStyle={viewStyle}
                       symbol={data?.token_symbol}
                       status={data?.status}
+                      isMembershipLoading={isMembershipLoading}
                     />
                   </React.Fragment>
                 ))}

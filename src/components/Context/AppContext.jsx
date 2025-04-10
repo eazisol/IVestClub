@@ -1,5 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-
+import { 
+  useDisconnect,
+ useAddress
+ } from "@thirdweb-dev/react";
 const AppContext = createContext();
 
 export const DataProvider = ({ children }) => {
@@ -16,13 +19,17 @@ export const DataProvider = ({ children }) => {
   const [userData, setUserData] = useState(localuserdata)
   const [newsData, setNewsData] = useState({})
   const [articalData, setArticalData] = useState({})
-  const [userHoldings, setUserHoldings] = useState([])
+ 
+const disconnect=useDisconnect()
+
+const [tokenHolding,setTokenHolding]=useState([])
 
 const [mainLoader, setmainLoader] = useState(true)
 const [showLandingSaction, setShowLandingSaction] = useState(true)
 const [showHeader, setShowHeader] = useState(true)
 const [showPassword, setShowPassword] = useState(false)
 const [walletData, setWalletData] = useState({})
+
 const [openModal, setOpenModal] = useState({
   open : false,
   content : <></>
@@ -41,6 +48,7 @@ useEffect(() => {
 
 const handleLogout = () => {
   setUserData({access_token : ""})
+  disconnect()
   localStorage.removeItem("usdtAmount")
   localStorage.removeItem("convertAmount")
   localStorage.removeItem("userWalletAddress")
@@ -70,7 +78,8 @@ const handleLogout = () => {
         showHeader, setShowHeader,
         showPassword, setShowPassword,
         walletData, setWalletData,
-        userHoldings, setUserHoldings
+       
+tokenHolding,setTokenHolding,
       }}
     >
       {children}

@@ -156,7 +156,6 @@ const LoginPage = () => {
       },
       {
         onSuccess: async (data) => {
-          console.log("🚀 ~ onSuccess: ~ data:", data)
           const userData = {
             firstname: data.firstname ,
             lastname: data.lastname ,
@@ -253,7 +252,7 @@ const LoginPage = () => {
           </FormControl>
           <p
             className="mt-2 bold-4"
-            style={{ color: "#4E55FF", fontSize: "14px", cursor: "pointer" ,textAlign:"right",color:"#150D30"}}
+            style={{  fontSize: "14px", cursor: "pointer" ,textAlign:"right",color:"#150D30"}}
             onClick={() => {
               navigate(`/Forget`);
             }}

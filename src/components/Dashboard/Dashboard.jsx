@@ -39,6 +39,8 @@ import axios from "axios";
 import { baseUrl, imgUrl } from "../../../apiConfig";
 import MaterialModal from "../Common/MaterialModal";
 import CloseIcon from "@mui/icons-material/Close";
+import { useContract, useTokenBalance, useAddress} from "@thirdweb-dev/react";
+
 function createData(currObj, avail, amount, action) {
   let Icon;
   switch (currObj.name) {
@@ -83,8 +85,9 @@ const ERC20_ABI = [
 const Dashboard = () => {
   const { mutate: getData, isPending: isProfileLoading } = useApi();
   const [profiledata, setProfileData] = useState({});
-  const { userData, walletData, setWalletData, setSnackBarData,userHoldings } = appData();
-  const ivtToken = userHoldings?.find((token) => token.symbol === "IVT");
+  const { userData, walletData, setWalletData, setSnackBarData,tokenHolding} = appData();
+ 
+  const ivtToken = tokenHolding?.find((token) => token?.symbol === "IVT");
 
   const [dropDownOpen, setDropDownOpen] = useState(false);
   const [balance, setBalance] = useState("");
@@ -95,7 +98,7 @@ const Dashboard = () => {
   const [error, setError] = useState("");
   const [usdtAmount, setustdAmount] = useState("");
   const [userWallet, setUserWallet] = useState("");
-  const [tokenDataList, setTokenDataList] = useState([]); // List of tokens from API
+  const [tokenDataList, setTokenDataList] = useState([]); 
   const [selectedToken, setSelectedToken] = useState(null);
 
   const [usdtData, setUSDTData] = useState("");
@@ -453,12 +456,7 @@ const Dashboard = () => {
     getUSDTprice();
     getUSDCprice();
   }, []);
-  useEffect(() => {
-    const savetokenHoldingsdWallet = JSON.parse(
-      localStorage.getItem("tokenHoldings")
-    );
-    setBalance(savetokenHoldingsdWallet);
-  }, [userHoldings]);
+
   useEffect(() => {
     const usdtAmount = JSON.parse(localStorage.getItem("usdtAmount"));
     const userWalletAddress = JSON.parse(
@@ -488,15 +486,47 @@ const Dashboard = () => {
       }
     );
   }, []);
+  const [isLoading, setIsLoading] = useState(false);
+  const [tokenBalance,setTokenBalances]=useState([])
+ const TokenBalanceItem = ({ tokenAddress, tokenSymbol }) => {
+  
+    const { contract } = useContract(tokenAddress);
+    
+    const { data: balance, isLoading: isBalanceLoading, error: balanceError } = useTokenBalance(contract, connectedWalletAddress);
 
+    useEffect(() => {
+      if (balance && !isBalanceLoading) {
+        setTokenBalances(prev => ({
+          ...prev,
+          [tokenSymbol]: balance
+        }));
+      }
+    }, [balance, isBalanceLoading, tokenSymbol]);
+    if (balanceError) {
+      return <div>Error loading {tokenSymbol} balance: {balanceError.message}</div>;
+    }
+    return null; // This component doesn't render anything, just fetches data
+  };
   return (
     <>
       <SactionContainer container={false}>
+      
   
         <div className="w-100 mt-5  mb-3 pt-5 pl-3">
           <h3 className="dashHead mt-2 mb-3 pb-1">Dashboard</h3>
         </div>
-
+        {/* <div style={{ display: 'none' }}>
+        {tokenDataList.map((token) =>{ 
+          
+          return(
+          <TokenBalanceItem
+            key={token.token_contract_address}
+            tokenAddress={token.token_contract_address }
+            tokenSymbol={token.symbol}
+          />
+        )})}
+      </div> */}
+        {/* <TokenBalanceFetcher /> */}
         <div className="w-100 mb-5 pb-5">
           <div className="row mb-5">
             <div className="col-lg-3 col-sm-12 col-md-12 mb-4 p-3 p-xl-0">
@@ -580,7 +610,7 @@ const Dashboard = () => {
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {userHoldings?.map((row, index) => {
+                        {tokenHolding?.map((row, index) => {
                        
                          
                           return (
@@ -1136,7 +1166,7 @@ const Dashboard = () => {
                   <div className="largeButtonContainer   pt-3 mb-5 col-lg-4 col-md-4 col-sm-2">
                     <LargeButton
                       disabled={!userWallet || !usdtAmount||profiledata?.kyc_status!== "Approved"}
-                      text={loading ? "Processing..." : "proceed to purchase"}
+                      text={loading ? "Processing..." : "Proceed To Purchase"}
                       onClick={handlePay}
                       // onClick={handlePin}
                     />

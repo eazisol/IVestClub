@@ -12,6 +12,8 @@ import ImageOutlinedIcon from "@mui/icons-material/ImageOutlined";
 import { use } from "react";
 import { useEffect,useState } from "react";
 import axios from "axios";
+import { useContract, useTokenBalance, useAddress} from "@thirdweb-dev/react";
+import { CustomizedLoader } from "../Common/MiniComponents";
 // 🔑 Auto Join Logic
 const walletData = JSON.parse(localStorage.getItem("walletData"));
 
@@ -35,21 +37,21 @@ const MemberShipClubCards = ({
   symbol,
   to, // 👈 optional prop for custom route
   isSuggestCard = false, // 👈 identifies this is the special card
-  status
+  status,
 }) => {
-
   
   const navigate = useNavigate();
   const { mutate: joinMembership } = useApi();
   const { mutate: checkTokens } = useApi();
-  const { userData, setSnackBarData,userHoldings } = appData();
+  const { userData, setSnackBarData,tokenHolding } = appData();
 const [tokenDataObj,setTokenDataList]=useState('')
+const address=useAddress()
 const isAutoJoined = (clubId) => {
   if (
-    !walletData?.address  ||
+    !address  ||
     !tokenDataObj?.data ||
     !Array.isArray(tokenDataObj.data) ||
-    userHoldings.length<=0
+    tokenHolding.length<=0
   ) {
     return false;
   }
@@ -59,7 +61,7 @@ const isAutoJoined = (clubId) => {
   );
 
   for (const token of tokensForClub) {
-    const holding = userHoldings.find(
+    const holding = tokenHolding?.find(
       (h) => h.symbol.toLowerCase() === token.symbol.toLowerCase()
     );
 

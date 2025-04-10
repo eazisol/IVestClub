@@ -138,11 +138,28 @@ const MemberShipClubSaction = () => {
       </div>
       
       <div className="w-100">
-        {isMembershipLoading ? (
+        {membershipList?.length<=0 ? (
           <CustomizedLoader />
         ) : (
           <div className="row justify-content-sm-center justify-content-md-start" >
-            {userData.access_token?membershipList?.filter((i) => i.status !== 0)?.map((data, index) => (
+            {membershipList?.filter((i) => i.status !== 0)?.map((data, index) => (
+            <React.Fragment key={data.id}>
+            <MemberShipClubCards
+              id={encryptNumber(data.id)} // Add this line
+              image={data.img}
+              heading={data.title}
+              text={data.overview}
+              price={data.price}
+              joined={data.joined}
+              members={data.members}
+              rating={data.totalrating}
+              viewStyle={viewStyle}
+              symbol={data?.token_symbol}
+              status={data?.status}
+            />
+          </React.Fragment>
+          ))}
+            {/* {userData.access_token?membershipList?.filter((i) => i.status !== 0)?.map((data, index) => (
             <React.Fragment key={data.id}>
               <MemberShipClubCards
                 id={encryptNumber(data.id)} // Add this line
@@ -174,7 +191,7 @@ const MemberShipClubSaction = () => {
                 status={data?.status}
               />
             </React.Fragment>
-          ))}
+          ))} */}
           {
             localStorage.getItem("userData") &&
             JSON.parse(localStorage.getItem("userData"))?.access_token && (

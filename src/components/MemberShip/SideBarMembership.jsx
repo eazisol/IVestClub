@@ -22,7 +22,7 @@ import axios from "axios";
 import useApi from "../Hooks/useApi";
 
 const SideBarMembership = ({ memberorlist, files, bloglist, newslist }) => {
-  const { newsData, setNewsData, articalData, setArticalData, userHoldings } =
+  const { newsData, setNewsData, articalData, setArticalData ,tokenHolding} =
     appData();
   const [memberLimit, setMemberLimit] = useState(3);
   const [newsLimit, setNewsLimit] = useState(3);
@@ -36,7 +36,7 @@ const SideBarMembership = ({ memberorlist, files, bloglist, newslist }) => {
   console.log("tokens: ", tokens);
   const shareUrl = `${imgUrl}/Membership/Public?id=${idParam}`;
   const encodedShareUrl = encodeURIComponent(shareUrl);
-  const ivtToken = userHoldings?.find((token) => token.symbol === "IVT");
+  const ivtToken = tokenHolding?.find((token) => token.symbol === "IVT");
   const [tokenHoldings, setTokenHoldings] = useState({});
   const navigate = useNavigate();
   // Keep track of the previous holdings to avoid unnecessary updates
@@ -273,8 +273,8 @@ const SideBarMembership = ({ memberorlist, files, bloglist, newslist }) => {
           <h6 className="text-dark mb-3 sideHeadText ">
             Your Current Holdings
           </h6>
-          {userHoldings.length > 0 ? (
-            userHoldings.map((token, index) => {
+          {tokenHolding?.length > 0 ? (
+            tokenHolding?.map((token, index) => {
               return (
                 <div className="d-flex align-items-center mt-2" key={index}>
                   <div className="col-1 p-0">

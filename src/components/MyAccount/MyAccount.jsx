@@ -17,7 +17,6 @@ const MyAccount = () => {
   const { userData, setSnackBarData, showPassword, setShowPassword } =
     appData();
   const [formData, setFormData] = useState({});
-  console.log("🚀 ~ MyAccount ~ formData:", formData);
   const [submitClicked, setSubmitclicked] = useState(false);
   const [profilePic, setProfilePic] = useState(null);
   const [passport, setPassport] = useState(null);
@@ -246,7 +245,6 @@ const MyAccount = () => {
   };
   const handlePasswordChange = (e) => {
     e.preventDefault();
-    console.log("🚀 ~ handlePasswordChange ~ formData:", formData);
     if (!formData.password) {
       setSnackBarData({
         visibility: true,
