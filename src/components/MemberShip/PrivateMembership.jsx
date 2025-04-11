@@ -28,6 +28,7 @@ import WidgetBot from "@widgetbot/react-embed";
 import Tooltip from "@mui/material/Tooltip";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { TextField, Button } from "@mui/material";
+import ChatBotCard from "../ChatBotCard/ChatBotCard";
 const PrivateMembership = () => {
   const queryParams = new URLSearchParams(window.location.search);
   const idParam = queryParams.get("id");
@@ -447,6 +448,8 @@ const PrivateMembership = () => {
             </div>
           </div> */}
           <div className="card card-border-c mt-4">
+          </div>
+          {/* <div className="card card-border-c mt-4">
             <div className="card-body p-2 p-xl-5">
               <h5 className="text-dark mont-font">
                 <strong>ChatGPT Box Here</strong>
@@ -475,7 +478,8 @@ const PrivateMembership = () => {
                 </div>
               ))}
             </div>
-          </div>
+          </div> */}
+           <ChatBotCard />
           <div className="card card-border-c mt-3">
             <div className="card-body p-2 p-xl-5">
               <div className="d-flex align-items-center justify-content-between pb-2">
