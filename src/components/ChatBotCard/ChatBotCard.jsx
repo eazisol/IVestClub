@@ -99,10 +99,10 @@ const ChatBotCard = () => {
                 msg.role === "user" ? "text-primary" : "text-success"
               }`}
             >
-              <b>{msg.role === "user" ? "You" : "Chotu"}:</b> {msg.text}
+              <b>{msg.role === "user" ? "You" : "iVestBot"}:</b> {msg.text}
             </div>
           ))}
-          {loading && <div className="text-muted">Chotu is typing...</div>}
+          {loading && <div className="text-muted">iVestBot is typing...</div>}
         </div>
 
         <div className="d-flex">
